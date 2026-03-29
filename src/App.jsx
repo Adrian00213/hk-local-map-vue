@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { MapProvider } from './context/MapContext'
+import { MapProvider, useMap } from './context/MapContext'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import Header from './components/Header'
 import Navigation from './components/Navigation'
@@ -8,14 +8,18 @@ import MarkerForm from './components/MarkerForm'
 import AuthModal from './components/AuthModal'
 import WeatherWidget from './components/WeatherWidget'
 import NewsFeed from './components/NewsFeed'
+import SearchBar from './components/SearchBar'
+import Favorites from './components/Favorites'
 
 function AppContent() {
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [showMarkerForm, setShowMarkerForm] = useState(false)
   const [showNewsFeed, setShowNewsFeed] = useState(false)
   const [showWeather, setShowWeather] = useState(false)
+  const [showFavorites, setShowFavorites] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(false)
   const { user } = useAuth()
+  const { userLocation } = useMap()
 
   useEffect(() => {
     if (isDarkMode) {
@@ -45,6 +49,9 @@ function AppContent() {
       <main className="flex-1 relative overflow-hidden">
         <Map onAddMarker={() => setShowMarkerForm(true)} />
 
+        {/* Search Bar */}
+        <SearchBar userLocation={userLocation} />
+
         {/* Floating Action Button */}
         <button
           onClick={() => setShowMarkerForm(true)}
@@ -69,6 +76,14 @@ function AppContent() {
           <span className="text-xl">📰</span>
         </button>
 
+        {/* Favorites Toggle */}
+        <button
+          onClick={() => setShowFavorites(true)}
+          className="absolute bottom-24 left-4 z-[1000] bg-white dark:bg-gray-800 rounded-xl shadow-lg p-3 transition-all"
+        >
+          <span className="text-xl">❤️</span>
+        </button>
+
         {/* Weather Widget Panel */}
         {showWeather && (
           <div className="absolute top-20 right-4 z-[1000] animate-fadeIn">
@@ -88,6 +103,7 @@ function AppContent() {
         onMapClick={() => { setShowNewsFeed(false); setShowWeather(false); }}
         onNewsClick={() => setShowNewsFeed(!showNewsFeed)}
         onWeatherClick={() => setShowWeather(!showWeather)}
+        onFavoritesClick={() => setShowFavorites(true)}
       />
 
       {/* Modals */}
@@ -104,6 +120,10 @@ function AppContent() {
 
       {showAuthModal && (
         <AuthModal onClose={() => setShowAuthModal(false)} />
+      )}
+
+      {showFavorites && (
+        <Favorites onClose={() => setShowFavorites(false)} />
       )}
     </div>
   )

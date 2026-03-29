@@ -1,9 +1,37 @@
+import { useState, useEffect } from 'react'
 import { Popup } from 'react-leaflet'
 import { CATEGORY_LABELS } from '../context/MapContext'
-import { MapPin, Phone, ExternalLink } from 'lucide-react'
+import { MapPin, Phone, ExternalLink, Heart } from 'lucide-react'
+
+const FAVORITES_KEY = 'hklocal_favorites'
 
 export default function MarkerPopup({ marker }) {
   const { title, category, description, imageUrl, contact } = marker
+  const [isFavorite, setIsFavorite] = useState(false)
+
+  useEffect(() => {
+    const stored = localStorage.getItem(FAVORITES_KEY)
+    if (stored) {
+      const favorites = JSON.parse(stored)
+      setIsFavorite(favorites.includes(marker.id))
+    }
+  }, [marker.id])
+
+  const toggleFavorite = (e) => {
+    e.stopPropagation()
+    const stored = localStorage.getItem(FAVORITES_KEY)
+    const favorites = stored ? JSON.parse(stored) : []
+    
+    if (favorites.includes(marker.id)) {
+      const newFavorites = favorites.filter(id => id !== marker.id)
+      localStorage.setItem(FAVORITES_KEY, JSON.stringify(newFavorites))
+      setIsFavorite(false)
+    } else {
+      const newFavorites = [...favorites, marker.id]
+      localStorage.setItem(FAVORITES_KEY, JSON.stringify(newFavorites))
+      setIsFavorite(true)
+    }
+  }
 
   return (
     <Popup>
@@ -23,10 +51,20 @@ export default function MarkerPopup({ marker }) {
         )}
         
         <div className="p-3">
-          {/* Category Tag */}
-          <span className={`category-tag ${category}`}>
-            {CATEGORY_LABELS[category]}
-          </span>
+          {/* Category Tag & Favorite */}
+          <div className="flex items-center justify-between">
+            <span className={`category-tag ${category}`}>
+              {CATEGORY_LABELS[category]}
+            </span>
+            <button
+              onClick={toggleFavorite}
+              className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+            >
+              <Heart 
+                className={`w-5 h-5 ${isFavorite ? 'text-red-500 fill-red-500' : 'text-gray-400'}`} 
+              />
+            </button>
+          </div>
 
           {/* Title */}
           <h3 className="font-semibold text-gray-900 mt-2 mb-1">{title}</h3>

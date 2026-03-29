@@ -1,7 +1,7 @@
-import { Map, Newspaper, Cloud, User } from 'lucide-react'
+import { Map, Newspaper, Cloud, User, Heart } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
-export default function Navigation({ onMapClick, onNewsClick, onWeatherClick }) {
+export default function Navigation({ onMapClick, onNewsClick, onWeatherClick, onFavoritesClick }) {
   const { user } = useAuth()
 
   return (
@@ -13,6 +13,14 @@ export default function Navigation({ onMapClick, onNewsClick, onWeatherClick }) 
         >
           <Map className="w-6 h-6" />
           <span className="text-xs font-medium">地圖</span>
+        </button>
+
+        <button
+          onClick={onFavoritesClick}
+          className="flex flex-col items-center gap-1 p-2 text-gray-500 hover:text-red-500 transition-colors"
+        >
+          <Heart className="w-6 h-6" />
+          <span className="text-xs">收藏</span>
         </button>
 
         <button
