@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Sparkles, Calendar, MapPin, Clock, Users, ChevronRight, Loader2, Plus, Trash2, Share2, Check, Wand2 } from 'lucide-react'
+import { Sparkles, Calendar, MapPin, Clock, Users, ChevronRight, Loader2, Plus, Trash2, Share2, Check, Wand2, Search, X, GripVertical, Save } from 'lucide-react'
+import { useMap } from '../context/MapContext'
 import { CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
 
 const TRIP_TYPES = [
@@ -7,6 +8,17 @@ const TRIP_TYPES = [
   { id: 'sightseeing', label: '觀光遊覽', icon: '🏛️', desc: '探索景點' },
   { id: 'shopping', label: '購物血拼', icon: '🛍️', desc: '商場與市集' },
   { id: 'mixed', label: '綜合體驗', icon: '✨', desc: '全部都要' },
+]
+
+const SUGGESTED_PLACES = [
+  { title: '山頂纜車', category: 'places', desc: '必遊景點', icon: '🚡' },
+  { title: '廚師發辦', category: 'restaurants', desc: '高級日本料理', icon: '🍣' },
+  { title: '海港城', category: 'places', desc: '最大型商場', icon: '🛍️' },
+  { title: '蘭桂坊', category: 'restaurants', desc: '酒吧林立', icon: '🍺' },
+  { title: '香港故宮博物館', category: 'places', desc: '文化藝術', icon: '🏛️' },
+  { title: '九記牛腩', category: 'restaurants', desc: '必試牛腩麵', icon: '🍜' },
+  { title: '天星小輪', category: 'places', desc: '維港交通', icon: '🚢' },
+  { title: '女人街', category: 'deals', desc: '露天市集', icon: '🏪' },
 ]
 
 const SAMPLE_ITINERARIES = {
@@ -42,26 +54,65 @@ const SAMPLE_ITINERARIES = {
 }
 
 export default function TripPlannerView() {
+  const { markers } = useMap()
   const [tripType, setTripType] = useState(null)
   const [days, setDays] = useState(1)
   const [companions, setCompanions] = useState('solo')
   const [generating, setGenerating] = useState(false)
   const [showResult, setShowResult] = useState(false)
+  const [showSearch, setShowSearch] = useState(false)
   const [savedTrips, setSavedTrips] = useState([])
   const [currentTrip, setCurrentTrip] = useState(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [customPlaces, setCustomPlaces] = useState([])
+  const [newPlace, setNewPlace] = useState({ title: '', category: 'places', desc: '', time: '12:00' })
+
+  // Combine suggested places with user's markers
+  const allPlaces = [
+    ...SUGGESTED_PLACES,
+    ...markers.map(m => ({ title: m.title, category: m.category, desc: m.description || '', icon: CATEGORY_ICONS[m.category] })),
+  ]
+
+  const filteredPlaces = searchQuery
+    ? allPlaces.filter(p => 
+        p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.desc.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : allPlaces
 
   const handleGenerate = async () => {
     if (!tripType) return
     setGenerating(true)
     
-    // Simulate AI generation
     await new Promise(r => setTimeout(r, 2000))
     
-    const itinerary = Array.from({ length: days }, (_, dayIndex) => ({
-      day: dayIndex + 1,
-      date: `第 ${dayIndex + 1} 天`,
-      activities: SAMPLE_ITINERARIES[tripType]
-    }))
+    const baseItinerary = SAMPLE_ITINERARIES[tripType]
+    
+    const itinerary = Array.from({ length: days }, (_, dayIndex) => {
+      let activities = [...baseItinerary]
+      
+      // Add custom places if any
+      if (customPlaces.length > 0) {
+        const placesToAdd = customPlaces.slice(0, Math.ceil(customPlaces.length / days))
+        activities = [
+          ...activities.slice(0, Math.floor(activities.length / 2)),
+          ...placesToAdd.map(p => ({
+            time: p.time || '14:00',
+            title: p.title,
+            place: p.desc || '',
+            desc: '',
+            icon: p.icon
+          })),
+          ...activities.slice(Math.floor(activities.length / 2))
+        ]
+      }
+      
+      return {
+        day: dayIndex + 1,
+        date: `第 ${dayIndex + 1} 天`,
+        activities
+      }
+    })
     
     setCurrentTrip({
       type: tripType,
@@ -72,6 +123,22 @@ export default function TripPlannerView() {
     
     setGenerating(false)
     setShowResult(true)
+    setShowSearch(false)
+    setCustomPlaces([])
+  }
+
+  const addCustomPlace = (place) => {
+    setCustomPlaces(prev => [...prev, { ...place, time: '12:00' }])
+    setShowSearch(false)
+    setSearchQuery('')
+  }
+
+  const removeCustomPlace = (index) => {
+    setCustomPlaces(prev => prev.filter((_, i) => i !== index))
+  }
+
+  const updateCustomPlaceTime = (index, time) => {
+    setCustomPlaces(prev => prev.map((p, i) => i === index ? { ...p, time } : p))
   }
 
   const saveTrip = () => {
@@ -85,7 +152,8 @@ export default function TripPlannerView() {
   }
 
   const shareTrip = (trip) => {
-    const text = `${TRIP_TYPES[trip.type].label} ${trip.days}日遊\n` +
+    const typeLabels = { food: '美食之旅', sightseeing: '觀光遊覽', shopping: '購物血拼', mixed: '綜合體驗' }
+    const text = `${typeLabels[trip.type]} ${trip.days}日遊\n` +
       trip.itinerary.map(day => 
         `\n${day.date}:\n` + 
         day.activities.map(a => `${a.time} ${a.title} (${a.place})`).join('\n')
@@ -104,20 +172,121 @@ export default function TripPlannerView() {
     <div className="h-full w-full flex flex-col bg-gradient-to-b from-white to-slate-50">
       {/* Header */}
       <div className="bg-white border-b border-slate-100 px-5 pt-6 pb-5">
-        <div className="flex items-center gap-3">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center shadow-lg shadow-violet-200">
-            <Sparkles className="w-7 h-7 text-white" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center shadow-lg shadow-violet-200">
+              <Sparkles className="w-7 h-7 text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-extrabold text-slate-900">AI 行程規劃</h1>
+              <p className="text-sm text-slate-400">智能推薦最適合你的路線</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-2xl font-extrabold text-slate-900">AI 行程規劃</h1>
-            <p className="text-sm text-slate-400">智能推薦最適合你的路線</p>
-          </div>
+          {showResult && currentTrip && (
+            <button
+              onClick={() => { setShowSearch(true); setShowResult(false); }}
+              className="px-4 py-2 bg-violet-100 text-violet-600 rounded-xl font-semibold text-sm flex items-center gap-2"
+            >
+              <Plus className="w-4 h-4" />
+              加入地點
+            </button>
+          )}
         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto p-5">
         {!showResult ? (
           <div className="space-y-6 animate-slide-up">
+            {/* Search/Add Places */}
+            {showSearch && (
+              <div className="bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden">
+                <div className="p-4 border-b border-slate-100">
+                  <h3 className="font-bold text-slate-900 mb-3 flex items-center gap-2">
+                    <Search className="w-5 h-5 text-violet-500" />
+                    加入自訂地點
+                  </h3>
+                  <div className="relative">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                    <input
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="搜索地點..."
+                      className="w-full pl-12 pr-4 py-3 bg-slate-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/20"
+                    />
+                  </div>
+                </div>
+                
+                {/* Selected Places */}
+                {customPlaces.length > 0 && (
+                  <div className="p-4 border-b border-slate-100 bg-violet-50">
+                    <p className="text-sm font-semibold text-violet-600 mb-2">已選擇 {customPlaces.length} 個地點：</p>
+                    <div className="space-y-2">
+                      {customPlaces.map((place, i) => (
+                        <div key={i} className="flex items-center gap-3 bg-white rounded-xl p-3">
+                          <GripVertical className="w-4 h-4 text-slate-300" />
+                          <span className="text-xl">{place.icon}</span>
+                          <div className="flex-1">
+                            <p className="font-semibold text-slate-900">{place.title}</p>
+                            <p className="text-xs text-slate-500">{place.desc}</p>
+                          </div>
+                          <input
+                            type="time"
+                            value={place.time}
+                            onChange={(e) => updateCustomPlaceTime(i, e.target.value)}
+                            className="px-2 py-1 bg-slate-100 rounded text-sm"
+                          />
+                          <button onClick={() => removeCustomPlace(i)} className="p-1 text-red-500">
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* Search Results */}
+                <div className="p-4 max-h-64 overflow-y-auto">
+                  <p className="text-sm text-slate-400 mb-3">{filteredPlaces.length} 個結果</p>
+                  <div className="space-y-2">
+                    {filteredPlaces.slice(0, 10).map((place, i) => (
+                      <button
+                        key={i}
+                        onClick={() => addCustomPlace(place)}
+                        className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors text-left"
+                      >
+                        <span className="text-2xl">{place.icon}</span>
+                        <div className="flex-1">
+                          <p className="font-semibold text-slate-900">{place.title}</p>
+                          <p className="text-xs text-slate-500">{place.desc}</p>
+                        </div>
+                        <Plus className="w-5 h-5 text-violet-500" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="p-4 border-t border-slate-100">
+                  <button
+                    onClick={() => setShowSearch(false)}
+                    className="w-full py-3 bg-slate-100 text-slate-600 font-semibold rounded-xl"
+                  >
+                    完成
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Custom Place Input */}
+            {!showSearch && customPlaces.length === 0 && (
+              <button
+                onClick={() => setShowSearch(true)}
+                className="w-full flex items-center justify-center gap-3 p-4 bg-gradient-to-r from-violet-50 to-purple-50 rounded-2xl border-2 border-dashed border-violet-200 text-violet-600 font-semibold hover:from-violet-100 hover:to-purple-100 transition-all"
+              >
+                <Plus className="w-5 h-5" />
+                加入自訂地點
+              </button>
+            )}
+
             {/* Trip Type */}
             <div>
               <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
@@ -231,7 +400,11 @@ export default function TripPlannerView() {
                 <span className="text-4xl">{TRIP_TYPES.find(t => t.id === currentTrip.type)?.icon}</span>
                 <div>
                   <h2 className="text-xl font-extrabold">{tripTypeLabels[currentTrip.type]}</h2>
-                  <p className="text-white/80 text-sm">{currentTrip.days} 日遊 • {currentTrip.companions === 'solo' ? '獨自出遊' : currentTrip.companions === 'couple' ? '情侶出行' : currentTrip.companions === 'family' ? '家庭樂' : '朋友同遊'}</p>
+                  <p className="text-white/80 text-sm">{currentTrip.days} 日遊 • {
+                    currentTrip.companions === 'solo' ? '獨自出遊' :
+                    currentTrip.companions === 'couple' ? '情侶出行' :
+                    currentTrip.companions === 'family' ? '家庭樂' : '朋友同遊'
+                  }</p>
                 </div>
               </div>
               <div className="flex gap-2">
@@ -239,7 +412,7 @@ export default function TripPlannerView() {
                   onClick={saveTrip}
                   className="flex-1 py-3 bg-white/20 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-white/30 transition-all"
                 >
-                  <Plus className="w-5 h-5" />
+                  <Save className="w-5 h-5" />
                   保存行程
                 </button>
                 <button
@@ -274,11 +447,15 @@ export default function TripPlannerView() {
                           <span className="text-xs font-semibold text-violet-500 bg-violet-50 px-2 py-0.5 rounded">{activity.time}</span>
                         </div>
                         <h4 className="font-bold text-slate-900">{activity.title}</h4>
-                        <p className="text-sm text-slate-500 flex items-center gap-1 mt-0.5">
-                          <MapPin className="w-3 h-3" />
-                          {activity.place}
-                        </p>
-                        <p className="text-sm text-slate-400 mt-1">{activity.desc}</p>
+                        {activity.place && (
+                          <p className="text-sm text-slate-500 flex items-center gap-1 mt-0.5">
+                            <MapPin className="w-3 h-3" />
+                            {activity.place}
+                          </p>
+                        )}
+                        {activity.desc && (
+                          <p className="text-sm text-slate-400 mt-1">{activity.desc}</p>
+                        )}
                       </div>
                     </div>
                   ))}
