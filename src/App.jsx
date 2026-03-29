@@ -1,81 +1,37 @@
 import { useState, useEffect } from 'react'
-import { MapProvider, useMap } from './context/MapContext'
-import { AuthProvider, useAuth } from './context/AuthContext'
-import Header from './components/Header'
-import Navigation from './components/Navigation'
-import MapPage from './pages/MapPage'
-import SearchPage from './pages/SearchPage'
-import FavoritesPage from './pages/FavoritesPage'
-import NewsPage from './pages/NewsPage'
-import ProfilePage from './pages/ProfilePage'
+import { MapProvider } from './context/MapContext'
+import { AuthProvider } from './context/AuthContext'
+import TabBar from './components/TabBar'
+import MapView from './components/MapView'
+import SearchView from './components/SearchView'
+import FavoritesView from './components/FavoritesView'
+import NewsView from './components/NewsView'
+import ProfileView from './components/ProfileView'
 
-function AppContent() {
-  const [currentPage, setCurrentPage] = useState('map')
-  const [isDarkMode, setIsDarkMode] = useState(false)
-  const { user } = useAuth()
+export default function App() {
+  const [activeTab, setActiveTab] = useState('map')
 
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }, [isDarkMode])
-
-  const getGreeting = () => {
-    const hour = new Date().getHours()
-    if (hour < 12) return '早晨'
-    if (hour < 18) return '下午'
-    return '晚上'
-  }
-
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'map':
-        return <MapPage onNavigate={setCurrentPage} />
-      case 'search':
-        return <SearchPage />
-      case 'favorites':
-        return <FavoritesPage />
-      case 'news':
-        return <NewsPage />
-      case 'profile':
-        return <ProfilePage />
-      default:
-        return <MapPage onNavigate={setCurrentPage} />
+  const renderView = () => {
+    switch (activeTab) {
+      case 'map': return <MapView />
+      case 'search': return <SearchView />
+      case 'favorites': return <FavoritesView />
+      case 'news': return <NewsView />
+      case 'profile': return <ProfileView />
+      default: return <MapView />
     }
   }
 
-  return (
-    <div className="h-full w-full flex flex-col bg-light dark:bg-dark">
-      <Header
-        user={user}
-        onLoginClick={() => {}}
-        isDarkMode={isDarkMode}
-        onDarkModeToggle={() => setIsDarkMode(!isDarkMode)}
-        greeting={getGreeting()}
-      />
-
-      <main className="flex-1 overflow-hidden">
-        {renderPage()}
-      </main>
-
-      <Navigation
-        currentPage={currentPage}
-        onNavigate={setCurrentPage}
-      />
-    </div>
-  )
-}
-
-function App() {
   return (
     <AuthProvider>
       <MapProvider>
-        <AppContent />
+        <div className="h-screen w-screen flex flex-col bg-white overflow-hidden">
+          <main className="flex-1 overflow-hidden">
+            {renderView()}
+          </main>
+          <TabBar activeTab={activeTab} onTabChange={setActiveTab} />
+        </div>
       </MapProvider>
     </AuthProvider>
   )
 }
-
-export default App
