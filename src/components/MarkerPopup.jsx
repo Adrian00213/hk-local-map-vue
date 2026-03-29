@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { Popup } from 'react-leaflet'
 import { CATEGORY_LABELS } from '../context/MapContext'
 import { MapPin, Phone, ExternalLink, Heart } from 'lucide-react'
 
