@@ -145,32 +145,34 @@ export default function Map({ onAddMarker }) {
 
   return (
     <div className="h-full w-full relative">
-      {/* Category Filter */}
-      <div className="absolute top-16 left-1/2 -translate-x-1/2 z-[10] bg-white dark:bg-gray-800 rounded-full shadow-lg px-2 py-1 flex gap-1">
-        <button
-          onClick={() => setSelectedCategory(null)}
-          className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
-            selectedCategory === null 
-              ? 'bg-primary text-white' 
-              : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-          }`}
-        >
-          全部
-        </button>
-        {Object.entries(CATEGORY_LABELS).map(([key, label]) => (
+      {/* Category Filter - Horizontal Scrollable */}
+      <div className="absolute top-4 left-4 right-4 z-[10]">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg px-3 py-2 flex gap-2 overflow-x-auto">
           <button
-            key={key}
-            onClick={() => setSelectedCategory(key)}
-            className={`px-3 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-1 ${
-              selectedCategory === key 
+            onClick={() => setSelectedCategory(null)}
+            className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+              selectedCategory === null 
                 ? 'bg-primary text-white' 
-                : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                : 'text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
             }`}
           >
-            <span>{CATEGORY_ICONS[key]}</span>
-            <span>{label}</span>
+            全部
           </button>
-        ))}
+          {Object.entries(CATEGORY_LABELS).map(([key, label]) => (
+            <button
+              key={key}
+              onClick={() => setSelectedCategory(key)}
+              className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all flex items-center gap-1.5 ${
+                selectedCategory === key 
+                  ? 'bg-primary text-white' 
+                  : 'text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
+              }`}
+            >
+              <span>{CATEGORY_ICONS[key]}</span>
+              <span>{label}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
       <GoogleMap

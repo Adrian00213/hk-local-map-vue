@@ -49,51 +49,56 @@ function AppContent() {
       <main className="flex-1 relative overflow-hidden">
         <Map onAddMarker={() => setShowMarkerForm(true)} />
 
-        {/* Search Bar */}
-        <SearchBar userLocation={userLocation} />
+        {/* Search Bar - Below Header */}
+        <div className="absolute top-28 left-4 right-4 z-[1000]">
+          <SearchBar userLocation={userLocation} />
+        </div>
 
-        {/* Floating Action Button */}
+        {/* Right Side Buttons */}
+        <div className="absolute top-28 right-4 z-[1000] flex flex-col gap-2">
+          {/* Weather Button */}
+          <button
+            onClick={() => setShowWeather(!showWeather)}
+            className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105 active:scale-95"
+          >
+            <span className="text-xl">🌤️</span>
+          </button>
+
+          {/* News Button */}
+          <button
+            onClick={() => setShowNewsFeed(!showNewsFeed)}
+            className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105 active:scale-95"
+          >
+            <span className="text-xl">📰</span>
+          </button>
+
+          {/* Favorites Button */}
+          <button
+            onClick={() => setShowFavorites(true)}
+            className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-105 active:scale-95"
+          >
+            <span className="text-xl">❤️</span>
+          </button>
+        </div>
+
+        {/* Floating Action Button - Add Marker */}
         <button
           onClick={() => setShowMarkerForm(true)}
-          className="absolute bottom-24 right-4 z-[1000] w-14 h-14 bg-primary text-white rounded-full shadow-lg flex items-center justify-center hover:bg-opacity-90 transition-all active:scale-95"
+          className="absolute bottom-6 right-4 z-[1000] w-16 h-16 bg-primary text-white rounded-full shadow-xl flex items-center justify-center hover:bg-opacity-90 transition-all active:scale-95"
         >
-          <span className="text-2xl">+</span>
-        </button>
-
-        {/* Weather Widget Toggle */}
-        <button
-          onClick={() => setShowWeather(!showWeather)}
-          className="absolute top-4 right-4 z-[1000] bg-white dark:bg-gray-800 rounded-xl shadow-lg p-3 transition-all"
-        >
-          <span className="text-xl">🌤️</span>
-        </button>
-
-        {/* News Feed Toggle */}
-        <button
-          onClick={() => setShowNewsFeed(!showNewsFeed)}
-          className="absolute top-4 left-4 z-[1000] bg-white dark:bg-gray-800 rounded-xl shadow-lg p-3 transition-all"
-        >
-          <span className="text-xl">📰</span>
-        </button>
-
-        {/* Favorites Toggle */}
-        <button
-          onClick={() => setShowFavorites(true)}
-          className="absolute bottom-24 left-4 z-[1000] bg-white dark:bg-gray-800 rounded-xl shadow-lg p-3 transition-all"
-        >
-          <span className="text-xl">❤️</span>
+          <span className="text-3xl font-light">+</span>
         </button>
 
         {/* Weather Widget Panel */}
         {showWeather && (
-          <div className="absolute top-20 right-4 z-[1000] animate-fadeIn">
+          <div className="absolute top-36 right-20 z-[1000] animate-fadeIn">
             <WeatherWidget onClose={() => setShowWeather(false)} />
           </div>
         )}
 
         {/* News Feed Panel */}
         {showNewsFeed && (
-          <div className="absolute top-20 left-4 z-[1000] w-80 max-h-96 overflow-hidden animate-fadeIn">
+          <div className="absolute top-36 left-4 z-[1000] w-80 max-h-96 overflow-hidden animate-fadeIn">
             <NewsFeed onClose={() => setShowNewsFeed(false)} />
           </div>
         )}
