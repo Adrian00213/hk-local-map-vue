@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Newspaper, Clock, ArrowRight } from 'lucide-react'
+import { Newspaper, Clock, ChevronRight, Zap } from 'lucide-react'
 import { useMap, CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
 
 const NEWS = [
@@ -10,54 +10,65 @@ const NEWS = [
   { id: '5', title: '端午節龍舟競渡接受報名', desc: '年度盛事，各組別名額有限，報名從速', cat: 'news', source: '康樂及文化事務署', time: '3日前' },
 ]
 
+const catColors = {
+  deals: 'from-red-500 to-pink-500',
+  restaurants: 'from-orange-500 to-amber-500',
+  places: 'from-blue-500 to-indigo-500',
+  news: 'from-green-500 to-emerald-500'
+}
+
+const catBg = {
+  deals: 'bg-red-50 text-red-500',
+  restaurants: 'bg-orange-50 text-orange-500',
+  places: 'bg-blue-50 text-blue-500',
+  news: 'bg-green-50 text-green-500'
+}
+
 export default function NewsView() {
   const { markers } = useMap()
   const [news, setNews] = useState([])
 
   useEffect(() => {
-    const latest = markers.slice(0, 3).map(m => ({
-      id: m.id,
-      title: m.title,
-      desc: m.description,
-      cat: m.category,
-      source: '用戶分享',
-      time: '最新'
-    }))
+    const latest = markers.slice(0, 3).map(m => ({ id: m.id, title: m.title, desc: m.description, cat: m.category, source: '用戶分享', time: '最新' }))
     setNews([...NEWS, ...latest])
   }, [markers])
 
-  const getCatColor = (cat) => {
-    const colors = { deals: 'bg-red-50 text-red-500', restaurants: 'bg-orange-50 text-orange-500', places: 'bg-blue-50 text-blue-500', news: 'bg-green-50 text-green-500' }
-    return colors[cat] || 'bg-slate-100 text-slate-500'
-  }
-
   return (
-    <div className="h-full w-full flex flex-col bg-slate-50">
+    <div className="h-full w-full flex flex-col bg-gradient-to-b from-white to-slate-50">
       {/* Header */}
-      <div className="bg-white px-4 pt-6 pb-5 shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center">
-            <Newspaper className="w-6 h-6 text-white" />
+      <div className="bg-white border-b border-slate-100 px-5 pt-6 pb-5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-200">
+              <Newspaper className="w-7 h-7 text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-extrabold text-slate-900">最新資訊</h1>
+              <p className="text-sm text-slate-400">精選優惠，好去處</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">最新資訊</h1>
-            <p className="text-sm text-slate-400">精選優惠、好去處</p>
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-400 flex items-center justify-center shadow-lg shadow-yellow-200">
+            <Zap className="w-5 h-5 text-white" />
           </div>
         </div>
       </div>
 
       {/* News List */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto p-5">
         <div className="space-y-4">
           {news.map((n, i) => (
-            <div key={n.id || i} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100">
-              <div className="p-4">
+            <div
+              key={n.id || i}
+              className="bg-white rounded-3xl overflow-hidden shadow-md border border-slate-100 hover:shadow-lg transition-all animate-slide-up"
+              style={{ animationDelay: `${i * 0.05}s` }}
+            >
+              <div className="p-5">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center text-2xl">
+                  <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${catColors[n.cat]} flex items-center justify-center text-2xl shadow-lg`}>
                     {CATEGORY_ICONS[n.cat]}
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <span className={`inline-block px-2.5 py-0.5 text-xs font-semibold rounded-full ${getCatColor(n.cat)}`}>
+                  <div className="flex-1">
+                    <span className={`inline-block px-3 py-1 text-xs font-bold rounded-full ${catBg[n.cat]}`}>
                       {CATEGORY_LABELS[n.cat]}
                     </span>
                     <div className="flex items-center gap-1 mt-1 text-xs text-slate-400">
@@ -66,14 +77,14 @@ export default function NewsView() {
                     </div>
                   </div>
                 </div>
-                <h3 className="font-bold text-slate-900 mb-1">{n.title}</h3>
+                <h3 className="font-bold text-lg text-slate-900 mb-1">{n.title}</h3>
                 {n.desc && <p className="text-sm text-slate-500 line-clamp-2">{n.desc}</p>}
-                <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100">
-                  <span className="text-xs text-slate-400">{n.source}</span>
-                  <button className="flex items-center gap-1 text-xs text-red-500 font-medium">
-                    查看 <ArrowRight size={12} />
-                  </button>
-                </div>
+              </div>
+              <div className="px-5 py-3 bg-slate-50 flex items-center justify-between">
+                <span className="text-xs text-slate-400 font-medium">{n.source}</span>
+                <button className="flex items-center gap-1 text-xs text-red-500 font-bold">
+                  查看 <ChevronRight size={14} />
+                </button>
               </div>
             </div>
           ))}
