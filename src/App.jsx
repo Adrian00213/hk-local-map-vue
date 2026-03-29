@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { MapProvider } from './context/MapContext'
 import { AuthProvider } from './context/AuthContext'
 import TabBar from './components/TabBar'
@@ -6,6 +6,7 @@ import MapView from './components/MapView'
 import SearchView from './components/SearchView'
 import FavoritesView from './components/FavoritesView'
 import NewsView from './components/NewsView'
+import TripPlannerView from './components/TripPlannerView'
 import ProfileView from './components/ProfileView'
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
       case 'search': return <SearchView />
       case 'favorites': return <FavoritesView />
       case 'news': return <NewsView />
+      case 'trip': return <TripPlannerView />
       case 'profile': return <ProfileView />
       default: return <MapView />
     }
