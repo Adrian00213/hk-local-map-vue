@@ -13,7 +13,8 @@ export const CATEGORY_ICONS = {
   deals: '🛒',
   restaurants: '🍜',
   places: '🎯',
-  news: '📰'
+  news: '📰',
+  transport: '🚌'
 }
 
 // Category labels (Cantonese)
@@ -21,7 +22,8 @@ export const CATEGORY_LABELS = {
   deals: '優惠',
   restaurants: '餐廳',
   places: '好去處',
-  news: '最新資訊'
+  news: '資訊',
+  transport: '交通'
 }
 
 // Mock data for demo (when Firebase is not configured)
@@ -71,6 +73,30 @@ const MOCK_MARKERS = [
     description: '年度美食盛事，超過100間餐廳參與',
     imageUrl: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=300',
     contact: '灣仔會展中心',
+    userId: 'demo',
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: '5',
+    title: '🚇 港鐵中環站',
+    category: 'transport',
+    lat: 22.2978,
+    lng: 114.1690,
+    description: '港島線/荃灣線交匯點，出口通往IFC和置地廣場',
+    imageUrl: null,
+    contact: '港島線、荃灣線',
+    userId: 'demo',
+    createdAt: new Date().toISOString()
+  },
+  {
+    id: '6',
+    title: '🚌 旺角巴士總站',
+    category: 'transport',
+    lat: 22.3176,
+    lng: 114.1726,
+    description: '多條巴士線途經，包括：1, 1A, 2, 3C, 72X等',
+    imageUrl: null,
+    contact: '旺角道',
     userId: 'demo',
     createdAt: new Date().toISOString()
   }
