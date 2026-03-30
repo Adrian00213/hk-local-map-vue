@@ -10,13 +10,13 @@ const tabs = [
 
 export default function TabBar({ activeTab, onTabChange }) {
   return (
-    <nav className="bg-white/90 backdrop-blur-xl border-t border-zinc-200/50 px-1 pb-1 pt-1 safe-area-bottom">
+    <nav className="bg-white/95 backdrop-blur-xl border-t border-zinc-200/50 px-1 pt-1 pb-0 safe-area-bottom">
       <div className="flex justify-around items-end">
         {tabs.map(({ id, icon: Icon, label }) => (
           <button
             key={id}
             onClick={() => onTabChange(id)}
-            className={`flex flex-col items-center gap-0.5 px-1 py-1.5 rounded-xl transition-all duration-200 min-w-[48px] ${
+            className={`flex flex-col items-center gap-0.5 px-1 py-2 rounded-xl transition-all duration-200 min-w-[56px] min-h-[48px] ${
               activeTab === id
                 ? 'text-amber-500'
                 : 'text-zinc-400 hover:text-zinc-600'
@@ -28,11 +28,11 @@ export default function TabBar({ activeTab, onTabChange }) {
                 : ''
             }`}>
               <Icon 
-                size={18} 
+                size={20} 
                 strokeWidth={activeTab === id ? 2.5 : 2} 
               />
             </div>
-            <span className={`text-[9px] font-semibold leading-none ${activeTab === id ? 'text-amber-500' : 'text-zinc-400'}`}>
+            <span className={`text-[10px] font-semibold leading-none ${activeTab === id ? 'text-amber-500' : 'text-zinc-400'}`}>
               {label}
             </span>
           </button>
