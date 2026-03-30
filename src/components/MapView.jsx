@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
 import { useMap, CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
 import MarkerForm from './MarkerForm'
-import { X, Navigation, Locate, Zap } from 'lucide-react'
+import SmartRecommendationEngine from './SmartRecommendationEngine'
+import { X, Navigation, Locate, Zap, Brain } from 'lucide-react'
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyA6VU14iA_ytRMWMxKbVvT_dWamaGeWAFE'
 const containerStyle = { width: '100%', height: '100%' }
@@ -130,44 +131,31 @@ export default function MapView() {
       {recommendations.length > 0 && (
         <button
           onClick={() => setShowNearby(!showNearby)}
-          className="absolute left-4 bottom-32 z-20 px-4 py-3 bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white rounded-2xl shadow-xl shadow-violet-500/30 flex items-center gap-2 btn-premium"
+          className="absolute left-4 bottom-32 z-20 px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-2xl shadow-xl shadow-amber-500/30 flex items-center gap-2 btn-premium"
         >
           <Zap className="w-5 h-5" />
-          <span className="font-semibold text-sm">附近推薦</span>
+          <span className="font-semibold text-sm">智能推薦</span>
           <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{recommendations.length}</span>
         </button>
       )}
 
-      {/* Nearby Recommendations Panel */}
+      {/* Smart Recommendations Panel */}
       {showNearby && (
         <div className="absolute left-4 right-4 bottom-36 z-20 animate-slide-up">
-          <div className="bg-white rounded-3xl shadow-xl border-subtle overflow-hidden">
+          <div className="bg-white rounded-3xl shadow-xl border-subtle overflow-hidden max-h-[60vh]">
             <div className="p-4 border-b border-zinc-100 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
-                  <Zap className="w-4 h-4 text-white" />
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
+                  <Brain className="w-4 h-4 text-white" />
                 </div>
-                <h3 className="font-bold text-zinc-900">附近推薦</h3>
+                <h3 className="font-bold text-zinc-900">🧠 智能推薦</h3>
               </div>
               <button onClick={() => setShowNearby(false)} className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center">
                 <X className="w-4 h-4 text-zinc-500" />
               </button>
             </div>
-            <div className="p-3 space-y-2 max-h-48 overflow-y-auto">
-              {recommendations.map((rec, i) => (
-                <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-zinc-50 hover:bg-zinc-100 transition-colors cursor-pointer">
-                  <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-xl">
-                    {rec.icon}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-zinc-900 text-sm">{rec.title}</p>
-                    <p className="text-xs text-zinc-500">{rec.desc}</p>
-                  </div>
-                  <span className="text-xs text-violet-500 font-medium bg-violet-50 px-2 py-1 rounded-lg">
-                    {rec.distance}
-                  </span>
-                </div>
-              ))}
+            <div className="p-3 overflow-y-auto max-h-[calc(60vh-60px)]">
+              <SmartRecommendationEngine />
             </div>
           </div>
         </div>

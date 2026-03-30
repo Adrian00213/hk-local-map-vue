@@ -1,9 +1,10 @@
-import { Map, Search, Newspaper, Sparkles, User } from 'lucide-react'
+import { Map, Search, Newspaper, Sparkles, User, Brain } from 'lucide-react'
 
 const tabs = [
   { id: 'map', icon: Map, label: '地圖' },
   { id: 'search', icon: Search, label: '搜尋' },
   { id: 'news', icon: Newspaper, label: '資訊' },
+  { id: 'ai', icon: Brain, label: 'AI助理' },
   { id: 'trip', icon: Sparkles, label: '行程' },
   { id: 'profile', icon: User, label: '我的' },
 ]
@@ -18,13 +19,13 @@ export default function TabBar({ activeTab, onTabChange }) {
             onClick={() => onTabChange(id)}
             className={`flex flex-col items-center gap-0.5 px-1 py-1.5 rounded-xl transition-all duration-200 min-w-[48px] ${
               activeTab === id
-                ? 'text-violet-500'
+                ? 'text-amber-500'
                 : 'text-zinc-400 hover:text-zinc-600'
             }`}
           >
             <div className={`p-1.5 rounded-xl transition-all duration-200 ${
               activeTab === id 
-                ? 'bg-gradient-to-br from-violet-50 to-purple-50 shadow-sm' 
+                ? 'bg-gradient-to-br from-amber-50 to-orange-50 shadow-sm' 
                 : ''
             }`}>
               <Icon 
@@ -32,7 +33,7 @@ export default function TabBar({ activeTab, onTabChange }) {
                 strokeWidth={activeTab === id ? 2.5 : 2} 
               />
             </div>
-            <span className={`text-[9px] font-semibold leading-none ${activeTab === id ? 'text-violet-500' : 'text-zinc-400'}`}>
+            <span className={`text-[9px] font-semibold leading-none ${activeTab === id ? 'text-amber-500' : 'text-zinc-400'}`}>
               {label}
             </span>
           </button>

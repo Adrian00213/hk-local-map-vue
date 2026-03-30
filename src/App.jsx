@@ -5,6 +5,7 @@ import TabBar from './components/TabBar'
 import MapView from './components/MapView'
 import SearchView from './components/SearchView'
 import NewsView from './components/NewsView'
+import SmartAssistantView from './components/SmartAssistantView'
 import TripPlannerView from './components/TripPlannerView'
 import ProfileView from './components/ProfileView'
 
@@ -16,6 +17,7 @@ export default function App() {
       case 'map': return <MapView />
       case 'search': return <SearchView />
       case 'news': return <NewsView />
+      case 'ai': return <SmartAssistantView />
       case 'trip': return <TripPlannerView />
       case 'profile': return <ProfileView />
       default: return <MapView />
