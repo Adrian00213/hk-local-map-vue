@@ -1,5 +1,59 @@
 import { useState, useEffect } from 'react'
-import { Sparkles, Calendar, MapPin, Clock, Users, ChevronRight, Loader2, Plus, Trash2, Share2, Wand2, Search, X, Globe, Plane, DollarSign, Wallet, TrendingUp, PiggyBank, Check, ArrowRight } from 'lucide-react'
+import { Sparkles, Calendar, MapPin, Clock, Users, ChevronRight, Loader2, Plus, Trash2, Share2, Wand2, Search, X, Globe, Plane, DollarSign, Wallet, TrendingUp, PiggyBank, Check, ArrowRight, Newspaper, Zap } from 'lucide-react'
+
+// City latest news/recommendations
+const CITY_NEWS = {
+  hongkong: [
+    { title: '香港美食節2026', desc: '超過200間美食參與', time: '最新', type: 'event' },
+    { title: '山頂纜車優惠', desc: '遊客套票8折', time: '今日', type: 'deal' },
+    { title: '維港新夜景', desc: '幻彩詠香江加強版', time: '3日前', type: 'news' },
+  ],
+  tokyo: [
+    { title: '櫻花季預測', desc: '3月底至4月初滿開', time: '最新', type: 'news' },
+    { title: '晴空塔新景點', desc: '室內花園開放', time: '2日前', type: 'news' },
+    { title: '迪士尼優惠', desc: '門票9折', time: '今日', type: 'deal' },
+  ],
+  osaka: [
+    { title: '環球影城新園區', desc: '超級任天堂世界擴建', time: '最新', type: 'event' },
+    { title: '大阪城夜遊', desc: '限定燈光秀', time: '本週', type: 'event' },
+    { title: '道頓堀新店', desc: '章魚小丸子旗艦店', time: '3日前', type: 'news' },
+  ],
+  seoul: [
+    { title: '櫻花節2026', desc: '汝矣島櫻花盛開', time: '最新', type: 'event' },
+    { title: '明洞購物節', desc: '周年慶典優惠', time: '本週', type: 'deal' },
+    { title: '南山塔新纜車', desc: '2026年完工', time: '2日前', type: 'news' },
+  ],
+  bangkok: [
+    { title: '水上市集重開', desc: '每日營業', time: '最新', type: 'news' },
+    { title: '大皇宮新規定', desc: '門票調整', time: '1週前', type: 'news' },
+    { title: '夜市美食節', desc: '泰式小吃匯聚', time: '本週', type: 'event' },
+  ],
+  singapore: [
+    { title: '星耀樟宜新餐廳', desc: '10間新店開幕', time: '最新', type: 'news' },
+    { title: '濱海灣花園燈光秀', desc: '免費入場', time: '每日', type: 'event' },
+    { title: '烏節路特賣', desc: '夏季大減價', time: '本週', type: 'deal' },
+  ],
+  taipei: [
+    { title: '101觀景台優惠', desc: '外籍遊客半價', time: '最新', type: 'deal' },
+    { title: '夜市美食推薦', desc: '10大必食', time: '2日前', type: 'news' },
+    { title: '故宮新展覽', desc: '翠玉白菜真跡', time: '本月', type: 'event' },
+  ],
+  london: [
+    { title: '白金漢宮開放', desc: '夏季開放參觀', time: '最新', type: 'event' },
+    { title: '哈羅斯減價', desc: '周年特賣', time: '本週', type: 'deal' },
+    { title: '泰晤士河新景點', desc: '纜車延長線', time: '1個月前', type: 'news' },
+  ],
+  paris: [
+    { title: '艾菲爾鐵塔維修', desc: '3月部分關閉', time: '最新', type: 'news' },
+    { title: '羅浮宮新展區', desc: '2026春季開放', time: '2日前', type: 'event' },
+    { title: '巴黎春天特賣', desc: '百貨公司打折', time: '本週', type: 'deal' },
+  ],
+  newyork: [
+    { title: '中央公園音樂節', desc: '免費露天音樂會', time: '最新', type: 'event' },
+    { title: '第五大道新店', desc: '旗艦店陸續開幕', time: '1週前', type: 'news' },
+    { title: '時代廣場倒數', desc: '除夕活動籌備中', time: '2日前', type: 'event' },
+  ],
+}
 
 const CITIES = [
   { id: 'hongkong', name: '香港', country: '香港', flag: '🇭🇰', currency: 'HKD', avgCost: 800 },
@@ -173,8 +227,15 @@ export default function TripPlannerView() {
   const [showResult, setShowResult] = useState(false)
   const [currentTrip, setCurrentTrip] = useState(null)
   const [step, setStep] = useState(1)
+  const [cityNews, setCityNews] = useState([])
 
   const currentCity = CITIES.find(c => c.id === selectedCity)
+
+  // Update city news when selection changes
+  useEffect(() => {
+    const news = CITY_NEWS[selectedCity] || []
+    setCityNews(news)
+  }, [selectedCity])
 
   const handleGenerate = async () => {
     if (!tripType) return
@@ -275,6 +336,32 @@ export default function TripPlannerView() {
                 ))}
               </div>
             </div>
+
+            {/* City Latest News */}
+            {cityNews.length > 0 && (
+              <div className="bg-gradient-to-br from-violet-50 to-purple-50 rounded-2xl p-4 border border-violet-100">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
+                    <Newspaper className="w-4 h-4 text-white" />
+                  </div>
+                  <h3 className="font-bold text-violet-700">{currentCity?.name} 最新資訊</h3>
+                </div>
+                <div className="space-y-2">
+                  {cityNews.slice(0, 3).map((news, i) => (
+                    <div key={i} className="flex items-center gap-3 p-2 rounded-xl bg-white/80 hover:bg-white transition-colors">
+                      <div className="w-8 h-8 rounded-lg bg-violet-100 flex items-center justify-center text-sm">
+                        {news.type === 'deal' ? '🎫' : news.type === 'event' ? '📅' : '📰'}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-slate-900 text-sm truncate">{news.title}</p>
+                        <p className="text-xs text-slate-500 truncate">{news.desc}</p>
+                      </div>
+                      <span className="text-xs text-violet-500 font-medium bg-violet-50 px-2 py-1 rounded-lg shrink-0">{news.time}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <button onClick={() => setStep(2)} className="w-full py-4 bg-gradient-to-r from-violet-500 to-purple-500 text-white font-bold rounded-2xl shadow-xl shadow-violet-200/50 flex items-center justify-center gap-2">
               下一步 <ArrowRight className="w-5 h-5" />

@@ -2,21 +2,54 @@ import { useState, useEffect } from 'react'
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
 import { useMap, CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
 import MarkerForm from './MarkerForm'
-import { X, Navigation, Locate } from 'lucide-react'
+import { X, Navigation, Locate, Zap } from 'lucide-react'
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyA6VU14iA_ytRMWMxKbVvT_dWamaGeWAFE'
 const containerStyle = { width: '100%', height: '100%' }
 const defaultCenter = { lat: 22.3193, lng: 114.1694 }
+
+// Location-based recommendations
+const LOCATION_RECOMMENDATIONS = {
+  'hongkong': [
+    { title: '山頂纜車新優惠', category: 'deals', icon: '🎫', desc: '遊客套票8折', distance: '0.5km' },
+    { title: '維港夜景指南', category: 'places', icon: '🌃', desc: '最佳拍攝位置推薦', distance: '1km' },
+    { title: '尖沙咀新餐廳', category: 'restaurants', icon: '🍽️', desc: '米芝蓮星級餐廳', distance: '0.8km' },
+  ],
+  'default': [
+    { title: '附近熱門景點', category: 'places', icon: '⭐', desc: '評分最高', distance: '0.3km' },
+    { title: '今日優惠', category: 'deals', icon: '🔥', desc: '限時特賣', distance: '0.5km' },
+    { title: '人氣美食', category: 'restaurants', icon: '🍜', desc: '本地推薦', distance: '0.2km' },
+  ]
+}
+
+const getRecommendations = (lat, lng) => {
+  // In a real app, this would query a backend based on coordinates
+  // For demo, return generic recommendations
+  if (lat > 22.3 && lat < 22.35 && lng > 114.15 && lng < 114.2) {
+    return LOCATION_RECOMMENDATIONS['hongkong']
+  }
+  return LOCATION_RECOMMENDATIONS['default']
+}
 
 export default function MapView() {
   const { markers, userLocation, selectedCategory, setSelectedCategory, refreshUserLocation } = useMap()
   const [showForm, setShowForm] = useState(false)
   const [selected, setSelected] = useState(null)
   const [isDark, setIsDark] = useState(false)
+  const [showNearby, setShowNearby] = useState(false)
+  const [recommendations, setRecommendations] = useState([])
 
   useEffect(() => setIsDark(document.documentElement.classList.contains('dark')), [])
 
   const { isLoaded } = useJsApiLoader({ googleMapsApiKey: GOOGLE_MAPS_API_KEY })
+
+  // Update recommendations when user location changes
+  useEffect(() => {
+    if (userLocation) {
+      const recs = getRecommendations(userLocation.lat, userLocation.lng)
+      setRecommendations(recs)
+    }
+  }, [userLocation])
 
   const getMarkerIcon = (cat) => {
     const colors = { deals: '#EF4444', restaurants: '#F97316', places: '#3B82F6', news: '#22C55E' }
@@ -63,7 +96,7 @@ export default function MapView() {
         ))}
       </GoogleMap>
 
-      {/* Category Pills - Floating */}
+      {/* Category Pills */}
       <div className="absolute top-4 left-4 right-4 z-20">
         <div className="glass rounded-2xl shadow-lg border-subtle p-2 flex gap-1.5 overflow-x-auto">
           <button
@@ -93,15 +126,62 @@ export default function MapView() {
         </div>
       </div>
 
-      {/* User Location Button */}
+      {/* Nearby Recommendations Toggle */}
+      {recommendations.length > 0 && (
+        <button
+          onClick={() => setShowNearby(!showNearby)}
+          className="absolute left-4 bottom-32 z-20 px-4 py-3 bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white rounded-2xl shadow-xl shadow-violet-500/30 flex items-center gap-2 btn-premium"
+        >
+          <Zap className="w-5 h-5" />
+          <span className="font-semibold text-sm">附近推薦</span>
+          <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">{recommendations.length}</span>
+        </button>
+      )}
+
+      {/* Nearby Recommendations Panel */}
+      {showNearby && (
+        <div className="absolute left-4 right-4 bottom-36 z-20 animate-slide-up">
+          <div className="bg-white rounded-3xl shadow-xl border-subtle overflow-hidden">
+            <div className="p-4 border-b border-zinc-100 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
+                  <Zap className="w-4 h-4 text-white" />
+                </div>
+                <h3 className="font-bold text-zinc-900">附近推薦</h3>
+              </div>
+              <button onClick={() => setShowNearby(false)} className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center">
+                <X className="w-4 h-4 text-zinc-500" />
+              </button>
+            </div>
+            <div className="p-3 space-y-2 max-h-48 overflow-y-auto">
+              {recommendations.map((rec, i) => (
+                <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-zinc-50 hover:bg-zinc-100 transition-colors cursor-pointer">
+                  <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-xl">
+                    {rec.icon}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-zinc-900 text-sm">{rec.title}</p>
+                    <p className="text-xs text-zinc-500">{rec.desc}</p>
+                  </div>
+                  <span className="text-xs text-violet-500 font-medium bg-violet-50 px-2 py-1 rounded-lg">
+                    {rec.distance}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Location Button */}
       <button 
-        onClick={() => refreshUserLocation?.() || getUserLocation()}
+        onClick={() => refreshUserLocation?.()}
         className="absolute right-4 bottom-32 z-20 w-12 h-12 bg-white rounded-2xl shadow-lg border-subtle flex items-center justify-center btn-premium"
       >
         <Locate className="w-5 h-5 text-violet-500" />
       </button>
 
-      {/* Add Button - Premium FAB */}
+      {/* Add Button */}
       <button
         onClick={() => setShowForm(true)}
         className="absolute right-4 bottom-6 z-20 w-14 h-14 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-2xl shadow-xl shadow-violet-500/30 flex items-center justify-center text-white text-2xl font-light btn-premium"
@@ -109,7 +189,7 @@ export default function MapView() {
         +
       </button>
 
-      {/* Selected Place Card - Slide up animation */}
+      {/* Selected Place Card */}
       {selected && (
         <div className="absolute bottom-6 left-4 right-20 z-20 animate-slide-up">
           <div className="bg-white rounded-3xl shadow-xl border-subtle overflow-hidden">
