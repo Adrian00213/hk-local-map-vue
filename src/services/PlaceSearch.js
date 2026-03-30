@@ -32,25 +32,20 @@ export const searchPlaces = async (region, query, options = {}) => {
   const types = PLACE_TYPE_MAP[type] || PLACE_TYPE_MAP.all
   
   try {
-    // Build query string
-    const searchQuery = type === 'all' 
-      ? `${query} in ${region}` 
-      : `${query} ${types.join(' or ')}`
+    // Build query string - simplified
+    const searchQuery = `${query} ${region}`
     
-    const params = new URLSearchParams({
-      key: GOOGLE_PLACES_API_KEY,
-      query: searchQuery,
-      language: lang
-    })
-
-    console.log('🔍 Google Places API called:', `${GOOGLE_PLACES_URL}/textsearch/json?${params}`)
+    const url = `${GOOGLE_PLACES_URL}/textsearch/json?key=${GOOGLE_PLACES_API_KEY}&query=${encodeURIComponent(searchQuery)}&language=${lang}`
+    console.log('🔍 Calling:', url.substring(0, 100) + '...')
     
-    const response = await fetch(`${GOOGLE_PLACES_URL}/textsearch/json?${params}`)
+    const response = await fetch(url)
+    console.log('📦 Response status:', response.status)
     const data = await response.json()
     
-    console.log('📦 API Response:', data.status, data.results?.length || 0, 'results')
+    console.log('📦 API Response status:', data.status, '- Results:', data.results?.length || 0)
     
-    if (data.status === 'OK' || data.status === 'ZERO_RESULTS') {
+    if (data.status === 'OK') {
+      console.log('✅ Success! First result:', data.results?.[0]?.name)
       return (data.results || []).slice(0, limit).map(place => ({
         id: place.place_id,
         name: place.name,
@@ -131,32 +126,23 @@ export const getNearbyPlaces = async (lat, lng, options = {}) => {
   }
 }
 
-// Search with multiple types
+// Search with multiple types - simplified
 export const searchPlacesMultiType = async (region, query, options = {}) => {
   const { limit = 15 } = options
-  const results = []
   
-  const typesToSearch = ['restaurants', 'places']
+  console.log('🔍 searchPlacesMultiType called:', { region, query, limit })
   
-  for (const type of typesToSearch) {
-    const places = await searchPlaces(region, query, { type, limit: Math.ceil(limit / 2) })
-    results.push(...places)
-  }
+  // Just search for restaurants first
+  const places = await searchPlaces(region, query, { type: 'restaurants', limit })
   
-  // Remove duplicates by name
-  const uniqueResults = results.reduce((acc, place) => {
-    const exists = acc.find(p => p.name === place.name)
-    if (!exists) {
-      acc.push(place)
-    }
-    return acc
-  }, [])
+  console.log('📍 searchPlacesMultiType results:', places.length)
   
-  return uniqueResults.slice(0, limit)
+  return places.slice(0, limit)
 }
 
 // Alias for backward compatibility
 export const smartSearchPlaces = searchPlacesMultiType
+export { searchPlaces as searchGooglePlaces }
 
 // Map Google types to our categories
 const mapTypesToCategory = (types) => {
