@@ -1,206 +1,106 @@
 import { useState, useEffect } from 'react'
-import { Newspaper, Clock, MapPin, Brain, Star, TrendingUp, Gift, AlertCircle, RefreshCw } from 'lucide-react'
+import { Newspaper, Clock, MapPin, Brain, Star, TrendingUp, Gift, AlertCircle, RefreshCw, Navigation, Utensils, Compass, Bus, Coffee, ShoppingBag, Home, Navigation2 } from 'lucide-react'
 import { CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
+import { getPlaces } from '../services/MapData'
 
-// Static news data - always available
-const STATIC_NEWS = [
+// Static news/offers data
+const STATIC_OFFERS = [
   {
-    id: 'static_1',
-    title: '🎉 香港美食節 2026 強勢回歸',
+    id: 'offer_1',
+    title: '🎉 香港美食節 2026',
     desc: '超過200間本地及國際美食參與，多間餐廳推出限定優惠',
     cat: 'restaurants',
-    source: '香港旅遊發展局',
-    time: '今日',
     badge: '🔥 熱辣辣',
     urgent: true
   },
   {
-    id: 'static_2',
-    title: '💳 AlipayHK 消費券優惠',
+    id: 'offer_2',
+    title: '💳 AlipayHK 消費券',
     desc: '用 AlipayHK 付款最高回贈 $500，指定商戶再享額外折扣',
     cat: 'deals',
-    source: '支付寶HK',
-    time: '本月',
     badge: '💰 必搵',
     urgent: false
   },
   {
-    id: 'static_3',
+    id: 'offer_3',
     title: '🛍️ 海港城春季購物節',
     desc: '超過500間商店參與，最高7折優惠',
-    cat: 'places',
-    source: '商場資訊',
-    time: '進行中',
+    cat: 'shopping',
     badge: '🛒 購物',
     urgent: false
   },
   {
-    id: 'static_4',
-    title: '🏛️ M+博物館 免費導賞團',
-    desc: '每日3場免費導賞，預約從速',
-    cat: 'places',
-    source: '西九文化區',
-    time: '本週',
-    badge: '🎨 免費',
-    urgent: false
-  },
-  {
-    id: 'static_5',
-    title: '🍜 譚仔三哥 新口味登場',
-    desc: '全新雲南麻辣湯底，辣度任選',
+    id: 'offer_4',
+    title: '☕ 咖啡店買一送一',
+    desc: '指定咖啡店下午茶時段優惠',
     cat: 'restaurants',
-    source: '譚仔三哥',
-    time: '新店',
-    badge: '🆕 新店',
-    urgent: false
-  },
-  {
-    id: 'static_6',
-    title: '🚇 MTR 週末優惠',
-    desc: '八達通週日免費轉乘優惠',
-    cat: 'transport',
-    source: '港鐵',
-    time: '週末',
-    badge: '🚇 交通',
-    urgent: false
-  },
-  {
-    id: 'static_7',
-    title: '🌤️ 週末天氣預報',
-    desc: '週六週日大致天晴，氣溫25-30度',
-    cat: 'news',
-    source: '天文台',
-    time: '預報',
-    badge: '🌤️ 天氣',
-    urgent: false
-  },
-  {
-    id: 'static_8',
-    title: '🎫 香港故宮博物館 新展覽',
-    desc: '北京故宮珍藏清代宮廷文物展',
-    cat: 'places',
-    source: '故宮博物館',
-    time: '新展',
-    badge: '🏛️ 文化',
+    badge: '☕ 下午茶',
     urgent: false
   },
 ]
 
-// Time-specific news
-const getTimeNews = () => {
+// Time-specific offers
+const getTimeOffer = () => {
   const hour = new Date().getHours()
   
   if (hour >= 5 && hour < 11) {
-    return {
-      id: 'time_1',
-      title: '🌅 朝早優惠 - 早餐套餐最低$25',
-      desc: '美心MX、麥當勞、大快活朝早優惠，最低$25起',
-      cat: 'deals',
-      source: '即時優惠',
-      time: '今日朝早',
-      badge: '🌅 朝早特選',
-      urgent: true
-    }
+    return { id: 'time_bf', title: '🌅 朝早早餐優惠', desc: '茶餐廳早餐套餐 $25 起', cat: 'restaurants', badge: '🍳 早餐特價' }
   } else if (hour >= 11 && hour < 14) {
-    return {
-      id: 'time_2',
-      title: '☀️ 午餐優惠 - 午市套餐',
-      desc: '多間餐廳午市特價，最高慳$30',
-      cat: 'deals',
-      source: '優惠精選',
-      time: '今日午餐',
-      badge: '☀️ 午餐精選',
-      urgent: true
-    }
+    return { id: 'time_ln', title: '☀️ 午餐優惠', desc: '午市套餐最高慳 $30', cat: 'restaurants', badge: '🍜 午餐精選' }
+  } else if (hour >= 14 && hour < 18) {
+    return { id: 'time_at', title: '🌤️ 下午茶時段', desc: 'CAFÉ 甜品半價', cat: 'restaurants', badge: '🍰 下午茶' }
   } else if (hour >= 17 && hour < 21) {
-    return {
-      id: 'time_3',
-      title: '🌆 晚餐優惠 - 晚市8折',
-      desc: '指定餐廳晚市優惠，送前菜或甜品',
-      cat: 'deals',
-      source: '今晚限定',
-      time: '今日晚市',
-      badge: '🍽️ 今晚啱',
-      urgent: true
-    }
-  } else if (hour >= 21 || hour < 5) {
-    return {
-      id: 'time_4',
-      title: '🌙 夜貓特選 - 便利店特價',
-      desc: '7-11、全家夜間折扣，精選貨品買一送一',
-      cat: 'deals',
-      source: '夜貓專屬',
-      time: '深夜',
-      badge: '🌃 夜貓著',
-      urgent: false
-    }
+    return { id: 'time_dn', title: '🌆 晚餐優惠', desc: '指定餐廳晚市8折', cat: 'restaurants', badge: '🍽️ 晚餐特選' }
+  } else {
+    return { id: 'time_nt', title: '🌙 夜貓特價', desc: '便利店精選貨品買一送一', cat: 'deals', badge: '🏪 夜貓著' }
   }
-  
-  return null
 }
 
 const catColors = {
-  deals: 'from-red-500 to-pink-500',
   restaurants: 'from-orange-500 to-amber-500',
   places: 'from-blue-500 to-indigo-500',
-  news: 'from-green-500 to-emerald-500',
-  transport: 'from-emerald-500 to-teal-500'
+  deals: 'from-red-500 to-pink-500',
+  shopping: 'from-purple-500 to-violet-500',
+  transport: 'from-emerald-500 to-teal-500',
+  news: 'from-green-500 to-emerald-500'
+}
+
+const catIcons = {
+  restaurants: Utensils,
+  places: Compass,
+  deals: Gift,
+  shopping: ShoppingBag,
+  transport: Bus,
+  news: Newspaper
 }
 
 export default function NewsView() {
-  const [news, setNews] = useState([])
+  const [region, setRegion] = useState('hong_kong')
+  const [activeCat, setActiveCat] = useState(null)
+  const [nearbyPlaces, setNearbyPlaces] = useState([])
   const [refreshing, setRefreshing] = useState(false)
   const [lastUpdate, setLastUpdate] = useState(new Date())
 
   useEffect(() => {
-    // Load news immediately
-    loadNews()
-    
-    // Refresh every 5 minutes
-    const interval = setInterval(loadNews, 5 * 60 * 1000)
-    return () => clearInterval(interval)
-  }, [])
+    // Load nearby places
+    loadNearbyPlaces()
+  }, [region])
 
-  const loadNews = () => {
+  const loadNearbyPlaces = () => {
     setRefreshing(true)
-    
-    // Combine time-specific news with static news
-    const timeNews = getTimeNews()
-    let allNews = [...STATIC_NEWS]
-    
-    // Add time-specific news at the top if exists
-    if (timeNews) {
-      allNews = [timeNews, ...allNews]
-    }
-    
-    // Add weekday/weekend specific news
-    const isWeekend = [0, 6].includes(new Date().getDay())
-    if (isWeekend) {
-      allNews = [
-        {
-          id: 'weekend_1',
-          title: '🎉 週末活動精選',
-          desc: '香港美食節、海濱市集、露天電影節',
-          cat: 'places',
-          source: '週末玩轉香港',
-          time: '本週末',
-          badge: '🎊 週末必睇',
-          urgent: false
-        },
-        ...allNews
-      ]
-    }
-    
-    setNews(allNews)
+    const places = getPlaces(region, activeCat || 'all')
+    setNearbyPlaces(places)
     setLastUpdate(new Date())
     setRefreshing(false)
   }
 
   const handleRefresh = () => {
-    loadNews()
+    loadNearbyPlaces()
   }
 
-  const getTimeGreeting = () => {
+  const timeOffer = getTimeOffer()
+
+  const getGreeting = () => {
     const hour = new Date().getHours()
     if (hour >= 5 && hour < 11) return '🌅 朝早好'
     if (hour >= 11 && hour < 14) return '☀️ 午飯時間'
@@ -209,83 +109,234 @@ export default function NewsView() {
     return '🌙 夜喇'
   }
 
+  // Handle navigation
+  const handleNavigate = (place) => {
+    const lat = place.lat || place.geometry?.location?.lat()
+    const lng = place.lng || place.geometry?.location?.lng()
+    if (lat && lng) {
+      window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`, '_blank')
+    }
+  }
+
+  const categories = [
+    { id: null, label: '全部', icon: Home },
+    { id: 'restaurants', label: '餐廳', icon: Utensils },
+    { id: 'places', label: '好去處', icon: Compass },
+    { id: 'shopping', label: '購物', icon: ShoppingBag },
+    { id: 'deals', label: '優惠', icon: Gift },
+    { id: 'transport', label: '交通', icon: Bus },
+  ]
+
+  const filteredPlaces = activeCat 
+    ? nearbyPlaces.filter(p => p.category === activeCat)
+    : nearbyPlaces
+
   return (
-    <div className="h-full w-full flex flex-col bg-zinc-50">
+    <div className="h-full w-full flex flex-col bg-gradient-to-b from-amber-50/50 to-white">
       {/* Header */}
-      <div className="bg-white border-b border-zinc-100/80 px-5 pt-5 pb-4">
+      <div className="bg-white/80 backdrop-blur-xl border-b border-amber-100/50 px-5 pt-5 pb-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-200/50">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-200/50">
               <Newspaper className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-zinc-900">📰 最新資訊</h1>
-              <p className="text-sm text-zinc-400">為你精挑細選</p>
+              <h1 className="text-xl font-bold text-zinc-900">📰 資訊中心</h1>
+              <p className="text-xs text-amber-600">為你精挑細選</p>
             </div>
           </div>
           <button 
             onClick={handleRefresh}
-            className={`w-10 h-10 rounded-xl bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center transition-all active:scale-95 ${refreshing ? 'animate-spin' : ''}`}
+            className={`w-10 h-10 rounded-xl bg-amber-50 hover:bg-amber-100 flex items-center justify-center transition-all active:scale-95 ${refreshing ? 'animate-spin' : ''}`}
           >
-            <RefreshCw className="w-5 h-5 text-zinc-500" />
+            <RefreshCw className="w-5 h-5 text-amber-500" />
           </button>
         </div>
       </div>
 
       {/* Time-based Greeting Banner */}
-      <div className="px-5 py-3 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100/50">
+      <div className="px-5 py-3 bg-gradient-to-r from-amber-50 to-orange-50 border-b border-amber-100/50">
         <div className="flex items-center gap-2">
-          <Brain className="w-4 h-4 text-blue-500" />
-          <span className="text-sm text-blue-700">
-            {getTimeGreeting()}！我為你精選咗以下資訊：
+          <Brain className="w-4 h-4 text-amber-500" />
+          <span className="text-sm text-amber-700 font-medium">
+            {getGreeting()}！為你精選附近優惠：
           </span>
         </div>
       </div>
 
-      {/* News List */}
-      <div className="flex-1 overflow-y-auto p-5">
-        <div className="space-y-4">
-          {news.map((n, i) => (
-            <div
-              key={n.id || i}
-              className={`bg-white rounded-2xl shadow-sm ${n.urgent ? 'border-2 border-amber-200' : 'border border-zinc-100/80'} overflow-hidden card-hover`}
-            >
-              <div className={`h-1.5 bg-gradient-to-r ${catColors[n.cat] || 'from-zinc-500 to-neutral-500'}`} />
-              <div className="p-4">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                      {n.badge && (
-                        <span className={`px-2 py-0.5 text-xs font-semibold rounded-lg ${
-                          n.urgent 
-                            ? 'bg-amber-100 text-amber-700' 
-                            : 'bg-blue-50 text-blue-600'
-                        }`}>
-                          {n.badge}
-                        </span>
-                      )}
-                      <span className="text-xs text-zinc-400 flex items-center gap-1">
-                        {n.source}
-                      </span>
-                    </div>
-                    <h3 className="font-bold text-zinc-900 leading-snug text-base">{n.title}</h3>
-                    <p className="text-sm text-zinc-500 mt-1 leading-relaxed">{n.desc}</p>
-                  </div>
-                  <div className="flex flex-col items-end gap-1 shrink-0">
-                    <span className="text-xs text-zinc-400 flex items-center gap-0.5">
-                      <Clock className="w-3 h-3" />
-                      {n.time}
-                    </span>
-                    <span className="text-xl">{CATEGORY_ICONS[n.cat] || '📰'}</span>
-                  </div>
-                </div>
+      {/* Region Selector */}
+      <div className="px-5 py-3 bg-white border-b border-zinc-100/50">
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          {['hong_kong', 'taiwan', 'japan', 'korea', 'se_asia', 'europe'].map(r => {
+            const labels = { hong_kong: '🇭🇰 香港', taiwan: '🇹🇼 台灣', japan: '🇯🇵 日本', korea: '🇰🇷 韓國', se_asia: '🌏 東南亞', europe: '🇪🇺 歐洲' }
+            return (
+              <button
+                key={r}
+                onClick={() => setRegion(r)}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all active:scale-95 ${
+                  region === r 
+                    ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md' 
+                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+                }`}
+              >
+                {labels[r]}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Category Filter Pills */}
+      <div className="px-5 py-3 bg-white border-b border-zinc-100/50">
+        <div className="flex gap-2 overflow-x-auto">
+          {categories.map(cat => {
+            const Icon = cat.icon
+            return (
+              <button
+                key={cat.id || 'all'}
+                onClick={() => setActiveCat(cat.id)}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all active:scale-95 ${
+                  activeCat === cat.id
+                    ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md'
+                    : 'bg-amber-50 text-amber-700 hover:bg-amber-100'
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                {cat.label}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="flex-1 overflow-y-auto">
+        {/* Time-based Special Offer */}
+        <div className="px-5 py-4">
+          <div 
+            className={`bg-gradient-to-r ${catColors[timeOffer.cat]} rounded-2xl p-4 text-white shadow-lg cursor-pointer active:scale-[0.98] transition-transform`}
+            onClick={() => setActiveCat(timeOffer.cat)}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="text-xs font-medium opacity-80">{timeOffer.badge}</span>
+                <h3 className="font-bold text-lg mt-1">{timeOffer.title}</h3>
+                <p className="text-sm opacity-90 mt-1">{timeOffer.desc}</p>
+              </div>
+              <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
+                <Clock className="w-6 h-6" />
               </div>
             </div>
-          ))}
+          </div>
+        </div>
+
+        {/* Nearby Places Section */}
+        <div className="px-5 pb-4">
+          <div className="flex items-center gap-2 mb-3">
+            <Compass className="w-5 h-5 text-amber-500" />
+            <h2 className="font-bold text-zinc-900">附近精選</h2>
+            <span className="ml-auto text-xs text-zinc-400">{filteredPlaces.length} 個地點</span>
+          </div>
+
+          {filteredPlaces.length === 0 ? (
+            <div className="text-center py-8 bg-white rounded-2xl border border-zinc-100/50">
+              <Compass className="w-12 h-12 text-zinc-200 mx-auto mb-3" />
+              <p className="text-zinc-500 text-sm">暫時冇相關地點</p>
+              <button 
+                onClick={() => setActiveCat(null)}
+                className="mt-2 text-amber-500 text-sm font-medium"
+              >
+                查看全部 →
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {filteredPlaces.map((place, idx) => (
+                <div
+                  key={place.id || `place-${idx}`}
+                  className="bg-white rounded-2xl border border-amber-100/30 overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                >
+                  <div className={`h-1 bg-gradient-to-r ${catColors[place.category] || 'from-zinc-400 to-neutral-500'}`} />
+                  <div className="p-4">
+                    <div className="flex items-start justify-between gap-3">
+                      {/* Emoji Icon */}
+                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${catColors[place.category] || 'from-amber-100 to-orange-100'} flex items-center justify-center text-2xl shrink-0`}>
+                        {CATEGORY_ICONS[place.category] || '📍'}
+                      </div>
+                      
+                      {/* Info */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-xs text-amber-600 font-medium px-2 py-0.5 bg-amber-50 rounded-full">
+                            {CATEGORY_LABELS[place.category] || place.category}
+                          </span>
+                          {place.rating && (
+                            <span className="text-xs text-amber-600 flex items-center gap-0.5">
+                              <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
+                              {place.rating}
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="font-bold text-zinc-900 text-base leading-tight">{place.name}</h3>
+                        {place.description && (
+                          <p className="text-sm text-zinc-500 mt-1 line-clamp-2">{place.description}</p>
+                        )}
+                        {place.price !== undefined && (
+                          <p className="text-sm font-medium text-amber-600 mt-1">
+                            {place.price > 0 ? `$${place.price}` : '免費'}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Navigate Button */}
+                      <button
+                        onClick={() => handleNavigate(place)}
+                        className="w-10 h-10 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center shadow-md shrink-0 active:scale-95 transition-transform"
+                      >
+                        <Navigation2 className="w-5 h-5 text-white" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Static Offers Section */}
+        <div className="px-5 pb-4">
+          <div className="flex items-center gap-2 mb-3">
+            <Gift className="w-5 h-5 text-red-500" />
+            <h2 className="font-bold text-zinc-900">精選優惠</h2>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {STATIC_OFFERS.map(offer => (
+              <div
+                key={offer.id}
+                className={`bg-white rounded-2xl border border-zinc-100/50 overflow-hidden shadow-sm cursor-pointer active:scale-[0.98] transition-transform`}
+                onClick={() => setActiveCat(offer.cat)}
+              >
+                <div className={`h-1.5 bg-gradient-to-r ${catColors[offer.cat] || 'from-zinc-400 to-neutral-500'}`} />
+                <div className="p-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center text-lg shrink-0">
+                      {CATEGORY_ICONS[offer.cat] || '🎁'}
+                    </div>
+                    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-lg ${offer.urgent ? 'bg-amber-100 text-amber-700' : 'bg-zinc-100 text-zinc-600'}`}>
+                      {offer.badge}
+                    </span>
+                  </div>
+                  <h4 className="font-semibold text-zinc-900 text-sm mt-2 line-clamp-1">{offer.title}</h4>
+                  <p className="text-xs text-zinc-500 mt-1 line-clamp-2">{offer.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Last Update */}
-        <div className="text-center py-4 mt-4">
+        <div className="text-center py-4 px-5">
           <p className="text-xs text-zinc-400">
             最後更新：{lastUpdate.toLocaleTimeString('zh-HK', { hour: '2-digit', minute: '2-digit' })}
           </p>

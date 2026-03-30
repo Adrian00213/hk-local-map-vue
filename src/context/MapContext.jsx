@@ -14,7 +14,8 @@ export const CATEGORY_ICONS = {
   restaurants: '🍜',
   places: '🎯',
   news: '📰',
-  transport: '🚌'
+  transport: '🚌',
+  shopping: '🛍️'
 }
 
 // Category labels (Cantonese)
@@ -23,7 +24,8 @@ export const CATEGORY_LABELS = {
   restaurants: '餐廳',
   places: '好去處',
   news: '資訊',
-  transport: '交通'
+  transport: '交通',
+  shopping: '購物'
 }
 
 // Mock data for demo (when Firebase is not configured)
