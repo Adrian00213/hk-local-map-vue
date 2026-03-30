@@ -115,7 +115,7 @@ const getTimeOffer = () => {
 }
 
 const catColors = {
-  restaurants: 'from-stone-700 to-stone-600',
+  restaurants: 'from-yellow-600 to-yellow-500',
   places: 'from-blue-500 to-indigo-500',
   deals: 'from-red-500 to-pink-500',
   shopping: 'from-purple-500 to-violet-500',
@@ -195,28 +195,28 @@ export default function NewsView() {
       <div className="bg-white/80 backdrop-blur-xl border-b border-amber-100/50 px-5 pt-5 pb-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-stone-600 to-stone-700 flex items-center justify-center shadow-lg shadow-amber-200/50">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center shadow-lg shadow-amber-200/50">
               <Newspaper className="w-6 h-6 text-white" />
             </div>
             <div>
               <h1 className="text-xl font-bold text-zinc-900">📰 資訊中心</h1>
-              <p className="text-xs text-stone-600">為你精挑細選</p>
+              <p className="text-xs text-yellow-600">為你精挑細選</p>
             </div>
           </div>
           <button 
             onClick={handleRefresh}
-            className={`w-10 h-10 rounded-xl bg-stone-100 hover:bg-stone-200 flex items-center justify-center transition-all active:scale-95 ${refreshing ? 'animate-spin' : ''}`}
+            className={`w-10 h-10 rounded-xl bg-yellow-100 hover:bg-yellow-200 flex items-center justify-center transition-all active:scale-95 ${refreshing ? 'animate-spin' : ''}`}
           >
-            <RefreshCw className="w-5 h-5 text-stone-600" />
+            <RefreshCw className="w-5 h-5 text-yellow-600" />
           </button>
         </div>
       </div>
 
       {/* Time-based Greeting Banner */}
-      <div className="px-5 py-3 bg-gradient-to-r from-stone-100 to-stone-200 border-b border-stone-200/50">
+      <div className="px-5 py-3 bg-gradient-to-r from-stone-100 to-stone-200 border-b border-yellow-200/50">
         <div className="flex items-center gap-2">
-          <Brain className="w-4 h-4 text-stone-600" />
-          <span className="text-sm text-stone-700 font-medium">
+          <Brain className="w-4 h-4 text-yellow-600" />
+          <span className="text-sm text-yellow-700 font-medium">
             {getGreeting()}！為你精選附近優惠：
           </span>
         </div>
@@ -233,7 +233,7 @@ export default function NewsView() {
                 onClick={() => setRegion(r)}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all active:scale-95 ${
                   region === r 
-                    ? 'bg-gradient-to-r from-stone-600 to-stone-700 text-white shadow-md' 
+                    ? 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-white shadow-md' 
                     : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
                 }`}
               >
@@ -255,8 +255,8 @@ export default function NewsView() {
                 onClick={() => setActiveCat(cat.id)}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all active:scale-95 ${
                   activeCat === cat.id
-                    ? 'bg-gradient-to-r from-stone-600 to-stone-700 text-white shadow-md'
-                    : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
+                    ? 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-white shadow-md'
+                    : 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -291,7 +291,7 @@ export default function NewsView() {
         {/* Nearby Places Section */}
         <div className="px-5 pb-4">
           <div className="flex items-center gap-2 mb-3">
-            <Compass className="w-5 h-5 text-stone-600" />
+            <Compass className="w-5 h-5 text-yellow-600" />
             <h2 className="font-bold text-zinc-900">附近精選</h2>
             <span className="ml-auto text-xs text-zinc-400">{filteredPlaces.length} 個地點</span>
           </div>
@@ -302,7 +302,7 @@ export default function NewsView() {
               <p className="text-zinc-500 text-sm">暫時冇相關地點</p>
               <button 
                 onClick={() => setActiveCat(null)}
-                className="mt-2 text-stone-600 text-sm font-medium"
+                className="mt-2 text-yellow-600 text-sm font-medium"
               >
                 查看全部 →
               </button>
@@ -325,12 +325,12 @@ export default function NewsView() {
                       {/* Info */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-xs text-stone-600 font-medium px-2 py-0.5 bg-stone-100 rounded-full">
+                          <span className="text-xs text-yellow-600 font-medium px-2 py-0.5 bg-yellow-100 rounded-full">
                             {CATEGORY_LABELS[place.category] || place.category}
                           </span>
                           {place.rating && (
-                            <span className="text-xs text-stone-600 flex items-center gap-0.5">
-                              <Star className="w-3 h-3 text-stone-500 fill-amber-400" />
+                            <span className="text-xs text-yellow-600 flex items-center gap-0.5">
+                              <Star className="w-3 h-3 text-yellow-500 fill-amber-400" />
                               {place.rating}
                             </span>
                           )}
@@ -340,7 +340,7 @@ export default function NewsView() {
                           <p className="text-sm text-zinc-500 mt-1 line-clamp-2">{place.description}</p>
                         )}
                         {place.price !== undefined && (
-                          <p className="text-sm font-medium text-stone-600 mt-1">
+                          <p className="text-sm font-medium text-yellow-600 mt-1">
                             {place.price > 0 ? `$${place.price}` : '免費'}
                           </p>
                         )}
@@ -349,7 +349,7 @@ export default function NewsView() {
                       {/* Navigate Button */}
                       <button
                         onClick={() => handleNavigate(place)}
-                        className="w-10 h-10 rounded-xl bg-gradient-to-r from-stone-600 to-stone-700 flex items-center justify-center shadow-md shrink-0 active:scale-95 transition-transform"
+                        className="w-10 h-10 rounded-xl bg-gradient-to-r from-yellow-500 to-yellow-600 flex items-center justify-center shadow-md shrink-0 active:scale-95 transition-transform"
                       >
                         <Navigation2 className="w-5 h-5 text-white" />
                       </button>
@@ -364,7 +364,7 @@ export default function NewsView() {
         {/* News Section */}
         <div className="px-5 pb-4">
           <div className="flex items-center gap-2 mb-3">
-            <Megaphone className="w-5 h-5 text-stone-600" />
+            <Megaphone className="w-5 h-5 text-yellow-600" />
             <h2 className="font-bold text-zinc-900">最新消息</h2>
             <span className="ml-auto text-xs text-zinc-400">{STATIC_NEWS.length} 則</span>
           </div>
@@ -373,15 +373,15 @@ export default function NewsView() {
             {STATIC_NEWS.map(news => (
               <div
                 key={news.id}
-                className={`bg-white rounded-xl border ${news.urgent ? 'border-stone-300 border-l-4 border-l-stone-600' : 'border-stone-100/50'} p-4 shadow-sm cursor-pointer active:scale-[0.98] transition-transform`}
+                className={`bg-white rounded-xl border ${news.urgent ? 'border-yellow-300 border-l-4 border-l-stone-600' : 'border-yellow-100/50'} p-4 shadow-sm cursor-pointer active:scale-[0.98] transition-transform`}
               >
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-stone-100 flex items-center justify-center shrink-0">
-                    <Megaphone className="w-5 h-5 text-stone-600" />
+                  <div className="w-10 h-10 rounded-xl bg-yellow-100 flex items-center justify-center shrink-0">
+                    <Megaphone className="w-5 h-5 text-yellow-600" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-lg ${news.urgent ? 'bg-stone-200 text-stone-700' : 'bg-stone-50 text-stone-600'}`}>
+                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-lg ${news.urgent ? 'bg-yellow-200 text-yellow-700' : 'bg-yellow-50 text-yellow-600'}`}>
                         {news.badge}
                       </span>
                       <span className="text-[10px] text-zinc-400">{news.source}</span>
@@ -402,7 +402,7 @@ export default function NewsView() {
         {/* Static Offers Section */}
         <div className="px-5 pb-4">
           <div className="flex items-center gap-2 mb-3">
-            <Gift className="w-5 h-5 text-stone-600" />
+            <Gift className="w-5 h-5 text-yellow-600" />
             <h2 className="font-bold text-zinc-900">精選優惠</h2>
           </div>
 
@@ -410,7 +410,7 @@ export default function NewsView() {
             {STATIC_OFFERS.map(offer => (
               <div
                 key={offer.id}
-                className={`bg-white rounded-2xl border border-stone-100/50 overflow-hidden shadow-sm cursor-pointer active:scale-[0.98] transition-transform`}
+                className={`bg-white rounded-2xl border border-yellow-100/50 overflow-hidden shadow-sm cursor-pointer active:scale-[0.98] transition-transform`}
                 onClick={() => setActiveCat(offer.cat)}
               >
                 <div className={`h-1.5 bg-gradient-to-r ${catColors[offer.cat] || 'from-stone-400 to-stone-500'}`} />
@@ -419,7 +419,7 @@ export default function NewsView() {
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-stone-100 to-stone-200 flex items-center justify-center text-lg shrink-0">
                       {CATEGORY_ICONS[offer.cat] || '🎁'}
                     </div>
-                    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-lg ${offer.urgent ? 'bg-stone-200 text-stone-700' : 'bg-stone-100 text-stone-600'}`}>
+                    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-lg ${offer.urgent ? 'bg-yellow-200 text-yellow-700' : 'bg-yellow-100 text-yellow-600'}`}>
                       {offer.badge}
                     </span>
                   </div>

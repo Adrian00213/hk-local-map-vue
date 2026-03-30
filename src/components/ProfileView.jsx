@@ -46,7 +46,7 @@ const USER_REVIEWS = [
 
 const MENU_ITEMS = [
   { icon: Heart, label: '我的收藏', subtitle: '已收藏地點', color: 'from-pink-500 to-rose-500', badge: 3 },
-  { icon: Gift, label: '我的優惠', subtitle: '收藏的優惠', color: 'from-stone-600 to-stone-700', badge: 2 },
+  { icon: Gift, label: '我的優惠', subtitle: '收藏的優惠', color: 'from-yellow-500 to-yellow-600', badge: 2 },
   { icon: MessageCircle, label: '我的點評', subtitle: '發表的點評', color: 'from-emerald-500 to-teal-500', badge: 2 },
   { icon: Star, label: '我的評分', subtitle: '評分歷史', color: 'from-violet-500 to-purple-500', badge: null },
   { icon: Bell, label: '通知設定', subtitle: '推送通知', color: 'from-blue-500 to-cyan-500', badge: null },
@@ -90,7 +90,7 @@ export default function ProfileView() {
             <button onClick={() => setActiveSection(null)} className="w-10 h-10 rounded-2xl bg-zinc-100 flex items-center justify-center">
               <ChevronRight className="w-5 h-5 text-zinc-600 rotate-180" />
             </button>
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-stone-600 to-stone-700 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center">
               <Gift className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -116,7 +116,7 @@ export default function ProfileView() {
                         <h3 className="font-bold text-zinc-900">{deal.title}</h3>
                         <p className="text-sm text-zinc-500 mt-1">{deal.desc}</p>
                         <div className="flex items-center gap-2 mt-2">
-                          <span className="px-2 py-1 bg-stone-100 text-stone-600 rounded-lg text-xs font-medium">
+                          <span className="px-2 py-1 bg-yellow-100 text-yellow-600 rounded-lg text-xs font-medium">
                             有效期：{getDaysLeft(deal.validUntil)}
                           </span>
                         </div>
@@ -175,7 +175,7 @@ export default function ProfileView() {
                       </div>
                       <div className="flex items-center gap-1 mt-1">
                         {[...Array(5)].map((_, i) => (
-                          <Star key={i} className={`w-4 h-4 ${i < review.rating ? 'text-stone-500 fill-amber-400' : 'text-zinc-200'}`} />
+                          <Star key={i} className={`w-4 h-4 ${i < review.rating ? 'text-yellow-500 fill-amber-400' : 'text-zinc-200'}`} />
                         ))}
                       </div>
                     </div>
@@ -276,7 +276,7 @@ export default function ProfileView() {
               />
             </div>
             <button className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-white shadow-lg flex items-center justify-center active:scale-95 transition-transform">
-              <Camera className="w-4 h-4 text-stone-600" />
+              <Camera className="w-4 h-4 text-yellow-600" />
             </button>
           </div>
           <div className="flex-1">
@@ -329,7 +329,7 @@ export default function ProfileView() {
             onClick={() => setActiveSection('deals')}
             className="bg-white rounded-2xl p-4 shadow-sm border border-zinc-100/80 flex items-center gap-3 card-hover"
           >
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-stone-600 to-stone-700 flex items-center justify-center shadow-lg shadow-amber-200/50">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center shadow-lg shadow-amber-200/50">
               <Gift className="w-6 h-6 text-white" />
             </div>
             <div className="text-left">

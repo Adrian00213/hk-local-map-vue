@@ -66,7 +66,7 @@ const SAMPLE_REVIEWS = [
 
 const BADGE_CONFIG = {
   verified: { icon: CheckCircle, color: 'text-blue-500 bg-blue-50', label: '已驗證' },
-  elite: { icon: Shield, color: 'text-stone-600 bg-stone-100', label: '精英用家' },
+  elite: { icon: Shield, color: 'text-yellow-600 bg-yellow-100', label: '精英用家' },
   new: { icon: AlertCircle, color: 'text-green-500 bg-green-50', label: '新用家' },
 }
 
@@ -223,7 +223,7 @@ export default function ReviewsView() {
                       onClick={() => setNewReview(prev => ({ ...prev, rating: star }))}
                       className="w-12 h-12 rounded-xl flex items-center justify-center transition-all"
                     >
-                      <Star className={`w-8 h-8 ${star <= newReview.rating ? 'text-stone-500 fill-amber-400' : 'text-zinc-200'}`} />
+                      <Star className={`w-8 h-8 ${star <= newReview.rating ? 'text-yellow-500 fill-amber-400' : 'text-zinc-200'}`} />
                     </button>
                   ))}
                 </div>
@@ -321,7 +321,7 @@ export default function ReviewsView() {
                       </div>
                       <div className="flex items-center gap-2">
                         {[...Array(5)].map((_, i) => (
-                          <Star key={i} className={`w-4 h-4 ${i < review.rating ? 'text-stone-500 fill-amber-400' : 'text-zinc-200'}`} />
+                          <Star key={i} className={`w-4 h-4 ${i < review.rating ? 'text-yellow-500 fill-amber-400' : 'text-zinc-200'}`} />
                         ))}
                       </div>
                     </div>

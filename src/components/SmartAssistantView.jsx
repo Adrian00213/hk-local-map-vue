@@ -481,12 +481,12 @@ ${greeting.icon} ${greeting.text}
       {/* Header */}
       <div className="bg-white/90 backdrop-blur-xl border-b border-amber-100 px-5 py-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-stone-500 to-stone-600 flex items-center justify-center shadow-lg shadow-amber-200/50">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-yellow-400 to-yellow-500 flex items-center justify-center shadow-lg shadow-amber-200/50">
             <Brain className="w-6 h-6 text-white" />
           </div>
           <div className="flex-1">
             <h1 className="text-xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">AI 智能助理</h1>
-            <p className="text-xs text-stone-600 flex items-center gap-1">
+            <p className="text-xs text-yellow-600 flex items-center gap-1">
               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
               在線 • 用廣東話傾偈
             </p>
@@ -503,7 +503,7 @@ ${greeting.icon} ${greeting.text}
           >
             <div className={`max-w-[88%] rounded-2xl px-4 py-3 ${
               msg.role === 'user' 
-                ? 'bg-gradient-to-br from-stone-600 to-stone-700 text-white rounded-br-md shadow-lg shadow-amber-200/30' 
+                ? 'bg-gradient-to-br from-yellow-500 to-yellow-600 text-white rounded-br-md shadow-lg shadow-amber-200/30' 
                 : 'bg-white/90 backdrop-blur shadow-lg border border-amber-100 rounded-bl-md'
             }`}>
               <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</p>
@@ -516,9 +516,9 @@ ${greeting.icon} ${greeting.text}
             <div className="bg-white/90 backdrop-blur shadow-lg border border-amber-100 rounded-2xl rounded-bl-md px-4 py-3">
               <div className="flex items-center gap-2">
                 <div className="flex gap-1">
-                  <span className="w-2 h-2 bg-stone-1000 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></span>
-                  <span className="w-2 h-2 bg-stone-1000 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></span>
-                  <span className="w-2 h-2 bg-stone-1000 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></span>
+                  <span className="w-2 h-2 bg-yellow-1000 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></span>
+                  <span className="w-2 h-2 bg-yellow-1000 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></span>
+                  <span className="w-2 h-2 bg-yellow-1000 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></span>
                 </div>
                 <span className="text-xs text-zinc-400">AI思考中...</span>
               </div>
@@ -538,7 +538,7 @@ ${greeting.icon} ${greeting.text}
                 setInput(action.prompt)
                 inputRef.current?.focus()
               }}
-              className="flex items-center gap-1.5 px-3 py-2 bg-stone-100 hover:bg-stone-200 rounded-xl text-xs font-medium text-stone-700 whitespace-nowrap transition-all active:scale-95"
+              className="flex items-center gap-1.5 px-3 py-2 bg-yellow-100 hover:bg-yellow-200 rounded-xl text-xs font-medium text-yellow-700 whitespace-nowrap transition-all active:scale-95"
             >
               <span>{action.icon}</span>
               {action.label}
@@ -557,12 +557,12 @@ ${greeting.icon} ${greeting.text}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
             placeholder="問我任何關於香港嘅問題..."
-            className="flex-1 px-4 py-3.5 bg-stone-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-300/50 placeholder:text-stone-500/50"
+            className="flex-1 px-4 py-3.5 bg-yellow-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-300/50 placeholder:text-yellow-500/50"
           />
           <button
             onClick={handleSend}
             disabled={!input.trim()}
-            className="w-12 h-12 rounded-2xl bg-gradient-to-br from-stone-600 to-stone-700 flex items-center justify-center shadow-lg shadow-amber-200/50 disabled:opacity-50 disabled:shadow-none transition-all hover:scale-105 active:scale-95"
+            className="w-12 h-12 rounded-2xl bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center shadow-lg shadow-amber-200/50 disabled:opacity-50 disabled:shadow-none transition-all hover:scale-105 active:scale-95"
           >
             <Send className="w-5 h-5 text-white" />
           </button>
