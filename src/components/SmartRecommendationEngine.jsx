@@ -6,15 +6,15 @@ import { searchForRecommendations } from '../services/GooglePlacesService'
 const FALLBACK_DATA = {
   hong_kong: {
     restaurants: [
-      { id: 'hk_1', name: '九記牛腩', rating: 4.7, price: 58, lat: 22.3065, lng: 114.1707, category: 'restaurants', description: '米芝蓮推薦，牛腩軟腍', imageUrl: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400' },
-      { id: 'hk_2', name: '一蘭拉麵', rating: 4.8, price: 108, lat: 22.2978, lng: 114.1690, category: 'restaurants', description: '正宗豚骨湯底', imageUrl: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400' },
-      { id: 'hk_3', name: '鼎泰豐', rating: 4.6, price: 80, lat: 22.2978, lng: 114.1690, category: 'restaurants', description: '小籠包名店', imageUrl: 'https://images.unsplash.com/photo-1582833867451-65ac56d0a7e6?w=400' },
-      { id: 'hk_4', name: '華嫂冰室', rating: 4.5, price: 50, lat: 22.3165, lng: 114.1727, category: 'restaurants', description: '菠蘿油必試', imageUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400' },
+      { id: 'hk_1', name: '九記牛腩', rating: 4.7, price: 58, lat: 22.3065, lng: 114.1707, category: 'restaurants', description: '米芝蓮推薦，牛腩軟腍', imageUrl: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=200' },
+      { id: 'hk_2', name: '一蘭拉麵', rating: 4.8, price: 108, lat: 22.2978, lng: 114.1690, category: 'restaurants', description: '正宗豚骨湯底', imageUrl: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=200' },
+      { id: 'hk_3', name: '鼎泰豐', rating: 4.6, price: 80, lat: 22.2978, lng: 114.1690, category: 'restaurants', description: '小籠包名店', imageUrl: 'https://images.unsplash.com/photo-1582833867451-65ac56d0a7e6?w=200' },
+      { id: 'hk_4', name: '華嫂冰室', rating: 4.5, price: 50, lat: 22.3165, lng: 114.1727, category: 'restaurants', description: '菠蘿油必試', imageUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200' },
     ],
     places: [
-      { id: 'hk_10', name: '山頂纜車', rating: 4.8, price: 88, lat: 22.2665, lng: 114.1570, category: 'places', description: '維港全景', imageUrl: 'https://images.unsplash.com/photo-1536599018102-9f803c979e65?w=400' },
-      { id: 'hk_11', name: '維多利亞港', rating: 4.9, price: 0, lat: 22.2855, lng: 114.1617, category: 'places', description: '世界三大夜景', imageUrl: 'https://images.unsplash.com/photo-1530479669743-6d1c4f5d9482?w=400' },
-      { id: 'hk_12', name: '迪士尼樂園', rating: 4.7, price: 639, lat: 22.3129, lng: 114.0414, category: 'places', description: '奇妙夢幻國度', imageUrl: 'https://images.unsplash.com/photo-1569154941061-e231b4725ef1?w=400' },
+      { id: 'hk_10', name: '山頂纜車', rating: 4.8, price: 88, lat: 22.2665, lng: 114.1570, category: 'places', description: '維港全景', imageUrl: 'https://images.unsplash.com/photo-1536599018102-9f803c979e65?w=200' },
+      { id: 'hk_11', name: '維多利亞港', rating: 4.9, price: 0, lat: 22.2855, lng: 114.1617, category: 'places', description: '世界三大夜景', imageUrl: 'https://images.unsplash.com/photo-1530479669743-6d1c4f5d9482?w=200' },
+      { id: 'hk_12', name: '迪士尼樂園', rating: 4.7, price: 639, lat: 22.3129, lng: 114.0414, category: 'places', description: '奇妙夢幻國度', imageUrl: 'https://images.unsplash.com/photo-1569154941061-e231b4725ef1?w=200' },
     ]
   }
 }
@@ -37,9 +37,16 @@ const getWeatherIcon = (condition) => {
   return icons[condition] || <Sun className="w-5 h-5 text-amber-500" />
 }
 
-const PLACEHOLDER_IMAGES = {
-  restaurants: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400',
-  places: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400'
+// Placeholder images (smaller, more reliable)
+const PLACEHOLDER = {
+  restaurants: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&h=200&fit=crop',
+  places: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=200&h=200&fit=crop'
+}
+
+// Emoji fallback for broken images
+const EMOJI_PLACEHOLDER = {
+  restaurants: '🍜',
+  places: '🎯'
 }
 
 export default function SmartRecommendations({ places = [], region = 'hong_kong', userLocation = null, mapReady = false, onPlaceSelect }) {
@@ -67,14 +74,14 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
             {
               type: 'google',
               title: getTimeTitle(timeContext),
-              places: results.slice(0, 3),
+              places: results.slice(0, 4),
               icon: getTimeIcon(timeContext),
               source: '🔍 Google 實時數據'
             },
             {
               type: 'trending',
               title: '🔥 熱門精選',
-              places: results.slice(3, 6),
+              places: results.slice(4, 8),
               icon: '🔥',
               source: '🔍 Google 實時數據'
             }
@@ -97,14 +104,14 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
         {
           type: 'time',
           title: getTimeTitle(timeContext),
-          places: fallback.restaurants.slice(0, 3),
+          places: fallback.restaurants.slice(0, 4),
           icon: getTimeIcon(timeContext),
           source: '📍 樣本數據'
         },
         {
           type: 'places',
           title: '🎯 必去景點',
-          places: fallback.places.slice(0, 3),
+          places: fallback.places.slice(0, 4),
           icon: '🎯',
           source: '📍 樣本數據'
         }
@@ -141,87 +148,38 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
     return '🌙'
   }
 
-  // Get image URL for a place
+  // Get image URL with fallback
   const getPlaceImage = (place) => {
-    // Check if place has photo reference from Google
     if (place.photos && place.photos.length > 0) {
       return place.photos[0]
     }
-    // Check if place has direct imageUrl
     if (place.imageUrl) {
       return place.imageUrl
     }
-    // Use placeholder based on category
-    return PLACEHOLDER_IMAGES[place.category] || PLACEHOLDER_IMAGES.places
+    return PLACEHOLDER[place.category] || PLACEHOLDER.places
   }
 
-  // Place Card with Image
-  const PlaceCardWithImage = ({ place }) => (
-    <div 
-      onClick={() => onPlaceSelect?.(place)}
-      className="bg-white rounded-2xl overflow-hidden border border-zinc-100/80 cursor-pointer hover:shadow-lg transition-all active:scale-[0.98]"
-    >
-      {/* Store Image */}
-      <div className="relative h-32 overflow-hidden bg-zinc-100">
-        <img 
-          src={getPlaceImage(place)} 
-          alt={place.name}
-          className="w-full h-full object-cover"
-          onError={(e) => {
-            // Fallback to emoji placeholder if image fails
-            e.target.style.display = 'none'
-            e.target.parentElement.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-amber-100 to-orange-100 text-4xl">${place.category === 'restaurants' ? '🍜' : '🎯'}</div>`
-          }}
-        />
-        {/* Rating Badge */}
-        {place.rating && (
-          <div className="absolute top-2 right-2 px-2 py-1 bg-black/60 backdrop-blur rounded-lg flex items-center gap-1">
-            <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
-            <span className="text-white text-xs font-bold">{place.rating}</span>
-          </div>
-        )}
-        {/* Price Badge */}
-        {place.price_level !== undefined && (
-          <div className="absolute top-2 left-2 px-2 py-1 bg-amber-500/90 backdrop-blur rounded-lg">
-            <span className="text-white text-xs font-bold">
-              {'$'.repeat(place.price_level || 2)}
-            </span>
-          </div>
-        )}
-      </div>
-      
-      {/* Place Info */}
-      <div className="p-3">
-        <h4 className="font-bold text-zinc-900 text-sm truncate">{place.name}</h4>
-        {place.description && (
-          <p className="text-xs text-zinc-500 mt-1 line-clamp-1">{place.description}</p>
-        )}
-        {place.open_now !== undefined && (
-          <div className={`text-xs mt-2 ${place.open_now ? 'text-emerald-600' : 'text-zinc-400'}`}>
-            {place.open_now ? '✓ 營業中' : '✗ 已關門'}
-          </div>
-        )}
-      </div>
-    </div>
-  )
-
-  // Horizontal Place Card with Image
-  const HorizontalPlaceCard = ({ place }) => (
+  // Compact Place Card (left image, right info)
+  const CompactPlaceCard = ({ place }) => (
     <div 
       onClick={() => onPlaceSelect?.(place)}
       className="bg-white rounded-xl overflow-hidden border border-zinc-100/80 cursor-pointer hover:shadow-md transition-all active:scale-[0.98] flex"
     >
-      {/* Image */}
-      <div className="relative w-24 h-24 shrink-0 bg-zinc-100">
+      {/* Thumbnail Image */}
+      <div className="relative w-20 h-20 shrink-0 bg-zinc-100">
         <img 
           src={getPlaceImage(place)} 
           alt={place.name}
           className="w-full h-full object-cover"
+          loading="lazy"
           onError={(e) => {
             e.target.style.display = 'none'
-            e.target.parentElement.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-amber-100 to-orange-100 text-2xl">${place.category === 'restaurants' ? '🍜' : '🎯'}</div>`
+            const parent = e.target.parentElement
+            const emoji = EMOJI_PLACEHOLDER[place.category] || '📍'
+            parent.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-amber-100 to-orange-100 text-2xl">${emoji}</div>`
           }}
         />
+        {/* Rating overlay */}
         {place.rating && (
           <div className="absolute bottom-1 left-1 px-1.5 py-0.5 bg-black/60 backdrop-blur rounded flex items-center gap-0.5">
             <Star className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
@@ -231,12 +189,12 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
       </div>
       
       {/* Info */}
-      <div className="flex-1 p-3 flex flex-col justify-center">
+      <div className="flex-1 p-2.5 flex flex-col justify-center min-w-0">
         <h4 className="font-bold text-zinc-900 text-sm leading-tight line-clamp-1">{place.name}</h4>
         {place.description && (
-          <p className="text-xs text-zinc-500 mt-1 line-clamp-1">{place.description}</p>
+          <p className="text-xs text-zinc-500 mt-0.5 line-clamp-1">{place.description}</p>
         )}
-        <div className="flex items-center gap-2 mt-2">
+        <div className="flex items-center gap-2 mt-1.5">
           {place.price_level !== undefined && place.price_level > 0 && (
             <span className="text-xs font-medium text-amber-600">
               {'$'.repeat(place.price_level)}
@@ -268,12 +226,12 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
           </div>
         </div>
         
-        {/* Loading Skeleton with Images */}
-        <div className="grid grid-cols-2 gap-3">
+        {/* Loading Skeleton */}
+        <div className="space-y-2">
           {[1, 2, 3, 4].map(i => (
-            <div key={i} className="bg-white rounded-2xl overflow-hidden animate-pulse">
-              <div className="h-32 bg-zinc-200" />
-              <div className="p-3">
+            <div key={i} className="bg-white rounded-xl overflow-hidden animate-pulse flex">
+              <div className="w-20 h-20 bg-zinc-200 shrink-0" />
+              <div className="flex-1 p-2.5">
                 <div className="h-4 bg-zinc-200 rounded w-3/4 mb-2" />
                 <div className="h-3 bg-zinc-100 rounded w-1/2" />
               </div>
@@ -315,9 +273,9 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
         </div>
       </div>
 
-      {/* Recommendation Sections with Images */}
+      {/* Recommendation Sections - Compact List */}
       {recommendations.map((section, idx) => (
-        <div key={idx} className="space-y-3">
+        <div key={idx} className="space-y-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="text-lg">{section.icon}</span>
@@ -326,10 +284,10 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
             <span className="text-xs text-zinc-400">{section.source}</span>
           </div>
           
-          {/* Image Grid */}
-          <div className="grid grid-cols-2 gap-3">
+          {/* Compact List */}
+          <div className="space-y-2">
             {section.places.map((place, pIdx) => (
-              <PlaceCardWithImage key={pIdx} place={place} />
+              <CompactPlaceCard key={pIdx} place={place} />
             ))}
           </div>
         </div>
