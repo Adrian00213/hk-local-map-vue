@@ -5,7 +5,6 @@ const tabs = [
   { id: 'search', icon: Search, label: '搜尋' },
   { id: 'news', icon: Newspaper, label: '資訊' },
   { id: 'ai', icon: Brain, label: 'AI助理' },
-  { id: 'trip', icon: Sparkles, label: '行程' },
   { id: 'profile', icon: User, label: '我的' },
 ]
 
