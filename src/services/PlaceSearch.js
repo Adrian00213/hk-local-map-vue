@@ -40,12 +40,15 @@ export const searchPlaces = async (region, query, options = {}) => {
     const params = new URLSearchParams({
       key: GOOGLE_PLACES_API_KEY,
       query: searchQuery,
-      language: lang,
-      region: region === 'china' ? 'cn' : undefined
+      language: lang
     })
 
+    console.log('🔍 Google Places API called:', `${GOOGLE_PLACES_URL}/textsearch/json?${params}`)
+    
     const response = await fetch(`${GOOGLE_PLACES_URL}/textsearch/json?${params}`)
     const data = await response.json()
+    
+    console.log('📦 API Response:', data.status, data.results?.length || 0, 'results')
     
     if (data.status === 'OK' || data.status === 'ZERO_RESULTS') {
       return (data.results || []).slice(0, limit).map(place => ({
@@ -68,13 +71,24 @@ export const searchPlaces = async (region, query, options = {}) => {
     
     // Handle specific API errors
     if (data.status === 'REQUEST_DENIED') {
-      console.error('Google Places API request denied:', data.error_message)
+      console.error('❌ Google Places API REQUEST_DENIED:', data.error_message)
       return []
     }
     
+    if (data.status === 'OVER_QUERY_LIMIT') {
+      console.error('❌ Google Places API OVER_QUERY_LIMIT')
+      return []
+    }
+    
+    if (data.status === 'INVALID_REQUEST') {
+      console.error('❌ Google Places API INVALID_REQUEST:', data.error_message)
+      return []
+    }
+    
+    console.log('⚠️ Unknown status:', data.status)
     return []
   } catch (error) {
-    console.error('Google Places API error:', error)
+    console.error('❌ Google Places API exception:', error)
     return []
   }
 }

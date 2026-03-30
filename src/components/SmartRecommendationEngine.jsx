@@ -101,13 +101,16 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
   const fetchRecommendations = useCallback(async () => {
     setRefreshing(true)
     setUsingFallback(false)
+    console.log('🤖 SmartRecommendations fetching...', { region, timeContext })
     
     try {
       const results = []
       
       // Try API first
       const timePrompt = TIME_PROMPTS[timeContext]
+      console.log('🔍 Searching for:', timePrompt)
       const timeBasedPlaces = await searchPlacesMultiType(region, timePrompt, { limit: 5 })
+      console.log('📍 Time-based places:', timeBasedPlaces.length)
       
       if (timeBasedPlaces.length > 0) {
         // API returned results
