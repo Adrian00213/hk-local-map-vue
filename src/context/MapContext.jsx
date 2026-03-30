@@ -164,26 +164,63 @@ export function MapProvider({ children }) {
     }
   }
 
-  // Get user's current location
+  // Get user's current location with better error handling
   const getUserLocation = () => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          })
-        },
-        (error) => {
-          console.log('Geolocation error:', error)
-          // Default to Hong Kong center
+      // First check if permission is granted
+      navigator.permissions?.query({ name: 'geolocation' }).then((result) => {
+        if (result.state === 'granted') {
+          fetchLocation()
+        } else if (result.state === 'prompt') {
+          // Will trigger browser prompt
+          fetchLocation()
+        } else {
+          // Permission denied - use default
+          console.log('Geolocation permission denied')
           setUserLocation({ lat: 22.3193, lng: 114.1694 })
         }
-      )
+      }).catch(() => {
+        // Fallback for browsers without permissions API
+        fetchLocation()
+      })
     } else {
-      // Default to Hong Kong center
+      // Geolocation not supported
+      console.log('Geolocation not supported')
       setUserLocation({ lat: 22.3193, lng: 114.1694 })
     }
+  }
+
+  const fetchLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        })
+      },
+      (error) => {
+        console.log('Geolocation error:', error.code, error.message)
+        // Different error codes
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            console.log('User denied geolocation')
+            break
+          case error.POSITION_UNAVAILABLE:
+            console.log('Position unavailable')
+            break
+          case error.TIMEOUT:
+            console.log('Geolocation timeout')
+            break
+        }
+        // Default to Hong Kong center
+        setUserLocation({ lat: 22.3193, lng: 114.1694 })
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 60000
+      }
+    )
   }
 
   useEffect(() => {
@@ -205,7 +242,8 @@ export function MapProvider({ children }) {
     addMarker,
     updateMarker,
     deleteMarker,
-    refreshMarkers: fetchMarkers
+    refreshMarkers: fetchMarkers,
+    refreshUserLocation: fetchLocation
   }
 
   return (

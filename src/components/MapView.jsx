@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react'
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
 import { useMap, CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
 import MarkerForm from './MarkerForm'
-import { X, Navigation } from 'lucide-react'
+import { X, Navigation, Locate } from 'lucide-react'
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyA6VU14iA_ytRMWMxKbVvT_dWamaGeWAFE'
 const containerStyle = { width: '100%', height: '100%' }
 const defaultCenter = { lat: 22.3193, lng: 114.1694 }
 
 export default function MapView() {
-  const { markers, userLocation, selectedCategory, setSelectedCategory } = useMap()
+  const { markers, userLocation, selectedCategory, setSelectedCategory, refreshUserLocation } = useMap()
   const [showForm, setShowForm] = useState(false)
   const [selected, setSelected] = useState(null)
   const [isDark, setIsDark] = useState(false)
@@ -94,11 +94,12 @@ export default function MapView() {
       </div>
 
       {/* User Location Button */}
-      {userLocation && (
-        <button className="absolute right-4 bottom-32 z-20 w-12 h-12 bg-white rounded-2xl shadow-lg border-subtle flex items-center justify-center btn-premium">
-          <Navigation className="w-5 h-5 text-violet-500" />
-        </button>
-      )}
+      <button 
+        onClick={() => refreshUserLocation?.() || getUserLocation()}
+        className="absolute right-4 bottom-32 z-20 w-12 h-12 bg-white rounded-2xl shadow-lg border-subtle flex items-center justify-center btn-premium"
+      >
+        <Locate className="w-5 h-5 text-violet-500" />
+      </button>
 
       {/* Add Button - Premium FAB */}
       <button
