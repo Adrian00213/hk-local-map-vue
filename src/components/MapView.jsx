@@ -8,7 +8,7 @@ import { X, Locate, Zap, Brain, Search } from 'lucide-react'
 import { REGION_DETAILS, getPlaces } from '../services/MapData'
 import { smartSearchPlaces } from '../services/PlaceSearch'
 
-const GOOGLE_MAPS_API_KEY = 'AIzaSyA6VU14iA_ytRMWMxKbVvT_dWamaGeWAFE'
+const GOOGLE_MAPS_API_KEY = 'AIzaSyC4OsiPMTcrtqsIQB-3YGJIFcsJelBsZpw'
 const containerStyle = { width: '100%', height: '100%' }
 
 export default function MapView() {

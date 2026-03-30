@@ -1,7 +1,7 @@
 // Place Search Service - Google Places API
 // Global coverage: HK, Taiwan, Japan, Korea, SE Asia, Europe
 
-const GOOGLE_PLACES_API_KEY = 'AIzaSyA6VU14iA_ytRMWMxKbVvT_dWamaGeWAFE'
+const GOOGLE_PLACES_API_KEY = 'AIzaSyC4OsiPMTcrtqsIQB-3YGJIFcsJelBsZpw'
 const GOOGLE_PLACES_URL = 'https://maps.googleapis.com/maps/api/place'
 
 // Region to language mapping
