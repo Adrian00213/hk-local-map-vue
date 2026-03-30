@@ -80,13 +80,22 @@ export const REGION_DETAILS = {
     center: [13.7563, 100.5018]
   },
   europe: {
-    name: '歐洲',
-    flag: '🇪🇺',
-    mapProvider: 'osm',
-    searchProvider: 'google',
-    sampleCity: 'Paris',
-    zoom: 13,
-    center: [48.8566, 2.3522]
+    // Europe sample data
+    restaurants: [
+      { id: 'eu_1', name: '倫敦博羅市場', type: 'restaurant', rating: 4.7, price: 0, lat: 51.5055, lng: -0.0870, category: 'places', description: '倫敦最古老食品市場' },
+      { id: 'eu_2', name: '巴黎瑪黑區', type: 'restaurant', rating: 4.6, price: 0, lat: 48.8566, lng: 2.3522, category: 'places', description: '巴黎時尚餐飲區' },
+      { id: 'eu_3', name: '羅馬特萊維噴泉', type: 'restaurant', rating: 4.5, price: 0, lat: 41.9009, lng: 12.4833, category: 'places', description: '羅馬著名許願池' },
+    ],
+    attractions: [
+      { id: 'eu_10', name: '埃菲爾鐵塔', type: 'tourist_attraction', rating: 4.8, price: 250, lat: 48.8584, lng: 2.2945, category: 'places', description: '巴黎標誌性建築' },
+      { id: 'eu_11', name: '白金漢宮', type: 'tourist_attraction', rating: 4.7, price: 300, lat: 51.5014, lng: -0.1419, category: 'places', description: '英國皇室宮殿' },
+      { id: 'eu_12', name: '羅馬競技場', type: 'tourist_attraction', rating: 4.8, price: 160, lat: 41.8902, lng: 12.4922, category: 'places', description: '古羅馬鬥獸場' },
+      { id: 'eu_13', name: '巴塞羅那聖家堂', type: 'tourist_attraction', rating: 4.9, price: 260, lat: 41.4036, lng: 2.1744, category: 'places', description: '高迪建築代表作' },
+    ],
+    shopping: [
+      { id: 'eu_20', name: '倫敦牛津街', type: 'shopping_mall', rating: 4.6, price: 0, lat: 51.5154, lng: -0.1419, category: 'places', description: '倫敦購物天堂' },
+      { id: 'eu_21', name: '巴黎香榭麗舍', type: 'shopping_mall', rating: 4.7, price: 0, lat: 48.8698, lng: 2.3078, category: 'places', description: '世界最美大道' },
+    ]
   },
   global: {
     name: '全球',
@@ -96,6 +105,25 @@ export const REGION_DETAILS = {
     sampleCity: 'Hong Kong',
     zoom: 14,
     center: [22.3193, 114.1694]
+  },
+  se_asia: {
+    // Southeast Asia sample data
+    restaurants: [
+      { id: 'sea_1', name: '曼谷水上市場', type: 'restaurant', rating: 4.5, price: 0, lat: 13.7563, lng: 100.5018, category: 'places', description: '泰國特色水上市場' },
+      { id: 'sea_2', name: '新加坡克拉碼頭', type: 'restaurant', rating: 4.7, price: 0, lat: 1.2903, lng: 103.8514, category: 'places', description: '新加坡夜生活勝地' },
+      { id: 'sea_3', name: '吉隆坡阿羅街', type: 'restaurant', rating: 4.6, price: 0, lat: 3.1449, lng: 101.7086, category: 'places', description: '馬來西亞美食街' },
+      { id: 'sea_4', name: '胡志明市范五老街', type: 'restaurant', rating: 4.4, price: 0, lat: 10.7679, lng: 106.6926, category: 'places', description: '越南胡志明市背包客區' },
+    ],
+    attractions: [
+      { id: 'sea_10', name: '大皇宮', type: 'tourist_attraction', rating: 4.8, price: 500, lat: 13.7516, lng: 100.4924, category: 'places', description: '泰國曼谷皇宮' },
+      { id: 'sea_11', name: '魚尾獅公園', type: 'tourist_attraction', rating: 4.7, price: 0, lat: 1.2864, lng: 103.8593, category: 'places', description: '新加坡標誌性地標' },
+      { id: 'sea_12', name: '雙峰塔', type: 'tourist_attraction', rating: 4.8, price: 80, lat: 3.1577, lng: 101.7118, category: 'places', description: '馬來西亞吉隆坡地標' },
+      { id: 'sea_13', name: '吳哥窟', type: 'tourist_attraction', rating: 4.9, price: 250, lat: 13.4125, lng: 103.8670, category: 'places', description: '柬埔寨世界文化遺產' },
+    ],
+    shopping: [
+      { id: 'sea_20', name: '恰圖恰市場', type: 'shopping_mall', rating: 4.5, price: 0, lat: 13.7999, lng: 100.5500, category: 'places', description: '曼谷最大週末市集' },
+      { id: 'sea_21', name: '烏節路', type: 'shopping_mall', rating: 4.6, price: 0, lat: 1.3048, lng: 103.8318, category: 'places', description: '新加坡購物天堂' },
+    ]
   },
   china: {
     name: '大陸',

@@ -225,8 +225,8 @@ export default function NewsView() {
       {/* Region Selector */}
       <div className="px-5 py-3 bg-white border-b border-zinc-100/50">
         <div className="flex gap-2 overflow-x-auto pb-1">
-          {['hong_kong', 'taiwan', 'japan', 'korea', 'se_asia', 'europe'].map(r => {
-            const labels = { hong_kong: '🇭🇰 香港', taiwan: '🇹🇼 台灣', japan: '🇯🇵 日本', korea: '🇰🇷 韓國', se_asia: '🌏 東南亞', europe: '🇪🇺 歐洲' }
+          {['hong_kong', 'china', 'taiwan', 'japan', 'korea', 'se_asia', 'europe'].map(r => {
+            const labels = { hong_kong: '🇭🇰 香港', china: '🇨🇳 大陸', taiwan: '🇹🇼 台灣', japan: '🇯🇵 日本', korea: '🇰🇷 韓國', se_asia: '🌏 東南亞', europe: '🇪🇺 歐洲' }
             return (
               <button
                 key={r}
