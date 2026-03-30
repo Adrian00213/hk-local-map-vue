@@ -3,7 +3,6 @@ import { MapProvider } from './context/MapContext'
 import { AuthProvider } from './context/AuthContext'
 import TabBar from './components/TabBar'
 import MapView from './components/MapView'
-import SearchView from './components/SearchView'
 import NewsView from './components/NewsView'
 import SmartAssistantView from './components/SmartAssistantView'
 import ProfileView from './components/ProfileView'
@@ -23,7 +22,6 @@ export default function App() {
   const renderView = () => {
     switch (activeTab) {
       case 'map': return <MapView />
-      case 'search': return <SearchView />
       case 'news': return <NewsView />
       case 'ai': return <SmartAssistantView />
       case 'profile': return <ProfileView />
@@ -44,7 +42,7 @@ export default function App() {
       <MapProvider>
         <div 
           className="h-screen w-full flex flex-col bg-white" 
-          style={{ height: '100dvh' }} // dvh = dynamic viewport height
+          style={{ height: '100dvh' }}
         >
           <main className="flex-1 min-h-0 overflow-y-auto">
             {renderView()}
