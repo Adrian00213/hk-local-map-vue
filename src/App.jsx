@@ -42,8 +42,11 @@ export default function App() {
   return (
     <AuthProvider>
       <MapProvider>
-        <div className="h-screen w-screen flex flex-col bg-white overflow-hidden relative">
-          <main className="flex-1 overflow-y-auto overflow-x-hidden pb-[70px]">
+        <div 
+          className="h-screen w-full flex flex-col bg-white" 
+          style={{ height: '100dvh' }} // dvh = dynamic viewport height
+        >
+          <main className="flex-1 min-h-0 overflow-y-auto">
             {renderView()}
           </main>
           <TabBar activeTab={activeTab} onTabChange={setActiveTab} />

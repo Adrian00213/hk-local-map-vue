@@ -1,4 +1,4 @@
-import { Map, Search, Newspaper, Sparkles, User, Brain } from 'lucide-react'
+import { Map, Search, Newspaper, Brain, User } from 'lucide-react'
 
 const tabs = [
   { id: 'map', icon: Map, label: '地圖' },
@@ -11,31 +11,24 @@ const tabs = [
 export default function TabBar({ activeTab, onTabChange }) {
   return (
     <nav 
-      className="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-zinc-200/50 px-1 pt-1 pb-0 z-50"
-      style={{ paddingBottom: 'max(8px, env(safe-area-inset-bottom, 8px))' }}
+      className="flex-none h-16 bg-white border-t border-gray-200 flex items-stretch z-50"
     >
-      <div className="flex justify-around items-end max-w-lg mx-auto h-14">
+      <div className="flex justify-around items-center w-full max-w-lg mx-auto">
         {tabs.map(({ id, icon: Icon, label }) => (
           <button
             key={id}
             onClick={() => onTabChange(id)}
-            className={`flex flex-col items-center justify-center gap-0.5 px-1 py-1 rounded-xl transition-all duration-200 min-w-[56px] h-full ${
+            className={`flex flex-col items-center justify-center gap-1 px-2 py-2 min-w-[60px] h-full ${
               activeTab === id
                 ? 'text-amber-500'
-                : 'text-zinc-400 active:text-zinc-600'
+                : 'text-gray-400 active:text-gray-600'
             }`}
           >
-            <div className={`p-1.5 rounded-xl transition-all duration-200 ${
-              activeTab === id 
-                ? 'bg-gradient-to-br from-amber-50 to-orange-50 shadow-sm' 
-                : ''
-            }`}>
-              <Icon 
-                size={20} 
-                strokeWidth={activeTab === id ? 2.5 : 2} 
-              />
-            </div>
-            <span className={`text-[10px] font-semibold leading-none ${activeTab === id ? 'text-amber-500' : 'text-zinc-400'}`}>
+            <Icon 
+              size={22} 
+              strokeWidth={activeTab === id ? 2.5 : 2} 
+            />
+            <span className={`text-[10px] font-medium ${activeTab === id ? 'text-amber-500' : 'text-gray-400'}`}>
               {label}
             </span>
           </button>
