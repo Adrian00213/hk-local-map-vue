@@ -4,23 +4,12 @@ import { useMap, CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
 import MarkerForm from './MarkerForm'
 import SmartRecommendationEngine from './SmartRecommendationEngine'
 import RegionSelector from './RegionSelector'
-import { X, Locate, Zap, Brain } from 'lucide-react'
-import { REGIONS, MAP_CONFIG, getPlaces } from '../services/MapProvider'
+import { X, Locate, Zap, Brain, Search } from 'lucide-react'
+import { REGION_DETAILS, getPlaces } from '../services/MapData'
+import { smartSearchPlaces } from '../services/PlaceSearch'
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyA6VU14iA_ytRMWMxKbVvT_dWamaGeWAFE'
 const containerStyle = { width: '100%', height: '100%' }
-
-// Map center by region
-const REGION_CENTERS = {
-  hong_kong: { lat: 22.3193, lng: 114.1694 },
-  china: { lat: 31.2304, lng: 121.4737 }, // Shanghai
-  global: { lat: 22.3193, lng: 114.1694 },
-  taiwan: { lat: 25.0330, lng: 121.5654 }, // Taipei
-  japan: { lat: 35.6762, lng: 139.6503 }, // Tokyo
-  korea: { lat: 37.5665, lng: 126.9780 }, // Seoul
-  se_asia: { lat: 13.7563, lng: 100.5018 }, // Bangkok
-  europe: { lat: 48.8566, lng: 2.3522 } // Paris
-}
 
 export default function MapView() {
   const { markers, userLocation, selectedCategory, setSelectedCategory, refreshUserLocation } = useMap()
@@ -30,9 +19,10 @@ export default function MapView() {
   const [showNearby, setShowNearby] = useState(false)
   const [recommendations, setRecommendations] = useState([])
   const [currentRegion, setCurrentRegion] = useState('hong_kong')
+  const [searchResults, setSearchResults] = useState([])
+  const [isSearching, setIsSearching] = useState(false)
 
   useEffect(() => {
-    // Load saved region preference
     const saved = localStorage.getItem('hk_selected_region')
     if (saved) setCurrentRegion(saved)
   }, [])
@@ -43,24 +33,49 @@ export default function MapView() {
 
   const { isLoaded } = useJsApiLoader({ googleMapsApiKey: GOOGLE_MAPS_API_KEY })
 
-  // Get places for current region
+  // Get places for current region from sample data
   const regionPlaces = getPlaces(currentRegion, 'all')
   
-  // Merge with markers from context (user-added places)
+  // Merge: sample data + user-added markers
   const allPlaces = [...regionPlaces, ...markers.filter(m => !m.userId)]
 
   useEffect(() => {
-    if (userLocation) {
-      const recs = regionPlaces.slice(0, 5).map(p => ({
+    if (userLocation && regionPlaces.length > 0) {
+      const recs = regionPlaces.slice(0, 6).map(p => ({
+        id: p.id,
         title: p.name,
         category: p.category,
         icon: CATEGORY_ICONS[p.category] || '📍',
-        desc: p.rating ? `⭐ ${p.rating}分` : '',
-        distance: p.price ? `$${p.price}` : '免費'
+        desc: p.description || (p.rating ? `⭐ ${p.rating}分` : ''),
+        distance: p.price !== undefined ? (p.price > 0 ? `$${p.price}` : '免費') : '',
+        lat: p.lat,
+        lng: p.lng
       }))
       setRecommendations(recs)
     }
-  }, [userLocation, currentRegion])
+  }, [userLocation, currentRegion, regionPlaces])
+
+  // Search places when region changes
+  useEffect(() => {
+    const searchNearbyPlaces = async () => {
+      if (currentRegion !== 'china') {
+        // For non-China regions, we can use Google Places
+        setIsSearching(true)
+        try {
+          const regionInfo = REGION_DETAILS[currentRegion]
+          const results = await smartSearchPlaces(currentRegion, regionInfo.sampleCity, { type: 'all', limit: 20 })
+          if (results.length > 0) {
+            setSearchResults(results)
+          }
+        } catch (err) {
+          console.log('Search API not available, using sample data')
+        }
+        setIsSearching(false)
+      }
+    }
+    
+    searchNearbyPlaces()
+  }, [currentRegion])
 
   const getMarkerIcon = (cat) => {
     const colors = { 
@@ -88,7 +103,17 @@ export default function MapView() {
     ? allPlaces.filter(m => m.category === selectedCategory) 
     : allPlaces
 
-  const mapCenter = REGION_CENTERS[currentRegion] || REGION_CENTERS.hong_kong
+  const regionInfo = REGION_DETAILS[currentRegion] || REGION_DETAILS.hong_kong
+  const mapCenter = {
+    hong_kong: { lat: 22.3193, lng: 114.1694 },
+    china: { lat: 31.2304, lng: 121.4737 },
+    taiwan: { lat: 25.0330, lng: 121.5654 },
+    japan: { lat: 35.6762, lng: 139.6503 },
+    korea: { lat: 37.5665, lng: 126.9780 },
+    se_asia: { lat: 13.7563, lng: 100.5018 },
+    europe: { lat: 48.8566, lng: 2.3522 },
+    global: { lat: 22.3193, lng: 114.1694 }
+  }[currentRegion] || { lat: 22.3193, lng: 114.1694 }
 
   if (!isLoaded) return (
     <div className="h-full w-full flex items-center justify-center bg-zinc-50">
@@ -104,7 +129,7 @@ export default function MapView() {
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={userLocation || mapCenter}
-        zoom={14}
+        zoom={regionInfo.zoom || 14}
         options={{ 
           styles: isDark ? [{ featureType: 'all', stylers: [{ saturation: -100 }] }] : [],
           disableDefaultUI: true,
@@ -166,6 +191,16 @@ export default function MapView() {
         </div>
       </div>
 
+      {/* Search indicator */}
+      {isSearching && (
+        <div className="absolute top-20 left-4 z-20">
+          <div className="px-4 py-2 bg-white/90 backdrop-blur rounded-xl shadow-md flex items-center gap-2">
+            <Search className="w-4 h-4 text-amber-500 animate-pulse" />
+            <span className="text-xs text-zinc-600">搜尋中...</span>
+          </div>
+        </div>
+      )}
+
       {/* Nearby Recommendations Toggle */}
       {recommendations.length > 0 && (
         <button
@@ -187,13 +222,16 @@ export default function MapView() {
                 <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
                   <Brain className="w-4 h-4 text-white" />
                 </div>
-                <h3 className="font-bold text-zinc-900">🧠 {REGIONS.find(r => r.id === currentRegion)?.name} 精選</h3>
+                <div>
+                  <h3 className="font-bold text-zinc-900">{regionInfo.flag} {regionInfo.name} 精選</h3>
+                  <p className="text-xs text-zinc-500">{regionInfo.searchProvider === 'google' ? 'Google 數據' : '大眾點評數據'}</p>
+                </div>
               </div>
               <button onClick={() => setShowNearby(false)} className="w-9 h-9 rounded-xl bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center transition-colors active:scale-95">
                 <X className="w-4 h-4 text-zinc-500" />
               </button>
             </div>
-            <div className="p-3 overflow-y-auto max-h-[calc(60vh-60px)]">
+            <div className="p-3 overflow-y-auto max-h-[calc(60vh-80px)]">
               <SmartRecommendationEngine places={regionPlaces} />
             </div>
           </div>
@@ -237,6 +275,9 @@ export default function MapView() {
                     <p className="text-sm text-zinc-500 mt-0.5">
                       {selected.price > 0 ? `$${selected.price}` : '免費'}
                     </p>
+                  )}
+                  {selected.description && (
+                    <p className="text-sm text-zinc-400 mt-1 line-clamp-2">{selected.description}</p>
                   )}
                 </div>
                 <button
