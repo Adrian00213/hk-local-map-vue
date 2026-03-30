@@ -3,17 +3,31 @@
 
 let placesService = null
 let mapInstance = null
+let initAttempts = 0
+const MAX_INIT_ATTEMPTS = 50 // 5 seconds max wait
 const GOOGLE_MAPS_API_KEY = 'AIzaSyC4OsiPMTcrtqsIQB-3YGJIFcsJelBsZpw'
 
-// Initialize Places Service
+// Check if PlacesService is ready
+export const isPlacesServiceReady = () => {
+  return placesService !== null
+}
+
+// Initialize Places Service with retry
 export const initPlacesService = (map) => {
-  if (window.google && window.google.maps && window.google.maps.places) {
+  if (window.google?.maps?.places) {
     placesService = new window.google.maps.places.PlacesService(map)
     mapInstance = map
+    initAttempts = 0
     console.log('✅ PlacesService initialized')
     return true
   }
-  console.log('❌ Google Maps Places API not loaded yet')
+  initAttempts++
+  if (initAttempts < MAX_INIT_ATTEMPTS) {
+    console.log(`⏳ PlacesService not ready, attempt ${initAttempts}/${MAX_INIT_ATTEMPTS}`)
+    setTimeout(() => initPlacesService(map), 100)
+  } else {
+    console.log('❌ PlacesService failed to initialize after max attempts')
+  }
   return false
 }
 

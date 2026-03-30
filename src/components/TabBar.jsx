@@ -9,8 +9,9 @@ const tabs = [
 
 export default function TabBar({ activeTab, onTabChange }) {
   return (
-    <nav 
+    <nav
       className="flex-none h-16 bg-white border-t border-gray-200 flex items-stretch z-50"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       <div className="flex justify-around items-center w-full max-w-lg mx-auto">
         {tabs.map(({ id, icon: Icon, label }) => (
@@ -23,9 +24,9 @@ export default function TabBar({ activeTab, onTabChange }) {
                 : 'text-gray-400 active:text-gray-600'
             }`}
           >
-            <Icon 
-              size={22} 
-              strokeWidth={activeTab === id ? 2.5 : 2} 
+            <Icon
+              size={22}
+              strokeWidth={activeTab === id ? 2.5 : 2}
             />
             <span className={`text-[10px] font-medium ${activeTab === id ? 'text-amber-500' : 'text-gray-400'}`}>
               {label}

@@ -107,6 +107,7 @@ export function MapProvider({ children }) {
   const [loading, setLoading] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [userLocation, setUserLocation] = useState(null)
+  const [locationError, setLocationError] = useState(null) // 'denied' | 'unavailable' | 'timeout' | null
 
   // Fetch markers from Firestore or use mock data
   const fetchMarkers = async () => {
@@ -201,8 +202,9 @@ export function MapProvider({ children }) {
           // Will trigger browser prompt
           fetchLocation()
         } else {
-          // Permission denied - use default
+          // Permission denied - use default + set error state
           console.log('Geolocation permission denied')
+          setLocationError('denied')
           setUserLocation({ lat: 22.3193, lng: 114.1694 })
         }
       }).catch(() => {
@@ -212,6 +214,7 @@ export function MapProvider({ children }) {
     } else {
       // Geolocation not supported
       console.log('Geolocation not supported')
+      setLocationError('unavailable')
       setUserLocation({ lat: 22.3193, lng: 114.1694 })
     }
   }
@@ -223,19 +226,23 @@ export function MapProvider({ children }) {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         })
+        setLocationError(null)
       },
       (error) => {
         console.log('Geolocation error:', error.code, error.message)
-        // Different error codes
+        // Different error codes - set user-friendly error state
         switch (error.code) {
           case error.PERMISSION_DENIED:
             console.log('User denied geolocation')
+            setLocationError('denied')
             break
           case error.POSITION_UNAVAILABLE:
             console.log('Position unavailable')
+            setLocationError('unavailable')
             break
           case error.TIMEOUT:
             console.log('Geolocation timeout')
+            setLocationError('timeout')
             break
         }
         // Default to Hong Kong center
@@ -265,6 +272,7 @@ export function MapProvider({ children }) {
     selectedCategory,
     setSelectedCategory,
     userLocation,
+    locationError,
     addMarker,
     updateMarker,
     deleteMarker,

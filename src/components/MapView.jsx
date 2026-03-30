@@ -12,7 +12,7 @@ const GOOGLE_MAPS_API_KEY = 'AIzaSyC4OsiPMTcrtqsIQB-3YGJIFcsJelBsZpw'
 const containerStyle = { width: '100%', height: '100%' }
 
 export default function MapView() {
-  const { markers, userLocation, selectedCategory, setSelectedCategory, refreshUserLocation } = useMap()
+  const { markers, userLocation, locationError, selectedCategory, setSelectedCategory, refreshUserLocation } = useMap()
   const [showForm, setShowForm] = useState(false)
   const [selected, setSelected] = useState(null)
   const [isDark, setIsDark] = useState(false)
@@ -61,15 +61,18 @@ export default function MapView() {
   }, [userLocation, currentRegion, regionPlaces])
 
   // Search places using Google Maps JavaScript API
+  // FIX: Removed stale closure issue - searchNearbyPlaces defined inside effect
+  // and using showNearby+mapReady as trigger (not userLocation which may be null initially)
   useEffect(() => {
-    const searchNearbyPlaces = async () => {
-      if (!mapReady || !window.google?.maps?.places) return
-      
+    if (!showNearby) return
+    if (!mapReady) return
+
+    const doSearch = async () => {
       setIsSearching(true)
       try {
         const timeContext = getTimeContext()
         const results = await searchForRecommendations(currentRegion, timeContext, userLocation)
-        
+
         if (results.length > 0) {
           console.log('✅ Google Places found:', results.length, 'places')
           const mappedResults = results.map(p => ({
@@ -81,7 +84,7 @@ export default function MapView() {
             distance: '',
             lat: p.lat,
             lng: p.lng,
-            place: p // Keep original data
+            place: p
           }))
           setRecommendations(mappedResults)
         }
@@ -90,11 +93,9 @@ export default function MapView() {
       }
       setIsSearching(false)
     }
-    
-    if (mapReady && showNearby) {
-      searchNearbyPlaces()
-    }
-  }, [showNearby, mapReady, currentRegion, userLocation])
+
+    doSearch()
+  }, [showNearby, mapReady, currentRegion])
 
   const getTimeContext = () => {
     const hour = new Date().getHours()
@@ -107,12 +108,13 @@ export default function MapView() {
 
   const onMapLoad = (map) => {
     mapRef.current = map
+    // Only set mapReady=true AFTER PlacesService is confirmed available
     if (window.google?.maps?.places) {
       initPlacesService(map)
       setMapReady(true)
       console.log('✅ Map ready with PlacesService')
     } else {
-      // Wait for places library to load
+      // Wait for places library to load before setting mapReady
       window.google = window.google || {}
       const checkPlaces = setInterval(() => {
         if (window.google?.maps?.places) {
@@ -239,6 +241,33 @@ export default function MapView() {
           ))}
         </div>
       </div>
+
+      {/* Location Permission Warning */}
+      {locationError && (
+        <div className="absolute top-20 left-4 right-4 z-20 animate-slide-up">
+          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-3 flex items-center gap-3 shadow-lg">
+            <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center shrink-0">
+              <Locate className="w-5 h-5 text-amber-600" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-amber-800">
+                {locationError === 'denied' ? '位置權限被拒絕' : '無法取得位置'}
+              </p>
+              <p className="text-xs text-amber-600 mt-0.5">
+                {locationError === 'denied'
+                  ? '使用香港中心位置，允許位置存取以獲得更精準推薦'
+                  : '位置服務暫時無法使用'}
+              </p>
+            </div>
+            <button
+              onClick={refreshUserLocation}
+              className="px-3 py-1.5 bg-amber-500 text-white text-xs font-semibold rounded-lg shrink-0"
+            >
+              重試
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Search indicator */}
       {isSearching && (

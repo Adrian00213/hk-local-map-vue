@@ -124,9 +124,11 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
     setRefreshing(false)
   }, [region, timeContext, userLocation, mapReady])
 
+  // CRITICAL FIX: Add mapReady and userLocation as direct dependencies
+  // to prevent stale closures that cause "offline mode" even when API is available
   useEffect(() => {
     fetchRecommendations()
-  }, [fetchRecommendations])
+  }, [fetchRecommendations, mapReady, userLocation])
 
   const handleRefresh = () => {
     fetchRecommendations()
