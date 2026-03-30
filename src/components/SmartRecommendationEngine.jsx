@@ -161,7 +161,7 @@ export default function SmartRecommendations({ region = 'hong_kong', userLocatio
         className="bg-white rounded-xl overflow-hidden border border-zinc-100/80 cursor-pointer hover:shadow-md transition-all active:scale-[0.98] flex"
       >
         {/* Emoji Placeholder */}
-        <div className={`w-20 h-20 shrink-0 ${bgClass} flex items-center justify-center`}>
+        <div className="relative w-20 h-20 shrink-0 bg-amber-100 flex items-center justify-center">
           <span className="text-3xl">{emoji}</span>
           {place.rating && (
             <div className="absolute bottom-1 left-1 px-1.5 py-0.5 bg-black/60 backdrop-blur rounded flex items-center gap-0.5">
