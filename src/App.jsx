@@ -14,7 +14,6 @@ export default function App() {
   const [showOnboarding, setShowOnboarding] = useState(false)
 
   useEffect(() => {
-    // Check if user has seen onboarding
     const seen = localStorage.getItem('hk_onboarding_complete')
     if (!seen) {
       setShowOnboarding(true)
@@ -44,7 +43,7 @@ export default function App() {
     <AuthProvider>
       <MapProvider>
         <div className="h-screen w-screen flex flex-col bg-white overflow-hidden">
-          <main className="flex-1 overflow-hidden">
+          <main className="flex-1 overflow-hidden pb-16">
             {renderView()}
           </main>
           <TabBar activeTab={activeTab} onTabChange={setActiveTab} />

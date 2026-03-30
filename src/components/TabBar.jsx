@@ -10,8 +10,11 @@ const tabs = [
 
 export default function TabBar({ activeTab, onTabChange }) {
   return (
-    <nav className="bg-white/95 backdrop-blur-xl border-t border-zinc-200/50 px-1 pt-1 pb-0 safe-area-bottom">
-      <div className="flex justify-around items-end">
+    <nav 
+      className="bg-white/95 backdrop-blur-xl border-t border-zinc-200/50 px-1 pt-1 pb-0 fixed bottom-0 left-0 right-0 z-50"
+      style={{ paddingBottom: 'max(8px, env(safe-area-inset-bottom))' }}
+    >
+      <div className="flex justify-around items-end max-w-lg mx-auto">
         {tabs.map(({ id, icon: Icon, label }) => (
           <button
             key={id}
