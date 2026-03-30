@@ -202,14 +202,26 @@ export default function MapView() {
             title="你的位置"
           />
         )}
-        {filtered.map((m, idx) => (
-          <Marker 
-            key={m.id || idx} 
-            position={{ lat: m.lat, lng: m.lng }} 
-            icon={getMarkerIcon(m.category)} 
-            onClick={() => setSelected(m.place || m)} 
-          />
-        ))}
+        {/* Show all places as markers on map */}
+        {filtered.length > 0 && filtered.map((m, idx) => {
+          // Ensure we have lat/lng
+          const lat = m.lat || m.geometry?.location?.lat()
+          const lng = m.lng || m.geometry?.location?.lng()
+          if (!lat || !lng) return null
+          
+          return (
+            <Marker 
+              key={m.id || `marker-${idx}`}
+              position={{ lat, lng }}
+              icon={{
+                url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<div style="font-size:24px;text-align:center;line-height:44px">${CATEGORY_ICONS[m.category] || '📍'}</div>`)}`,
+                scaledSize: { width: 44, height: 44 },
+                anchor: { x: 22, y: 22 }
+              }}
+              onClick={() => setSelected(m.place || m)}
+            />
+          )
+        })}
       </GoogleMap>
 
       {/* Region Selector - Top Right */}
