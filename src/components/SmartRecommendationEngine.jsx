@@ -1,20 +1,20 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { Sparkles, TrendingUp, Clock, MapPin, Star, Heart, Gift, Zap, Brain, Sun, Cloud, RefreshCw, Image } from 'lucide-react'
+import { Sparkles, Star, Brain, Sun, Cloud, RefreshCw } from 'lucide-react'
 import { searchForRecommendations, isPlacesServiceReady } from '../services/GooglePlacesService'
 
 // Fallback data for when API fails
 const FALLBACK_DATA = {
   hong_kong: {
     restaurants: [
-      { id: 'hk_1', name: '九記牛腩', rating: 4.7, price: 58, lat: 22.3065, lng: 114.1707, category: 'restaurants', description: '米芝蓮推薦，牛腩軟腍', imageUrl: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=200' },
-      { id: 'hk_2', name: '一蘭拉麵', rating: 4.8, price: 108, lat: 22.2978, lng: 114.1690, category: 'restaurants', description: '正宗豚骨湯底', imageUrl: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=200' },
-      { id: 'hk_3', name: '鼎泰豐', rating: 4.6, price: 80, lat: 22.2978, lng: 114.1690, category: 'restaurants', description: '小籠包名店', imageUrl: 'https://images.unsplash.com/photo-1582833867451-65ac56d0a7e6?w=200' },
-      { id: 'hk_4', name: '華嫂冰室', rating: 4.5, price: 50, lat: 22.3165, lng: 114.1727, category: 'restaurants', description: '菠蘿油必試', imageUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200' },
+      { id: 'hk_1', name: '九記牛腩', rating: 4.7, price: 58, lat: 22.3065, lng: 114.1707, category: 'restaurants', description: '米芝蓮推薦，牛腩軟腍' },
+      { id: 'hk_2', name: '一蘭拉麵', rating: 4.8, price: 108, lat: 22.2978, lng: 114.1690, category: 'restaurants', description: '正宗豚骨湯底' },
+      { id: 'hk_3', name: '鼎泰豐', rating: 4.6, price: 80, lat: 22.2978, lng: 114.1690, category: 'restaurants', description: '小籠包名店' },
+      { id: 'hk_4', name: '華嫂冰室', rating: 4.5, price: 50, lat: 22.3165, lng: 114.1727, category: 'restaurants', description: '菠蘿油必試' },
     ],
     places: [
-      { id: 'hk_10', name: '山頂纜車', rating: 4.8, price: 88, lat: 22.2665, lng: 114.1570, category: 'places', description: '維港全景', imageUrl: 'https://images.unsplash.com/photo-1536599018102-9f803c979e65?w=200' },
-      { id: 'hk_11', name: '維多利亞港', rating: 4.9, price: 0, lat: 22.2855, lng: 114.1617, category: 'places', description: '世界三大夜景', imageUrl: 'https://images.unsplash.com/photo-1530479669743-6d1c4f5d9482?w=200' },
-      { id: 'hk_12', name: '迪士尼樂園', rating: 4.7, price: 639, lat: 22.3129, lng: 114.0414, category: 'places', description: '奇妙夢幻國度', imageUrl: 'https://images.unsplash.com/photo-1569154941061-e231b4725ef1?w=200' },
+      { id: 'hk_10', name: '山頂纜車', rating: 4.8, price: 88, lat: 22.2665, lng: 114.1570, category: 'places', description: '維港全景' },
+      { id: 'hk_11', name: '維多利亞港', rating: 4.9, price: 0, lat: 22.2855, lng: 114.1617, category: 'places', description: '世界三大夜景' },
+      { id: 'hk_12', name: '迪士尼樂園', rating: 4.7, price: 639, lat: 22.3129, lng: 114.0414, category: 'places', description: '奇妙夢幻國度' },
     ]
   }
 }
@@ -29,69 +29,47 @@ const getTimeContext = () => {
   return 'night'
 }
 
-const getWeatherIcon = (condition) => {
-  const icons = {
-    sunny: <Sun className="w-5 h-5 text-amber-500" />,
-    cloudy: <Cloud className="w-5 h-5 text-zinc-400" />,
-  }
-  return icons[condition] || <Sun className="w-5 h-5 text-amber-500" />
-}
-
-// Emoji placeholders for different categories
+// Emoji map - static, no dynamic Tailwind classes
 const EMOJI_MAP = {
   restaurants: '🍜',
   places: '🎯',
-  deals: '🎟️',
-  transport: '🚌',
-  news: '📰',
-  shopping: '🛍️',
   default: '📍'
 }
 
-// Gradient background colors for placeholders
-const GRADIENT_MAP = {
-  restaurants: 'from-orange-100 to-amber-100',
-  places: 'from-blue-100 to-cyan-100',
-  deals: 'from-red-100 to-pink-100',
-  transport: 'from-emerald-100 to-teal-100',
-  news: 'from-green-100 to-emerald-100',
-  shopping: 'from-purple-100 to-violet-100',
-  default: 'from-amber-100 to-orange-100'
+const getEmoji = (category) => EMOJI_MAP[category] || EMOJI_MAP.default
+
+const getGradientClasses = (category) => {
+  if (category === 'restaurants') return 'bg-orange-100'
+  if (category === 'places') return 'bg-blue-100'
+  return 'bg-amber-100'
 }
 
-export default function SmartRecommendations({ places = [], region = 'hong_kong', userLocation = null, mapReady = false, onPlaceSelect }) {
+export default function SmartRecommendations({ region = 'hong_kong', userLocation = null, mapReady = false, onPlaceSelect }) {
   const [recommendations, setRecommendations] = useState([])
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
   const [usingGoogle, setUsingGoogle] = useState(false)
-  const [weather] = useState({ condition: 'sunny', temp: 26 })
   const [forceUpdate, setForceUpdate] = useState(0)
   
   const stateRef = useRef({ mapReady, userLocation, region })
   const timeContext = getTimeContext()
+  const weather = { temp: 26 }
 
   useEffect(() => {
     stateRef.current = { mapReady, userLocation, region }
-    console.log('📊 SmartRecommendations state updated:', { mapReady, userLocation: !!userLocation, region, forceUpdate })
   }, [mapReady, userLocation, region, forceUpdate])
 
   const fetchRecommendations = useCallback(async () => {
     const { mapReady, userLocation, region } = stateRef.current
     
-    console.log('🤖 fetchRecommendations called', { mapReady, hasLocation: !!userLocation, region })
-    
     setRefreshing(true)
-    
     const serviceReady = isPlacesServiceReady()
-    console.log('🔍 PlacesService ready?', serviceReady)
     
     try {
       if (serviceReady && userLocation) {
-        console.log('🔍 Using Google Maps Places API...')
         const results = await searchForRecommendations(region, timeContext, userLocation)
         
         if (results.length > 0) {
-          console.log('✅ Google Places found:', results.length, 'places')
           setUsingGoogle(true)
           
           const sections = [
@@ -115,16 +93,10 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
           setLoading(false)
           setRefreshing(false)
           return
-        } else {
-          console.log('⚠️ Google Places returned no results')
         }
-      } else {
-        console.log('⚠️ Cannot use Google Places:', { serviceReady, hasLocation: !!userLocation })
       }
-      
-      throw new Error('Using fallback data')
+      throw new Error('Using fallback')
     } catch (error) {
-      console.log('⚠️ Using fallback data:', error.message)
       setUsingGoogle(false)
       
       const fallback = FALLBACK_DATA[region] || FALLBACK_DATA.hong_kong
@@ -154,12 +126,10 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
   }, [timeContext])
 
   useEffect(() => {
-    console.log('📡 useEffect triggered:', { mapReady, userLocation: !!userLocation })
     fetchRecommendations()
-  }, [mapReady, userLocation, fetchRecommendations])
+  }, [mapReady, userLocation, fetchRecommendations, forceUpdate])
 
   const handleRefresh = () => {
-    console.log('🔄 Refresh requested')
     setForceUpdate(f => f + 1)
     fetchRecommendations()
   }
@@ -180,25 +150,19 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
     return '🌙'
   }
 
-  // Get emoji for placeholder
-  const getEmoji = (category) => EMOJI_MAP[category] || EMOJI_MAP.default
-  const getGradient = (category) => GRADIENT_MAP[category] || GRADIENT_MAP.default
-
-  // Place Card with Gradient Emoji Placeholder
-  const PlaceCardWithEmoji = ({ place }) => {
-    const [imgError, setImgError] = useState(false)
+  // Place Card with static Tailwind classes
+  const PlaceCard = ({ place }) => {
     const emoji = getEmoji(place.category)
-    const gradient = getGradient(place.category)
+    const bgClass = getGradientClasses(place.category)
     
     return (
       <div 
         onClick={() => onPlaceSelect?.(place)}
         className="bg-white rounded-xl overflow-hidden border border-zinc-100/80 cursor-pointer hover:shadow-md transition-all active:scale-[0.98] flex"
       >
-        {/* Emoji Placeholder - Always show first */}
-        <div className={`relative w-20 h-20 shrink-0 bg-gradient-to-br ${gradient} flex items-center justify-center`}>
+        {/* Emoji Placeholder */}
+        <div className={`w-20 h-20 shrink-0 ${bgClass} flex items-center justify-center`}>
           <span className="text-3xl">{emoji}</span>
-          {/* Rating badge */}
           {place.rating && (
             <div className="absolute bottom-1 left-1 px-1.5 py-0.5 bg-black/60 backdrop-blur rounded flex items-center gap-0.5">
               <Star className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
@@ -232,15 +196,13 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
 
   if (loading) {
     return (
-      <div className="space-y-4">
+      <div className="space-y-4 p-4">
         <div className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl p-4 text-white">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              {getWeatherIcon(weather.condition)}
-              <div>
-                <div className="text-2xl font-bold">{weather.temp}°C</div>
-                <div className="text-sm opacity-80">香港</div>
-              </div>
+          <div className="flex items-center gap-3">
+            <Sun className="w-5 h-5" />
+            <div>
+              <div className="text-2xl font-bold">{weather.temp}°C</div>
+              <div className="text-sm opacity-80">香港</div>
             </div>
           </div>
         </div>
@@ -248,8 +210,8 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
         <div className="space-y-2">
           {[1, 2, 3, 4].map(i => (
             <div key={i} className="bg-white rounded-xl overflow-hidden animate-pulse flex">
-              <div className={`w-20 h-20 bg-gradient-to-br ${GRADIENT_MAP.default} flex items-center justify-center shrink-0`}>
-                <span className="text-3xl opacity-50">{EMOJI_MAP.default}</span>
+              <div className="w-20 h-20 bg-amber-100 flex items-center justify-center shrink-0">
+                <span className="text-3xl opacity-50">📍</span>
               </div>
               <div className="flex-1 p-2.5">
                 <div className="h-4 bg-zinc-200 rounded w-3/4 mb-2" />
@@ -263,12 +225,12 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 p-4">
       {/* Weather Widget */}
-      <div className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl p-4 text-white shadow-lg shadow-amber-200/30">
+      <div className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl p-4 text-white shadow-lg">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            {getWeatherIcon(weather.condition)}
+            <Sun className="w-5 h-5" />
             <div>
               <div className="text-2xl font-bold">{weather.temp}°C</div>
               <div className="text-sm opacity-80">香港 • {getTimeTitle(timeContext).split(' ')[1]}</div>
@@ -284,7 +246,7 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
       </div>
 
       {/* AI Context */}
-      <div className={`rounded-xl p-3 border ${usingGoogle ? 'bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-100/50' : 'bg-gradient-to-r from-violet-50 to-purple-50 border-violet-100/50'}`}>
+      <div className={`rounded-xl p-3 border ${usingGoogle ? 'bg-emerald-50 border-emerald-100' : 'bg-violet-50 border-violet-100'}`}>
         <div className="flex items-center gap-2">
           <Brain className={`w-4 h-4 ${usingGoogle ? 'text-emerald-500' : 'text-violet-500'}`} />
           <span className={`text-sm font-medium ${usingGoogle ? 'text-emerald-700' : 'text-violet-700'}`}>
@@ -293,7 +255,7 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
         </div>
       </div>
 
-      {/* Recommendation Sections */}
+      {/* Recommendations */}
       {recommendations.map((section, idx) => (
         <div key={idx} className="space-y-2">
           <div className="flex items-center justify-between">
@@ -306,7 +268,7 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
           
           <div className="space-y-2">
             {section.places.map((place, pIdx) => (
-              <PlaceCardWithEmoji key={pIdx} place={place} />
+              <PlaceCard key={pIdx} place={place} />
             ))}
           </div>
         </div>
@@ -314,14 +276,9 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
 
       {recommendations.length === 0 && !loading && (
         <div className="text-center py-8">
-          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-zinc-100 flex items-center justify-center">
-            <Sparkles className="w-8 h-8 text-zinc-300" />
-          </div>
+          <Sparkles className="w-8 h-8 text-zinc-300 mx-auto mb-4" />
           <p className="text-zinc-500 text-sm">暫時冇推薦</p>
-          <button 
-            onClick={handleRefresh}
-            className="mt-2 text-amber-600 text-sm font-medium hover:underline"
-          >
+          <button onClick={handleRefresh} className="mt-2 text-amber-600 text-sm font-medium hover:underline">
             重新整理
           </button>
         </div>
