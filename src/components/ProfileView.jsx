@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { User, Settings, Bell, Globe, Shield, Star, Gift, MessageCircle, Heart, ChevronRight, Clock, MapPin, CreditCard, Smartphone, CheckCircle, ThumbsUp, LogOut, Edit3, Camera } from 'lucide-react'
+import { User, Settings, Bell, Globe, Shield, Star, Gift, MessageCircle, Heart, ChevronRight, Clock, MapPin, CreditCard, Smartphone, CheckCircle, ThumbsUp, LogOut, Edit3, Camera, Sparkles, TrendingUp } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 // Sample saved deals for display
@@ -260,9 +260,13 @@ export default function ProfileView() {
   // Default Profile View
   return (
     <div className="h-full w-full flex flex-col bg-zinc-50">
-      {/* Profile Header */}
-      <div className="bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 px-5 pt-8 pb-16">
-        <div className="flex items-center gap-4">
+      {/* Profile Header - Premium Design */}
+      <div className="bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 px-5 pt-8 pb-20 relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2" />
+        
+        <div className="relative flex items-center gap-4">
           <div className="relative">
             <div className="w-20 h-20 rounded-3xl bg-white/20 backdrop-blur-xl border-2 border-white/30 flex items-center justify-center overflow-hidden shadow-xl">
               <img 
@@ -271,7 +275,7 @@ export default function ProfileView() {
                 className="w-full h-full object-contain"
               />
             </div>
-            <button className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-white shadow-lg flex items-center justify-center">
+            <button className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-white shadow-lg flex items-center justify-center active:scale-95 transition-transform">
               <Camera className="w-4 h-4 text-amber-500" />
             </button>
           </div>
@@ -279,14 +283,17 @@ export default function ProfileView() {
             <h2 className="text-xl font-bold text-white">{user?.name || '香港用家'}</h2>
             <p className="text-white/70 text-sm mt-0.5">{user?.email || '探索香港生活'}</p>
             <div className="flex items-center gap-3 mt-2">
-              <span className="px-2.5 py-1 bg-white/20 rounded-lg text-xs text-white font-medium">Level 1</span>
+              <span className="px-2.5 py-1 bg-white/20 rounded-lg text-xs text-white font-medium flex items-center gap-1">
+                <Star className="w-3 h-3 fill-white" />
+                Level 1
+              </span>
               <span className="flex items-center gap-1 text-xs text-white/70">
-                <Star className="w-3.5 h-3.5 fill-white" />
+                <Sparkles className="w-3 h-3" />
                 0 積分
               </span>
             </div>
           </div>
-          <button className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center">
+          <button className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center active:scale-95 transition-transform">
             <Edit3 className="w-5 h-5 text-white" />
           </button>
         </div>

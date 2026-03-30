@@ -1,115 +1,8 @@
 import { useState, useEffect } from 'react'
-import { Newspaper, Clock, ChevronRight, MapPin, Zap, Brain, Star, Heart, Gift } from 'lucide-react'
+import { Newspaper, Clock, ChevronRight, MapPin, Zap, Brain, Star, Heart, Gift, TrendingUp, Sun, Cloud, CloudRain, AlertTriangle } from 'lucide-react'
 import { useMap, CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
 
-// Smart localized news based on context
-const getSmartNews = (userLocation, markers, timeContext) => {
-  const news = []
-  
-  // 1. Time-based breaking news
-  if (timeContext.period === 'morning') {
-    news.push({
-      id: 'time1',
-      title: '🌅 朝早優惠 - 早餐套餐最低$25',
-      desc: '美心MX、麥當勞、大快活朝早優惠',
-      cat: 'deals',
-      source: '智能精選',
-      time: '及時',
-      badge: '🔥 熱門'
-    })
-  } else if (timeContext.period === 'noon') {
-    news.push({
-      id: 'time2',
-      title: '☀️ 午餐精選 - 午市套餐優惠',
-      desc: '多間餐廳午市特價，最高慳$30',
-      cat: 'deals',
-      source: '智能精選',
-      time: '及時',
-      badge: '⏰ 限時'
-    })
-  } else if (timeContext.period === 'evening') {
-    news.push({
-      id: 'time3',
-      title: '🌆 晚餐優惠 - 晚市8折',
-      desc: '指定餐廳晚市優惠，送小食',
-      cat: 'deals',
-      source: '智能精選',
-      time: '及時',
-      badge: '🍽️ 今晚限定'
-    })
-  } else if (timeContext.period === 'night') {
-    news.push({
-      id: 'time4',
-      title: '🌙 夜宵優惠 - 便利店特價',
-      desc: '7-11、全家夜間折扣',
-      cat: 'deals',
-      source: '智能精選',
-      time: '及時',
-      badge: '🌃 夜貓特選'
-    })
-  }
-
-  // 2. Location-based nearby places
-  if (userLocation) {
-    const nearbyMarkers = markers.slice(0, 3).map(m => ({
-      id: m.id,
-      title: `${CATEGORY_ICONS[m.category]} ${m.title}`,
-      desc: m.description || CATEGORY_LABELS[m.category],
-      cat: m.category,
-      source: '附近熱點',
-      time: '就在附近',
-      badge: '📍 靠近你'
-    }))
-    news.push(...nearbyMarkers)
-  }
-
-  // 3. Trending deals
-  news.push({
-    id: 'trend1',
-    title: '💳 信用卡優惠 - AlipayHK最高回贈$500',
-    desc: 'HSBC、中銀、恒生指定商戶優惠',
-    cat: 'deals',
-    source: '理財資訊',
-    time: '本月有效',
-    badge: '💰 必搵'
-  })
-
-  news.push({
-    id: 'trend2',
-    title: '🎫 M+博物館 - 免費導賞團',
-    desc: '每日名額有限，先到先得',
-    cat: 'places',
-    source: '文化資訊',
-    time: '本週',
-    badge: '🎨 免費'
-  })
-
-  news.push({
-    id: 'trend3',
-    title: '🛍️ 海港城 - 春季購物節',
-    desc: '超過500間商店參與，最高7折',
-    cat: 'places',
-    source: '商場資訊',
-    time: '進行中',
-    badge: '🛒 購物'
-  })
-
-  // 4. User posted content
-  const userMarkers = markers.filter(m => m.userId).slice(0, 2).map(m => ({
-    id: m.id,
-    title: `📍 ${m.title}`,
-    desc: m.description,
-    cat: m.category,
-    source: m.userName || '用家分享',
-    time: '最新',
-    badge: '👤 用家'
-  }))
-  news.push(...userMarkers)
-
-  return news
-}
-
-// Get time context
+// Time-aware news context
 const getTimeContext = () => {
   const now = new Date()
   const hour = now.getHours()
@@ -123,14 +16,146 @@ const getTimeContext = () => {
   else if (hour >= 18 && hour < 22) period = 'evening'
   else period = 'night'
   
-  return { hour, period, timeString: `${hour}:${now.getMinutes().toString().padStart(2, '0')}`, isWeekend, day }
+  return { hour, period, isWeekend, day }
+}
+
+// Smart news based on time and location
+const getSmartNews = (userLocation, markers) => {
+  const timeCtx = getTimeContext()
+  const news = []
+  
+  // Time-specific breaking news
+  if (timeCtx.period === 'morning') {
+    news.push({
+      id: 'morning1',
+      title: '🌅 朝早優惠出爐',
+      desc: '美心MX、麥當勞、大快活朝早套餐優惠，最低$25起',
+      cat: 'deals',
+      source: '即時優惠',
+      time: '今日 9:00',
+      badge: '🔥 熱辣辣',
+      urgent: true
+    })
+  } else if (timeCtx.period === 'noon') {
+    news.push({
+      id: 'noon1',
+      title: '☀️ 午餐優惠最後召集',
+      desc: '12:00-2:00限定，多間餐廳午市特價',
+      cat: 'deals',
+      source: '優惠精選',
+      time: '今日 11:30',
+      badge: '⏰ 限時',
+      urgent: true
+    })
+  } else if (timeCtx.period === 'evening') {
+    news.push({
+      id: 'evening1',
+      title: '🌆 晚餐優惠出籠',
+      desc: '晚市指定餐廳8折，送前菜或甜品',
+      cat: 'deals',
+      source: '今晚限定',
+      time: '今日 17:00',
+      badge: '🍽️ 今晚啱',
+      urgent: true
+    })
+  } else if (timeCtx.period === 'night') {
+    news.push({
+      id: 'night1',
+      title: '🌙 夜貓特選',
+      desc: '便利店深夜折扣，7-11、全家指定貨品買一送一',
+      cat: 'deals',
+      source: '夜貓專屬',
+      time: '今日 22:00',
+      badge: '🌃 夜貓著',
+      urgent: false
+    })
+  }
+
+  // Weekend special
+  if (timeCtx.isWeekend) {
+    news.push({
+      id: 'weekend1',
+      title: '🎉 週末活動精選',
+      desc: '香港美食節、海濱市集、露天電影節',
+      cat: 'places',
+      source: '週末玩轉香港',
+      time: '本週末',
+      badge: '🎊 週末必睇',
+      urgent: false
+    })
+  }
+
+  // Location-based nearby
+  if (userLocation && markers.length > 0) {
+    const nearbyTop = markers.slice(0, 2).map(m => ({
+      id: m.id,
+      title: `📍 ${m.title}`,
+      desc: m.description || CATEGORY_LABELS[m.category],
+      cat: m.category,
+      source: '你附近',
+      time: '就在附近',
+      badge: '📍 靠近你',
+      urgent: false
+    }))
+    news.push(...nearbyTop)
+  }
+
+  // Trending deals
+  news.push({
+    id: 'trending1',
+    title: '💳 信用卡優惠合集',
+    desc: 'AlipayHK最高回贈$500、WeChat Pay超市95折',
+    cat: 'deals',
+    source: '理財精選',
+    time: '本月有效',
+    badge: '💰 必搵',
+    urgent: false
+  })
+
+  news.push({
+    id: 'trending2',
+    title: '🎫 M+博物館免費導賞團',
+    desc: '每日3場免費導賞，預約從速',
+    cat: 'places',
+    source: '文化資訊',
+    time: '展期至下月',
+    badge: '🎨 免費',
+    urgent: false
+  })
+
+  news.push({
+    id: 'trending3',
+    title: '🛍️ 海港城春季購物節',
+    desc: '超過500間商店參與，最高7折',
+    cat: 'places',
+    source: '商場資訊',
+    time: '進行中',
+    badge: '🛒 購物',
+    urgent: false
+  })
+
+  // User content
+  const userMarkers = markers.filter(m => m.userId).slice(0, 2).map(m => ({
+    id: m.id,
+    title: `👤 ${m.title}`,
+    desc: m.description,
+    cat: m.category,
+    source: m.userName || '用家分享',
+    time: '最新',
+    badge: '👤 用家',
+    urgent: false
+  }))
+  news.push(...userMarkers)
+
+  return news
 }
 
 const catColors = {
   deals: 'from-red-500 to-pink-500',
   restaurants: 'from-orange-500 to-amber-500',
   places: 'from-blue-500 to-indigo-500',
-  news: 'from-green-500 to-emerald-500'
+  news: 'from-green-500 to-emerald-500',
+  transport: 'from-emerald-500 to-teal-500'
 }
 
 export default function NewsView() {
@@ -139,19 +164,24 @@ export default function NewsView() {
   const [timeContext, setTimeContext] = useState(getTimeContext())
 
   useEffect(() => {
-    // Update time context every minute
     const timer = setInterval(() => {
       setTimeContext(getTimeContext())
     }, 60000)
-    
     return () => clearInterval(timer)
   }, [])
 
   useEffect(() => {
-    // Generate smart news based on location and time
-    const smartNews = getSmartNews(userLocation, markers, timeContext)
+    const smartNews = getSmartNews(userLocation, markers)
     setNews(smartNews)
   }, [userLocation, markers, timeContext])
+
+  const getGreeting = () => {
+    if (timeContext.period === 'morning') return '🌅 朝早好'
+    if (timeContext.period === 'noon') return '☀️ 午飯時間'
+    if (timeContext.period === 'afternoon') return '🌤️ 下午時光'
+    if (timeContext.period === 'evening') return '🌆 晚晚開始'
+    return '🌙 夜喇'
+  }
 
   return (
     <div className="h-full w-full flex flex-col bg-zinc-50">
@@ -163,8 +193,8 @@ export default function NewsView() {
               <Newspaper className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-zinc-900">最新資訊</h1>
-              <p className="text-sm text-zinc-400">根據位置為你精選</p>
+              <h1 className="text-2xl font-bold text-zinc-900">📰 最新資訊</h1>
+              <p className="text-sm text-zinc-400">為你精挑細選</p>
             </div>
           </div>
           {userLocation && (
@@ -181,12 +211,7 @@ export default function NewsView() {
         <div className="flex items-center gap-2">
           <Brain className="w-4 h-4 text-blue-500" />
           <span className="text-sm text-blue-700">
-            {timeContext.period === 'morning' && '🌅 朝早好！今日有咩搵？'}
-            {timeContext.period === 'noon' && '☀️ 午飯時間！附近有優惠'}
-            {timeContext.period === 'afternoon' && '🌤️ 下午時光！休閒好去處'}
-            {timeContext.period === 'evening' && '🌆 晚晚開始！晚餐優惠'}
-            {timeContext.period === 'night' && '🌙 夜喇！夜宵優惠'}
-            {timeContext.isWeekend && ' 🎉 今日係週末'}
+            {getGreeting()}！{timeContext.isWeekend && ' 🎉 今日係週末'} 我為你精選咗以下資訊：
           </span>
         </div>
       </div>
@@ -197,15 +222,19 @@ export default function NewsView() {
           {news.map((n, i) => (
             <div
               key={n.id || i}
-              className="bg-white rounded-2xl shadow-sm border border-zinc-100/80 overflow-hidden card-hover"
+              className={`bg-white rounded-2xl shadow-sm border ${n.urgent ? 'border-amber-200' : 'border-zinc-100/80'} overflow-hidden card-hover`}
             >
               <div className={`h-1.5 bg-gradient-to-r ${catColors[n.cat] || 'from-zinc-500 to-neutral-500'}`} />
               <div className="p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1.5">
+                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                       {n.badge && (
-                        <span className="px-2 py-0.5 bg-blue-50 text-blue-600 text-xs font-semibold rounded-lg">
+                        <span className={`px-2 py-0.5 text-xs font-semibold rounded-lg ${
+                          n.urgent 
+                            ? 'bg-amber-100 text-amber-700' 
+                            : 'bg-blue-50 text-blue-600'
+                        }`}>
                           {n.badge}
                         </span>
                       )}
@@ -213,7 +242,7 @@ export default function NewsView() {
                         {n.source}
                       </span>
                     </div>
-                    <h3 className="font-bold text-zinc-900 leading-snug">{n.title}</h3>
+                    <h3 className="font-bold text-zinc-900 leading-snug text-base">{n.title}</h3>
                     <p className="text-sm text-zinc-500 mt-1 leading-relaxed">{n.desc}</p>
                   </div>
                   <div className="flex flex-col items-end gap-1 shrink-0">
@@ -221,7 +250,7 @@ export default function NewsView() {
                       <Clock className="w-3 h-3" />
                       {n.time}
                     </span>
-                    <span className="text-lg">{CATEGORY_ICONS[n.cat]}</span>
+                    <span className="text-xl">{CATEGORY_ICONS[n.cat]}</span>
                   </div>
                 </div>
               </div>

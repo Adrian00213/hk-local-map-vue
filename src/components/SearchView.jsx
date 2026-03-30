@@ -1,22 +1,58 @@
 import { useState, useEffect } from 'react'
-import { Search, MapPin, Clock, TrendingUp, X, Sparkles } from 'lucide-react'
+import { Search, MapPin, Clock, TrendingUp, X, Sparkles, Navigation } from 'lucide-react'
 import { useMap, CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
 
-// Popular and trending searches
-const POPULAR_SEARCHES = [
-  { text: '茶餐廳', icon: '🍜' },
-  { text: '優惠', icon: '💰' },
-  { text: '好去處', icon: '🎯' },
-  { text: '咖啡店', icon: '☕' },
-  { text: '商場', icon: '🛍️' },
-]
-
-// Quick suggestion prompts
-const QUICK_PROMPTS = [
-  { text: '附近有咩好嘢食？', cat: 'restaurants' },
-  { text: '平嘢優惠', cat: 'deals' },
-  { text: '室內好去處', cat: 'places' },
-]
+// Smart search suggestions based on context
+const getSmartSuggestions = () => {
+  const hour = new Date().getHours()
+  const isWeekend = [0, 6].includes(new Date().getDay())
+  
+  const suggestions = {
+    timeBased: [],
+    popular: [
+      { text: '茶餐廳', icon: '🍜', cat: 'restaurants' },
+      { text: '優惠', icon: '💰', cat: 'deals' },
+      { text: '好去處', icon: '🎯', cat: 'places' },
+      { text: '咖啡店', icon: '☕', cat: 'restaurants' },
+      { text: '商場', icon: '🛍️', cat: 'places' },
+      { text: '巴士站', icon: '🚌', cat: 'transport' },
+      { text: '港鐵站', icon: '🚇', cat: 'transport' },
+    ],
+    contextual: []
+  }
+  
+  // Time-based suggestions
+  if (hour >= 5 && hour < 11) {
+    suggestions.timeBased = [
+      { text: '早餐', icon: '🍳', cat: 'restaurants' },
+      { text: '茶餐廳', icon: '🍜', cat: 'restaurants' },
+    ]
+  } else if (hour >= 11 && hour < 14) {
+    suggestions.timeBased = [
+      { text: '午餐', icon: '🍜', cat: 'restaurants' },
+      { text: '快餐', icon: '🍔', cat: 'restaurants' },
+    ]
+  } else if (hour >= 17 && hour < 21) {
+    suggestions.timeBased = [
+      { text: '晚餐', icon: '🍽️', cat: 'restaurants' },
+      { text: '餐廳', icon: '🍜', cat: 'restaurants' },
+    ]
+  } else if (hour >= 21 || hour < 5) {
+    suggestions.timeBased = [
+      { text: '夜宵', icon: '🌙', cat: 'restaurants' },
+      { text: '便利店', icon: '🏪', cat: 'places' },
+    ]
+  }
+  
+  if (isWeekend) {
+    suggestions.contextual = [
+      { text: '好去處', icon: '🎯', cat: 'places' },
+      { text: '商場', icon: '🛍️', cat: 'places' },
+    ]
+  }
+  
+  return suggestions
+}
 
 const RECENT_SEARCHES_KEY = 'hk_recent_searches'
 
@@ -26,16 +62,16 @@ export default function SearchView() {
   const [cat, setCat] = useState(null)
   const [recentSearches, setRecentSearches] = useState([])
   const [showRecent, setShowRecent] = useState(true)
+  const [suggestions, setSuggestions] = useState({ timeBased: [], popular: [], contextual: [] })
 
-  // Load recent searches
   useEffect(() => {
     const saved = localStorage.getItem(RECENT_SEARCHES_KEY)
     if (saved) {
       setRecentSearches(JSON.parse(saved))
     }
+    setSuggestions(getSmartSuggestions())
   }, [])
 
-  // Save search to recent
   const saveSearch = (text) => {
     if (!text.trim()) return
     const updated = [text, ...recentSearches.filter(s => s !== text)].slice(0, 5)
@@ -43,14 +79,12 @@ export default function SearchView() {
     localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(updated))
   }
 
-  // Clear single recent search
   const clearRecent = (text) => {
     const updated = recentSearches.filter(s => s !== text)
     setRecentSearches(updated)
     localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(updated))
   }
 
-  // Clear all recent searches
   const clearAllRecent = () => {
     setRecentSearches([])
     localStorage.removeItem(RECENT_SEARCHES_KEY)
@@ -86,7 +120,7 @@ export default function SearchView() {
     <div className="h-full w-full flex flex-col bg-zinc-50">
       {/* Search Header */}
       <div className="bg-white border-b border-zinc-100/80 px-5 pt-5 pb-4">
-        <h1 className="text-2xl font-bold text-zinc-900 mb-4">搜尋</h1>
+        <h1 className="text-2xl font-bold text-zinc-900 mb-4">🔍 搜尋</h1>
         <div className="relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
           <input
@@ -136,6 +170,28 @@ export default function SearchView() {
         {/* Show when input is empty */}
         {showRecent && !q && (
           <div className="space-y-6 animate-fade-in">
+            {/* Time-based Suggestions */}
+            {suggestions.timeBased.length > 0 && (
+              <div>
+                <h3 className="text-sm font-bold text-zinc-500 flex items-center gap-2 mb-3">
+                  <Clock className="w-4 h-4" />
+                  而家啱啱好
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {suggestions.timeBased.map((s, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handleSearch(s.text)}
+                      className="px-4 py-2.5 bg-amber-50 border border-amber-200/50 rounded-xl text-sm font-medium text-amber-700 flex items-center gap-1.5 hover:bg-amber-100 active:scale-95 transition-all"
+                    >
+                      <span>{s.icon}</span>
+                      {s.text}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Recent Searches */}
             {recentSearches.length > 0 && (
               <div>
@@ -180,7 +236,7 @@ export default function SearchView() {
                 熱門搜尋
               </h3>
               <div className="flex flex-wrap gap-2">
-                {POPULAR_SEARCHES.map((s, i) => (
+                {suggestions.popular.map((s, i) => (
                   <button
                     key={i}
                     onClick={() => handleSearch(s.text)}
@@ -193,27 +249,27 @@ export default function SearchView() {
               </div>
             </div>
 
-            {/* Quick Prompts */}
-            <div>
-              <h3 className="text-sm font-bold text-zinc-500 flex items-center gap-2 mb-3">
-                <Sparkles className="w-4 h-4" />
-                試下問我
-              </h3>
-              <div className="space-y-2">
-                {QUICK_PROMPTS.map((p, i) => (
-                  <button
-                    key={i}
-                    onClick={() => handleSearch(p.text)}
-                    className="w-full p-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-100/50 rounded-xl text-left text-sm font-medium text-amber-700 flex items-center gap-3 hover:bg-amber-100/50 active:scale-[0.98] transition-all"
-                  >
-                    <span className="w-8 h-8 rounded-xl bg-amber-500 flex items-center justify-center text-white text-sm">
-                      {CATEGORY_ICONS[p.cat]}
-                    </span>
-                    {p.text}
-                  </button>
-                ))}
+            {/* Contextual Suggestions */}
+            {suggestions.contextual.length > 0 && (
+              <div>
+                <h3 className="text-sm font-bold text-zinc-500 flex items-center gap-2 mb-3">
+                  <Sparkles className="w-4 h-4" />
+                  週末精選
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {suggestions.contextual.map((s, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handleSearch(s.text)}
+                      className="px-4 py-2.5 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/50 rounded-xl text-sm font-medium text-amber-700 flex items-center gap-1.5 hover:bg-amber-100 active:scale-95 transition-all"
+                    >
+                      <span>{s.icon}</span>
+                      {s.text}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         )}
 
@@ -232,7 +288,7 @@ export default function SearchView() {
                 <h3 className="text-lg font-semibold text-zinc-700 mb-2">搵唔到你想要嘅</h3>
                 <p className="text-sm text-zinc-400 mb-4">試下其他關鍵字啦</p>
                 <div className="flex flex-wrap justify-center gap-2">
-                  {['茶餐廳', '優惠', 'café', '商場'].map((s, i) => (
+                  {['茶餐廳', '優惠', 'café', '商場', '港鐵站'].map((s, i) => (
                     <button
                       key={i}
                       onClick={() => handleSearch(s)}
