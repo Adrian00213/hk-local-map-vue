@@ -3,6 +3,7 @@
 
 let placesService = null
 let mapInstance = null
+const GOOGLE_MAPS_API_KEY = 'AIzaSyC4OsiPMTcrtqsIQB-3YGJIFcsJelBsZpw'
 
 // Initialize Places Service
 export const initPlacesService = (map) => {
@@ -16,6 +17,12 @@ export const initPlacesService = (map) => {
   return false
 }
 
+// Get photo URL from photo reference
+const getPhotoUrl = (photoReference) => {
+  if (!photoReference) return null
+  return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photoReference}&key=${GOOGLE_MAPS_API_KEY}`
+}
+
 // Search places using TextSearch (similar to REST API)
 export const searchPlacesText = (query, options = {}) => {
   return new Promise((resolve, reject) => {
@@ -27,7 +34,7 @@ export const searchPlacesText = (query, options = {}) => {
 
     const request = {
       query: query,
-      fields: ['name', 'geometry', 'rating', 'price_level', 'types', 'photos', 'opening_hours', 'formatted_address', 'place_id']
+      fields: ['name', 'geometry', 'rating', 'price_level', 'types', 'photos', 'opening_hours', 'formatted_address', 'place_id', 'user_ratings_total']
     }
 
     placesService.findPlaceFromQuery(request, (results, status) => {
@@ -44,6 +51,8 @@ export const searchPlacesText = (query, options = {}) => {
           category: mapTypesToCategory(place.types || []),
           address: place.formatted_address,
           open_now: place.opening_hours?.isOpen(),
+          photos: place.photos ? place.photos.map(p => getPhotoUrl(p.photo_reference)) : [],
+          user_ratings_total: place.user_ratings_total || 0,
           provider: 'google_maps_js'
         }))
         resolve(mapped)
@@ -81,6 +90,8 @@ export const searchNearby = (location, options = {}) => {
           types: place.types || [],
           category: mapTypesToCategory(place.types || []),
           open_now: place.opening_hours?.isOpen(),
+          photos: place.photos ? place.photos.slice(0, 3).map(p => getPhotoUrl(p.photo_reference)) : [],
+          user_ratings_total: place.user_ratings_total || 0,
           provider: 'google_maps_js'
         }))
         resolve(mapped)
@@ -113,24 +124,24 @@ export const searchForRecommendations = async (region, timeContext, location) =>
   
   // Time-based search query
   const timeQueries = {
-    morning: '早餐 茶餐廳',
-    noon: '午餐 餐廳',
-    afternoon: '下午茶 café',
-    evening: '晚餐 餐廳',
-    night: '夜宵 小食'
+    morning: 'breakfast',
+    noon: 'lunch restaurant',
+    afternoon: 'café dessert',
+    evening: 'dinner restaurant',
+    night: 'night market food'
   }
   
-  const query = timeQueries[timeContext] || '餐廳'
+  const query = timeQueries[timeContext] || 'restaurant'
   
   if (location) {
     // Use nearby search if we have location
-    const nearbyResults = await searchNearby(location, { type: 'restaurant', limit: 10 })
+    const nearbyResults = await searchNearby(location, { type: 'restaurant', limit: 15 })
     results.push(...nearbyResults)
     console.log('📍 Nearby results:', nearbyResults.length)
   }
   
   // Also try text search
-  const textResults = await searchPlacesText(`${query} ${region}`, { limit: 10 })
+  const textResults = await searchPlacesText(`${query} in ${region}`, { limit: 15 })
   results.push(...textResults)
   console.log('📝 Text results:', textResults.length)
   
