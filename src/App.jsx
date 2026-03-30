@@ -42,8 +42,8 @@ export default function App() {
   return (
     <AuthProvider>
       <MapProvider>
-        <div className="h-screen w-screen flex flex-col bg-white overflow-hidden">
-          <main className="flex-1 overflow-hidden pb-16">
+        <div className="h-screen w-screen flex flex-col bg-white overflow-hidden relative">
+          <main className="flex-1 overflow-y-auto overflow-x-hidden pb-[70px]">
             {renderView()}
           </main>
           <TabBar activeTab={activeTab} onTabChange={setActiveTab} />
