@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Sparkles, TrendingUp, Clock, MapPin, Star, Heart, Gift, Zap, Brain, Sun, Moon, Cloud, CloudRain, Thermometer, Wind } from 'lucide-react'
 
-// Smart Recommendation Engine
+// Smart Recommendation Engine - accepts places as prop for multi-region support
 const RECOMMENDATIONS = {
   timeBased: {
     morning: {
@@ -135,7 +135,7 @@ const getWeatherData = () => {
   }
 }
 
-export default function SmartRecommendations() {
+export default function SmartRecommendations({ places = [] }) {
   const [recommendations, setRecommendations] = useState([])
   const [weather, setWeather] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -149,43 +149,45 @@ export default function SmartRecommendations() {
     
     setWeather(weatherData)
     
-    // Generate smart recommendations based on context
-    const smartRecs = generateSmartRecommendations(timeContext, weatherContext)
+    // Generate smart recommendations based on context and places
+    const smartRecs = generateSmartRecommendations(timeContext, weatherContext, places)
     setRecommendations(smartRecs)
     setLoading(false)
-  }, [refreshKey])
+  }, [refreshKey, places])
 
-  const generateSmartRecommendations = (timeContext, weatherContext) => {
+  const generateSmartRecommendations = (timeContext, weatherContext, places) => {
     const recs = []
-    const timeRecs = RECOMMENDATIONS.timeBased[timeContext]
-    const weatherRecs = RECOMMENDATIONS.weatherBased[weatherContext]
+    
+    // Filter places by category for time-based
+    const restaurants = places.filter(p => p.category === 'restaurants').slice(0, 3)
+    const attractions = places.filter(p => p.category === 'places').slice(0, 3)
     
     // Add time-based recommendations
     recs.push({
       type: 'time',
-      ...timeRecs,
+      places: restaurants.length > 0 ? restaurants : RECOMMENDATIONS.timeBased[timeContext]?.places || [],
       smartReason: `根據而家${getTimeLabel(timeContext)}為你推薦`
     })
     
     // Add weather-based recommendations
     recs.push({
       type: 'weather',
-      ...weatherRecs,
+      places: weatherRecs?.places || [],
       smartReason: `${weatherContext === 'rainy' ? '🌧️ 落雨喇，室內活動最適合！' : weatherContext === 'sunny' ? '☀️ 好天氣，戶外活動約起來！' : '⛅ 多雲天氣，四處走走也不錯！'}`
     })
     
-    // Add budget option
+    // Add attractions
     recs.push({
-      type: 'budget',
-      ...RECOMMENDATIONS.budget,
-      smartReason: '💰 為你精選最抵消費'
+      type: 'places',
+      places: attractions,
+      smartReason: '🎯 熱門景點精選'
     })
     
     // Add trending
     recs.push({
       type: 'trending',
-      ...RECOMMENDATIONS.trending,
-      smartReason: '🔥 香港人而家最鐘意'
+      places: places.slice(0, 3),
+      smartReason: '🔥 為你精選'
     })
     
     return recs

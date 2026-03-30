@@ -3,31 +3,23 @@ import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
 import { useMap, CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
 import MarkerForm from './MarkerForm'
 import SmartRecommendationEngine from './SmartRecommendationEngine'
+import RegionSelector from './RegionSelector'
 import { X, Locate, Zap, Brain } from 'lucide-react'
+import { REGIONS, MAP_CONFIG, getPlaces } from '../services/MapProvider'
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyA6VU14iA_ytRMWMxKbVvT_dWamaGeWAFE'
 const containerStyle = { width: '100%', height: '100%' }
-const defaultCenter = { lat: 22.3193, lng: 114.1694 }
 
-// Location-based recommendations
-const LOCATION_RECOMMENDATIONS = {
-  'hongkong': [
-    { title: '山頂纜車新優惠', category: 'deals', icon: '🎫', desc: '遊客套票8折', distance: '0.5km' },
-    { title: '維港夜景指南', category: 'places', icon: '🌃', desc: '最佳拍攝位置推薦', distance: '1km' },
-    { title: '尖沙咀新餐廳', category: 'restaurants', icon: '🍽️', desc: '米芝蓮星級餐廳', distance: '0.8km' },
-  ],
-  'default': [
-    { title: '附近熱門景點', category: 'places', icon: '⭐', desc: '評分最高', distance: '0.3km' },
-    { title: '今日優惠', category: 'deals', icon: '🔥', desc: '限時特賣', distance: '0.5km' },
-    { title: '人氣美食', category: 'restaurants', icon: '🍜', desc: '本地推薦', distance: '0.2km' },
-  ]
-}
-
-const getRecommendations = (lat, lng) => {
-  if (lat > 22.3 && lat < 22.35 && lng > 114.15 && lng < 114.2) {
-    return LOCATION_RECOMMENDATIONS['hongkong']
-  }
-  return LOCATION_RECOMMENDATIONS['default']
+// Map center by region
+const REGION_CENTERS = {
+  hong_kong: { lat: 22.3193, lng: 114.1694 },
+  china: { lat: 31.2304, lng: 121.4737 }, // Shanghai
+  global: { lat: 22.3193, lng: 114.1694 },
+  taiwan: { lat: 25.0330, lng: 121.5654 }, // Taipei
+  japan: { lat: 35.6762, lng: 139.6503 }, // Tokyo
+  korea: { lat: 37.5665, lng: 126.9780 }, // Seoul
+  se_asia: { lat: 13.7563, lng: 100.5018 }, // Bangkok
+  europe: { lat: 48.8566, lng: 2.3522 } // Paris
 }
 
 export default function MapView() {
@@ -37,29 +29,66 @@ export default function MapView() {
   const [isDark, setIsDark] = useState(false)
   const [showNearby, setShowNearby] = useState(false)
   const [recommendations, setRecommendations] = useState([])
+  const [currentRegion, setCurrentRegion] = useState('hong_kong')
 
-  useEffect(() => setIsDark(document.documentElement.classList.contains('dark')), [])
+  useEffect(() => {
+    // Load saved region preference
+    const saved = localStorage.getItem('hk_selected_region')
+    if (saved) setCurrentRegion(saved)
+  }, [])
+
+  useEffect(() => {
+    setIsDark(document.documentElement.classList.contains('dark'))
+  }, [])
 
   const { isLoaded } = useJsApiLoader({ googleMapsApiKey: GOOGLE_MAPS_API_KEY })
 
+  // Get places for current region
+  const regionPlaces = getPlaces(currentRegion, 'all')
+  
+  // Merge with markers from context (user-added places)
+  const allPlaces = [...regionPlaces, ...markers.filter(m => !m.userId)]
+
   useEffect(() => {
     if (userLocation) {
-      const recs = getRecommendations(userLocation.lat, userLocation.lng)
+      const recs = regionPlaces.slice(0, 5).map(p => ({
+        title: p.name,
+        category: p.category,
+        icon: CATEGORY_ICONS[p.category] || '📍',
+        desc: p.rating ? `⭐ ${p.rating}分` : '',
+        distance: p.price ? `$${p.price}` : '免費'
+      }))
       setRecommendations(recs)
     }
-  }, [userLocation])
+  }, [userLocation, currentRegion])
 
   const getMarkerIcon = (cat) => {
-    const colors = { deals: '#EF4444', restaurants: '#F97316', places: '#3B82F6', news: '#22C55E' }
-    const icons = { deals: '🛒', restaurants: '🍜', places: '🎯', news: '📰' }
+    const colors = { 
+      deals: '#EF4444', 
+      restaurants: '#F97316', 
+      places: '#3B82F6', 
+      news: '#22C55E',
+      transport: '#10B981'
+    }
+    const icons = { 
+      deals: '🛒', 
+      restaurants: '🍜', 
+      places: '🎯', 
+      news: '📰',
+      transport: '🚌'
+    }
     return {
-      url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<div style="width:44px;height:44px;background:${colors[cat]};border:3px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 12px rgba(0,0,0,0.18)">${icons[cat]}</div>`)}`,
+      url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<div style="width:44px;height:44px;background:${colors[cat] || '#6366F1'};border:3px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 12px rgba(0,0,0,0.18)">${icons[cat] || '📍'}</div>`)}`,
       scaledSize: { width: 44, height: 44 },
       anchor: { x: 22, y: 22 }
     }
   }
 
-  const filtered = selectedCategory ? markers.filter(m => m.category === selectedCategory) : markers
+  const filtered = selectedCategory 
+    ? allPlaces.filter(m => m.category === selectedCategory) 
+    : allPlaces
+
+  const mapCenter = REGION_CENTERS[currentRegion] || REGION_CENTERS.hong_kong
 
   if (!isLoaded) return (
     <div className="h-full w-full flex items-center justify-center bg-zinc-50">
@@ -74,7 +103,7 @@ export default function MapView() {
     <div className="h-full w-full relative bg-zinc-100">
       <GoogleMap
         mapContainerStyle={containerStyle}
-        center={userLocation || defaultCenter}
+        center={userLocation || mapCenter}
         zoom={14}
         options={{ 
           styles: isDark ? [{ featureType: 'all', stylers: [{ saturation: -100 }] }] : [],
@@ -89,13 +118,26 @@ export default function MapView() {
             scaledSize: { width: 18, height: 18 }
           }} />
         )}
-        {filtered.map(m => (
-          <Marker key={m.id} position={{ lat: m.lat, lng: m.lng }} icon={getMarkerIcon(m.category)} onClick={() => setSelected(m)} />
+        {filtered.map((m, idx) => (
+          <Marker 
+            key={m.id || idx} 
+            position={{ lat: m.lat, lng: m.lng }} 
+            icon={getMarkerIcon(m.category)} 
+            onClick={() => setSelected(m)} 
+          />
         ))}
       </GoogleMap>
 
+      {/* Region Selector - Top Right */}
+      <div className="absolute top-4 right-4 z-20">
+        <RegionSelector 
+          currentRegion={currentRegion}
+          onRegionChange={setCurrentRegion}
+        />
+      </div>
+
       {/* Category Pills */}
-      <div className="absolute top-4 left-4 right-4 z-20">
+      <div className="absolute top-4 left-4 right-20 z-20">
         <div className="glass rounded-2xl shadow-lg border-subtle p-2 flex gap-1.5 overflow-x-auto">
           <button
             onClick={() => setSelectedCategory(null)}
@@ -128,7 +170,7 @@ export default function MapView() {
       {recommendations.length > 0 && (
         <button
           onClick={() => setShowNearby(!showNearby)}
-          className="absolute left-4 bottom-32 z-20 px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-2xl shadow-xl shadow-amber-500/30 flex items-center gap-2 active:scale-95 transition-transform btn-premium"
+          className="absolute left-4 bottom-32 z-20 px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-2xl shadow-xl shadow-amber-500/30 flex items-center gap-2 active:scale-95 transition-transform"
         >
           <Zap className="w-5 h-5" />
           <span className="font-semibold text-sm">智能推薦</span>
@@ -145,14 +187,14 @@ export default function MapView() {
                 <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
                   <Brain className="w-4 h-4 text-white" />
                 </div>
-                <h3 className="font-bold text-zinc-900">🧠 智能推薦</h3>
+                <h3 className="font-bold text-zinc-900">🧠 {REGIONS.find(r => r.id === currentRegion)?.name} 精選</h3>
               </div>
               <button onClick={() => setShowNearby(false)} className="w-9 h-9 rounded-xl bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center transition-colors active:scale-95">
                 <X className="w-4 h-4 text-zinc-500" />
               </button>
             </div>
             <div className="p-3 overflow-y-auto max-h-[calc(60vh-60px)]">
-              <SmartRecommendationEngine />
+              <SmartRecommendationEngine places={regionPlaces} />
             </div>
           </div>
         </div>
@@ -161,7 +203,7 @@ export default function MapView() {
       {/* Location Button */}
       <button 
         onClick={() => refreshUserLocation?.()}
-        className="absolute right-4 bottom-32 z-20 w-12 h-12 bg-white rounded-2xl shadow-lg border-subtle flex items-center justify-center active:scale-95 transition-transform btn-premium"
+        className="absolute right-4 bottom-32 z-20 w-12 h-12 bg-white rounded-2xl shadow-lg border-subtle flex items-center justify-center active:scale-95 transition-transform"
       >
         <Locate className="w-5 h-5 text-amber-500" />
       </button>
@@ -169,7 +211,7 @@ export default function MapView() {
       {/* Add Button */}
       <button
         onClick={() => setShowForm(true)}
-        className="absolute right-4 bottom-6 z-20 w-14 h-14 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl shadow-xl shadow-amber-500/30 flex items-center justify-center text-white text-2xl font-light active:scale-95 transition-transform btn-premium"
+        className="absolute right-4 bottom-6 z-20 w-14 h-14 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl shadow-xl shadow-amber-500/30 flex items-center justify-center text-white text-2xl font-light active:scale-95 transition-transform"
       >
         +
       </button>
@@ -181,19 +223,19 @@ export default function MapView() {
             <div className="p-5">
               <div className="flex gap-4">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-zinc-100 to-zinc-200 flex items-center justify-center text-2xl shrink-0">
-                  {CATEGORY_ICONS[selected.category]}
+                  {CATEGORY_ICONS[selected.category] || '📍'}
                 </div>
                 <div className="flex-1 min-w-0 pr-6">
                   <span className="inline-block px-2.5 py-1 bg-amber-50 text-amber-600 text-xs font-semibold rounded-lg mb-1.5">
-                    {CATEGORY_LABELS[selected.category]}
+                    {CATEGORY_LABELS[selected.category] || selected.type}
                   </span>
-                  <h3 className="font-bold text-lg text-zinc-900 leading-tight">{selected.title}</h3>
-                  {selected.description && (
-                    <p className="text-sm text-zinc-500 mt-1.5 line-clamp-2 leading-relaxed">{selected.description}</p>
+                  <h3 className="font-bold text-lg text-zinc-900 leading-tight">{selected.name}</h3>
+                  {selected.rating && (
+                    <p className="text-sm text-amber-600 mt-1">⭐ {selected.rating}分</p>
                   )}
-                  {selected.contact && (
-                    <p className="text-xs text-zinc-400 mt-2 flex items-center gap-1">
-                      <span>📍</span> {selected.contact}
+                  {selected.price !== undefined && (
+                    <p className="text-sm text-zinc-500 mt-0.5">
+                      {selected.price > 0 ? `$${selected.price}` : '免費'}
                     </p>
                   )}
                 </div>
