@@ -1,153 +1,142 @@
 import { useState, useEffect } from 'react'
-import { Newspaper, Clock, ChevronRight, MapPin, Zap, Brain, Star, Heart, Gift, TrendingUp, Sun, Cloud, CloudRain, AlertTriangle } from 'lucide-react'
-import { useMap, CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
+import { Newspaper, Clock, MapPin, Brain, Star, TrendingUp, Gift, AlertCircle, RefreshCw } from 'lucide-react'
+import { CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
 
-// Time-aware news context
-const getTimeContext = () => {
-  const now = new Date()
-  const hour = now.getHours()
-  const day = now.getDay()
-  const isWeekend = day === 0 || day === 6
-  
-  let period = 'afternoon'
-  if (hour >= 5 && hour < 11) period = 'morning'
-  else if (hour >= 11 && hour < 14) period = 'noon'
-  else if (hour >= 14 && hour < 18) period = 'afternoon'
-  else if (hour >= 18 && hour < 22) period = 'evening'
-  else period = 'night'
-  
-  return { hour, period, isWeekend, day }
-}
-
-// Smart news based on time and location
-const getSmartNews = (userLocation, markers) => {
-  const timeCtx = getTimeContext()
-  const news = []
-  
-  // Time-specific breaking news
-  if (timeCtx.period === 'morning') {
-    news.push({
-      id: 'morning1',
-      title: '🌅 朝早優惠出爐',
-      desc: '美心MX、麥當勞、大快活朝早套餐優惠，最低$25起',
-      cat: 'deals',
-      source: '即時優惠',
-      time: '今日 9:00',
-      badge: '🔥 熱辣辣',
-      urgent: true
-    })
-  } else if (timeCtx.period === 'noon') {
-    news.push({
-      id: 'noon1',
-      title: '☀️ 午餐優惠最後召集',
-      desc: '12:00-2:00限定，多間餐廳午市特價',
-      cat: 'deals',
-      source: '優惠精選',
-      time: '今日 11:30',
-      badge: '⏰ 限時',
-      urgent: true
-    })
-  } else if (timeCtx.period === 'evening') {
-    news.push({
-      id: 'evening1',
-      title: '🌆 晚餐優惠出籠',
-      desc: '晚市指定餐廳8折，送前菜或甜品',
-      cat: 'deals',
-      source: '今晚限定',
-      time: '今日 17:00',
-      badge: '🍽️ 今晚啱',
-      urgent: true
-    })
-  } else if (timeCtx.period === 'night') {
-    news.push({
-      id: 'night1',
-      title: '🌙 夜貓特選',
-      desc: '便利店深夜折扣，7-11、全家指定貨品買一送一',
-      cat: 'deals',
-      source: '夜貓專屬',
-      time: '今日 22:00',
-      badge: '🌃 夜貓著',
-      urgent: false
-    })
-  }
-
-  // Weekend special
-  if (timeCtx.isWeekend) {
-    news.push({
-      id: 'weekend1',
-      title: '🎉 週末活動精選',
-      desc: '香港美食節、海濱市集、露天電影節',
-      cat: 'places',
-      source: '週末玩轉香港',
-      time: '本週末',
-      badge: '🎊 週末必睇',
-      urgent: false
-    })
-  }
-
-  // Location-based nearby
-  if (userLocation && markers.length > 0) {
-    const nearbyTop = markers.slice(0, 2).map(m => ({
-      id: m.id,
-      title: `📍 ${m.title}`,
-      desc: m.description || CATEGORY_LABELS[m.category],
-      cat: m.category,
-      source: '你附近',
-      time: '就在附近',
-      badge: '📍 靠近你',
-      urgent: false
-    }))
-    news.push(...nearbyTop)
-  }
-
-  // Trending deals
-  news.push({
-    id: 'trending1',
-    title: '💳 信用卡優惠合集',
-    desc: 'AlipayHK最高回贈$500、WeChat Pay超市95折',
+// Static news data - always available
+const STATIC_NEWS = [
+  {
+    id: 'static_1',
+    title: '🎉 香港美食節 2026 強勢回歸',
+    desc: '超過200間本地及國際美食參與，多間餐廳推出限定優惠',
+    cat: 'restaurants',
+    source: '香港旅遊發展局',
+    time: '今日',
+    badge: '🔥 熱辣辣',
+    urgent: true
+  },
+  {
+    id: 'static_2',
+    title: '💳 AlipayHK 消費券優惠',
+    desc: '用 AlipayHK 付款最高回贈 $500，指定商戶再享額外折扣',
     cat: 'deals',
-    source: '理財精選',
-    time: '本月有效',
+    source: '支付寶HK',
+    time: '本月',
     badge: '💰 必搵',
     urgent: false
-  })
-
-  news.push({
-    id: 'trending2',
-    title: '🎫 M+博物館免費導賞團',
-    desc: '每日3場免費導賞，預約從速',
-    cat: 'places',
-    source: '文化資訊',
-    time: '展期至下月',
-    badge: '🎨 免費',
-    urgent: false
-  })
-
-  news.push({
-    id: 'trending3',
+  },
+  {
+    id: 'static_3',
     title: '🛍️ 海港城春季購物節',
-    desc: '超過500間商店參與，最高7折',
+    desc: '超過500間商店參與，最高7折優惠',
     cat: 'places',
     source: '商場資訊',
     time: '進行中',
     badge: '🛒 購物',
     urgent: false
-  })
-
-  // User content
-  const userMarkers = markers.filter(m => m.userId).slice(0, 2).map(m => ({
-    id: m.id,
-    title: `👤 ${m.title}`,
-    desc: m.description,
-    cat: m.category,
-    source: m.userName || '用家分享',
-    time: '最新',
-    badge: '👤 用家',
+  },
+  {
+    id: 'static_4',
+    title: '🏛️ M+博物館 免費導賞團',
+    desc: '每日3場免費導賞，預約從速',
+    cat: 'places',
+    source: '西九文化區',
+    time: '本週',
+    badge: '🎨 免費',
     urgent: false
-  }))
-  news.push(...userMarkers)
+  },
+  {
+    id: 'static_5',
+    title: '🍜 譚仔三哥 新口味登場',
+    desc: '全新雲南麻辣湯底，辣度任選',
+    cat: 'restaurants',
+    source: '譚仔三哥',
+    time: '新店',
+    badge: '🆕 新店',
+    urgent: false
+  },
+  {
+    id: 'static_6',
+    title: '🚇 MTR 週末優惠',
+    desc: '八達通週日免費轉乘優惠',
+    cat: 'transport',
+    source: '港鐵',
+    time: '週末',
+    badge: '🚇 交通',
+    urgent: false
+  },
+  {
+    id: 'static_7',
+    title: '🌤️ 週末天氣預報',
+    desc: '週六週日大致天晴，氣溫25-30度',
+    cat: 'news',
+    source: '天文台',
+    time: '預報',
+    badge: '🌤️ 天氣',
+    urgent: false
+  },
+  {
+    id: 'static_8',
+    title: '🎫 香港故宮博物館 新展覽',
+    desc: '北京故宮珍藏清代宮廷文物展',
+    cat: 'places',
+    source: '故宮博物館',
+    time: '新展',
+    badge: '🏛️ 文化',
+    urgent: false
+  },
+]
 
-  return news
+// Time-specific news
+const getTimeNews = () => {
+  const hour = new Date().getHours()
+  
+  if (hour >= 5 && hour < 11) {
+    return {
+      id: 'time_1',
+      title: '🌅 朝早優惠 - 早餐套餐最低$25',
+      desc: '美心MX、麥當勞、大快活朝早優惠，最低$25起',
+      cat: 'deals',
+      source: '即時優惠',
+      time: '今日朝早',
+      badge: '🌅 朝早特選',
+      urgent: true
+    }
+  } else if (hour >= 11 && hour < 14) {
+    return {
+      id: 'time_2',
+      title: '☀️ 午餐優惠 - 午市套餐',
+      desc: '多間餐廳午市特價，最高慳$30',
+      cat: 'deals',
+      source: '優惠精選',
+      time: '今日午餐',
+      badge: '☀️ 午餐精選',
+      urgent: true
+    }
+  } else if (hour >= 17 && hour < 21) {
+    return {
+      id: 'time_3',
+      title: '🌆 晚餐優惠 - 晚市8折',
+      desc: '指定餐廳晚市優惠，送前菜或甜品',
+      cat: 'deals',
+      source: '今晚限定',
+      time: '今日晚市',
+      badge: '🍽️ 今晚啱',
+      urgent: true
+    }
+  } else if (hour >= 21 || hour < 5) {
+    return {
+      id: 'time_4',
+      title: '🌙 夜貓特選 - 便利店特價',
+      desc: '7-11、全家夜間折扣，精選貨品買一送一',
+      cat: 'deals',
+      source: '夜貓專屬',
+      time: '深夜',
+      badge: '🌃 夜貓著',
+      urgent: false
+    }
+  }
+  
+  return null
 }
 
 const catColors = {
@@ -159,27 +148,64 @@ const catColors = {
 }
 
 export default function NewsView() {
-  const { markers, userLocation } = useMap()
   const [news, setNews] = useState([])
-  const [timeContext, setTimeContext] = useState(getTimeContext())
+  const [refreshing, setRefreshing] = useState(false)
+  const [lastUpdate, setLastUpdate] = useState(new Date())
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeContext(getTimeContext())
-    }, 60000)
-    return () => clearInterval(timer)
+    // Load news immediately
+    loadNews()
+    
+    // Refresh every 5 minutes
+    const interval = setInterval(loadNews, 5 * 60 * 1000)
+    return () => clearInterval(interval)
   }, [])
 
-  useEffect(() => {
-    const smartNews = getSmartNews(userLocation, markers)
-    setNews(smartNews)
-  }, [userLocation, markers, timeContext])
+  const loadNews = () => {
+    setRefreshing(true)
+    
+    // Combine time-specific news with static news
+    const timeNews = getTimeNews()
+    let allNews = [...STATIC_NEWS]
+    
+    // Add time-specific news at the top if exists
+    if (timeNews) {
+      allNews = [timeNews, ...allNews]
+    }
+    
+    // Add weekday/weekend specific news
+    const isWeekend = [0, 6].includes(new Date().getDay())
+    if (isWeekend) {
+      allNews = [
+        {
+          id: 'weekend_1',
+          title: '🎉 週末活動精選',
+          desc: '香港美食節、海濱市集、露天電影節',
+          cat: 'places',
+          source: '週末玩轉香港',
+          time: '本週末',
+          badge: '🎊 週末必睇',
+          urgent: false
+        },
+        ...allNews
+      ]
+    }
+    
+    setNews(allNews)
+    setLastUpdate(new Date())
+    setRefreshing(false)
+  }
 
-  const getGreeting = () => {
-    if (timeContext.period === 'morning') return '🌅 朝早好'
-    if (timeContext.period === 'noon') return '☀️ 午飯時間'
-    if (timeContext.period === 'afternoon') return '🌤️ 下午時光'
-    if (timeContext.period === 'evening') return '🌆 晚晚開始'
+  const handleRefresh = () => {
+    loadNews()
+  }
+
+  const getTimeGreeting = () => {
+    const hour = new Date().getHours()
+    if (hour >= 5 && hour < 11) return '🌅 朝早好'
+    if (hour >= 11 && hour < 14) return '☀️ 午飯時間'
+    if (hour >= 14 && hour < 18) return '🌤️ 下午時光'
+    if (hour >= 18 && hour < 22) return '🌆 晚晚開始'
     return '🌙 夜喇'
   }
 
@@ -197,32 +223,32 @@ export default function NewsView() {
               <p className="text-sm text-zinc-400">為你精挑細選</p>
             </div>
           </div>
-          {userLocation && (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 rounded-xl">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-              <span className="text-xs text-emerald-600 font-medium">已定位</span>
-            </div>
-          )}
+          <button 
+            onClick={handleRefresh}
+            className={`w-10 h-10 rounded-xl bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center transition-all active:scale-95 ${refreshing ? 'animate-spin' : ''}`}
+          >
+            <RefreshCw className="w-5 h-5 text-zinc-500" />
+          </button>
         </div>
       </div>
 
-      {/* Smart Context Banner */}
+      {/* Time-based Greeting Banner */}
       <div className="px-5 py-3 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100/50">
         <div className="flex items-center gap-2">
           <Brain className="w-4 h-4 text-blue-500" />
           <span className="text-sm text-blue-700">
-            {getGreeting()}！{timeContext.isWeekend && ' 🎉 今日係週末'} 我為你精選咗以下資訊：
+            {getTimeGreeting()}！我為你精選咗以下資訊：
           </span>
         </div>
       </div>
 
       {/* News List */}
       <div className="flex-1 overflow-y-auto p-5">
-        <div className="space-y-4 stagger-children">
+        <div className="space-y-4">
           {news.map((n, i) => (
             <div
               key={n.id || i}
-              className={`bg-white rounded-2xl shadow-sm border ${n.urgent ? 'border-amber-200' : 'border-zinc-100/80'} overflow-hidden card-hover`}
+              className={`bg-white rounded-2xl shadow-sm ${n.urgent ? 'border-2 border-amber-200' : 'border border-zinc-100/80'} overflow-hidden card-hover`}
             >
               <div className={`h-1.5 bg-gradient-to-r ${catColors[n.cat] || 'from-zinc-500 to-neutral-500'}`} />
               <div className="p-4">
@@ -250,7 +276,7 @@ export default function NewsView() {
                       <Clock className="w-3 h-3" />
                       {n.time}
                     </span>
-                    <span className="text-xl">{CATEGORY_ICONS[n.cat]}</span>
+                    <span className="text-xl">{CATEGORY_ICONS[n.cat] || '📰'}</span>
                   </div>
                 </div>
               </div>
@@ -258,15 +284,12 @@ export default function NewsView() {
           ))}
         </div>
 
-        {news.length === 0 && (
-          <div className="text-center py-20">
-            <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-zinc-100 flex items-center justify-center">
-              <Newspaper className="w-10 h-10 text-zinc-300" />
-            </div>
-            <h3 className="text-lg font-semibold text-zinc-700 mb-2">暫時冇料到</h3>
-            <p className="text-sm text-zinc-400">稍後再碌碌啦</p>
-          </div>
-        )}
+        {/* Last Update */}
+        <div className="text-center py-4 mt-4">
+          <p className="text-xs text-zinc-400">
+            最後更新：{lastUpdate.toLocaleTimeString('zh-HK', { hour: '2-digit', minute: '2-digit' })}
+          </p>
+        </div>
       </div>
     </div>
   )
