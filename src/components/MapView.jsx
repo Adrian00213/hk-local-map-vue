@@ -189,10 +189,18 @@ export default function MapView() {
         onLoad={onMapLoad}
       >
         {userLocation && (
-          <Marker position={userLocation} icon={{
-            url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<div style="width:18px;height:18px;background:#10B981;border:3px solid white;border-radius:50%;box-shadow:0 4px 12px rgba(16,185,129,0.4)"></div>`)}`,
-            scaledSize: { width: 18, height: 18 }
-          }} />
+          <Marker 
+            position={userLocation}
+            icon={{
+              path: window.google?.maps?.SymbolPath?.CIRCLE,
+              scale: 10,
+              fillColor: '#10B981',
+              fillOpacity: 1,
+              strokeColor: '#ffffff',
+              strokeWeight: 3
+            }}
+            title="你的位置"
+          />
         )}
         {filtered.map((m, idx) => (
           <Marker 
@@ -338,16 +346,16 @@ export default function MapView() {
         +
       </button>
 
-      {/* Selected Place Card */}
+      {/* Selected Place Card with Navigation */}
       {selected && (
-        <div className="absolute bottom-6 left-4 right-20 z-20 animate-slide-up">
+        <div className="absolute bottom-6 left-4 right-4 z-20 animate-slide-up">
           <div className="bg-white rounded-3xl shadow-xl border-subtle overflow-hidden">
             <div className="p-5">
               <div className="flex gap-4">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-zinc-100 to-zinc-200 flex items-center justify-center text-2xl shrink-0">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center text-2xl shrink-0">
                   {CATEGORY_ICONS[selected.category] || '📍'}
                 </div>
-                <div className="flex-1 min-w-0 pr-6">
+                <div className="flex-1 min-w-0">
                   <span className="inline-block px-2.5 py-1 bg-amber-50 text-amber-600 text-xs font-semibold rounded-lg mb-1.5">
                     {CATEGORY_LABELS[selected.category] || selected.type}
                   </span>
@@ -366,10 +374,45 @@ export default function MapView() {
                 </div>
                 <button
                   onClick={() => setSelected(null)}
-                  className="absolute top-4 right-4 w-9 h-9 rounded-xl bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center transition-colors active:scale-95"
+                  className="w-9 h-9 rounded-xl bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center transition-colors active:scale-95"
                 >
                   <X className="w-4 h-4 text-zinc-500" />
                 </button>
+              </div>
+              
+              {/* Navigation Button */}
+              <div className="mt-4 flex gap-2">
+                <button
+                  onClick={() => {
+                    const lat = selected.lat || selected.geometry?.location?.lat()
+                    const lng = selected.lng || selected.geometry?.location?.lng()
+                    if (lat && lng) {
+                      const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`
+                      window.open(url, '_blank')
+                    }
+                  }}
+                  className="flex-1 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-transform shadow-lg shadow-amber-500/30"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                  </svg>
+                  導航
+                </button>
+                {selected.address && (
+                  <button
+                    onClick={() => {
+                      const address = encodeURIComponent(selected.address)
+                      window.open(`https://www.google.com/maps/search/?api=1&query=${address}`, '_blank')
+                    }}
+                    className="px-4 py-3 bg-zinc-100 text-zinc-700 font-semibold rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    查看
+                  </button>
+                )}
               </div>
             </div>
           </div>
