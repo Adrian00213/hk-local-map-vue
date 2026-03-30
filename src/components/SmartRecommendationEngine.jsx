@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { Sparkles, TrendingUp, Clock, MapPin, Star, Heart, Gift, Zap, Brain, Sun, Cloud, RefreshCw, Image } from 'lucide-react'
-import { searchForRecommendations } from '../services/GooglePlacesService'
+import { searchForRecommendations, isPlacesServiceReady } from '../services/GooglePlacesService'
 
 // Fallback data for when API fails
 const FALLBACK_DATA = {
@@ -37,13 +37,12 @@ const getWeatherIcon = (condition) => {
   return icons[condition] || <Sun className="w-5 h-5 text-amber-500" />
 }
 
-// Placeholder images (smaller, more reliable)
+// Placeholder images
 const PLACEHOLDER = {
   restaurants: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&h=200&fit=crop',
   places: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=200&h=200&fit=crop'
 }
 
-// Emoji fallback for broken images
 const EMOJI_PLACEHOLDER = {
   restaurants: '🍜',
   places: '🎯'
@@ -55,19 +54,39 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
   const [refreshing, setRefreshing] = useState(false)
   const [usingGoogle, setUsingGoogle] = useState(false)
   const [weather] = useState({ condition: 'sunny', temp: 26 })
+  const [forceUpdate, setForceUpdate] = useState(0)
+  
+  // Use ref to track previous values and avoid stale closures
+  const stateRef = useRef({ mapReady, userLocation, region })
   const timeContext = getTimeContext()
 
+  // Update ref on every render
+  useEffect(() => {
+    stateRef.current = { mapReady, userLocation, region }
+    console.log('📊 SmartRecommendations state updated:', { mapReady, userLocation: !!userLocation, region, forceUpdate })
+  }, [mapReady, userLocation, region, forceUpdate])
+
   const fetchRecommendations = useCallback(async () => {
+    const { mapReady, userLocation, region } = stateRef.current
+    
+    console.log('🤖 fetchRecommendations called', { mapReady, hasLocation: !!userLocation, region })
+    
     setRefreshing(true)
-    console.log('🤖 SmartRecommendations fetching...', { region, timeContext, hasLocation: !!userLocation, mapReady })
+    
+    // Check if PlacesService is ready
+    const serviceReady = isPlacesServiceReady()
+    console.log('🔍 PlacesService ready?', serviceReady)
+    console.log('🔍 mapReady prop?', mapReady)
+    console.log('🔍 userLocation prop?', !!userLocation)
     
     try {
-      if (mapReady && userLocation) {
+      // Try Google Places if service is ready and we have location
+      if (serviceReady && userLocation) {
         console.log('🔍 Using Google Maps Places API...')
         const results = await searchForRecommendations(region, timeContext, userLocation)
         
         if (results.length > 0) {
-          console.log('✅ Google Places found:', results.length)
+          console.log('✅ Google Places found:', results.length, 'places')
           setUsingGoogle(true)
           
           const sections = [
@@ -91,9 +110,15 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
           setLoading(false)
           setRefreshing(false)
           return
+        } else {
+          console.log('⚠️ Google Places returned no results')
         }
+      } else {
+        console.log('⚠️ Cannot use Google Places:', { serviceReady, hasLocation: !!userLocation })
       }
-      throw new Error('Google Places not available')
+      
+      // Use fallback data
+      throw new Error('Using fallback data')
     } catch (error) {
       console.log('⚠️ Using fallback data:', error.message)
       setUsingGoogle(false)
@@ -122,15 +147,17 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
     
     setLoading(false)
     setRefreshing(false)
-  }, [region, timeContext, userLocation, mapReady])
+  }, [timeContext]) // Only timeContext as dependency for useCallback
 
-  // CRITICAL FIX: Add mapReady and userLocation as direct dependencies
-  // to prevent stale closures that cause "offline mode" even when API is available
+  // Initial load and when map becomes ready or location changes
   useEffect(() => {
+    console.log('📡 useEffect triggered:', { mapReady, userLocation: !!userLocation })
     fetchRecommendations()
-  }, [fetchRecommendations, mapReady, userLocation])
+  }, [mapReady, userLocation, fetchRecommendations])
 
   const handleRefresh = () => {
+    console.log('🔄 Refresh requested')
+    setForceUpdate(f => f + 1)
     fetchRecommendations()
   }
 
@@ -150,24 +177,17 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
     return '🌙'
   }
 
-  // Get image URL with fallback
   const getPlaceImage = (place) => {
-    if (place.photos && place.photos.length > 0) {
-      return place.photos[0]
-    }
-    if (place.imageUrl) {
-      return place.imageUrl
-    }
+    if (place.photos && place.photos.length > 0) return place.photos[0]
+    if (place.imageUrl) return place.imageUrl
     return PLACEHOLDER[place.category] || PLACEHOLDER.places
   }
 
-  // Compact Place Card (left image, right info)
   const CompactPlaceCard = ({ place }) => (
     <div 
       onClick={() => onPlaceSelect?.(place)}
       className="bg-white rounded-xl overflow-hidden border border-zinc-100/80 cursor-pointer hover:shadow-md transition-all active:scale-[0.98] flex"
     >
-      {/* Thumbnail Image */}
       <div className="relative w-20 h-20 shrink-0 bg-zinc-100">
         <img 
           src={getPlaceImage(place)} 
@@ -181,7 +201,6 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
             parent.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-amber-100 to-orange-100 text-2xl">${emoji}</div>`
           }}
         />
-        {/* Rating overlay */}
         {place.rating && (
           <div className="absolute bottom-1 left-1 px-1.5 py-0.5 bg-black/60 backdrop-blur rounded flex items-center gap-0.5">
             <Star className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
@@ -190,7 +209,6 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
         )}
       </div>
       
-      {/* Info */}
       <div className="flex-1 p-2.5 flex flex-col justify-center min-w-0">
         <h4 className="font-bold text-zinc-900 text-sm leading-tight line-clamp-1">{place.name}</h4>
         {place.description && (
@@ -215,7 +233,6 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
   if (loading) {
     return (
       <div className="space-y-4">
-        {/* Weather Widget */}
         <div className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl p-4 text-white">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -228,7 +245,6 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
           </div>
         </div>
         
-        {/* Loading Skeleton */}
         <div className="space-y-2">
           {[1, 2, 3, 4].map(i => (
             <div key={i} className="bg-white rounded-xl overflow-hidden animate-pulse flex">
@@ -275,7 +291,7 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
         </div>
       </div>
 
-      {/* Recommendation Sections - Compact List */}
+      {/* Recommendation Sections */}
       {recommendations.map((section, idx) => (
         <div key={idx} className="space-y-2">
           <div className="flex items-center justify-between">
@@ -286,7 +302,6 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
             <span className="text-xs text-zinc-400">{section.source}</span>
           </div>
           
-          {/* Compact List */}
           <div className="space-y-2">
             {section.places.map((place, pIdx) => (
               <CompactPlaceCard key={pIdx} place={place} />
@@ -295,7 +310,6 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
         </div>
       ))}
 
-      {/* Empty State */}
       {recommendations.length === 0 && !loading && (
         <div className="text-center py-8">
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-zinc-100 flex items-center justify-center">
