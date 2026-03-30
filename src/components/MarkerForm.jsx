@@ -154,7 +154,7 @@ export default function MarkerForm({ onClose, onLoginRequired }) {
 
   const categories = [
     { id: 'places', label: '好去處', icon: '🎯', color: 'from-blue-500 to-indigo-500' },
-    { id: 'restaurants', label: '餐廳', icon: '🍜', color: 'from-orange-500 to-amber-500' },
+    { id: 'restaurants', label: '餐廳', icon: '🍜', color: 'from-stone-700 to-stone-600' },
     { id: 'transport', label: '交通', icon: '🚌', color: 'from-emerald-500 to-teal-500' },
     { id: 'deals', label: '優惠', icon: '💰', color: 'from-pink-500 to-rose-500' },
     { id: 'news', label: '資訊', icon: '📰', color: 'from-violet-500 to-purple-500' },
@@ -354,7 +354,7 @@ export default function MarkerForm({ onClose, onLoginRequired }) {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="w-full py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold rounded-xl shadow-lg shadow-amber-200 hover:shadow-xl transition-all active:scale-[0.98] disabled:opacity-50"
+            className="w-full py-4 bg-gradient-to-r from-stone-600 to-stone-700 text-white font-bold rounded-xl shadow-lg shadow-amber-200 hover:shadow-xl transition-all active:scale-[0.98] disabled:opacity-50"
           >
             {loading ? (
               <Loader2 className="w-6 h-6 animate-spin mx-auto" />

@@ -7,7 +7,7 @@ const ONBOARDING_STEPS = [
     title: '香港生活地圖',
     subtitle: '你嘅智能香港生活指南',
     description: '集優惠、餐廳、好去處於一身，帶你發掘香港每一個精彩角落！',
-    color: 'from-amber-500 to-orange-500',
+    color: 'from-stone-600 to-stone-700',
   },
   {
     icon: '📍',
@@ -83,7 +83,7 @@ export default function OnboardingView({ onComplete }) {
         <h1 className="text-2xl font-bold text-zinc-900 text-center mb-2">
           {step.title}
         </h1>
-        <p className="text-sm font-medium text-amber-500 mb-4">
+        <p className="text-sm font-medium text-stone-600 mb-4">
           {step.subtitle}
         </p>
         <p className="text-base text-zinc-500 text-center leading-relaxed max-w-xs">
@@ -100,7 +100,7 @@ export default function OnboardingView({ onComplete }) {
               key={i}
               className={`w-2 h-2 rounded-full transition-all duration-200 ${
                 i === currentStep 
-                  ? 'w-6 bg-amber-500' 
+                  ? 'w-6 bg-stone-1000' 
                   : i < currentStep 
                     ? 'bg-amber-300' 
                     : 'bg-zinc-200'

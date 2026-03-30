@@ -57,7 +57,7 @@ const getTimeOffer = () => {
 }
 
 const catColors = {
-  restaurants: 'from-orange-500 to-amber-500',
+  restaurants: 'from-stone-700 to-stone-600',
   places: 'from-blue-500 to-indigo-500',
   deals: 'from-red-500 to-pink-500',
   shopping: 'from-purple-500 to-violet-500',
@@ -137,19 +137,19 @@ export default function NewsView() {
       <div className="bg-white/80 backdrop-blur-xl border-b border-amber-100/50 px-5 pt-5 pb-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-200/50">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-stone-600 to-stone-700 flex items-center justify-center shadow-lg shadow-amber-200/50">
               <Newspaper className="w-6 h-6 text-white" />
             </div>
             <div>
               <h1 className="text-xl font-bold text-zinc-900">📰 資訊中心</h1>
-              <p className="text-xs text-amber-600">為你精挑細選</p>
+              <p className="text-xs text-stone-600">為你精挑細選</p>
             </div>
           </div>
           <button 
             onClick={handleRefresh}
-            className={`w-10 h-10 rounded-xl bg-amber-50 hover:bg-amber-100 flex items-center justify-center transition-all active:scale-95 ${refreshing ? 'animate-spin' : ''}`}
+            className={`w-10 h-10 rounded-xl bg-stone-100 hover:bg-stone-200 flex items-center justify-center transition-all active:scale-95 ${refreshing ? 'animate-spin' : ''}`}
           >
-            <RefreshCw className="w-5 h-5 text-amber-500" />
+            <RefreshCw className="w-5 h-5 text-stone-600" />
           </button>
         </div>
       </div>
@@ -157,8 +157,8 @@ export default function NewsView() {
       {/* Time-based Greeting Banner */}
       <div className="px-5 py-3 bg-gradient-to-r from-amber-50 to-orange-50 border-b border-amber-100/50">
         <div className="flex items-center gap-2">
-          <Brain className="w-4 h-4 text-amber-500" />
-          <span className="text-sm text-amber-700 font-medium">
+          <Brain className="w-4 h-4 text-stone-600" />
+          <span className="text-sm text-stone-700 font-medium">
             {getGreeting()}！為你精選附近優惠：
           </span>
         </div>
@@ -175,7 +175,7 @@ export default function NewsView() {
                 onClick={() => setRegion(r)}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all active:scale-95 ${
                   region === r 
-                    ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md' 
+                    ? 'bg-gradient-to-r from-stone-600 to-stone-700 text-white shadow-md' 
                     : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
                 }`}
               >
@@ -197,8 +197,8 @@ export default function NewsView() {
                 onClick={() => setActiveCat(cat.id)}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all active:scale-95 ${
                   activeCat === cat.id
-                    ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md'
-                    : 'bg-amber-50 text-amber-700 hover:bg-amber-100'
+                    ? 'bg-gradient-to-r from-stone-600 to-stone-700 text-white shadow-md'
+                    : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -233,7 +233,7 @@ export default function NewsView() {
         {/* Nearby Places Section */}
         <div className="px-5 pb-4">
           <div className="flex items-center gap-2 mb-3">
-            <Compass className="w-5 h-5 text-amber-500" />
+            <Compass className="w-5 h-5 text-stone-600" />
             <h2 className="font-bold text-zinc-900">附近精選</h2>
             <span className="ml-auto text-xs text-zinc-400">{filteredPlaces.length} 個地點</span>
           </div>
@@ -244,7 +244,7 @@ export default function NewsView() {
               <p className="text-zinc-500 text-sm">暫時冇相關地點</p>
               <button 
                 onClick={() => setActiveCat(null)}
-                className="mt-2 text-amber-500 text-sm font-medium"
+                className="mt-2 text-stone-600 text-sm font-medium"
               >
                 查看全部 →
               </button>
@@ -267,12 +267,12 @@ export default function NewsView() {
                       {/* Info */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-xs text-amber-600 font-medium px-2 py-0.5 bg-amber-50 rounded-full">
+                          <span className="text-xs text-stone-600 font-medium px-2 py-0.5 bg-stone-100 rounded-full">
                             {CATEGORY_LABELS[place.category] || place.category}
                           </span>
                           {place.rating && (
-                            <span className="text-xs text-amber-600 flex items-center gap-0.5">
-                              <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
+                            <span className="text-xs text-stone-600 flex items-center gap-0.5">
+                              <Star className="w-3 h-3 text-stone-500 fill-amber-400" />
                               {place.rating}
                             </span>
                           )}
@@ -282,7 +282,7 @@ export default function NewsView() {
                           <p className="text-sm text-zinc-500 mt-1 line-clamp-2">{place.description}</p>
                         )}
                         {place.price !== undefined && (
-                          <p className="text-sm font-medium text-amber-600 mt-1">
+                          <p className="text-sm font-medium text-stone-600 mt-1">
                             {place.price > 0 ? `$${place.price}` : '免費'}
                           </p>
                         )}
@@ -291,7 +291,7 @@ export default function NewsView() {
                       {/* Navigate Button */}
                       <button
                         onClick={() => handleNavigate(place)}
-                        className="w-10 h-10 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center shadow-md shrink-0 active:scale-95 transition-transform"
+                        className="w-10 h-10 rounded-xl bg-gradient-to-r from-stone-600 to-stone-700 flex items-center justify-center shadow-md shrink-0 active:scale-95 transition-transform"
                       >
                         <Navigation2 className="w-5 h-5 text-white" />
                       </button>
@@ -323,7 +323,7 @@ export default function NewsView() {
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center text-lg shrink-0">
                       {CATEGORY_ICONS[offer.cat] || '🎁'}
                     </div>
-                    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-lg ${offer.urgent ? 'bg-amber-100 text-amber-700' : 'bg-zinc-100 text-zinc-600'}`}>
+                    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-lg ${offer.urgent ? 'bg-stone-200 text-stone-700' : 'bg-zinc-100 text-zinc-600'}`}>
                       {offer.badge}
                     </span>
                   </div>

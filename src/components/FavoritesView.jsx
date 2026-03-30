@@ -99,7 +99,7 @@ export default function FavoritesView() {
                             <Star
                               className={`w-5 h-5 ${
                                 s <= (ratings[m.id] || 0)
-                                  ? 'text-amber-400 fill-amber-400'
+                                  ? 'text-stone-500 fill-amber-400'
                                   : 'text-zinc-200'
                               }`}
                             />

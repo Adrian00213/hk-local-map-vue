@@ -25,7 +25,7 @@ export default function Header({ user, onLoginClick, isDarkMode, onDarkModeToggl
           <h1 className="font-bold text-zinc-900 text-base tracking-tight">
             香港生活地圖
           </h1>
-          <p className="text-xs text-amber-600 font-medium">
+          <p className="text-xs text-stone-600 font-medium">
             {greeting}！{user ? user.displayName || user.email : '探索精彩'}
           </p>
         </div>
@@ -35,37 +35,37 @@ export default function Header({ user, onLoginClick, isDarkMode, onDarkModeToggl
         {/* Dark Mode Toggle */}
         <button
           onClick={onDarkModeToggle}
-          className="p-2.5 rounded-xl hover:bg-amber-50 transition-colors active:scale-95"
+          className="p-2.5 rounded-xl hover:bg-stone-100 transition-colors active:scale-95"
           aria-label="Toggle dark mode"
         >
           {isDarkMode ? (
-            <Sun className="w-5 h-5 text-amber-500" />
+            <Sun className="w-5 h-5 text-stone-600" />
           ) : (
-            <Moon className="w-5 h-5 text-amber-600" />
+            <Moon className="w-5 h-5 text-stone-600" />
           )}
         </button>
 
         {user ? (
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-amber-100 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-stone-200 flex items-center justify-center">
               {user.photoURL ? (
                 <img src={user.photoURL} alt={user.displayName || 'User'} className="w-full h-full rounded-xl object-cover" />
               ) : (
-                <User className="w-4 h-4 text-amber-600" />
+                <User className="w-4 h-4 text-stone-600" />
               )}
             </div>
             <button
               onClick={handleLogout}
-              className="p-2.5 rounded-xl hover:bg-amber-50 transition-colors active:scale-95"
+              className="p-2.5 rounded-xl hover:bg-stone-100 transition-colors active:scale-95"
               aria-label="Logout"
             >
-              <LogOut className="w-5 h-5 text-amber-600" />
+              <LogOut className="w-5 h-5 text-stone-600" />
             </button>
           </div>
         ) : (
           <button
             onClick={onLoginClick}
-            className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl text-sm font-semibold shadow-lg shadow-amber-200/50 active:scale-95 transition-transform"
+            className="px-4 py-2 bg-gradient-to-r from-stone-600 to-stone-700 text-white rounded-xl text-sm font-semibold shadow-lg shadow-amber-200/50 active:scale-95 transition-transform"
           >
             登入
           </button>

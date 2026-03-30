@@ -3,16 +3,24 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #F59E0B;
-  --color-secondary: #FBBF24;
-  --color-amber-50: #FFFBEB;
-  --color-amber-100: #FEF3C7;
-  --color-amber-200: #FDE68A;
-  --color-amber-300: #FCD34D;
-  --color-amber-400: #FBBF24;
-  --color-amber-500: #F59E0B;
-  --color-amber-600: #D97706;
-  --color-amber-700: #B45309;
+  --color-primary: #8B6914;
+  --color-secondary: #A67C52;
+  --color-stone-100: #F5F0EB;
+  --color-stone-200: #E8E0D8;
+  --color-stone-300: #D4C8BA;
+  --color-stone-400: #A89A85;
+  --color-stone-500: #8B7B66;
+  --color-stone-600: #6B5D4D;
+  --color-stone-700: #4A3F32;
+  --color-stone-800: #2E251C;
+  --color-amber-50: #FEF9F3;
+  --color-amber-100: #FDEPCC;
+  --color-amber-200: #FCE0A8;
+  --color-amber-300: #FAD17D;
+  --color-amber-400: #F8BF4D;
+  --color-amber-500: #C49A3A;
+  --color-amber-600: #A67C2E;
+  --color-amber-700: #8B6522;
 }
 
 * {
@@ -32,21 +40,21 @@ html, body, #root {
 }
 
 body {
-  background: #FFFDF9;
-  color: #1C1917;
+  background: #FAF8F5;
+  color: #2C2416;
 }
 
-/* Premium Shadows - Warm tones */
-.shadow-xs { box-shadow: 0 1px 2px rgba(245, 158, 11, 0.04); }
-.shadow-sm { box-shadow: 0 1px 3px rgba(245, 158, 11, 0.06), 0 1px 2px rgba(245, 158, 11, 0.04); }
-.shadow-md { box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.06), 0 2px 4px -1px rgba(245, 158, 11, 0.04); }
-.shadow-lg { box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.06), 0 4px 6px -2px rgba(245, 158, 11, 0.04); }
-.shadow-xl { box-shadow: 0 20px 25px -5px rgba(245, 158, 11, 0.06), 0 10px 10px -5px rgba(245, 158, 11, 0.04); }
-.shadow-amber-soft { box-shadow: 0 4px 14px rgba(245, 158, 11, 0.15); }
+/* Premium Shadows - Earthy tones */
+.shadow-xs { box-shadow: 0 1px 2px rgba(139, 105, 20, 0.04); }
+.shadow-sm { box-shadow: 0 1px 3px rgba(139, 105, 20, 0.06), 0 1px 2px rgba(139, 105, 20, 0.04); }
+.shadow-md { box-shadow: 0 4px 6px -1px rgba(139, 105, 20, 0.06), 0 2px 4px -1px rgba(139, 105, 20, 0.04); }
+.shadow-lg { box-shadow: 0 10px 15px -3px rgba(139, 105, 20, 0.06), 0 4px 6px -2px rgba(139, 105, 20, 0.04); }
+.shadow-xl { box-shadow: 0 20px 25px -5px rgba(139, 105, 20, 0.06), 0 10px 10px -5px rgba(139, 105, 20, 0.04); }
+.shadow-stone-soft { box-shadow: 0 4px 14px rgba(139, 105, 20, 0.12); }
 
-/* Glass effect - warmer */
+/* Glass effect - earthy */
 .glass {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
@@ -78,8 +86,8 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
-  50% { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(139, 105, 20, 0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(139, 105, 20, 0); }
 }
 
 .animate-fade-in { animation: fade-in 0.2s ease-out; }
@@ -108,19 +116,19 @@ body {
 
 /* Focus states */
 button:focus-visible, a:focus-visible {
-  outline: 2px solid #F59E0B;
+  outline: 2px solid #A67C52;
   outline-offset: 2px;
 }
 
-/* Premium button */
+/* Premium button - earthy brown */
 .btn-primary {
-  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  background: linear-gradient(135deg, #A67C52 0%, #8B6914 100%);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 16px rgba(245, 158, 11, 0.25);
+  box-shadow: 0 8px 16px rgba(139, 105, 20, 0.2);
 }
 
 .btn-primary:active {
@@ -134,24 +142,28 @@ button:focus-visible, a:focus-visible {
 
 .card-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 24px -4px rgba(245, 158, 11, 0.12);
+  box-shadow: 0 12px 24px -4px rgba(139, 105, 20, 0.1);
 }
 
 /* Gradient text */
 .text-gradient {
-  background: linear-gradient(135deg, #F59E0B, #EF4444);
+  background: linear-gradient(135deg, #A67C52, #8B6914);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Gradient backgrounds */
+/* Gradient backgrounds - earthy */
 .bg-gradient-warm {
-  background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+  background: linear-gradient(135deg, #F5F0EB 0%, #E8E0D8 100%);
 }
 
 .bg-gradient-primary {
-  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  background: linear-gradient(135deg, #A67C52 0%, #8B6914 100%);
+}
+
+.bg-gradient-stone {
+  background: linear-gradient(135deg, #D4C8BA 0%, #A89A85 100%);
 }
 
 /* Rounded modern */

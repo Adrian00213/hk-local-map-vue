@@ -31,7 +31,7 @@ const HK_DEALS = [
     icon: '🟠',
     type: 'octopus',
     validUntil: '2026-04-30',
-    color: 'from-orange-500 to-amber-500'
+    color: 'from-stone-700 to-stone-600'
   },
   {
     id: '4',
@@ -128,7 +128,7 @@ export default function DealsView() {
       {/* Header */}
       <div className="bg-white border-b border-zinc-100/80 px-5 pt-5 pb-4">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-200/50">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-stone-600 to-stone-700 flex items-center justify-center shadow-lg shadow-amber-200/50">
             <Gift className="w-6 h-6 text-white" />
           </div>
           <div>
@@ -145,7 +145,7 @@ export default function DealsView() {
               onClick={() => setFilter(t.id)}
               className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
                 filter === t.id 
-                  ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md' 
+                  ? 'bg-gradient-to-r from-stone-600 to-stone-700 text-white shadow-md' 
                   : 'bg-zinc-100 text-zinc-600'
               }`}
             >
@@ -182,7 +182,7 @@ export default function DealsView() {
                           onClick={() => toggleSave(deal.id)}
                           className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 transition-all ${
                             isSaved 
-                              ? 'bg-amber-100 text-amber-500' 
+                              ? 'bg-stone-200 text-stone-600' 
                               : 'bg-zinc-100 text-zinc-400 hover:bg-zinc-200'
                           }`}
                         >
@@ -194,7 +194,7 @@ export default function DealsView() {
                       <div className="flex items-center gap-3 mt-3">
                         <span className={`px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1 ${
                           deal.type === 'payment' ? 'bg-purple-50 text-purple-600' :
-                          deal.type === 'octopus' ? 'bg-orange-50 text-orange-600' :
+                          deal.type === 'octopus' ? 'bg-stone-100 text-orange-600' :
                           'bg-blue-50 text-blue-600'
                         }`}>
                           {deal.type === 'payment' ? '📱 電子支付' :

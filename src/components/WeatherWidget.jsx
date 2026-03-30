@@ -137,7 +137,7 @@ export default function WeatherWidget({ onClose }) {
             {/* Details */}
             <div className="grid grid-cols-3 gap-2 text-center">
               <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-2">
-                <Thermometer className="w-4 h-4 mx-auto text-orange-500 mb-1" />
+                <Thermometer className="w-4 h-4 mx-auto text-stone-600 mb-1" />
                 <div className="text-xs text-gray-600 dark:text-gray-400">體感</div>
                 <div className="text-sm font-medium text-gray-900 dark:text-white">
                   {weather.feelsLike}°

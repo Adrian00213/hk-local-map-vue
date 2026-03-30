@@ -239,7 +239,7 @@ export default function MapView() {
             onClick={() => setSelectedCategory(null)}
             className={`px-4 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-200 active:scale-95 ${
               !selectedCategory 
-                ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md' 
+                ? 'bg-gradient-to-r from-stone-600 to-stone-700 text-white shadow-md' 
                 : 'text-zinc-600 hover:bg-zinc-100 active:bg-zinc-200'
             }`}
           >
@@ -251,7 +251,7 @@ export default function MapView() {
               onClick={() => setSelectedCategory(k)}
               className={`px-4 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-200 flex items-center gap-1.5 active:scale-95 ${
                 selectedCategory === k 
-                  ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md' 
+                  ? 'bg-gradient-to-r from-stone-600 to-stone-700 text-white shadow-md' 
                   : 'text-zinc-600 hover:bg-zinc-100 active:bg-zinc-200'
               }`}
             >
@@ -265,15 +265,15 @@ export default function MapView() {
       {/* Location Permission Warning */}
       {locationError && (
         <div className="absolute top-20 left-4 right-4 z-20 animate-slide-up">
-          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-3 flex items-center gap-3 shadow-lg">
-            <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center shrink-0">
-              <Locate className="w-5 h-5 text-amber-600" />
+          <div className="bg-stone-100 border border-amber-200 rounded-2xl p-3 flex items-center gap-3 shadow-lg">
+            <div className="w-10 h-10 rounded-xl bg-stone-200 flex items-center justify-center shrink-0">
+              <Locate className="w-5 h-5 text-stone-600" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-amber-800">
                 {locationError === 'denied' ? '位置權限被拒絕' : '無法取得位置'}
               </p>
-              <p className="text-xs text-amber-600 mt-0.5">
+              <p className="text-xs text-stone-600 mt-0.5">
                 {locationError === 'denied'
                   ? '使用香港中心位置，允許位置存取以獲得更精準推薦'
                   : '位置服務暫時無法使用'}
@@ -281,7 +281,7 @@ export default function MapView() {
             </div>
             <button
               onClick={refreshUserLocation}
-              className="px-3 py-1.5 bg-amber-500 text-white text-xs font-semibold rounded-lg shrink-0"
+              className="px-3 py-1.5 bg-stone-1000 text-white text-xs font-semibold rounded-lg shrink-0"
             >
               重試
             </button>
@@ -293,7 +293,7 @@ export default function MapView() {
       {isSearching && (
         <div className="absolute top-20 left-4 z-20">
           <div className="px-4 py-2 bg-white/90 backdrop-blur rounded-xl shadow-md flex items-center gap-2">
-            <Search className="w-4 h-4 text-amber-500 animate-pulse" />
+            <Search className="w-4 h-4 text-stone-600 animate-pulse" />
             <span className="text-xs text-zinc-600">搜尋中...</span>
           </div>
         </div>
@@ -303,7 +303,7 @@ export default function MapView() {
       {recommendations.length > 0 && (
         <button
           onClick={() => setShowNearby(!showNearby)}
-          className="absolute left-4 bottom-32 z-20 px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-2xl shadow-xl shadow-amber-500/30 flex items-center gap-2 active:scale-95 transition-transform"
+          className="absolute left-4 bottom-32 z-20 px-4 py-3 bg-gradient-to-r from-stone-600 to-stone-700 text-white rounded-2xl shadow-xl shadow-amber-500/30 flex items-center gap-2 active:scale-95 transition-transform"
         >
           <Zap className="w-5 h-5" />
           <span className="font-semibold text-sm">智能推薦</span>
@@ -317,7 +317,7 @@ export default function MapView() {
           <div className="bg-white rounded-3xl shadow-xl border-subtle overflow-hidden max-h-[60vh]">
             <div className="p-4 border-b border-zinc-100 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-stone-600 to-stone-700 flex items-center justify-center">
                   <Brain className="w-4 h-4 text-white" />
                 </div>
                 <div>
@@ -347,13 +347,13 @@ export default function MapView() {
         onClick={() => refreshUserLocation?.()}
         className="absolute right-4 bottom-32 z-20 w-12 h-12 bg-white rounded-2xl shadow-lg border-subtle flex items-center justify-center active:scale-95 transition-transform"
       >
-        <Locate className="w-5 h-5 text-amber-500" />
+        <Locate className="w-5 h-5 text-stone-600" />
       </button>
 
       {/* Add Button */}
       <button
         onClick={() => setShowForm(true)}
-        className="absolute right-4 bottom-6 z-20 w-14 h-14 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl shadow-xl shadow-amber-500/30 flex items-center justify-center text-white text-2xl font-light active:scale-95 transition-transform"
+        className="absolute right-4 bottom-6 z-20 w-14 h-14 bg-gradient-to-br from-stone-600 to-stone-700 rounded-2xl shadow-xl shadow-amber-500/30 flex items-center justify-center text-white text-2xl font-light active:scale-95 transition-transform"
       >
         +
       </button>
@@ -362,7 +362,7 @@ export default function MapView() {
       {selected && (
         <div className="absolute bottom-6 left-4 right-4 z-20 animate-slide-up">
           {/* Gradient top border */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-amber-500 to-orange-500 rounded-t-3xl" />
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 via-amber-500 to-stone-700 rounded-t-3xl" />
           
           <div className="bg-white rounded-3xl shadow-2xl border border-amber-100/30 overflow-hidden">
             <div className="p-5">
@@ -372,16 +372,16 @@ export default function MapView() {
                   {CATEGORY_ICONS[selected.category] || '📍'}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <span className="inline-block px-2.5 py-1 bg-gradient-to-r from-amber-50 to-orange-50 text-amber-700 text-xs font-semibold rounded-lg mb-1.5">
+                  <span className="inline-block px-2.5 py-1 bg-gradient-to-r from-amber-50 to-orange-50 text-stone-700 text-xs font-semibold rounded-lg mb-1.5">
                     {CATEGORY_LABELS[selected.category] || selected.type}
                   </span>
                   <h3 className="font-bold text-lg text-zinc-900 leading-tight">{selected.name}</h3>
                   <div className="flex items-center gap-2 mt-1">
                     {selected.rating && (
-                      <p className="text-sm text-amber-600 font-medium">⭐ {selected.rating}分</p>
+                      <p className="text-sm text-stone-600 font-medium">⭐ {selected.rating}分</p>
                     )}
                     {selected.price !== undefined && (
-                      <p className="text-sm text-amber-500 font-medium">
+                      <p className="text-sm text-stone-600 font-medium">
                         {selected.price > 0 ? `$${selected.price}` : '免費'}
                       </p>
                     )}
@@ -392,9 +392,9 @@ export default function MapView() {
                 </div>
                 <button
                   onClick={() => setSelected(null)}
-                  className="w-9 h-9 rounded-xl bg-amber-50 hover:bg-amber-100 flex items-center justify-center transition-colors active:scale-95"
+                  className="w-9 h-9 rounded-xl bg-stone-100 hover:bg-stone-200 flex items-center justify-center transition-colors active:scale-95"
                 >
-                  <X className="w-4 h-4 text-amber-600" />
+                  <X className="w-4 h-4 text-stone-600" />
                 </button>
               </div>
               
@@ -409,7 +409,7 @@ export default function MapView() {
                       window.open(url, '_blank')
                     }
                   }}
-                  className="flex-1 py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-2xl flex items-center justify-center gap-2 active:scale-[0.98] transition-transform shadow-lg shadow-amber-500/30"
+                  className="flex-1 py-3.5 bg-gradient-to-r from-stone-600 to-stone-700 text-white font-semibold rounded-2xl flex items-center justify-center gap-2 active:scale-[0.98] transition-transform shadow-lg shadow-amber-500/30"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
@@ -422,7 +422,7 @@ export default function MapView() {
                       const address = encodeURIComponent(selected.address)
                       window.open(`https://www.google.com/maps/search/?api=1&query=${address}`, '_blank')
                     }}
-                    className="px-4 py-3.5 bg-amber-50 text-amber-700 font-semibold rounded-2xl flex items-center justify-center gap-2 active:scale-[0.98] transition-transform hover:bg-amber-100"
+                    className="px-4 py-3.5 bg-stone-100 text-stone-700 font-semibold rounded-2xl flex items-center justify-center gap-2 active:scale-[0.98] transition-transform hover:bg-stone-200"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />

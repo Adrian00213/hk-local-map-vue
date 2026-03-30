@@ -92,7 +92,7 @@ export default function RegionSelector({ currentRegion, onRegionChange }) {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-3 py-2 bg-white/90 backdrop-blur rounded-xl shadow-md hover:bg-white transition-all active:scale-95"
       >
-        <Globe className="w-4 h-4 text-amber-500" />
+        <Globe className="w-4 h-4 text-stone-600" />
         <span className="text-sm font-medium text-zinc-700">{current.name}</span>
         <ChevronDown className={`w-4 h-4 text-zinc-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
@@ -109,11 +109,11 @@ export default function RegionSelector({ currentRegion, onRegionChange }) {
           {/* Menu */}
           <div className="absolute top-full mt-2 right-0 w-64 bg-white rounded-2xl shadow-xl border border-zinc-100/80 overflow-hidden z-50 animate-slide-up">
             <div className="p-3 bg-gradient-to-r from-amber-50 to-orange-50 border-b border-amber-100/50">
-              <p className="text-xs text-amber-700 font-medium">🌍 選擇地區 / Select Region</p>
+              <p className="text-xs text-stone-700 font-medium">🌍 選擇地區 / Select Region</p>
               {autoDetected && autoDetected !== currentRegion && (
                 <button 
                   onClick={() => handleRegionSelect(autoDetected)}
-                  className="mt-1 text-xs text-amber-600 hover:text-amber-700 flex items-center gap-1"
+                  className="mt-1 text-xs text-stone-600 hover:text-stone-700 flex items-center gap-1"
                 >
                   <MapPin className="w-3 h-3" />
                   自動偵測到: {REGIONS.find(r => r.id === autoDetected)?.name}
@@ -140,7 +140,7 @@ export default function RegionSelector({ currentRegion, onRegionChange }) {
                     <p className="text-xs text-zinc-500">{region.description}</p>
                   </div>
                   {region.id === currentRegion && (
-                    <Check className="w-5 h-5 text-amber-500" />
+                    <Check className="w-5 h-5 text-stone-600" />
                   )}
                 </button>
               ))}

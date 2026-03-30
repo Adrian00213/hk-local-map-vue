@@ -145,7 +145,7 @@ export default function SearchView() {
           <button
             onClick={() => setCat(null)}
             className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all active:scale-95 ${
-              !cat ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md' : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 active:bg-zinc-300'
+              !cat ? 'bg-gradient-to-r from-stone-600 to-stone-700 text-white shadow-md' : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 active:bg-zinc-300'
             }`}
           >
             全部
@@ -155,7 +155,7 @@ export default function SearchView() {
               key={k}
               onClick={() => setCat(k)}
               className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all flex items-center gap-1.5 active:scale-95 ${
-                cat === k ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md' : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 active:bg-zinc-300'
+                cat === k ? 'bg-gradient-to-r from-stone-600 to-stone-700 text-white shadow-md' : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 active:bg-zinc-300'
               }`}
             >
               <span>{CATEGORY_ICONS[k]}</span>
@@ -182,7 +182,7 @@ export default function SearchView() {
                     <button
                       key={i}
                       onClick={() => handleSearch(s.text)}
-                      className="px-4 py-2.5 bg-amber-50 border border-amber-200/50 rounded-xl text-sm font-medium text-amber-700 flex items-center gap-1.5 hover:bg-amber-100 active:scale-95 transition-all"
+                      className="px-4 py-2.5 bg-stone-100 border border-amber-200/50 rounded-xl text-sm font-medium text-stone-700 flex items-center gap-1.5 hover:bg-stone-200 active:scale-95 transition-all"
                     >
                       <span>{s.icon}</span>
                       {s.text}
@@ -261,7 +261,7 @@ export default function SearchView() {
                     <button
                       key={i}
                       onClick={() => handleSearch(s.text)}
-                      className="px-4 py-2.5 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/50 rounded-xl text-sm font-medium text-amber-700 flex items-center gap-1.5 hover:bg-amber-100 active:scale-95 transition-all"
+                      className="px-4 py-2.5 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/50 rounded-xl text-sm font-medium text-stone-700 flex items-center gap-1.5 hover:bg-stone-200 active:scale-95 transition-all"
                     >
                       <span>{s.icon}</span>
                       {s.text}
@@ -292,7 +292,7 @@ export default function SearchView() {
                     <button
                       key={i}
                       onClick={() => handleSearch(s)}
-                      className="px-3 py-1.5 bg-amber-50 text-amber-600 text-sm rounded-lg hover:bg-amber-100 transition-colors"
+                      className="px-3 py-1.5 bg-stone-100 text-stone-600 text-sm rounded-lg hover:bg-stone-200 transition-colors"
                     >
                       {s}
                     </button>
@@ -309,7 +309,7 @@ export default function SearchView() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="font-semibold text-zinc-900 text-base leading-tight mb-1.5">{m.title}</h3>
-                        <span className="inline-block px-2.5 py-0.5 bg-amber-50 text-amber-600 text-xs font-medium rounded-full">
+                        <span className="inline-block px-2.5 py-0.5 bg-stone-100 text-stone-600 text-xs font-medium rounded-full">
                           {CATEGORY_LABELS[m.category]}
                         </span>
                         {m.description && (

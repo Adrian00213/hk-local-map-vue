@@ -21,8 +21,8 @@ export default function TabBar({ activeTab, onTabChange }) {
               onClick={() => onTabChange(id)}
               className={`flex flex-col items-center justify-center gap-1 px-4 py-3 min-w-[64px] h-full transition-all duration-200 active:scale-95 ${
                 isActive
-                  ? 'text-amber-500'
-                  : 'text-zinc-400 hover:text-amber-600'
+                  ? 'text-stone-600'
+                  : 'text-zinc-400 hover:text-stone-600'
               }`}
             >
               <div className={`relative ${isActive ? 'scale-110' : ''} transition-transform`}>
@@ -31,10 +31,10 @@ export default function TabBar({ activeTab, onTabChange }) {
                   strokeWidth={isActive ? 2.5 : 2}
                 />
                 {isActive && (
-                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-amber-500 rounded-full" />
+                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-stone-1000 rounded-full" />
                 )}
               </div>
-              <span className={`text-[11px] font-medium ${isActive ? 'text-amber-500' : 'text-zinc-400'}`}>
+              <span className={`text-[11px] font-medium ${isActive ? 'text-stone-600' : 'text-zinc-400'}`}>
                 {label}
               </span>
             </button>

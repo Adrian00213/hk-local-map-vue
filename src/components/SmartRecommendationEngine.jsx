@@ -152,7 +152,7 @@ export default function SmartRecommendations({ region = 'hong_kong', userLocatio
               </div>
               <button
                 onClick={handleNavigate}
-                className="w-8 h-8 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center shrink-0 shadow-md active:scale-95 transition-transform"
+                className="w-8 h-8 rounded-xl bg-gradient-to-r from-stone-600 to-stone-700 flex items-center justify-center shrink-0 shadow-md active:scale-95 transition-transform"
               >
                 <Navigation className="w-4 h-4 text-white" />
               </button>
@@ -160,13 +160,13 @@ export default function SmartRecommendations({ region = 'hong_kong', userLocatio
             
             <div className="flex items-center gap-2 mt-2">
               {place.rating && (
-                <span className="inline-flex items-center gap-0.5 px-2 py-0.5 bg-amber-50 text-amber-700 text-xs font-medium rounded-full">
-                  <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
+                <span className="inline-flex items-center gap-0.5 px-2 py-0.5 bg-stone-100 text-stone-700 text-xs font-medium rounded-full">
+                  <Star className="w-3 h-3 text-stone-600 fill-amber-500" />
                   {place.rating}
                 </span>
               )}
               {place.price_level !== undefined && place.price_level > 0 && (
-                <span className="text-xs font-medium text-amber-600">
+                <span className="text-xs font-medium text-stone-600">
                   {'$'.repeat(place.price_level)}
                 </span>
               )}
@@ -186,7 +186,7 @@ export default function SmartRecommendations({ region = 'hong_kong', userLocatio
     return (
       <div className="space-y-4 p-4">
         {/* Weather Widget - Loading */}
-        <div className="bg-gradient-to-r from-amber-500 via-amber-400 to-orange-500 rounded-2xl p-5 text-white shadow-lg shadow-amber-200/30">
+        <div className="bg-gradient-to-r from-stone-600 via-stone-500 to-stone-700 rounded-2xl p-5 text-white shadow-lg shadow-amber-200/30">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
@@ -209,8 +209,8 @@ export default function SmartRecommendations({ region = 'hong_kong', userLocatio
                   <span className="text-3xl opacity-50">🍜</span>
                 </div>
                 <div className="flex-1 p-3">
-                  <div className="h-4 bg-amber-100 rounded w-3/4 mb-2" />
-                  <div className="h-3 bg-amber-50 rounded w-1/2" />
+                  <div className="h-4 bg-stone-200 rounded w-3/4 mb-2" />
+                  <div className="h-3 bg-stone-100 rounded w-1/2" />
                 </div>
               </div>
             </div>
@@ -223,7 +223,7 @@ export default function SmartRecommendations({ region = 'hong_kong', userLocatio
   return (
     <div className="space-y-4 p-4">
       {/* Weather Widget - Premium */}
-      <div className="bg-gradient-to-r from-amber-500 via-amber-400 to-orange-500 rounded-2xl p-5 text-white shadow-lg shadow-amber-200/30">
+      <div className="bg-gradient-to-r from-stone-600 via-stone-500 to-stone-700 rounded-2xl p-5 text-white shadow-lg shadow-amber-200/30">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
@@ -246,11 +246,11 @@ export default function SmartRecommendations({ region = 'hong_kong', userLocatio
       {/* AI Status Badge */}
       <div className={`rounded-2xl p-3 border ${usingGoogle ? 'bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-200/50' : 'bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200/50'}`}>
         <div className="flex items-center gap-2">
-          <Brain className={`w-4 h-4 ${usingGoogle ? 'text-emerald-500' : 'text-amber-500'}`} />
-          <span className={`text-xs font-medium ${usingGoogle ? 'text-emerald-700' : 'text-amber-700'}`}>
+          <Brain className={`w-4 h-4 ${usingGoogle ? 'text-emerald-500' : 'text-stone-600'}`} />
+          <span className={`text-xs font-medium ${usingGoogle ? 'text-emerald-700' : 'text-stone-700'}`}>
             🧠 為你根據時間同位置智能推薦
           </span>
-          <span className={`ml-auto text-[10px] ${usingGoogle ? 'text-emerald-600' : 'text-amber-600'}`}>
+          <span className={`ml-auto text-[10px] ${usingGoogle ? 'text-emerald-600' : 'text-stone-600'}`}>
             {usingGoogle ? '✓ Google 實時數據' : '📍 離線模式'}
           </span>
         </div>
@@ -275,11 +275,11 @@ export default function SmartRecommendations({ region = 'hong_kong', userLocatio
 
       {recommendations.length === 0 && !loading && (
         <div className="text-center py-10">
-          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-amber-50 flex items-center justify-center">
-            <Sparkles className="w-8 h-8 text-amber-400" />
+          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-stone-100 flex items-center justify-center">
+            <Sparkles className="w-8 h-8 text-stone-500" />
           </div>
           <p className="text-zinc-500 text-sm">暫時冇推薦</p>
-          <button onClick={handleRefresh} className="mt-3 text-amber-600 text-sm font-medium hover:text-amber-700">
+          <button onClick={handleRefresh} className="mt-3 text-stone-600 text-sm font-medium hover:text-stone-700">
             重新整理 →
           </button>
         </div>
