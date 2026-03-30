@@ -37,15 +37,26 @@ const getWeatherIcon = (condition) => {
   return icons[condition] || <Sun className="w-5 h-5 text-amber-500" />
 }
 
-// Placeholder images
-const PLACEHOLDER = {
-  restaurants: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&h=200&fit=crop',
-  places: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=200&h=200&fit=crop'
+// Emoji placeholders for different categories
+const EMOJI_MAP = {
+  restaurants: '🍜',
+  places: '🎯',
+  deals: '🎟️',
+  transport: '🚌',
+  news: '📰',
+  shopping: '🛍️',
+  default: '📍'
 }
 
-const EMOJI_PLACEHOLDER = {
-  restaurants: '🍜',
-  places: '🎯'
+// Gradient background colors for placeholders
+const GRADIENT_MAP = {
+  restaurants: 'from-orange-100 to-amber-100',
+  places: 'from-blue-100 to-cyan-100',
+  deals: 'from-red-100 to-pink-100',
+  transport: 'from-emerald-100 to-teal-100',
+  news: 'from-green-100 to-emerald-100',
+  shopping: 'from-purple-100 to-violet-100',
+  default: 'from-amber-100 to-orange-100'
 }
 
 export default function SmartRecommendations({ places = [], region = 'hong_kong', userLocation = null, mapReady = false, onPlaceSelect }) {
@@ -56,11 +67,9 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
   const [weather] = useState({ condition: 'sunny', temp: 26 })
   const [forceUpdate, setForceUpdate] = useState(0)
   
-  // Use ref to track previous values and avoid stale closures
   const stateRef = useRef({ mapReady, userLocation, region })
   const timeContext = getTimeContext()
 
-  // Update ref on every render
   useEffect(() => {
     stateRef.current = { mapReady, userLocation, region }
     console.log('📊 SmartRecommendations state updated:', { mapReady, userLocation: !!userLocation, region, forceUpdate })
@@ -73,14 +82,10 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
     
     setRefreshing(true)
     
-    // Check if PlacesService is ready
     const serviceReady = isPlacesServiceReady()
     console.log('🔍 PlacesService ready?', serviceReady)
-    console.log('🔍 mapReady prop?', mapReady)
-    console.log('🔍 userLocation prop?', !!userLocation)
     
     try {
-      // Try Google Places if service is ready and we have location
       if (serviceReady && userLocation) {
         console.log('🔍 Using Google Maps Places API...')
         const results = await searchForRecommendations(region, timeContext, userLocation)
@@ -117,7 +122,6 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
         console.log('⚠️ Cannot use Google Places:', { serviceReady, hasLocation: !!userLocation })
       }
       
-      // Use fallback data
       throw new Error('Using fallback data')
     } catch (error) {
       console.log('⚠️ Using fallback data:', error.message)
@@ -147,9 +151,8 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
     
     setLoading(false)
     setRefreshing(false)
-  }, [timeContext]) // Only timeContext as dependency for useCallback
+  }, [timeContext])
 
-  // Initial load and when map becomes ready or location changes
   useEffect(() => {
     console.log('📡 useEffect triggered:', { mapReady, userLocation: !!userLocation })
     fetchRecommendations()
@@ -177,58 +180,55 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
     return '🌙'
   }
 
-  const getPlaceImage = (place) => {
-    if (place.photos && place.photos.length > 0) return place.photos[0]
-    if (place.imageUrl) return place.imageUrl
-    return PLACEHOLDER[place.category] || PLACEHOLDER.places
-  }
+  // Get emoji for placeholder
+  const getEmoji = (category) => EMOJI_MAP[category] || EMOJI_MAP.default
+  const getGradient = (category) => GRADIENT_MAP[category] || GRADIENT_MAP.default
 
-  const CompactPlaceCard = ({ place }) => (
-    <div 
-      onClick={() => onPlaceSelect?.(place)}
-      className="bg-white rounded-xl overflow-hidden border border-zinc-100/80 cursor-pointer hover:shadow-md transition-all active:scale-[0.98] flex"
-    >
-      <div className="relative w-20 h-20 shrink-0 bg-zinc-100">
-        <img 
-          src={getPlaceImage(place)} 
-          alt={place.name}
-          className="w-full h-full object-cover"
-          loading="lazy"
-          onError={(e) => {
-            e.target.style.display = 'none'
-            const parent = e.target.parentElement
-            const emoji = EMOJI_PLACEHOLDER[place.category] || '📍'
-            parent.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-amber-100 to-orange-100 text-2xl">${emoji}</div>`
-          }}
-        />
-        {place.rating && (
-          <div className="absolute bottom-1 left-1 px-1.5 py-0.5 bg-black/60 backdrop-blur rounded flex items-center gap-0.5">
-            <Star className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
-            <span className="text-white text-[10px] font-bold">{place.rating}</span>
-          </div>
-        )}
-      </div>
-      
-      <div className="flex-1 p-2.5 flex flex-col justify-center min-w-0">
-        <h4 className="font-bold text-zinc-900 text-sm leading-tight line-clamp-1">{place.name}</h4>
-        {place.description && (
-          <p className="text-xs text-zinc-500 mt-0.5 line-clamp-1">{place.description}</p>
-        )}
-        <div className="flex items-center gap-2 mt-1.5">
-          {place.price_level !== undefined && place.price_level > 0 && (
-            <span className="text-xs font-medium text-amber-600">
-              {'$'.repeat(place.price_level)}
-            </span>
-          )}
-          {place.open_now !== undefined && (
-            <span className={`text-[10px] ${place.open_now ? 'text-emerald-600' : 'text-zinc-400'}`}>
-              {place.open_now ? '✓ 營業中' : '✗ 關門'}
-            </span>
+  // Place Card with Gradient Emoji Placeholder
+  const PlaceCardWithEmoji = ({ place }) => {
+    const [imgError, setImgError] = useState(false)
+    const emoji = getEmoji(place.category)
+    const gradient = getGradient(place.category)
+    
+    return (
+      <div 
+        onClick={() => onPlaceSelect?.(place)}
+        className="bg-white rounded-xl overflow-hidden border border-zinc-100/80 cursor-pointer hover:shadow-md transition-all active:scale-[0.98] flex"
+      >
+        {/* Emoji Placeholder - Always show first */}
+        <div className={`relative w-20 h-20 shrink-0 bg-gradient-to-br ${gradient} flex items-center justify-center`}>
+          <span className="text-3xl">{emoji}</span>
+          {/* Rating badge */}
+          {place.rating && (
+            <div className="absolute bottom-1 left-1 px-1.5 py-0.5 bg-black/60 backdrop-blur rounded flex items-center gap-0.5">
+              <Star className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
+              <span className="text-white text-[10px] font-bold">{place.rating}</span>
+            </div>
           )}
         </div>
+        
+        {/* Info */}
+        <div className="flex-1 p-2.5 flex flex-col justify-center min-w-0">
+          <h4 className="font-bold text-zinc-900 text-sm leading-tight line-clamp-1">{place.name}</h4>
+          {place.description && (
+            <p className="text-xs text-zinc-500 mt-0.5 line-clamp-1">{place.description}</p>
+          )}
+          <div className="flex items-center gap-2 mt-1.5">
+            {place.price_level !== undefined && place.price_level > 0 && (
+              <span className="text-xs font-medium text-amber-600">
+                {'$'.repeat(place.price_level)}
+              </span>
+            )}
+            {place.open_now !== undefined && (
+              <span className={`text-[10px] ${place.open_now ? 'text-emerald-600' : 'text-zinc-400'}`}>
+                {place.open_now ? '✓ 營業中' : '✗ 關門'}
+              </span>
+            )}
+          </div>
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 
   if (loading) {
     return (
@@ -248,7 +248,9 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
         <div className="space-y-2">
           {[1, 2, 3, 4].map(i => (
             <div key={i} className="bg-white rounded-xl overflow-hidden animate-pulse flex">
-              <div className="w-20 h-20 bg-zinc-200 shrink-0" />
+              <div className={`w-20 h-20 bg-gradient-to-br ${GRADIENT_MAP.default} flex items-center justify-center shrink-0`}>
+                <span className="text-3xl opacity-50">{EMOJI_MAP.default}</span>
+              </div>
               <div className="flex-1 p-2.5">
                 <div className="h-4 bg-zinc-200 rounded w-3/4 mb-2" />
                 <div className="h-3 bg-zinc-100 rounded w-1/2" />
@@ -304,7 +306,7 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
           
           <div className="space-y-2">
             {section.places.map((place, pIdx) => (
-              <CompactPlaceCard key={pIdx} place={place} />
+              <PlaceCardWithEmoji key={pIdx} place={place} />
             ))}
           </div>
         </div>
