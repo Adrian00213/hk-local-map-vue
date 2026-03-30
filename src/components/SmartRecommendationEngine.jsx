@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Sparkles, TrendingUp, Clock, MapPin, Star, Heart, Gift, Zap, Brain, Sun, Cloud, RefreshCw } from 'lucide-react'
-import { searchPlacesMultiType, getNearbyPlaces } from '../services/PlaceSearch'
+import { searchForRecommendations } from '../services/GooglePlacesService'
 
 // Fallback data for when API fails - comprehensive for all regions
 const FALLBACK_DATA = {
@@ -15,53 +15,17 @@ const FALLBACK_DATA = {
       { id: 'hk_10', name: '山頂纜車', rating: 4.8, price: 88, lat: 22.2665, lng: 114.1570, category: 'places', description: '維港全景' },
       { id: 'hk_11', name: '維多利亞港', rating: 4.9, price: 0, lat: 22.2855, lng: 114.1617, category: 'places', description: '世界三大夜景' },
       { id: 'hk_12', name: '迪士尼樂園', rating: 4.7, price: 639, lat: 22.3129, lng: 114.0414, category: 'places', description: '奇妙夢幻國度' },
-      { id: 'hk_13', name: 'M+博物館', rating: 4.7, price: 0, lat: 22.2855, lng: 114.1617, category: 'places', description: '當代視覺文化' },
-    ]
-  },
-  taiwan: {
-    restaurants: [
-      { id: 'tw_1', name: '士林夜市', rating: 4.6, price: 0, lat: 25.0880, lng: 121.5240, category: 'restaurants', description: '台灣最大夜市' },
-      { id: 'tw_2', name: '鼎泰豐', rating: 4.5, price: 80, lat: 25.0330, lng: 121.5654, category: 'restaurants', description: '小籠包名店' },
-    ],
-    places: [
-      { id: 'tw_10', name: '台北101', rating: 4.7, price: 600, lat: 25.0330, lng: 121.5654, category: 'places', description: '台灣最高建築' },
-      { id: 'tw_11', name: '日月潭', rating: 4.8, price: 0, lat: 23.8644, lng: 120.9110, category: 'places', description: '台灣最美湖泊' },
-    ]
-  },
-  japan: {
-    restaurants: [
-      { id: 'jp_1', name: '一蘭拉麵', rating: 4.7, price: 1000, lat: 35.7147, lng: 139.7966, category: 'restaurants', description: '東京豚骨拉麵' },
-    ],
-    places: [
-      { id: 'jp_10', name: '東京迪士尼', rating: 4.7, price: 8000, lat: 35.6329, lng: 139.8804, category: 'places', description: '亞洲最紅樂園' },
-      { id: 'jp_11', name: '富士山', rating: 4.9, price: 0, lat: 35.3606, lng: 138.7274, category: 'places', description: '日本最高峰' },
-    ]
-  },
-  korea: {
-    restaurants: [
-      { id: 'kr_1', name: '明洞美食', rating: 4.5, price: 15000, lat: 37.5665, lng: 126.9780, category: 'restaurants', description: '首爾美食天堂' },
-    ],
-    places: [
-      { id: 'kr_10', name: '景福宮', rating: 4.6, price: 0, lat: 37.5786, lng: 126.9767, category: 'places', description: '朝鮮王宮' },
-    ]
-  },
-  global: {
-    restaurants: [
-      { id: 'gl_1', name: '當地美食', rating: 4.5, price: 100, lat: 0, lng: 0, category: 'restaurants', description: '探索當地美食' },
-    ],
-    places: [
-      { id: 'gl_10', name: '熱門景點', rating: 4.6, price: 0, lat: 0, lng: 0, category: 'places', description: '發掘精彩去處' },
     ]
   }
 }
 
 // Time-based recommendation prompts
 const TIME_PROMPTS = {
-  morning: '早餐 茶餐廳',
-  noon: '午餐 餐廳',
-  afternoon: '下午茶 café',
-  evening: '晚餐 餐廳',
-  night: '夜宵 小食'
+  morning: 'morning',
+  noon: 'noon',
+  afternoon: 'afternoon',
+  evening: 'evening',
+  night: 'night'
 }
 
 // Get current time context
@@ -84,106 +48,86 @@ const getWeatherIcon = (condition) => {
   return icons[condition] || <Sun className="w-5 h-5 text-amber-500" />
 }
 
-export default function SmartRecommendations({ places = [], region = 'hong_kong', userLocation = null, onPlaceSelect }) {
+export default function SmartRecommendations({ places = [], region = 'hong_kong', userLocation = null, mapReady = false, onPlaceSelect }) {
   const [recommendations, setRecommendations] = useState([])
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
-  const [usingFallback, setUsingFallback] = useState(false)
+  const [usingGoogle, setUsingGoogle] = useState(false)
   const [weather] = useState({ condition: 'sunny', temp: 26 })
   const timeContext = getTimeContext()
-
-  // Get fallback data for region
-  const getFallbackData = (regionKey) => {
-    return FALLBACK_DATA[regionKey] || FALLBACK_DATA.global
-  }
 
   // Fetch recommendations based on time and location
   const fetchRecommendations = useCallback(async () => {
     setRefreshing(true)
-    setUsingFallback(false)
-    console.log('🤖 SmartRecommendations fetching...', { region, timeContext })
+    console.log('🤖 SmartRecommendations fetching...', { region, timeContext, hasLocation: !!userLocation, mapReady })
     
     try {
-      const results = []
-      
-      // Try API first
-      const timePrompt = TIME_PROMPTS[timeContext]
-      console.log('🔍 Searching for:', timePrompt)
-      const timeBasedPlaces = await searchPlacesMultiType(region, timePrompt, { limit: 5 })
-      console.log('📍 Time-based places:', timeBasedPlaces.length)
-      
-      if (timeBasedPlaces.length > 0) {
-        // API returned results
-        results.push({
-          type: 'time',
-          title: timeContext === 'morning' ? '🌅 朝早精選' :
-                 timeContext === 'noon' ? '☀️ 午餐精選' :
-                 timeContext === 'afternoon' ? '🌤️ 下午茶精選' :
-                 timeContext === 'evening' ? '🌆 晚餐精選' : '🌙 夜宵精選',
-          places: timeBasedPlaces.slice(0, 3),
-          icon: timeContext === 'morning' ? '🌅' : timeContext === 'noon' ? '☀️' :
-                timeContext === 'afternoon' ? '🌤️' : timeContext === 'evening' ? '🌆' : '🌙',
-          source: '🔍 Google 實時數據'
-        })
+      // Try Google Places Service first (if map is ready)
+      if (mapReady && userLocation) {
+        console.log('🔍 Using Google Maps Places API...')
+        const results = await searchForRecommendations(region, timeContext, userLocation)
         
-        // Trending
-        const trendingPlaces = await searchPlacesMultiType(region, '熱門 景點', { limit: 3 })
-        if (trendingPlaces.length > 0) {
-          results.push({
-            type: 'trending',
-            title: '🔥 熱門精選',
-            places: trendingPlaces.slice(0, 3),
-            icon: '🔥',
-            source: '🔍 Google 實時數據'
-          })
+        if (results.length > 0) {
+          console.log('✅ Google Places found:', results.length)
+          setUsingGoogle(true)
+          
+          const sections = [
+            {
+              type: 'google',
+              title: getTimeTitle(timeContext),
+              places: results.slice(0, 3),
+              icon: getTimeIcon(timeContext),
+              source: '🔍 Google Maps 實時數據'
+            },
+            {
+              type: 'trending',
+              title: '🔥 熱門精選',
+              places: results.slice(3, 6),
+              icon: '🔥',
+              source: '🔍 Google Maps 實時數據'
+            }
+          ]
+          
+          setRecommendations(sections.filter(s => s.places.length > 0))
+          setLoading(false)
+          setRefreshing(false)
+          return
         }
-      } else {
-        // API returned empty - use fallback
-        throw new Error('Empty results')
       }
       
-      setRecommendations(results)
+      // Fall back to sample data
+      throw new Error('Google Places not available')
+      
     } catch (error) {
-      console.log('Using fallback data:', error.message)
-      setUsingFallback(true)
+      console.log('⚠️ Using fallback data:', error.message)
+      setUsingGoogle(false)
       
       // Use fallback data
-      const fallback = getFallbackData(region)
+      const fallback = FALLBACK_DATA[region] || FALLBACK_DATA.hong_kong
       
-      const results = []
-      
-      // Time-based with fallback
-      const timePlaces = fallback.restaurants || []
-      results.push({
-        type: 'time',
-        title: timeContext === 'morning' ? '🌅 朝早精選' :
-               timeContext === 'noon' ? '☀️ 午餐精選' :
-               timeContext === 'afternoon' ? '🌤️ 下午茶精選' :
-               timeContext === 'evening' ? '🌆 晚餐精選' : '🌙 夜宵精選',
-        places: timePlaces.slice(0, 3),
-        icon: timeContext === 'morning' ? '🌅' : timeContext === 'noon' ? '☀️' :
-              timeContext === 'afternoon' ? '🌤️' : timeContext === 'evening' ? '🌆' : '🌙',
-        source: '📍 樣本數據'
-      })
-      
-      // Attractions with fallback
-      const attractionPlaces = fallback.places || []
-      if (attractionPlaces.length > 0) {
-        results.push({
+      const sections = [
+        {
+          type: 'time',
+          title: getTimeTitle(timeContext),
+          places: fallback.restaurants.slice(0, 3),
+          icon: getTimeIcon(timeContext),
+          source: '📍 樣本數據'
+        },
+        {
           type: 'places',
           title: '🎯 必去景點',
-          places: attractionPlaces.slice(0, 3),
+          places: fallback.places.slice(0, 3),
           icon: '🎯',
           source: '📍 樣本數據'
-        })
-      }
+        }
+      ]
       
-      setRecommendations(results)
+      setRecommendations(sections)
     }
     
     setLoading(false)
     setRefreshing(false)
-  }, [region, timeContext])
+  }, [region, timeContext, userLocation, mapReady])
 
   useEffect(() => {
     fetchRecommendations()
@@ -191,6 +135,22 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
 
   const handleRefresh = () => {
     fetchRecommendations()
+  }
+
+  const getTimeTitle = (ctx) => {
+    if (ctx === 'morning') return '🌅 朝早精選'
+    if (ctx === 'noon') return '☀️ 午餐精選'
+    if (ctx === 'afternoon') return '🌤️ 下午茶精選'
+    if (ctx === 'evening') return '🌆 晚餐精選'
+    return '🌙 夜宵精選'
+  }
+
+  const getTimeIcon = (ctx) => {
+    if (ctx === 'morning') return '🌅'
+    if (ctx === 'noon') return '☀️'
+    if (ctx === 'afternoon') return '🌤️'
+    if (ctx === 'evening') return '🌆'
+    return '🌙'
   }
 
   const PlaceCard = ({ place }) => (
@@ -264,7 +224,7 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
             {getWeatherIcon(weather.condition)}
             <div>
               <div className="text-2xl font-bold">{weather.temp}°C</div>
-              <div className="text-sm opacity-80">香港 • {timeContext === 'morning' ? '朝早好時光' : timeContext === 'noon' ? '午飯時間' : timeContext === 'afternoon' ? '下午悠閒' : timeContext === 'evening' ? '晚間時光' : '夜喇'}</div>
+              <div className="text-sm opacity-80">香港 • {getTimeTitle(timeContext).split(' ')[1]}</div>
             </div>
           </div>
           <button 
@@ -277,11 +237,11 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
       </div>
 
       {/* AI Context */}
-      <div className="bg-gradient-to-r from-violet-50 to-purple-50 rounded-xl p-3 border border-violet-100/50">
+      <div className={`rounded-xl p-3 border ${usingGoogle ? 'bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-100/50' : 'bg-gradient-to-r from-violet-50 to-purple-50 border-violet-100/50'}`}>
         <div className="flex items-center gap-2">
-          <Brain className="w-4 h-4 text-violet-500" />
-          <span className="text-sm text-violet-700 font-medium">
-            🧠 為你根據時間同位置智能推薦 {usingFallback && '（離線模式）'}
+          <Brain className={`w-4 h-4 ${usingGoogle ? 'text-emerald-500' : 'text-violet-500'}`} />
+          <span className={`text-sm font-medium ${usingGoogle ? 'text-emerald-700' : 'text-violet-700'}`}>
+            🧠 為你根據時間同位置智能推薦 {usingGoogle ? '（Google 實時數據）' : '（離線模式）'}
           </span>
         </div>
       </div>
@@ -294,7 +254,7 @@ export default function SmartRecommendations({ places = [], region = 'hong_kong'
               <span className="text-lg">{section.icon}</span>
               <h3 className="font-bold text-zinc-900">{section.title}</h3>
             </div>
-            <span className="text-xs text-zinc-400">{section.source || ''}</span>
+            <span className="text-xs text-zinc-400">{section.source}</span>
           </div>
           <div className="space-y-2">
             {section.places.map((place, pIdx) => (

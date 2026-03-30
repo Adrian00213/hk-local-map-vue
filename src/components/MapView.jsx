@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
 import { useMap, CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
 import MarkerForm from './MarkerForm'
@@ -6,7 +6,7 @@ import SmartRecommendationEngine from './SmartRecommendationEngine'
 import RegionSelector from './RegionSelector'
 import { X, Locate, Zap, Brain, Search } from 'lucide-react'
 import { REGION_DETAILS, getPlaces } from '../services/MapData'
-import { smartSearchPlaces } from '../services/PlaceSearch'
+import { searchForRecommendations, initPlacesService } from '../services/GooglePlacesService'
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyC4OsiPMTcrtqsIQB-3YGJIFcsJelBsZpw'
 const containerStyle = { width: '100%', height: '100%' }
@@ -21,6 +21,8 @@ export default function MapView() {
   const [currentRegion, setCurrentRegion] = useState('hong_kong')
   const [searchResults, setSearchResults] = useState([])
   const [isSearching, setIsSearching] = useState(false)
+  const [mapReady, setMapReady] = useState(false)
+  const mapRef = useRef(null)
 
   useEffect(() => {
     const saved = localStorage.getItem('hk_selected_region')
@@ -31,7 +33,10 @@ export default function MapView() {
     setIsDark(document.documentElement.classList.contains('dark'))
   }, [])
 
-  const { isLoaded } = useJsApiLoader({ googleMapsApiKey: GOOGLE_MAPS_API_KEY })
+  const { isLoaded } = useJsApiLoader({ 
+    googleMapsApiKey: GOOGLE_MAPS_API_KEY,
+    libraries: ['places']
+  })
 
   // Get places for current region from sample data
   const regionPlaces = getPlaces(currentRegion, 'all')
@@ -55,27 +60,70 @@ export default function MapView() {
     }
   }, [userLocation, currentRegion, regionPlaces])
 
-  // Search places when region changes
+  // Search places using Google Maps JavaScript API
   useEffect(() => {
     const searchNearbyPlaces = async () => {
-      if (currentRegion !== 'china') {
-        // For non-China regions, we can use Google Places
-        setIsSearching(true)
-        try {
-          const regionInfo = REGION_DETAILS[currentRegion]
-          const results = await smartSearchPlaces(currentRegion, regionInfo.sampleCity, { type: 'all', limit: 20 })
-          if (results.length > 0) {
-            setSearchResults(results)
-          }
-        } catch (err) {
-          console.log('Search API not available, using sample data')
+      if (!mapReady || !window.google?.maps?.places) return
+      
+      setIsSearching(true)
+      try {
+        const timeContext = getTimeContext()
+        const results = await searchForRecommendations(currentRegion, timeContext, userLocation)
+        
+        if (results.length > 0) {
+          console.log('✅ Google Places found:', results.length, 'places')
+          const mappedResults = results.map(p => ({
+            id: p.id,
+            title: p.name,
+            category: p.category,
+            icon: CATEGORY_ICONS[p.category] || '📍',
+            desc: p.rating ? `⭐ ${p.rating}分` : (p.description || ''),
+            distance: '',
+            lat: p.lat,
+            lng: p.lng,
+            place: p // Keep original data
+          }))
+          setRecommendations(mappedResults)
         }
-        setIsSearching(false)
+      } catch (err) {
+        console.log('Search error:', err)
       }
+      setIsSearching(false)
     }
     
-    searchNearbyPlaces()
-  }, [currentRegion])
+    if (mapReady && showNearby) {
+      searchNearbyPlaces()
+    }
+  }, [showNearby, mapReady, currentRegion, userLocation])
+
+  const getTimeContext = () => {
+    const hour = new Date().getHours()
+    if (hour >= 5 && hour < 11) return 'morning'
+    if (hour >= 11 && hour < 14) return 'noon'
+    if (hour >= 14 && hour < 18) return 'afternoon'
+    if (hour >= 18 && hour < 22) return 'evening'
+    return 'night'
+  }
+
+  const onMapLoad = (map) => {
+    mapRef.current = map
+    if (window.google?.maps?.places) {
+      initPlacesService(map)
+      setMapReady(true)
+      console.log('✅ Map ready with PlacesService')
+    } else {
+      // Wait for places library to load
+      window.google = window.google || {}
+      const checkPlaces = setInterval(() => {
+        if (window.google?.maps?.places) {
+          initPlacesService(map)
+          setMapReady(true)
+          console.log('✅ PlacesService ready (delayed)')
+          clearInterval(checkPlaces)
+        }
+      }, 100)
+    }
+  }
 
   const getMarkerIcon = (cat) => {
     const colors = { 
@@ -136,6 +184,7 @@ export default function MapView() {
           zoomControl: false,
           fullscreenControl: false,
         }}
+        onLoad={onMapLoad}
       >
         {userLocation && (
           <Marker position={userLocation} icon={{
@@ -148,7 +197,7 @@ export default function MapView() {
             key={m.id || idx} 
             position={{ lat: m.lat, lng: m.lng }} 
             icon={getMarkerIcon(m.category)} 
-            onClick={() => setSelected(m)} 
+            onClick={() => setSelected(m.place || m)} 
           />
         ))}
       </GoogleMap>
@@ -224,7 +273,7 @@ export default function MapView() {
                 </div>
                 <div>
                   <h3 className="font-bold text-zinc-900">{regionInfo.flag} {regionInfo.name} 精選</h3>
-                  <p className="text-xs text-zinc-500">{regionInfo.searchProvider === 'google' ? '🔍 Google 實時搜尋' : '大眾點評數據'}</p>
+                  <p className="text-xs text-zinc-500">🔍 Google Maps 實時數據</p>
                 </div>
               </div>
               <button onClick={() => setShowNearby(false)} className="w-9 h-9 rounded-xl bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center transition-colors active:scale-95">
@@ -233,9 +282,10 @@ export default function MapView() {
             </div>
             <div className="p-3 overflow-y-auto max-h-[calc(60vh-80px)]">
               <SmartRecommendationEngine 
-                places={regionPlaces} 
+                places={recommendations} 
                 region={currentRegion}
                 userLocation={userLocation}
+                mapReady={mapReady}
                 onPlaceSelect={(place) => setSelected(place)}
               />
             </div>
