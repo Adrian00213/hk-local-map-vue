@@ -1,9 +1,67 @@
 import { useState, useEffect } from 'react'
-import { Newspaper, Clock, MapPin, Brain, Star, TrendingUp, Gift, AlertCircle, RefreshCw, Navigation, Utensils, Compass, Bus, Coffee, ShoppingBag, Home, Navigation2 } from 'lucide-react'
+import { Newspaper, Clock, MapPin, Brain, Star, TrendingUp, Gift, AlertCircle, RefreshCw, Navigation, Utensils, Compass, Bus, Coffee, ShoppingBag, Home, Navigation2, Megaphone, Zap } from 'lucide-react'
 import { CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
 import { getPlaces } from '../services/MapData'
 
-// Static news/offers data
+// Static news/messages data
+const STATIC_NEWS = [
+  {
+    id: 'news_1',
+    title: '📢 香港美食節 2026 強勢回歸',
+    desc: '超過200間本地及國際美食參與，多間餐廳推出限定優惠，美食節為期兩週',
+    source: '香港旅遊發展局',
+    time: '今日',
+    badge: '🔥 熱辣辣',
+    urgent: true
+  },
+  {
+    id: 'news_2',
+    title: '🏛️ M+博物館 免費導賞團',
+    desc: '每日3場免費導賞，預約從速，名額有限先到先得',
+    source: '西九文化區',
+    time: '本週',
+    badge: '🎨 文化',
+    urgent: false
+  },
+  {
+    id: 'news_3',
+    title: '🌤️ 週末天氣預報',
+    desc: '週六週日大致天晴，氣溫25-30度，出門記得防曬',
+    source: '天文台',
+    time: '預報',
+    badge: '⛅ 天氣',
+    urgent: false
+  },
+  {
+    id: 'news_4',
+    title: '🚇 MTR 週末優惠',
+    desc: '八達通週日免費轉乘優惠，環保出行慳更多',
+    source: '港鐵',
+    time: '週末',
+    badge: '🚇 交通',
+    urgent: false
+  },
+  {
+    id: 'news_5',
+    title: '🎫 香港故宮博物館 新展覽',
+    desc: '北京故宮珍藏清代宮廷文物展，限期展出',
+    source: '故宮博物館',
+    time: '新展',
+    badge: '🏛️ 文化',
+    urgent: false
+  },
+  {
+    id: 'news_6',
+    title: '🍜 譚仔三哥 新口味登場',
+    desc: '全新雲南麻辣湯底，辣度任選，香港首間旗艦店',
+    source: '譚仔三哥',
+    time: '新店',
+    badge: '🆕 新店',
+    urgent: false
+  },
+]
+
+// Static offers data
 const STATIC_OFFERS = [
   {
     id: 'offer_1',
@@ -155,7 +213,7 @@ export default function NewsView() {
       </div>
 
       {/* Time-based Greeting Banner */}
-      <div className="px-5 py-3 bg-gradient-to-r from-amber-50 to-orange-50 border-b border-amber-100/50">
+      <div className="px-5 py-3 bg-gradient-to-r from-stone-100 to-stone-200 border-b border-stone-200/50">
         <div className="flex items-center gap-2">
           <Brain className="w-4 h-4 text-stone-600" />
           <span className="text-sm text-stone-700 font-medium">
@@ -303,10 +361,48 @@ export default function NewsView() {
           )}
         </div>
 
+        {/* News Section */}
+        <div className="px-5 pb-4">
+          <div className="flex items-center gap-2 mb-3">
+            <Megaphone className="w-5 h-5 text-stone-600" />
+            <h2 className="font-bold text-zinc-900">最新消息</h2>
+            <span className="ml-auto text-xs text-zinc-400">{STATIC_NEWS.length} 則</span>
+          </div>
+
+          <div className="space-y-2">
+            {STATIC_NEWS.map(news => (
+              <div
+                key={news.id}
+                className={`bg-white rounded-xl border ${news.urgent ? 'border-stone-300 border-l-4 border-l-stone-600' : 'border-stone-100/50'} p-4 shadow-sm cursor-pointer active:scale-[0.98] transition-transform`}
+              >
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-stone-100 flex items-center justify-center shrink-0">
+                    <Megaphone className="w-5 h-5 text-stone-600" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-lg ${news.urgent ? 'bg-stone-200 text-stone-700' : 'bg-stone-50 text-stone-600'}`}>
+                        {news.badge}
+                      </span>
+                      <span className="text-[10px] text-zinc-400">{news.source}</span>
+                    </div>
+                    <h4 className="font-semibold text-zinc-900 text-sm leading-tight line-clamp-1">{news.title}</h4>
+                    <p className="text-xs text-zinc-500 mt-1 line-clamp-2">{news.desc}</p>
+                    <div className="flex items-center gap-1 mt-2">
+                      <Clock className="w-3 h-3 text-zinc-400" />
+                      <span className="text-[10px] text-zinc-400">{news.time}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Static Offers Section */}
         <div className="px-5 pb-4">
           <div className="flex items-center gap-2 mb-3">
-            <Gift className="w-5 h-5 text-red-500" />
+            <Gift className="w-5 h-5 text-stone-600" />
             <h2 className="font-bold text-zinc-900">精選優惠</h2>
           </div>
 
@@ -314,16 +410,16 @@ export default function NewsView() {
             {STATIC_OFFERS.map(offer => (
               <div
                 key={offer.id}
-                className={`bg-white rounded-2xl border border-zinc-100/50 overflow-hidden shadow-sm cursor-pointer active:scale-[0.98] transition-transform`}
+                className={`bg-white rounded-2xl border border-stone-100/50 overflow-hidden shadow-sm cursor-pointer active:scale-[0.98] transition-transform`}
                 onClick={() => setActiveCat(offer.cat)}
               >
-                <div className={`h-1.5 bg-gradient-to-r ${catColors[offer.cat] || 'from-zinc-400 to-neutral-500'}`} />
+                <div className={`h-1.5 bg-gradient-to-r ${catColors[offer.cat] || 'from-stone-400 to-stone-500'}`} />
                 <div className="p-3">
                   <div className="flex items-start justify-between gap-2">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center text-lg shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-stone-100 to-stone-200 flex items-center justify-center text-lg shrink-0">
                       {CATEGORY_ICONS[offer.cat] || '🎁'}
                     </div>
-                    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-lg ${offer.urgent ? 'bg-stone-200 text-stone-700' : 'bg-zinc-100 text-zinc-600'}`}>
+                    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-lg ${offer.urgent ? 'bg-stone-200 text-stone-700' : 'bg-stone-100 text-stone-600'}`}>
                       {offer.badge}
                     </span>
                   </div>
