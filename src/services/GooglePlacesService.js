@@ -24,11 +24,21 @@ export const initPlacesService = (map) => {
   initAttempts++
   if (initAttempts < MAX_INIT_ATTEMPTS) {
     console.log(`⏳ PlacesService not ready, attempt ${initAttempts}/${MAX_INIT_ATTEMPTS}`)
-    setTimeout(() => initPlacesService(map), 100)
+    // Use a closure to retry with the same map
+    setTimeout(() => {
+      initPlacesService(map)
+    }, 100)
   } else {
     console.log('❌ PlacesService failed to initialize after max attempts')
   }
   return false
+}
+
+// Reset init attempts (call this when map changes)
+export const resetPlacesService = () => {
+  initAttempts = 0
+  placesService = null
+  mapInstance = null
 }
 
 // Get photo URL from photo reference
