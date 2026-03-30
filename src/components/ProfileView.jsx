@@ -261,18 +261,18 @@ export default function ProfileView() {
   return (
     <div className="h-full w-full flex flex-col bg-zinc-50">
       {/* Profile Header */}
-      <div className="bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 px-5 pt-8 pb-16">
+      <div className="bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 px-5 pt-8 pb-16">
         <div className="flex items-center gap-4">
           <div className="relative">
-            <div className="w-20 h-20 rounded-3xl bg-white/20 backdrop-blur-xl border-2 border-white/30 flex items-center justify-center">
-              {user?.avatar ? (
-                <img src={user.avatar} alt="" className="w-full h-full rounded-3xl object-cover" />
-              ) : (
-                <User className="w-10 h-10 text-white" />
-              )}
+            <div className="w-20 h-20 rounded-3xl bg-white/20 backdrop-blur-xl border-2 border-white/30 flex items-center justify-center overflow-hidden shadow-xl">
+              <img 
+                src="/favicon.png" 
+                alt="Logo" 
+                className="w-full h-full object-contain"
+              />
             </div>
             <button className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-white shadow-lg flex items-center justify-center">
-              <Camera className="w-4 h-4 text-violet-500" />
+              <Camera className="w-4 h-4 text-amber-500" />
             </button>
           </div>
           <div className="flex-1">

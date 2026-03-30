@@ -15,9 +15,12 @@ export default function Header({ user, onLoginClick, isDarkMode, onDarkModeToggl
   return (
     <header className="bg-white/90 backdrop-blur-xl border-b border-zinc-200/50 px-4 py-3 flex items-center justify-between z-[1001]">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-violet-200/50">
-          <span className="text-white text-lg">🗺️</span>
-        </div>
+        <img 
+          src="/favicon.png" 
+          alt="Logo" 
+          className="w-10 h-10 rounded-2xl object-contain shadow-lg"
+          style={{ background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' }}
+        />
         <div>
           <h1 className="font-semibold text-zinc-900 text-sm">
             香港生活地圖
