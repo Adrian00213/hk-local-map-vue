@@ -6,8 +6,6 @@ import MapView from './components/MapView'
 import SearchView from './components/SearchView'
 import FavoritesView from './components/FavoritesView'
 import NewsView from './components/NewsView'
-import DealsView from './components/DealsView'
-import ReviewsView from './components/ReviewsView'
 import TripPlannerView from './components/TripPlannerView'
 import ProfileView from './components/ProfileView'
 
@@ -20,9 +18,7 @@ export default function App() {
       case 'search': return <SearchView />
       case 'favorites': return <FavoritesView />
       case 'news': return <NewsView />
-      case 'deals': return <DealsView />
       case 'trip': return <TripPlannerView />
-      case 'reviews': return <ReviewsView />
       case 'profile': return <ProfileView />
       default: return <MapView />
     }
