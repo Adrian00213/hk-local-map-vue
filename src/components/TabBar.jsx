@@ -1,9 +1,8 @@
-import { Map, Search, Heart, Newspaper, Sparkles, User } from 'lucide-react'
+import { Map, Search, Newspaper, Sparkles, User } from 'lucide-react'
 
 const tabs = [
   { id: 'map', icon: Map, label: '地圖' },
   { id: 'search', icon: Search, label: '搜尋' },
-  { id: 'favorites', icon: Heart, label: '收藏' },
   { id: 'news', icon: Newspaper, label: '資訊' },
   { id: 'trip', icon: Sparkles, label: '行程' },
   { id: 'profile', icon: User, label: '我的' },

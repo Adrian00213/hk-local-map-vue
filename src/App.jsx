@@ -4,7 +4,6 @@ import { AuthProvider } from './context/AuthContext'
 import TabBar from './components/TabBar'
 import MapView from './components/MapView'
 import SearchView from './components/SearchView'
-import FavoritesView from './components/FavoritesView'
 import NewsView from './components/NewsView'
 import TripPlannerView from './components/TripPlannerView'
 import ProfileView from './components/ProfileView'
@@ -16,7 +15,6 @@ export default function App() {
     switch (activeTab) {
       case 'map': return <MapView />
       case 'search': return <SearchView />
-      case 'favorites': return <FavoritesView />
       case 'news': return <NewsView />
       case 'trip': return <TripPlannerView />
       case 'profile': return <ProfileView />
