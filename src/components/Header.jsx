@@ -13,19 +13,19 @@ export default function Header({ user, onLoginClick, isDarkMode, onDarkModeToggl
   }
 
   return (
-    <header className="bg-white/90 backdrop-blur-xl border-b border-zinc-200/50 px-4 py-3 flex items-center justify-between z-[1001]">
+    <header className="bg-white/95 backdrop-blur-xl border-b border-amber-100/50 px-4 py-3 flex items-center justify-between z-[1001]">
       <div className="flex items-center gap-3">
         <img 
           src="/favicon.png" 
           alt="Logo" 
-          className="w-10 h-10 rounded-2xl object-contain shadow-lg"
+          className="w-10 h-10 rounded-2xl object-contain shadow-lg shadow-amber-200/50"
           style={{ background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' }}
         />
         <div>
-          <h1 className="font-semibold text-zinc-900 text-sm">
+          <h1 className="font-bold text-zinc-900 text-base tracking-tight">
             香港生活地圖
           </h1>
-          <p className="text-xs text-zinc-500">
+          <p className="text-xs text-amber-600 font-medium">
             {greeting}！{user ? user.displayName || user.email : '探索精彩'}
           </p>
         </div>
@@ -35,37 +35,37 @@ export default function Header({ user, onLoginClick, isDarkMode, onDarkModeToggl
         {/* Dark Mode Toggle */}
         <button
           onClick={onDarkModeToggle}
-          className="p-2.5 rounded-xl hover:bg-zinc-100 transition-colors"
+          className="p-2.5 rounded-xl hover:bg-amber-50 transition-colors active:scale-95"
           aria-label="Toggle dark mode"
         >
           {isDarkMode ? (
             <Sun className="w-5 h-5 text-amber-500" />
           ) : (
-            <Moon className="w-5 h-5 text-zinc-500" />
+            <Moon className="w-5 h-5 text-amber-600" />
           )}
         </button>
 
         {user ? (
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-violet-100 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-amber-100 flex items-center justify-center">
               {user.photoURL ? (
                 <img src={user.photoURL} alt={user.displayName || 'User'} className="w-full h-full rounded-xl object-cover" />
               ) : (
-                <User className="w-4 h-4 text-violet-600" />
+                <User className="w-4 h-4 text-amber-600" />
               )}
             </div>
             <button
               onClick={handleLogout}
-              className="p-2.5 rounded-xl hover:bg-zinc-100 transition-colors"
+              className="p-2.5 rounded-xl hover:bg-amber-50 transition-colors active:scale-95"
               aria-label="Logout"
             >
-              <LogOut className="w-5 h-5 text-zinc-500" />
+              <LogOut className="w-5 h-5 text-amber-600" />
             </button>
           </div>
         ) : (
           <button
             onClick={onLoginClick}
-            className="px-4 py-2 bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white rounded-xl text-sm font-semibold shadow-lg shadow-violet-200/50 btn-premium"
+            className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl text-sm font-semibold shadow-lg shadow-amber-200/50 active:scale-95 transition-transform"
           >
             登入
           </button>

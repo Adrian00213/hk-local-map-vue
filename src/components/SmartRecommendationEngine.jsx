@@ -1,8 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { Sparkles, Star, Brain, Sun, Cloud, RefreshCw } from 'lucide-react'
+import { Sparkles, Star, Brain, Sun, RefreshCw, MapPin, Navigation } from 'lucide-react'
 import { searchForRecommendations, isPlacesServiceReady } from '../services/GooglePlacesService'
 
-// Fallback data for when API fails
 const FALLBACK_DATA = {
   hong_kong: {
     restaurants: [
@@ -19,7 +18,6 @@ const FALLBACK_DATA = {
   }
 }
 
-// Get current time context
 const getTimeContext = () => {
   const hour = new Date().getHours()
   if (hour >= 5 && hour < 11) return 'morning'
@@ -29,7 +27,6 @@ const getTimeContext = () => {
   return 'night'
 }
 
-// Emoji map - static, no dynamic Tailwind classes
 const EMOJI_MAP = {
   restaurants: '🍜',
   places: '🎯',
@@ -37,12 +34,6 @@ const EMOJI_MAP = {
 }
 
 const getEmoji = (category) => EMOJI_MAP[category] || EMOJI_MAP.default
-
-const getGradientClasses = (category) => {
-  if (category === 'restaurants') return 'bg-orange-100'
-  if (category === 'places') return 'bg-blue-100'
-  return 'bg-amber-100'
-}
 
 export default function SmartRecommendations({ region = 'hong_kong', userLocation = null, mapReady = false, onPlaceSelect }) {
   const [recommendations, setRecommendations] = useState([])
@@ -73,20 +64,8 @@ export default function SmartRecommendations({ region = 'hong_kong', userLocatio
           setUsingGoogle(true)
           
           const sections = [
-            {
-              type: 'google',
-              title: getTimeTitle(timeContext),
-              places: results.slice(0, 4),
-              icon: getTimeIcon(timeContext),
-              source: '🔍 Google 實時數據'
-            },
-            {
-              type: 'trending',
-              title: '🔥 熱門精選',
-              places: results.slice(4, 8),
-              icon: '🔥',
-              source: '🔍 Google 實時數據'
-            }
+            { type: 'google', title: getTimeTitle(timeContext), places: results.slice(0, 4), icon: getTimeIcon(timeContext), source: '🔍 Google 實時數據' },
+            { type: 'trending', title: '🔥 熱門精選', places: results.slice(4, 8), icon: '🔥', source: '🔍 Google 實時數據' }
           ]
           
           setRecommendations(sections.filter(s => s.places.length > 0))
@@ -102,20 +81,8 @@ export default function SmartRecommendations({ region = 'hong_kong', userLocatio
       const fallback = FALLBACK_DATA[region] || FALLBACK_DATA.hong_kong
       
       const sections = [
-        {
-          type: 'time',
-          title: getTimeTitle(timeContext),
-          places: fallback.restaurants.slice(0, 4),
-          icon: getTimeIcon(timeContext),
-          source: '📍 樣本數據'
-        },
-        {
-          type: 'places',
-          title: '🎯 必去景點',
-          places: fallback.places.slice(0, 4),
-          icon: '🎯',
-          source: '📍 樣本數據'
-        }
+        { type: 'time', title: getTimeTitle(timeContext), places: fallback.restaurants.slice(0, 4), icon: getTimeIcon(timeContext), source: '📍 樣本數據' },
+        { type: 'places', title: '🎯 必去景點', places: fallback.places.slice(0, 4), icon: '🎯', source: '📍 樣本數據' }
       ]
       
       setRecommendations(sections)
@@ -150,44 +117,65 @@ export default function SmartRecommendations({ region = 'hong_kong', userLocatio
     return '🌙'
   }
 
-  // Place Card with static Tailwind classes
+  // Place Card with premium design
   const PlaceCard = ({ place }) => {
     const emoji = getEmoji(place.category)
-    const bgClass = getGradientClasses(place.category)
     
+    const handleNavigate = (e) => {
+      e.stopPropagation()
+      const lat = place.lat || place.geometry?.location?.lat()
+      const lng = place.lng || place.geometry?.location?.lng()
+      if (lat && lng) {
+        window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`, '_blank')
+      }
+    }
+
     return (
       <div 
         onClick={() => onPlaceSelect?.(place)}
-        className="bg-white rounded-xl overflow-hidden border border-zinc-100/80 cursor-pointer hover:shadow-md transition-all active:scale-[0.98] flex"
+        className="bg-white rounded-2xl border border-amber-100/50 cursor-pointer hover:shadow-lg transition-all active:scale-[0.98] overflow-hidden"
       >
-        {/* Emoji Placeholder */}
-        <div className="relative w-20 h-20 shrink-0 bg-amber-100 flex items-center justify-center">
-          <span className="text-3xl">{emoji}</span>
-          {place.rating && (
-            <div className="absolute bottom-1 left-1 px-1.5 py-0.5 bg-black/60 backdrop-blur rounded flex items-center gap-0.5">
-              <Star className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
-              <span className="text-white text-[10px] font-bold">{place.rating}</span>
+        <div className="flex">
+          {/* Emoji Block */}
+          <div className="w-20 h-20 bg-gradient-to-br from-amber-50 to-orange-50 flex items-center justify-center shrink-0">
+            <span className="text-3xl">{emoji}</span>
+          </div>
+          
+          {/* Content */}
+          <div className="flex-1 p-3 min-w-0">
+            <div className="flex items-start justify-between gap-2">
+              <div className="min-w-0 flex-1">
+                <h4 className="font-semibold text-zinc-900 text-sm leading-tight line-clamp-1">{place.name}</h4>
+                {place.description && (
+                  <p className="text-xs text-zinc-500 mt-0.5 line-clamp-1">{place.description}</p>
+                )}
+              </div>
+              <button
+                onClick={handleNavigate}
+                className="w-8 h-8 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center shrink-0 shadow-md active:scale-95 transition-transform"
+              >
+                <Navigation className="w-4 h-4 text-white" />
+              </button>
             </div>
-          )}
-        </div>
-        
-        {/* Info */}
-        <div className="flex-1 p-2.5 flex flex-col justify-center min-w-0">
-          <h4 className="font-bold text-zinc-900 text-sm leading-tight line-clamp-1">{place.name}</h4>
-          {place.description && (
-            <p className="text-xs text-zinc-500 mt-0.5 line-clamp-1">{place.description}</p>
-          )}
-          <div className="flex items-center gap-2 mt-1.5">
-            {place.price_level !== undefined && place.price_level > 0 && (
-              <span className="text-xs font-medium text-amber-600">
-                {'$'.repeat(place.price_level)}
-              </span>
-            )}
-            {place.open_now !== undefined && (
-              <span className={`text-[10px] ${place.open_now ? 'text-emerald-600' : 'text-zinc-400'}`}>
-                {place.open_now ? '✓ 營業中' : '✗ 關門'}
-              </span>
-            )}
+            
+            <div className="flex items-center gap-2 mt-2">
+              {place.rating && (
+                <span className="inline-flex items-center gap-0.5 px-2 py-0.5 bg-amber-50 text-amber-700 text-xs font-medium rounded-full">
+                  <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
+                  {place.rating}
+                </span>
+              )}
+              {place.price_level !== undefined && place.price_level > 0 && (
+                <span className="text-xs font-medium text-amber-600">
+                  {'$'.repeat(place.price_level)}
+                </span>
+              )}
+              {place.open_now !== undefined && (
+                <span className={`text-[10px] ${place.open_now ? 'text-emerald-600' : 'text-zinc-400'}`}>
+                  {place.open_now ? '✓ 營業中' : '✗ 關門'}
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -197,25 +185,33 @@ export default function SmartRecommendations({ region = 'hong_kong', userLocatio
   if (loading) {
     return (
       <div className="space-y-4 p-4">
-        <div className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl p-4 text-white">
-          <div className="flex items-center gap-3">
-            <Sun className="w-5 h-5" />
-            <div>
-              <div className="text-2xl font-bold">{weather.temp}°C</div>
-              <div className="text-sm opacity-80">香港</div>
+        {/* Weather Widget - Loading */}
+        <div className="bg-gradient-to-r from-amber-500 via-amber-400 to-orange-500 rounded-2xl p-5 text-white shadow-lg shadow-amber-200/30">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
+                <Sun className="w-6 h-6" />
+              </div>
+              <div>
+                <div className="text-3xl font-bold">{weather.temp}°C</div>
+                <div className="text-sm opacity-80">香港</div>
+              </div>
             </div>
           </div>
         </div>
         
-        <div className="space-y-2">
+        {/* Skeleton */}
+        <div className="space-y-3">
           {[1, 2, 3, 4].map(i => (
-            <div key={i} className="bg-white rounded-xl overflow-hidden animate-pulse flex">
-              <div className="w-20 h-20 bg-amber-100 flex items-center justify-center shrink-0">
-                <span className="text-3xl opacity-50">📍</span>
-              </div>
-              <div className="flex-1 p-2.5">
-                <div className="h-4 bg-zinc-200 rounded w-3/4 mb-2" />
-                <div className="h-3 bg-zinc-100 rounded w-1/2" />
+            <div key={i} className="bg-white rounded-2xl border border-amber-100/30 overflow-hidden animate-pulse">
+              <div className="flex">
+                <div className="w-20 h-20 bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center shrink-0">
+                  <span className="text-3xl opacity-50">🍜</span>
+                </div>
+                <div className="flex-1 p-3">
+                  <div className="h-4 bg-amber-100 rounded w-3/4 mb-2" />
+                  <div className="h-3 bg-amber-50 rounded w-1/2" />
+                </div>
               </div>
             </div>
           ))}
@@ -226,44 +222,47 @@ export default function SmartRecommendations({ region = 'hong_kong', userLocatio
 
   return (
     <div className="space-y-4 p-4">
-      {/* Weather Widget */}
-      <div className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl p-4 text-white shadow-lg">
+      {/* Weather Widget - Premium */}
+      <div className="bg-gradient-to-r from-amber-500 via-amber-400 to-orange-500 rounded-2xl p-5 text-white shadow-lg shadow-amber-200/30">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Sun className="w-5 h-5" />
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
+              <Sun className="w-6 h-6" />
+            </div>
             <div>
-              <div className="text-2xl font-bold">{weather.temp}°C</div>
+              <div className="text-3xl font-bold">{weather.temp}°C</div>
               <div className="text-sm opacity-80">香港 • {getTimeTitle(timeContext).split(' ')[1]}</div>
             </div>
           </div>
           <button 
             onClick={handleRefresh}
-            className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center hover:bg-white/30 transition-all active:scale-95"
+            className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center hover:bg-white/30 transition-all active:scale-95"
           >
             <RefreshCw className={`w-5 h-5 text-white ${refreshing ? 'animate-spin' : ''}`} />
           </button>
         </div>
       </div>
 
-      {/* AI Context */}
-      <div className={`rounded-xl p-3 border ${usingGoogle ? 'bg-emerald-50 border-emerald-100' : 'bg-violet-50 border-violet-100'}`}>
+      {/* AI Status Badge */}
+      <div className={`rounded-2xl p-3 border ${usingGoogle ? 'bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-200/50' : 'bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200/50'}`}>
         <div className="flex items-center gap-2">
-          <Brain className={`w-4 h-4 ${usingGoogle ? 'text-emerald-500' : 'text-violet-500'}`} />
-          <span className={`text-sm font-medium ${usingGoogle ? 'text-emerald-700' : 'text-violet-700'}`}>
-            🧠 為你根據時間同位置智能推薦 {usingGoogle ? '（Google 實時數據）' : '（離線模式）'}
+          <Brain className={`w-4 h-4 ${usingGoogle ? 'text-emerald-500' : 'text-amber-500'}`} />
+          <span className={`text-xs font-medium ${usingGoogle ? 'text-emerald-700' : 'text-amber-700'}`}>
+            🧠 為你根據時間同位置智能推薦
+          </span>
+          <span className={`ml-auto text-[10px] ${usingGoogle ? 'text-emerald-600' : 'text-amber-600'}`}>
+            {usingGoogle ? '✓ Google 實時數據' : '📍 離線模式'}
           </span>
         </div>
       </div>
 
-      {/* Recommendations */}
+      {/* Recommendation Sections */}
       {recommendations.map((section, idx) => (
-        <div key={idx} className="space-y-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="text-lg">{section.icon}</span>
-              <h3 className="font-bold text-zinc-900">{section.title}</h3>
-            </div>
-            <span className="text-xs text-zinc-400">{section.source}</span>
+        <div key={idx} className="space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="text-lg">{section.icon}</span>
+            <h3 className="font-semibold text-zinc-900">{section.title}</h3>
+            <span className="ml-auto text-xs text-zinc-400">{section.source}</span>
           </div>
           
           <div className="space-y-2">
@@ -275,11 +274,13 @@ export default function SmartRecommendations({ region = 'hong_kong', userLocatio
       ))}
 
       {recommendations.length === 0 && !loading && (
-        <div className="text-center py-8">
-          <Sparkles className="w-8 h-8 text-zinc-300 mx-auto mb-4" />
+        <div className="text-center py-10">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-amber-50 flex items-center justify-center">
+            <Sparkles className="w-8 h-8 text-amber-400" />
+          </div>
           <p className="text-zinc-500 text-sm">暫時冇推薦</p>
-          <button onClick={handleRefresh} className="mt-2 text-amber-600 text-sm font-medium hover:underline">
-            重新整理
+          <button onClick={handleRefresh} className="mt-3 text-amber-600 text-sm font-medium hover:text-amber-700">
+            重新整理 →
           </button>
         </div>
       )}
