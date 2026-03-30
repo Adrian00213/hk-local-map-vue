@@ -1,17 +1,86 @@
-import { useState } from 'react'
-import { Search, MapPin } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Search, MapPin, Clock, TrendingUp, X, Sparkles } from 'lucide-react'
 import { useMap, CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
+
+// Popular and trending searches
+const POPULAR_SEARCHES = [
+  { text: '茶餐廳', icon: '🍜' },
+  { text: '優惠', icon: '💰' },
+  { text: '好去處', icon: '🎯' },
+  { text: '咖啡店', icon: '☕' },
+  { text: '商場', icon: '🛍️' },
+]
+
+// Quick suggestion prompts
+const QUICK_PROMPTS = [
+  { text: '附近有咩好嘢食？', cat: 'restaurants' },
+  { text: '平嘢優惠', cat: 'deals' },
+  { text: '室內好去處', cat: 'places' },
+]
+
+const RECENT_SEARCHES_KEY = 'hk_recent_searches'
 
 export default function SearchView() {
   const { markers } = useMap()
   const [q, setQ] = useState('')
   const [cat, setCat] = useState(null)
+  const [recentSearches, setRecentSearches] = useState([])
+  const [showRecent, setShowRecent] = useState(true)
+
+  // Load recent searches
+  useEffect(() => {
+    const saved = localStorage.getItem(RECENT_SEARCHES_KEY)
+    if (saved) {
+      setRecentSearches(JSON.parse(saved))
+    }
+  }, [])
+
+  // Save search to recent
+  const saveSearch = (text) => {
+    if (!text.trim()) return
+    const updated = [text, ...recentSearches.filter(s => s !== text)].slice(0, 5)
+    setRecentSearches(updated)
+    localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(updated))
+  }
+
+  // Clear single recent search
+  const clearRecent = (text) => {
+    const updated = recentSearches.filter(s => s !== text)
+    setRecentSearches(updated)
+    localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(updated))
+  }
+
+  // Clear all recent searches
+  const clearAllRecent = () => {
+    setRecentSearches([])
+    localStorage.removeItem(RECENT_SEARCHES_KEY)
+  }
 
   const results = markers.filter(m => {
-    const matchQ = !q || m.title.toLowerCase().includes(q.toLowerCase()) || m.description?.toLowerCase().includes(q.toLowerCase()) || m.contact?.toLowerCase().includes(q.toLowerCase())
+    const matchQ = !q || 
+      m.title.toLowerCase().includes(q.toLowerCase()) || 
+      m.description?.toLowerCase().includes(q.toLowerCase()) || 
+      m.contact?.toLowerCase().includes(q.toLowerCase())
     const matchCat = !cat || m.category === cat
     return matchQ && matchCat
   })
+
+  const handleSearch = (searchText) => {
+    setQ(searchText)
+    setShowRecent(false)
+    saveSearch(searchText)
+  }
+
+  const handleInputChange = (e) => {
+    setQ(e.target.value)
+    setShowRecent(e.target.value === '')
+  }
+
+  const handleClear = () => {
+    setQ('')
+    setCat(null)
+    setShowRecent(true)
+  }
 
   return (
     <div className="h-full w-full flex flex-col bg-zinc-50">
@@ -22,16 +91,27 @@ export default function SearchView() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
           <input
             value={q}
-            onChange={e => setQ(e.target.value)}
-            placeholder="搜尋地點、餐廳、優惠..."
-            className="w-full pl-12 pr-4 py-4 bg-zinc-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/20 transition-all"
+            onChange={handleInputChange}
+            onFocus={() => setShowRecent(true)}
+            placeholder="搜尋餐廳、優惠、好去處..."
+            className="w-full pl-12 pr-12 py-4 bg-zinc-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/30 transition-all placeholder:text-zinc-400"
           />
+          {q && (
+            <button 
+              onClick={handleClear}
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-zinc-200 hover:bg-zinc-300 flex items-center justify-center transition-colors active:scale-95"
+            >
+              <X className="w-4 h-4 text-zinc-500" />
+            </button>
+          )}
         </div>
+        
+        {/* Category Filters */}
         <div className="flex gap-2 mt-4 overflow-x-auto">
           <button
             onClick={() => setCat(null)}
-            className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
-              !cat ? 'bg-violet-500 text-white' : 'bg-zinc-100 text-zinc-600'
+            className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all active:scale-95 ${
+              !cat ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md' : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 active:bg-zinc-300'
             }`}
           >
             全部
@@ -40,8 +120,8 @@ export default function SearchView() {
             <button
               key={k}
               onClick={() => setCat(k)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all flex items-center gap-1.5 ${
-                cat === k ? 'bg-violet-500 text-white' : 'bg-zinc-100 text-zinc-600'
+              className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all flex items-center gap-1.5 active:scale-95 ${
+                cat === k ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md' : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 active:bg-zinc-300'
               }`}
             >
               <span>{CATEGORY_ICONS[k]}</span>
@@ -51,46 +131,146 @@ export default function SearchView() {
         </div>
       </div>
 
-      {/* Results */}
+      {/* Content Area */}
       <div className="flex-1 overflow-y-auto p-5">
-        <p className="text-sm text-zinc-400 mb-4 font-medium">
-          {results.length === 0 ? '沒有結果' : `${results.length} 個結果`}
-        </p>
-
-        {results.length === 0 ? (
-          <div className="text-center py-20">
-            <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-zinc-100 flex items-center justify-center">
-              <Search className="w-10 h-10 text-zinc-300" />
-            </div>
-            <h3 className="text-lg font-semibold text-zinc-700 mb-2">找不到結果</h3>
-            <p className="text-sm text-zinc-400">嘗試其他關鍵字</p>
-          </div>
-        ) : (
-          <div className="space-y-3 stagger-children">
-            {results.map(m => (
-              <div key={m.id} className="bg-white rounded-2xl p-5 shadow-sm border border-zinc-100/80 card-hover">
-                <div className="flex gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-zinc-100 to-zinc-200 flex items-center justify-center text-2xl shrink-0">
-                    {CATEGORY_ICONS[m.category]}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-zinc-900 text-base leading-tight mb-1.5">{m.title}</h3>
-                    <span className="inline-block px-2.5 py-0.5 bg-zinc-100 text-zinc-500 text-xs font-medium rounded-full">
-                      {CATEGORY_LABELS[m.category]}
-                    </span>
-                    {m.description && (
-                      <p className="text-sm text-zinc-500 mt-2 leading-relaxed line-clamp-2">{m.description}</p>
-                    )}
-                    {m.contact && (
-                      <div className="flex items-center gap-1.5 mt-2 text-xs text-zinc-400">
-                        <MapPin size={12} />
-                        <span>{m.contact}</span>
-                      </div>
-                    )}
-                  </div>
+        {/* Show when input is empty */}
+        {showRecent && !q && (
+          <div className="space-y-6 animate-fade-in">
+            {/* Recent Searches */}
+            {recentSearches.length > 0 && (
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-sm font-bold text-zinc-500 flex items-center gap-2">
+                    <Clock className="w-4 h-4" />
+                    最近搜尋
+                  </h3>
+                  <button 
+                    onClick={clearAllRecent}
+                    className="text-xs text-zinc-400 hover:text-zinc-600"
+                  >
+                    清除全部
+                  </button>
+                </div>
+                <div className="space-y-2">
+                  {recentSearches.map((s, i) => (
+                    <div key={i} className="flex items-center gap-3 p-3 bg-white rounded-xl border border-zinc-100/80">
+                      <Clock className="w-4 h-4 text-zinc-300" />
+                      <button 
+                        onClick={() => handleSearch(s)}
+                        className="flex-1 text-left text-sm text-zinc-700"
+                      >
+                        {s}
+                      </button>
+                      <button 
+                        onClick={() => clearRecent(s)}
+                        className="w-6 h-6 rounded-full hover:bg-zinc-100 flex items-center justify-center"
+                      >
+                        <X className="w-3 h-3 text-zinc-400" />
+                      </button>
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
+            )}
+
+            {/* Popular Searches */}
+            <div>
+              <h3 className="text-sm font-bold text-zinc-500 flex items-center gap-2 mb-3">
+                <TrendingUp className="w-4 h-4" />
+                熱門搜尋
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {POPULAR_SEARCHES.map((s, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handleSearch(s.text)}
+                    className="px-4 py-2.5 bg-white border border-zinc-200/80 rounded-xl text-sm font-medium text-zinc-700 flex items-center gap-1.5 hover:bg-zinc-50 active:scale-95 transition-all"
+                  >
+                    <span>{s.icon}</span>
+                    <span>{s.text}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Quick Prompts */}
+            <div>
+              <h3 className="text-sm font-bold text-zinc-500 flex items-center gap-2 mb-3">
+                <Sparkles className="w-4 h-4" />
+                試下問我
+              </h3>
+              <div className="space-y-2">
+                {QUICK_PROMPTS.map((p, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handleSearch(p.text)}
+                    className="w-full p-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-100/50 rounded-xl text-left text-sm font-medium text-amber-700 flex items-center gap-3 hover:bg-amber-100/50 active:scale-[0.98] transition-all"
+                  >
+                    <span className="w-8 h-8 rounded-xl bg-amber-500 flex items-center justify-center text-white text-sm">
+                      {CATEGORY_ICONS[p.cat]}
+                    </span>
+                    {p.text}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Search Results */}
+        {q && (
+          <div>
+            <p className="text-sm text-zinc-400 mb-4 font-medium">
+              {results.length === 0 ? '搵唔到' : `搵到 ${results.length} 個結果`}
+            </p>
+
+            {results.length === 0 ? (
+              <div className="text-center py-16 animate-fade-in">
+                <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-zinc-100 flex items-center justify-center">
+                  <Search className="w-10 h-10 text-zinc-300" />
+                </div>
+                <h3 className="text-lg font-semibold text-zinc-700 mb-2">搵唔到你想要嘅</h3>
+                <p className="text-sm text-zinc-400 mb-4">試下其他關鍵字啦</p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {['茶餐廳', '優惠', 'café', '商場'].map((s, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handleSearch(s)}
+                      className="px-3 py-1.5 bg-amber-50 text-amber-600 text-sm rounded-lg hover:bg-amber-100 transition-colors"
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-3 stagger-children">
+                {results.map(m => (
+                  <div key={m.id} className="bg-white rounded-2xl p-4 shadow-sm border border-zinc-100/80 card-hover active:scale-[0.98] transition-transform">
+                    <div className="flex gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-zinc-100 to-zinc-200 flex items-center justify-center text-xl shrink-0">
+                        {CATEGORY_ICONS[m.category]}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-zinc-900 text-base leading-tight mb-1.5">{m.title}</h3>
+                        <span className="inline-block px-2.5 py-0.5 bg-amber-50 text-amber-600 text-xs font-medium rounded-full">
+                          {CATEGORY_LABELS[m.category]}
+                        </span>
+                        {m.description && (
+                          <p className="text-sm text-zinc-500 mt-2 leading-relaxed line-clamp-2">{m.description}</p>
+                        )}
+                        {m.contact && (
+                          <div className="flex items-center gap-1.5 mt-2 text-xs text-zinc-400">
+                            <MapPin size={12} />
+                            <span>{m.contact}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>

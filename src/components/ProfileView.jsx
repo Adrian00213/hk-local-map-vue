@@ -131,8 +131,8 @@ export default function ProfileView() {
               <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-zinc-100 flex items-center justify-center">
                 <Gift className="w-10 h-10 text-zinc-300" />
               </div>
-              <h3 className="text-lg font-semibold text-zinc-700 mb-2">暫時沒有收藏優惠</h3>
-              <p className="text-sm text-zinc-400">去優惠頁面收藏心儀優惠</p>
+              <h3 className="text-lg font-semibold text-zinc-700 mb-2">未收藏過優惠</h3>
+              <p className="text-sm text-zinc-400">去「我的」收藏心水優惠啦</p>
             </div>
           )}
         </div>
@@ -193,8 +193,8 @@ export default function ProfileView() {
               <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-zinc-100 flex items-center justify-center">
                 <MessageCircle className="w-10 h-10 text-zinc-300" />
               </div>
-              <h3 className="text-lg font-semibold text-zinc-700 mb-2">暫時沒有點評</h3>
-              <p className="text-sm text-zinc-400">去發表你的第一篇點評</p>
+              <h3 className="text-lg font-semibold text-zinc-700 mb-2">未發表過點評</h3>
+              <p className="text-sm text-zinc-400">試下分享你嘅體驗啦！</p>
             </div>
           )}
         </div>
@@ -248,8 +248,8 @@ export default function ProfileView() {
               <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-zinc-100 flex items-center justify-center">
                 <Heart className="w-10 h-10 text-zinc-300" />
               </div>
-              <h3 className="text-lg font-semibold text-zinc-700 mb-2">暫時沒有收藏</h3>
-              <p className="text-sm text-zinc-400">在地圖上收藏心儀地點</p>
+              <h3 className="text-lg font-semibold text-zinc-700 mb-2">未收藏過地方</h3>
+              <p className="text-sm text-zinc-400">去地圖碌碌，儲你最like嘅地方</p>
             </div>
           )}
         </div>
@@ -293,7 +293,7 @@ export default function ProfileView() {
       </div>
 
       {/* Stats Bar */}
-      <div className="bg-white mx-4 -mt-8 rounded-2xl shadow-lg shadow-violet-200/30 p-4">
+      <div className="bg-white mx-4 -mt-8 rounded-2xl shadow-lg shadow-amber-200/30 p-4">
         <div className="grid grid-cols-4 gap-4">
           <button onClick={() => setActiveSection('favorites')} className="text-center hover:bg-zinc-50 rounded-xl p-2 -m-2 transition-colors">
             <div className="text-xl font-bold text-zinc-900">{favorites.length}</div>

@@ -234,8 +234,8 @@ export default function NewsView() {
             <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-zinc-100 flex items-center justify-center">
               <Newspaper className="w-10 h-10 text-zinc-300" />
             </div>
-            <h3 className="text-lg font-semibold text-zinc-700 mb-2">暫時沒有資訊</h3>
-            <p className="text-sm text-zinc-400">稍後再看看</p>
+            <h3 className="text-lg font-semibold text-zinc-700 mb-2">暫時冇料到</h3>
+            <p className="text-sm text-zinc-400">稍後再碌碌啦</p>
           </div>
         )}
       </div>

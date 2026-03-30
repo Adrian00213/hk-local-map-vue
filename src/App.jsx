@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { MapProvider } from './context/MapContext'
 import { AuthProvider } from './context/AuthContext'
 import TabBar from './components/TabBar'
@@ -7,9 +7,19 @@ import SearchView from './components/SearchView'
 import NewsView from './components/NewsView'
 import SmartAssistantView from './components/SmartAssistantView'
 import ProfileView from './components/ProfileView'
+import OnboardingView from './components/OnboardingView'
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('map')
+  const [showOnboarding, setShowOnboarding] = useState(false)
+
+  useEffect(() => {
+    // Check if user has seen onboarding
+    const seen = localStorage.getItem('hk_onboarding_complete')
+    if (!seen) {
+      setShowOnboarding(true)
+    }
+  }, [])
 
   const renderView = () => {
     switch (activeTab) {
@@ -20,6 +30,14 @@ export default function App() {
       case 'profile': return <ProfileView />
       default: return <MapView />
     }
+  }
+
+  if (showOnboarding) {
+    return (
+      <OnboardingView 
+        onComplete={() => setShowOnboarding(false)} 
+      />
+    )
   }
 
   return (
