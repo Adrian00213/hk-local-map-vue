@@ -101,7 +101,7 @@ export const REGION_DETAILS = {
     name: '大陸',
     flag: '🇨🇳',
     mapProvider: 'amap',
-    searchProvider: 'dianping',
+    searchProvider: 'china',
     sampleCity: '上海',
     zoom: 12,
     center: [31.2304, 121.4737]
@@ -165,42 +165,86 @@ export const SAMPLE_PLACES = {
   china: {
     // Sample data for mainland China (full data comes from 大众点评 API)
     restaurants: [
-      { id: 'cn_1', name: '外灘夜景', type: 'tourist_attraction', rating: 4.7, price: 0, lat: 31.2408, lng: 121.4903, category: 'places', description: '上海標誌夜景' },
-      { id: 'cn_2', name: '故宮博物院', type: 'museum', rating: 4.9, price: 60, lat: 39.9163, lng: 116.3972, category: 'places', description: '北京必遊' },
-      { id: 'cn_3', name: '長城', type: 'tourist_attraction', rating: 4.8, price: 45, lat: 40.4319, lng: 116.5704, category: 'places', description: '世界七大奇蹟' },
+      { id: 'cn_1', name: '上海小籠包', type: 'restaurant', rating: 4.7, price: 80, lat: 31.2304, lng: 121.4737, category: 'restaurants', description: '地道上海菜' },
+      { id: 'cn_2', name: '北京烤鴨', type: 'restaurant', rating: 4.8, price: 200, lat: 39.9163, lng: 116.3972, category: 'restaurants', description: '北京必食' },
+      { id: 'cn_3', name: '川菜麻辣火鍋', type: 'restaurant', rating: 4.6, price: 150, lat: 30.5728, lng: 114.2792, category: 'restaurants', description: '正宗川味' },
+      { id: 'cn_4', name: '粵式茶樓', type: 'restaurant', rating: 4.5, price: 100, lat: 23.1288, lng: 113.2588, category: 'restaurants', description: '傳統粵式点心' },
+      { id: 'cn_5', name: '重慶火鍋', type: 'restaurant', rating: 4.7, price: 120, lat: 29.5630, lng: 106.5516, category: 'restaurants', description: '麻辣鮮香' },
+      { id: 'cn_6', name: '蘇州松鼠桂魚', type: 'restaurant', rating: 4.8, price: 180, lat: 31.2989, lng: 120.5853, category: 'restaurants', description: '蘇幫菜代表作' },
     ],
     attractions: [
-      { id: 'cn_10', name: '田子坊', type: 'tourist_attraction', rating: 4.4, price: 0, lat: 31.2185, lng: 121.4715, category: 'places', description: '上海石庫門風情' },
-      { id: 'cn_11', name: '豫園', type: 'tourist_attraction', rating: 4.5, price: 30, lat: 31.2277, lng: 121.4899, category: 'places', description: '江南古典園林' },
+      { id: 'cn_10', name: '外灘夜景', type: 'tourist_attraction', rating: 4.9, price: 0, lat: 31.2408, lng: 121.4903, category: 'places', description: '上海標誌夜景' },
+      { id: 'cn_11', name: '故宮博物院', type: 'museum', rating: 4.9, price: 60, lat: 39.9163, lng: 116.3972, category: 'places', description: '北京必遊世界文化遺產' },
+      { id: 'cn_12', name: '長城', type: 'tourist_attraction', rating: 4.8, price: 45, lat: 40.4319, lng: 116.5704, category: 'places', description: '世界七大奇蹟之一' },
+      { id: 'cn_13', name: '田子坊', type: 'tourist_attraction', rating: 4.4, price: 0, lat: 31.2185, lng: 121.4715, category: 'places', description: '上海石庫門風情' },
+      { id: 'cn_14', name: '豫園', type: 'tourist_attraction', rating: 4.5, price: 30, lat: 31.2277, lng: 121.4899, category: 'places', description: '江南古典園林' },
+      { id: 'cn_15', name: '東方明珠', type: 'tourist_attraction', rating: 4.7, price: 180, lat: 31.2397, lng: 121.4998, category: 'places', description: '上海標誌建築' },
+      { id: 'cn_16', name: '西湖', type: 'tourist_attraction', rating: 4.9, price: 0, lat: 30.2469, lng: 120.1484, category: 'places', description: '杭州世界文化遺產' },
+      { id: 'cn_17', name: '廣州塔', type: 'tourist_attraction', rating: 4.6, price: 150, lat: 23.1065, lng: 113.3189, category: 'places', description: '广州塔小蛮腰' },
+    ],
+    shopping: [
+      { id: 'cn_20', name: '南京路步行街', type: 'shopping_mall', rating: 4.5, price: 0, lat: 31.2372, lng: 121.4855, category: 'places', description: '上海最繁華商業街' },
+      { id: 'cn_21', name: '王府井大街', type: 'shopping_mall', rating: 4.4, price: 0, lat: 39.9096, lng: 116.4073, category: 'places', description: '北京著名商業街' },
+      { id: 'cn_22', name: '春熙路', type: 'shopping_mall', rating: 4.6, price: 0, lat: 30.6587, lng: 104.0857, category: 'places', description: '成都春熙路太古里' },
     ]
   },
   taiwan: {
     restaurants: [
-      { id: 'tw_1', name: '士林夜市', type: 'tourist_attraction', rating: 4.6, price: 0, lat: 25.0880, lng: 121.5240, category: 'places', description: '台灣最大夜市' },
-      { id: 'tw_2', name: '饒河街夜市', type: 'tourist_attraction', rating: 4.5, price: 0, lat: 25.0500, lng: 121.5778, category: 'places', description: '百年歷史夜市' },
+      { id: 'tw_1', name: '士林夜市', type: 'tourist_attraction', rating: 4.6, price: 0, lat: 25.0880, lng: 121.5240, category: 'restaurants', description: '台灣最大夜市' },
+      { id: 'tw_2', name: '饒河街夜市', type: 'tourist_attraction', rating: 4.5, price: 0, lat: 25.0500, lng: 121.5778, category: 'restaurants', description: '百年歷史夜市' },
+      { id: 'tw_3', name: '寧夏夜市', type: 'tourist_attraction', rating: 4.7, price: 0, lat: 25.0550, lng: 121.5150, category: 'restaurants', description: '美食雲集夜市' },
+      { id: 'tw_4', name: '逢甲夜市', type: 'tourist_attraction', rating: 4.8, price: 0, lat: 24.1777, lng: 120.6456, category: 'restaurants', description: '台中最大夜市' },
+      { id: 'tw_5', name: '鼎泰豐', type: 'restaurant', rating: 4.7, price: 300, lat: 25.0339, lng: 121.5619, category: 'restaurants', description: '米芝蓮小籠包' },
     ],
     attractions: [
       { id: 'tw_10', name: '台北101', type: 'tourist_attraction', rating: 4.7, price: 600, lat: 25.0330, lng: 121.5654, category: 'places', description: '台灣最高建築' },
       { id: 'tw_11', name: '日月潭', type: 'tourist_attraction', rating: 4.8, price: 0, lat: 23.8644, lng: 120.9110, category: 'places', description: '台灣最美湖泊' },
+      { id: 'tw_12', name: '九份老街', type: 'tourist_attraction', rating: 4.6, price: 0, lat: 25.1093, lng: 121.8444, category: 'places', description: '懷舊山城老街' },
+      { id: 'tw_13', name: '太魯閣峽谷', type: 'tourist_attraction', rating: 4.9, price: 0, lat: 24.1577, lng: 121.6054, category: 'places', description: '世界級峽谷景觀' },
+      { id: 'tw_14', name: '墾丁國家公園', type: 'tourist_attraction', rating: 4.7, price: 0, lat: 22.0034, lng: 120.7463, category: 'places', description: '台灣最南端國家公園' },
+    ],
+    shopping: [
+      { id: 'tw_20', name: '西門町', type: 'shopping_mall', rating: 4.5, price: 0, lat: 25.0423, lng: 121.5076, category: 'places', description: '台北潮流聖地' },
+      { id: 'tw_21', name: '信義商圈', type: 'shopping_mall', rating: 4.6, price: 0, lat: 25.0358, lng: 121.5656, category: 'places', description: '台北時尚地標' },
     ]
   },
   japan: {
     restaurants: [
-      { id: 'jp_1', name: '淺草寺', type: 'tourist_attraction', rating: 4.7, price: 0, lat: 35.7147, lng: 139.7966, category: 'places', description: '東京最古老寺院' },
-      { id: 'jp_2', name: '新宿御苑', type: 'park', rating: 4.6, price: 0, lat: 35.6852, lng: 139.7100, category: 'places', description: '日式庭園' },
+      { id: 'jp_1', name: '淺草寺', type: 'tourist_attraction', rating: 4.7, price: 0, lat: 35.7147, lng: 139.7966, category: 'restaurants', description: '東京最古老寺院' },
+      { id: 'jp_2', name: '新宿御苑', type: 'park', rating: 4.6, price: 0, lat: 35.6852, lng: 139.7100, category: 'restaurants', description: '日式庭園' },
+      { id: 'jp_3', name: '築地市場', type: 'restaurant', rating: 4.8, price: 200, lat: 35.6654, lng: 139.7707, category: 'restaurants', description: '東京最大魚市場' },
+      { id: 'jp_4', name: '大阪道頓堀', type: 'restaurant', rating: 4.7, price: 150, lat: 34.6687, lng: 135.5011, category: 'restaurants', description: '大阪美食天堂' },
+      { id: 'jp_5', name: '京都祇園', type: 'restaurant', rating: 4.6, price: 100, lat: 35.0036, lng: 135.7760, category: 'restaurants', description: '傳統京料理' },
     ],
     attractions: [
-      { id: 'jp_10', name: '東京迪士尼', type: 'amusement_park', rating: 4.7, price: 8000, lat: 35.6329, lng: 139.8804, category: 'places', description: '亞洲最紅樂園' },
+      { id: 'jp_10', name: '東京迪士尼', type: 'amusement_park', rating: 4.8, price: 8000, lat: 35.6329, lng: 139.8804, category: 'places', description: '亞洲最紅樂園' },
       { id: 'jp_11', name: '富士山', type: 'tourist_attraction', rating: 4.9, price: 0, lat: 35.3606, lng: 138.7274, category: 'places', description: '日本最高峰' },
+      { id: 'jp_12', name: '淺草雷門', type: 'tourist_attraction', rating: 4.7, price: 0, lat: 35.7101, lng: 139.7967, category: 'places', description: '東京標誌性地標' },
+      { id: 'jp_13', name: '大阪城', type: 'tourist_attraction', rating: 4.6, price: 0, lat: 34.6873, lng: 135.5261, category: 'places', description: '日本名城' },
+      { id: 'jp_14', name: '京都金閣寺', type: 'tourist_attraction', rating: 4.8, price: 0, lat: 35.0116, lng: 135.7290, category: 'places', description: '世界文化遺產' },
+    ],
+    shopping: [
+      { id: 'jp_20', name: '新宿逛街', type: 'shopping_mall', rating: 4.7, price: 0, lat: 35.6896, lng: 139.7006, category: 'places', description: '東京購物天堂' },
+      { id: 'jp_21', name: '心齋橋', type: 'shopping_mall', rating: 4.6, price: 0, lat: 34.6734, lng: 135.5014, category: 'places', description: '大阪購物地標' },
     ]
   },
   korea: {
     restaurants: [
-      { id: 'kr_1', name: '明洞', type: 'shopping_mall', rating: 4.5, price: 0, lat: 37.5665, lng: 126.9780, category: 'places', description: '首爾購物天堂' },
+      { id: 'kr_1', name: '明洞美食街', type: 'restaurant', rating: 4.5, price: 0, lat: 37.5636, lng: 126.9869, category: 'restaurants', description: '首爾購物美食天堂' },
+      { id: 'kr_2', name: '弘大小吃街', type: 'restaurant', rating: 4.6, price: 0, lat: 37.5563, lng: 126.9238, category: 'restaurants', description: '年輕人聚集地' },
+      { id: 'kr_3', name: '東大门炸雞', type: 'restaurant', rating: 4.7, price: 150, lat: 37.5662, lng: 127.0056, category: 'restaurants', description: '韓國炸雞名店' },
+      { id: 'kr_4', name: '廣藏市場', type: 'restaurant', rating: 4.6, price: 100, lat: 37.5662, lng: 127.0030, category: 'restaurants', description: '首爾傳統市場' },
     ],
     attractions: [
-      { id: 'kr_10', name: '景福宮', type: 'tourist_attraction', rating: 4.6, price: 0, lat: 37.5786, lng: 126.9767, category: 'places', description: '朝鮮王宮' },
-      { id: 'kr_11', name: '南山首爾塔', type: 'tourist_attraction', rating: 4.5, price: 12000, lat: 37.5511, lng: 126.9882, category: 'places', description: '首爾地標' },
+      { id: 'kr_10', name: '景福宮', type: 'tourist_attraction', rating: 4.6, price: 0, lat: 37.5796, lng: 126.9770, category: 'places', description: '朝鮮王宮' },
+      { id: 'kr_11', name: 'N首爾塔', type: 'tourist_attraction', rating: 4.7, price: 12000, lat: 37.5512, lng: 126.9882, category: 'places', description: '首爾地標' },
+      { id: 'kr_12', name: '北村韓屋村', type: 'tourist_attraction', rating: 4.8, price: 0, lat: 37.5825, lng: 126.9830, category: 'places', description: '傳統韓屋風情' },
+      { id: 'kr_13', name: '南山谷韓屋村', type: 'tourist_attraction', rating: 4.5, price: 0, lat: 37.5547, lng: 126.9194, category: 'places', description: '傳統文化體驗' },
+      { id: 'kr_14', name: '濟州島', type: 'tourist_attraction', rating: 4.9, price: 0, lat: 33.4996, lng: 126.5312, category: 'places', description: '韓國渡假勝地' },
+    ],
+    shopping: [
+      { id: 'kr_20', name: '明洞購物街', type: 'shopping_mall', rating: 4.5, price: 0, lat: 37.5636, lng: 126.9869, category: 'places', description: '首爾購物天堂' },
+      { id: 'kr_21', name: '江南COEX商場', type: 'shopping_mall', rating: 4.6, price: 0, lat: 37.5123, lng: 127.0550, category: 'places', description: '高級購物商場' },
     ]
   }
 }
