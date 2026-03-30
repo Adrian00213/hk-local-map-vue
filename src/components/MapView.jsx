@@ -224,7 +224,7 @@ export default function MapView() {
                 </div>
                 <div>
                   <h3 className="font-bold text-zinc-900">{regionInfo.flag} {regionInfo.name} 精選</h3>
-                  <p className="text-xs text-zinc-500">{regionInfo.searchProvider === 'google' ? 'Google 數據' : '大眾點評數據'}</p>
+                  <p className="text-xs text-zinc-500">{regionInfo.searchProvider === 'google' ? '🔍 Google 實時搜尋' : '大眾點評數據'}</p>
                 </div>
               </div>
               <button onClick={() => setShowNearby(false)} className="w-9 h-9 rounded-xl bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center transition-colors active:scale-95">
@@ -232,7 +232,12 @@ export default function MapView() {
               </button>
             </div>
             <div className="p-3 overflow-y-auto max-h-[calc(60vh-80px)]">
-              <SmartRecommendationEngine places={regionPlaces} />
+              <SmartRecommendationEngine 
+                places={regionPlaces} 
+                region={currentRegion}
+                userLocation={userLocation}
+                onPlaceSelect={(place) => setSelected(place)}
+              />
             </div>
           </div>
         </div>
