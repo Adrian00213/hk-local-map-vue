@@ -336,7 +336,7 @@ export default function InfoPage({ showToast }) {
   const [userLocation, setUserLocation] = useState(null)
   const [nearbyRestaurants, setNearbyRestaurants] = useState([])
   const [allRestaurantsFull, setAllRestaurantsFull] = useState([])
-  const [displayedCount, setDisplayedCount] = useState(30)
+  const [displayedCount, setDisplayedCount] = useState(50)
   const [topRestaurants, setTopRestaurants] = useState([])
   const [cuisineFilter, setCuisineFilter] = useState('')
   const [cuisineTypes, setCuisineTypes] = useState([])
@@ -362,8 +362,19 @@ export default function InfoPage({ showToast }) {
       await initRestaurants()
       console.log('[InfoPage] initRestaurants completed')
       
-      // Get ALL restaurants (no distance filter) and top rated
-      const { getAllRestaurants, getTopRatedRestaurants, getCuisineTypes } = await import('../services/restaurantApi')
+      // Get user location first
+      let userLat = 22.3193  // Default: Mong Kok
+      let userLng = 114.1694
+      if (navigator.geolocation) {
+        const pos = await new Promise(resolve => {
+          navigator.geolocation.getCurrentPosition(resolve, () => resolve({ coords: { latitude: userLat, longitude: userLng } }), { timeout: 5000 })
+        })
+        userLat = pos.coords.latitude
+        userLng = pos.coords.longitude
+      }
+      
+      // Get ALL restaurants and sort by distance from user
+      const { getAllRestaurants, getTopRatedRestaurants, getCuisineTypes, calculateDistance } = await import('../services/restaurantApi')
       const [all, top, cuisines] = await Promise.all([
         getAllRestaurants(),
         getTopRatedRestaurants(100),
@@ -371,11 +382,16 @@ export default function InfoPage({ showToast }) {
       ])
       
       console.log('[InfoPage] getAllRestaurants returned:', all.length, 'restaurants')
-      console.log('[InfoPage] getTopRatedRestaurants returned:', top.length, 'restaurants')
       
-      // Show only first 30 for fast initial load, rest are kept in memory
-      setNearbyRestaurants(all.slice(0, 30))
-      setAllRestaurantsFull(all)  // Keep full list in state
+      // Sort ALL by distance from user location
+      const allWithDistance = all
+        .filter(r => r.lat && r.lng)
+        .map(r => ({ ...r, distance: calculateDistance(userLat, userLng, r.lat, r.lng) }))
+        .sort((a, b) => a.distance - b.distance)
+      
+      // Show only first 50 for fast load
+      setNearbyRestaurants(allWithDistance.slice(0, 50))
+      setAllRestaurantsFull(allWithDistance)  // Keep full list sorted
       setTopRestaurants(top)
       setCuisineTypes(cuisines.slice(0, 15))
       if (navigator.geolocation) {
@@ -492,8 +508,7 @@ export default function InfoPage({ showToast }) {
 
             {/* Stats */}
             <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-3 border border-orange-100">
-              <p className="text-sm font-medium text-orange-800">📊 餐飲總數：{allRestaurantsFull.length} 間（已載入 {displayedCount} 間）</p>
-            </div>
+
 
             {/* Restaurant List - loads 30 at a time */}
             <div className="space-y-3">
