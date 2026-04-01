@@ -58,7 +58,8 @@ export const getPopularityScore = (restaurant) => {
 
 // Initialize restaurants
 export const initRestaurants = async () => {
+  console.log('[RestaurantApi] initRestaurants called')
   await loadRestaurantData()
-  console.log(`[RestaurantApi] Initialized with ${ALL_RESTAURANTS.length} restaurants`)
+  console.log(`[RestaurantApi] ✅ Initialized with ${ALL_RESTAURANTS.length} restaurants`)
   return true
 }

@@ -72,7 +72,12 @@ let dataLoaded = false
 
 // Load data from JSON file
 export const loadRestaurantData = async () => {
-  if (dataLoaded) return ALL_RESTAURANTS
+  if (dataLoaded) {
+    console.log(`[RestaurantData] Already loaded: ${ALL_RESTAURANTS.length} places`)
+    return ALL_RESTAURANTS
+  }
+  
+  console.log('[RestaurantData] Loading data from ./data/hk_food_places.json...')
   
   try {
     const response = await fetch('./data/hk_food_places.json')
@@ -80,10 +85,12 @@ export const loadRestaurantData = async () => {
       const data = await response.json()
       ALL_RESTAURANTS = (data.places || []).map(transformRestaurant)
       dataLoaded = true
-      console.log(`[RestaurantData] Loaded ${ALL_RESTAURANTS.length} places`)
+      console.log(`[RestaurantData] ✅ Loaded ${ALL_RESTAURANTS.length} places from JSON`)
+    } else {
+      console.error('[RestaurantData] ❌ Failed to fetch:', response.status)
     }
   } catch (e) {
-    console.warn('[RestaurantData] Failed to load, using defaults:', e.message)
+    console.error('[RestaurantData] ❌ Failed to load:', e.message)
   }
   
   return ALL_RESTAURANTS
