@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Newspaper, Clock, MapPin, Brain, Star, TrendingUp, Gift, AlertCircle, RefreshCw, Navigation, Utensils, Compass, Bus, Coffee, ShoppingBag, Home, Navigation2, Megaphone, Zap } from 'lucide-react'
-import { CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
+import { CATEGORY_ICONS, CATEGORY_LABELS, useMap } from '../context/MapContext'
 import { getPlaces } from '../services/MapData'
 
 // Static news/messages data
@@ -133,6 +133,7 @@ const catIcons = {
 }
 
 export default function NewsView() {
+  const { currentPlace } = useMap()
   const [region, setRegion] = useState('hong_kong')
   const [activeCat, setActiveCat] = useState(null)
   const [nearbyPlaces, setNearbyPlaces] = useState([])
@@ -222,25 +223,12 @@ export default function NewsView() {
         </div>
       </div>
 
-      {/* Region Selector */}
+      {/* Auto-detected Location */}
       <div className="px-5 py-3 bg-white border-b border-zinc-100/50">
-        <div className="flex gap-2 overflow-x-auto pb-1">
-          {['hong_kong', 'china', 'taiwan', 'japan', 'korea', 'se_asia', 'europe'].map(r => {
-            const labels = { hong_kong: '🇭🇰 香港', china: '🇨🇳 大陸', taiwan: '🇹🇼 台灣', japan: '🇯🇵 日本', korea: '🇰🇷 韓國', se_asia: '🌏 東南亞', europe: '🇪🇺 歐洲' }
-            return (
-              <button
-                key={r}
-                onClick={() => setRegion(r)}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all active:scale-95 ${
-                  region === r 
-                    ? 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-white shadow-md' 
-                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
-                }`}
-              >
-                {labels[r]}
-              </button>
-            )
-          })}
+        <div className="flex items-center gap-2 text-sm text-zinc-600">
+          <MapPin className="w-4 h-4 text-yellow-600" />
+          <span className="font-medium">{currentPlace || '香港'}</span>
+          <span className="text-xs text-zinc-400">• 自動定位</span>
         </div>
       </div>
 

@@ -110,6 +110,7 @@ export function MapProvider({ children }) {
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [userLocation, setUserLocation] = useState(null)
   const [locationError, setLocationError] = useState(null) // 'denied' | 'unavailable' | 'timeout' | null
+  const [currentPlace, setCurrentPlace] = useState(null) // Auto-detected place name (e.g., "旺角", "中環")
 
   // Fetch markers from Firestore or use mock data
   const fetchMarkers = async () => {
@@ -258,6 +259,32 @@ export function MapProvider({ children }) {
     )
   }
 
+  // Reverse geocode user location to get place name
+  useEffect(() => {
+    if (userLocation && window.google?.maps?.Geocoder) {
+      const geocoder = new window.google.maps.Geocoder()
+      geocoder.geocode({ location: { lat: userLocation.lat, lng: userLocation.lng } }, (results, status) => {
+        if (status === 'OK' && results[0]) {
+          const components = results[0].address_components || []
+          const neighborhood = components.find(c => 
+            c.types.includes('neighborhood') || 
+            c.types.includes('sublocality_level_1')
+          )
+          const locality = components.find(c => 
+            c.types.includes('locality')
+          )
+          if (neighborhood) {
+            setCurrentPlace(neighborhood.long_name)
+          } else if (locality) {
+            setCurrentPlace(locality.long_name)
+          } else {
+            setCurrentPlace('香港')
+          }
+        }
+      })
+    }
+  }, [userLocation])
+
   useEffect(() => {
     fetchMarkers()
     getUserLocation()
@@ -275,6 +302,7 @@ export function MapProvider({ children }) {
     setSelectedCategory,
     userLocation,
     locationError,
+    currentPlace,
     addMarker,
     updateMarker,
     deleteMarker,

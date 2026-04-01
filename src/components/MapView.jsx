@@ -12,7 +12,7 @@ const GOOGLE_MAPS_API_KEY = 'AIzaSyC4OsiPMTcrtqsIQB-3YGJIFcsJelBsZpw'
 const containerStyle = { width: '100%', height: '100%' }
 
 export default function MapView() {
-  const { markers, userLocation, locationError, selectedCategory, setSelectedCategory, refreshUserLocation } = useMap()
+  const { markers, userLocation, locationError, selectedCategory, setSelectedCategory, refreshUserLocation, currentPlace } = useMap()
   const [showForm, setShowForm] = useState(false)
   const [selected, setSelected] = useState(null)
   const [isDark, setIsDark] = useState(false)
@@ -24,40 +24,7 @@ export default function MapView() {
   const [mapReady, setMapReady] = useState(false)
   const [restaurantMarkers, setRestaurantMarkers] = useState([])
   const [showRestaurants, setShowRestaurants] = useState(false)
-  const [currentPlace, setCurrentPlace] = useState(null)
   const mapRef = useRef(null)
-
-  // Reverse geocode user location to get place name
-  useEffect(() => {
-    if (userLocation && window.google?.maps?.Geocoder) {
-      const geocoder = new window.google.maps.Geocoder()
-      geocoder.geocode({ location: { lat: userLocation.lat, lng: userLocation.lng } }, (results, status) => {
-        if (status === 'OK' && results[0]) {
-          // Get the most specific address component
-          const addr = results[0]
-          const components = addr.address_components || []
-          
-          // Try to find neighborhood/district first
-          const neighborhood = components.find(c => 
-            c.types.includes('neighborhood') || 
-            c.types.includes('sublocality_level_1')
-          )
-          const district = components.find(c => 
-            c.types.includes('administrative_area_level_1') ||
-            c.types.includes('locality')
-          )
-          
-          if (neighborhood) {
-            setCurrentPlace(neighborhood.long_name)
-          } else if (district) {
-            setCurrentPlace(district.long_name)
-          } else if (components[0]) {
-            setCurrentPlace(components[0].long_name)
-          }
-        }
-      })
-    }
-  }, [userLocation])
 
   useEffect(() => {
     const saved = localStorage.getItem('hk_selected_region')
