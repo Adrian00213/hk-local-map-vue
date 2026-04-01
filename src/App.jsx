@@ -8,6 +8,7 @@ import SmartAssistantView from './components/SmartAssistantView'
 import ProfileView from './components/ProfileView'
 import OnboardingView from './components/OnboardingView'
 import TransportationPage from './pages/TransportationPage'
+import ErrorBoundary from './components/ErrorBoundary'
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('map')
@@ -21,14 +22,18 @@ export default function App() {
   }, [])
 
   const renderView = () => {
-    switch (activeTab) {
-      case 'map': return <MapView />
-      case 'news': return <NewsView />
-      case 'transport': return <TransportationPage />
-      case 'ai': return <SmartAssistantView />
-      case 'profile': return <ProfileView />
-      default: return <MapView />
+    const views = {
+      map: <MapView />,
+      news: <NewsView />,
+      transport: <TransportationPage />,
+      ai: <SmartAssistantView />,
+      profile: <ProfileView />
     }
+    return (
+      <ErrorBoundary>
+        {views[activeTab] || <MapView />}
+      </ErrorBoundary>
+    )
   }
 
   if (showOnboarding) {
