@@ -1,6 +1,7 @@
 import { useState, useEffect, useState as useNextState } from 'react'
 import { MapProvider } from './context/MapContext'
 import { AuthProvider } from './context/AuthContext'
+import { LocaleProvider } from './context/LocaleContext'
 import TabBar from './components/TabBar'
 import MapView from './components/MapView'
 import SmartAssistantView from './components/SmartAssistantView'
@@ -130,10 +131,11 @@ export default function App() {
   return (
     <AuthProvider>
       <MapProvider>
-        <div 
-          className="h-screen w-full flex flex-col bg-white/95 backdrop-blur-sm" 
-          style={{ height: '100dvh' }}
-        >
+        <LocaleProvider>
+          <div 
+            className="h-screen w-full flex flex-col bg-white/95 backdrop-blur-sm" 
+            style={{ height: '100dvh' }}
+          >
           {/* Smart Header with Greeting */}
           <div className="bg-gradient-to-r from-amber-50 to-orange-50 px-4 py-2 border-b border-amber-100/50">
             <div className="flex items-center justify-between">
@@ -164,6 +166,7 @@ export default function App() {
             />
           )}
         </div>
+        </LocaleProvider>
       </MapProvider>
     </AuthProvider>
   )

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { User, Settings, Bell, Globe, Shield, Star, Gift, MessageCircle, Heart, ChevronRight, Clock, MapPin, CreditCard, Smartphone, CheckCircle, ThumbsUp, LogOut, Edit3, Camera, Sparkles, TrendingUp, X, Moon, Volume2, Vibrate, ChevronDown } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
+import { useLocale } from '../context/LocaleContext'
 
 // Sample saved deals for display
 const SAVED_DEALS = [
@@ -69,7 +70,9 @@ export default function ProfileView() {
     vibration: true,
     promotions: false,
   })
-  const [language, setLanguage] = useState('繁體中文')
+  // Get locale from context
+  const { locale, changeLanguage, getLanguageName } = useLocale()
+  const currentLangName = getLanguageName(locale)
   const [darkMode, setDarkMode] = useState(false)
 
   useEffect(() => {
@@ -324,23 +327,23 @@ export default function ProfileView() {
           <div className="space-y-3">
             <LanguageOption 
               lang="繁體中文" 
-              selected={language === '繁體中文'} 
-              onClick={() => setLanguage('繁體中文')} 
+              selected={currentLangName === '繁體中文'} 
+              onClick={() => changeLanguage('繁體中文')} 
             />
             <LanguageOption 
               lang="简体中文" 
-              selected={language === '简体中文'} 
-              onClick={() => setLanguage('简体中文')} 
+              selected={currentLangName === '简体中文'} 
+              onClick={() => changeLanguage('简体中文')} 
             />
             <LanguageOption 
               lang="English" 
-              selected={language === 'English'} 
-              onClick={() => setLanguage('English')} 
+              selected={currentLangName === 'English'} 
+              onClick={() => changeLanguage('English')} 
             />
             <LanguageOption 
               lang="日本語" 
-              selected={language === '日本語'} 
-              onClick={() => setLanguage('日本語')} 
+              selected={currentLangName === '日本語'} 
+              onClick={() => changeLanguage('日本語')} 
             />
           </div>
         </div>
