@@ -497,11 +497,12 @@ export default function InfoPage({ showToast }) {
                 .filter(r => {
                   if (foodCategory === '全部') return true
                   const cat = FOOD_CATEGORIES.find(c => c.key === foodCategory)
-                  if (!cat) return true
+                  if (!cat || cat.types.length === 0) return true
                   // Check both type and allTypes for matches
+                  const rType = (r.type || '').toLowerCase()
+                  const rAllTypes = (r.allTypes || []).map(t => t.toLowerCase())
                   return cat.types.some(t => 
-                    r.type?.toLowerCase().includes(t.toLowerCase()) ||
-                    r.allTypes?.some(at => at.toLowerCase().includes(t.toLowerCase()))
+                    rType === t.toLowerCase() || rAllTypes.includes(t.toLowerCase())
                   )
                 })
                 .filter(r => !cuisineFilter || r.district === cuisineFilter || r.name.includes(cuisineFilter))
