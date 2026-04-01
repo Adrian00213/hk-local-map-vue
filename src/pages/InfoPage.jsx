@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Utensils, Star, ThumbsUp, MapPin, Navigation, Clock, Search, Filter, X, Calendar, AlertCircle, Users } from 'lucide-react'
+import { Utensils, Star, ThumbsUp, MapPin, Navigation, Clock, Search, Filter, X, Calendar, AlertCircle, Users, MessageCircle } from 'lucide-react'
 import { getNearbyRestaurants, getTopRatedRestaurants, getRestaurantsByCuisine, getCuisineTypes, formatPrice, getPopularityScore, initRestaurants } from '../services/restaurantApi'
 import { getAllEvents, formatEventDate, parseEventDates, getEventStatus, getOrgCategory } from '../services/eventsApi'
+import LiveChat from '../components/LiveChat'
 
 export default function InfoPage() {
-  const [activeTab, setActiveTab] = useState('nearby') // 'nearby', 'top', 'events'
+  const [activeTab, setActiveTab] = useState('nearby') // 'nearby', 'top', 'events', 'chat'
   const [events, setEvents] = useState([])
   const [eventsLoading, setEventsLoading] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState(null)
@@ -115,6 +116,17 @@ export default function InfoPage() {
           >
             <Calendar className="w-4 h-4" />
             活動
+          </button>
+          <button
+            onClick={() => setActiveTab('chat')}
+            className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${
+              activeTab === 'chat'
+                ? 'bg-white dark:bg-gray-600 text-pink-500 shadow-sm'
+                : 'text-gray-500 dark:text-gray-300'
+            }`}
+          >
+            <MessageCircle className="w-4 h-4" />
+            討論
           </button>
         </div>
       </div>
@@ -379,8 +391,15 @@ export default function InfoPage() {
           </div>
         )}
 
+        {/* Chat Tab */}
+        {activeTab === 'chat' && (
+          <div className="h-[calc(100vh-220px)] -m-4">
+            <LiveChat channel="food-chat" />
+          </div>
+        )}
+
         {/* Data Source */}
-        {activeTab !== 'events' && (
+        {activeTab !== 'events' && activeTab !== 'chat' && (
           <div className="text-center text-xs text-gray-400 py-4">
             <p>📡 數據來源：OpenRice · 香港區餐廳</p>
           </div>

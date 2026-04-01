@@ -5,6 +5,7 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
+import { getStorage } from 'firebase/storage'
 
 // For demo purposes, we use a placeholder config
 // In production, use environment variables or a config file
@@ -21,11 +22,13 @@ const firebaseConfig = {
 let app
 let auth
 let db
+let storage
 
 try {
   app = initializeApp(firebaseConfig)
   auth = getAuth(app)
   db = getFirestore(app)
+  storage = getStorage(app)
 } catch (error) {
   console.warn('Firebase initialization error:', error.message)
   // Create dummy objects for demo mode
@@ -43,8 +46,12 @@ try {
       doc: () => ({})
     })
   }
+  storage = {
+    ref: () => ({ put: async () => ({}) })
+  }
 }
 
 export { auth }
 export { db }
+export { storage }
 export default app
