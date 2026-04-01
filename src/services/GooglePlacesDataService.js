@@ -39,7 +39,17 @@ const getDistrictFromAddress = (address = '') => {
 const transformRestaurant = (r) => {
   const address = r.address || ''
   const correctDistrict = getDistrictFromAddress(address)
-  const primaryType = r.types?.[0] || 'restaurant'
+  const types = r.types || []
+  
+  // Get the best primary type - prefer food-related types
+  const foodTypes = ['restaurant', 'cafe', 'bakery', 'bar', 'fast_food', 'food', 'meal_takeaway', 'meal_delivery']
+  let primaryType = 'restaurant'
+  for (const t of types) {
+    if (foodTypes.includes(t)) {
+      primaryType = t
+      break
+    }
+  }
   
   return {
     id: `${r.lat}-${r.lng}-${r.name}`,
@@ -54,7 +64,8 @@ const transformRestaurant = (r) => {
     priceLevel: r.priceLevel || null,
     type: primaryType,
     cuisine: primaryType,
-    description: r.types?.filter(t => !['food', 'restaurant', 'point_of_interest', 'establishment'].includes(t)).join(', ') || '',
+    allTypes: types, // Keep all types for filtering
+    description: types.filter(t => !['food', 'restaurant', 'point_of_interest', 'establishment'].includes(t)).join(', ') || '',
     price: r.priceLevel ? '$'.repeat(r.priceLevel) : '',
   }
 }

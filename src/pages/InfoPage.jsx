@@ -371,7 +371,7 @@ export default function InfoPage({ showToast }) {
       console.log('[InfoPage] getAllRestaurants returned:', all.length, 'restaurants')
       console.log('[InfoPage] getTopRatedRestaurants returned:', top.length, 'restaurants')
       
-      setNearbyRestaurants(all.slice(0, 100))  // Show up to 100
+      setNearbyRestaurants(all)  // Show ALL restaurants
       setTopRestaurants(top)
       setCuisineTypes(cuisines.slice(0, 15))
       if (navigator.geolocation) {
@@ -498,7 +498,11 @@ export default function InfoPage({ showToast }) {
                   if (foodCategory === '全部') return true
                   const cat = FOOD_CATEGORIES.find(c => c.key === foodCategory)
                   if (!cat) return true
-                  return cat.types.some(t => r.type?.toLowerCase().includes(t.toLowerCase()))
+                  // Check both type and allTypes for matches
+                  return cat.types.some(t => 
+                    r.type?.toLowerCase().includes(t.toLowerCase()) ||
+                    r.allTypes?.some(at => at.toLowerCase().includes(t.toLowerCase()))
+                  )
                 })
                 .filter(r => !cuisineFilter || r.district === cuisineFilter || r.name.includes(cuisineFilter))
                 .map((r, i) => <RestaurantCard key={r.name} restaurant={r} index={i} onLike={() => handleLike(r.name)} />)}
