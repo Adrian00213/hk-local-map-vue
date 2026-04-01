@@ -5,6 +5,7 @@ import { LocaleProvider } from './context/LocaleContext'
 import TabBar from './components/TabBar'
 import MapView from './components/MapView'
 import SmartAssistantView from './components/SmartAssistantView'
+import AIAgentView from './components/AIAgentView'
 import ProfileView from './components/ProfileView'
 import OnboardingView from './components/OnboardingView'
 import TransportationPage from './pages/TransportationPage'
@@ -105,6 +106,7 @@ export default function App() {
     const views = {
       map: <MapView />,
       info: <InfoPage showToast={setToast} />,
+      ai: <AIAgentView />,
       transport: <TransportationPage />,
       ai: <SmartAssistantView />,
       profile: <ProfileView />

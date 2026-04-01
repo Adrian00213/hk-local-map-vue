@@ -3,8 +3,8 @@ import { Map, Utensils, Brain, User, Bus } from 'lucide-react'
 const tabs = [
   // { id: 'map', icon: Map, label: '地圖', emoji: '🗺️' }, // Hidden - under development
   { id: 'info', icon: Utensils, label: '資訊', emoji: '🍜' },
+  { id: 'ai', icon: Brain, label: 'AI', emoji: '🤖' },
   { id: 'transport', icon: Bus, label: '交通', emoji: '🚌' },
-  { id: 'ai', icon: Brain, label: 'AI助理', emoji: '🤖' },
   { id: 'profile', icon: User, label: '我的', emoji: '👤' },
 ]
 
