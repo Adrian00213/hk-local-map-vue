@@ -340,16 +340,16 @@ export default function InfoPage({ showToast }) {
   const [cuisineTypes, setCuisineTypes] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
 
-  // Food categories
+  // Food categories - maps Chinese labels to English types
   const FOOD_CATEGORIES = [
-    { key: '全部', label: '🍽️ 全部', emoji: '🍽️' },
-    { key: '餐廳', label: '🍜 餐廳', emoji: '🍜' },
-    { key: '咖啡', label: '☕ 咖啡店', emoji: '☕' },
-    { key: '酒吧', label: '🍸 酒吧', emoji: '🍸' },
-    { key: '快餐', label: '🍔 快餐', emoji: '🍔' },
-    { key: '甜品', label: '🍰 甜品', emoji: '🍰' },
-    { key: '麵包', label: '🥐 麵包店', emoji: '🥐' },
-    { key: '小食', label: '🍢 小食', emoji: '🍢' },
+    { key: '全部', label: '🍽️ 全部', emoji: '🍽️', types: ['restaurant', 'cafe', 'bakery', 'bar', 'food', 'meal_takeaway', 'meal_delivery'] },
+    { key: '餐廳', label: '🍜 餐廳', emoji: '🍜', types: ['restaurant'] },
+    { key: '咖啡', label: '☕ 咖啡店', emoji: '☕', types: ['cafe'] },
+    { key: '酒吧', label: '🍸 酒吧', emoji: '🍸', types: ['bar', 'night_club'] },
+    { key: '快餐', label: '🍔 快餐', emoji: '🍔', types: ['fast_food'] },
+    { key: '甜品', label: '🍰 甜品', emoji: '🍰', types: [] }, // No direct type, show none
+    { key: '麵包', label: '🥐 麵包店', emoji: '🥐', types: ['bakery'] },
+    { key: '外賣', label: '🍱 外賣', emoji: '🍱', types: ['meal_takeaway', 'meal_delivery'] },
   ]
 
   useEffect(() => {
@@ -494,7 +494,12 @@ export default function InfoPage({ showToast }) {
             {/* Restaurant List */}
             <div className="space-y-3">
               {nearbyRestaurants
-                .filter(r => foodCategory === '全部' || r.type?.toLowerCase().includes(foodCategory.toLowerCase()) || r.cuisine?.toLowerCase().includes(foodCategory.toLowerCase()))
+                .filter(r => {
+                  if (foodCategory === '全部') return true
+                  const cat = FOOD_CATEGORIES.find(c => c.key === foodCategory)
+                  if (!cat) return true
+                  return cat.types.some(t => r.type?.toLowerCase().includes(t.toLowerCase()))
+                })
                 .filter(r => !cuisineFilter || r.district === cuisineFilter || r.name.includes(cuisineFilter))
                 .map((r, i) => <RestaurantCard key={r.name} restaurant={r} index={i} onLike={() => handleLike(r.name)} />)}
             </div>
