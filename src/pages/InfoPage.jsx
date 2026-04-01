@@ -354,14 +354,20 @@ export default function InfoPage({ showToast }) {
 
   useEffect(() => {
     const loadData = async () => {
+      console.log('[InfoPage] loadData started')
+      
       // First initialize and load the restaurant data from JSON
       await initRestaurants()
+      console.log('[InfoPage] initRestaurants completed')
       
       const [nearby, top, cuisines] = await Promise.all([
         getNearbyRestaurants(22.3193, 114.1694, 5),
         getTopRatedRestaurants(50),
         getCuisineTypes()
       ])
+      console.log('[InfoPage] getNearbyRestaurants returned:', nearby.length, 'restaurants')
+      console.log('[InfoPage] getTopRatedRestaurants returned:', top.length, 'restaurants')
+      
       setNearbyRestaurants(nearby.slice(0, 20))
       setTopRestaurants(top)
       setCuisineTypes(cuisines.slice(0, 15))
