@@ -3,7 +3,8 @@ import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
 import { useMap, CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
 import MarkerForm from './MarkerForm'
 import SmartRecommendationEngine from './SmartRecommendationEngine'
-import { X, Locate, Zap, Brain, Search, MapPin, Heart } from 'lucide-react'
+import DistrictExplorer from './DistrictExplorer'
+import { X, Locate, Zap, Brain, Search, MapPin, Heart, Compass } from 'lucide-react'
 import { REGION_DETAILS, getPlaces } from '../services/MapData'
 import { searchForRecommendations, initPlacesService } from '../services/GooglePlacesService'
 import { getNearbyRestaurants, initRestaurants as initRestaurantData } from '../services/restaurantApi'
@@ -18,6 +19,7 @@ export default function MapView() {
   const [selected, setSelected] = useState(null)
   const [isDark, setIsDark] = useState(false)
   const [showNearby, setShowNearby] = useState(false)
+  const [showDistrictExplorer, setShowDistrictExplorer] = useState(false)
   const [recommendations, setRecommendations] = useState([])
   const [currentRegion, setCurrentRegion] = useState('hong_kong')
   const [searchResults, setSearchResults] = useState([])
@@ -396,12 +398,55 @@ export default function MapView() {
         </div>
       )}
 
+      {/* District Explorer Panel */}
+      {showDistrictExplorer && (
+        <div className="absolute left-4 right-4 bottom-36 z-20 animate-slide-up">
+          <div className="bg-white rounded-3xl shadow-xl border-subtle overflow-hidden max-h-[65vh]">
+            <div className="p-4 border-b border-zinc-100 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                  <Compass className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-zinc-900">🗺️ 十八區深度遊</h3>
+                  <p className="text-xs text-zinc-500">探索香港每個角落</p>
+                </div>
+              </div>
+              <button onClick={() => setShowDistrictExplorer(false)} className="w-9 h-9 rounded-xl bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center transition-colors active:scale-95">
+                <X className="w-4 h-4 text-zinc-500" />
+              </button>
+            </div>
+            <div className="p-4 overflow-y-auto max-h-[calc(65vh-80px)]">
+              <DistrictExplorer 
+                onSelectDistrict={(district) => {
+                  setShowDistrictExplorer(false)
+                  setSelectedCategory(district)
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Location Button */}
       <button 
         onClick={() => refreshUserLocation?.()}
         className="absolute right-4 bottom-32 z-20 w-12 h-12 bg-white rounded-2xl shadow-lg border-subtle flex items-center justify-center active:scale-95 transition-transform"
       >
         <Locate className="w-5 h-5 text-yellow-600" />
+      </button>
+
+      {/* District Explorer Button */}
+      <button 
+        onClick={() => setShowDistrictExplorer(!showDistrictExplorer)}
+        className={`absolute right-4 bottom-48 z-20 py-2 px-4 rounded-2xl shadow-lg flex items-center gap-2 active:scale-95 transition-all ${
+          showDistrictExplorer 
+            ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' 
+            : 'bg-white text-purple-500 border border-purple-200'
+        }`}
+      >
+        <Compass className="w-5 h-5" />
+        <span className="text-sm font-medium">18區</span>
       </button>
 
       {/* Restaurant Toggle Button - Shows ALL 857 restaurants */}
