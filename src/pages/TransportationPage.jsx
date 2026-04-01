@@ -460,36 +460,52 @@ export default function TransportationPage() {
                     <p className="text-xs mt-2">港鐵 API 有時不穩定，請稍後再試</p>
                   </div>
                 ) : mtrSchedule.data && Object.keys(mtrSchedule.data).length > 0 ? (
-                  <div className="space-y-3">
-                    {Object.entries(mtrSchedule.data).map(([key, trains]) => (
-                      <div key={key}>
-                        <p className="text-sm font-medium text-gray-500 mb-2">
-                          {key === 'UP' ? '↑ 上行' : '↓ 下行'}
-                        </p>
-                        {Array.isArray(trains) && trains.slice(0, 4).map((train, idx) => (
-                          <div key={idx} className={`flex items-center gap-3 p-3 rounded-xl mb-2 ${
-                            idx === 0 ? 'bg-green-50 dark:bg-green-900/20' : 'bg-gray-50 dark:bg-gray-700'
-                          }`}>
-                            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
-                              idx === 0 ? 'bg-green-500 text-white' : 'bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-200'
-                            }`}>
-                              {train.ttnt}
-                            </div>
-                            <div className="flex-1">
-                              <p className={`font-medium ${idx === 0 ? 'text-green-600' : 'text-gray-900 dark:text-white'}`}>
-                                {formatMinutes(train.ttnt)}
-                              </p>
-                              <p className="text-xs text-gray-500">
-                                終點：{getStationName(train.dest)?.name_tc || train.dest}
-                              </p>
-                            </div>
-                            {idx === 0 && (
-                              <span className="px-2 py-1 bg-green-500 text-white text-xs rounded-full">下一班</span>
-                            )}
+                  <div className="space-y-4">
+                    {Object.entries(mtrSchedule.data).map(([key, stationData]) => {
+                      // API returns: { "TWL-TST": { "UP": [...], "DOWN": [...] } }
+                      // So stationData = { UP: [...], DOWN: [...] }
+                      const directions = stationData || {}
+                      return Object.entries(directions).map(([dirKey, trains]) => {
+                        if (!Array.isArray(trains) || trains.length === 0) return null
+                        return (
+                          <div key={`${key}-${dirKey}`}>
+                            <p className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-2 flex items-center gap-2">
+                              {dirKey === 'UP' ? '↑ 上行' : '↓ 下行'}
+                              <span className="text-xs font-normal text-gray-400">
+                                → {getStationName(trains[0]?.dest)?.name_tc || trains[0]?.dest || '終點'}
+                              </span>
+                            </p>
+                            {trains.slice(0, 4).map((train, idx) => (
+                              <div key={idx} className={`flex items-center gap-3 p-3 rounded-xl mb-2 ${
+                                idx === 0 ? 'bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 border border-green-200 dark:border-green-800' : 'bg-gray-50 dark:bg-gray-700/50'
+                              }`}>
+                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg ${
+                                  idx === 0 ? 'bg-gradient-to-br from-green-500 to-emerald-500 text-white shadow-lg' : 'bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-200'
+                                }`}>
+                                  {train.ttnt === '0' ? '🚉' : train.ttnt}
+                                </div>
+                                <div className="flex-1">
+                                  <p className={`font-bold text-lg ${idx === 0 ? 'text-green-600' : 'text-gray-700 dark:text-gray-200'}`}>
+                                    {formatMinutes(train.ttnt)}
+                                  </p>
+                                  <p className="text-xs text-gray-500">
+                                    {train.plat ? `月台 ${train.plat}` : ''}
+                                  </p>
+                                </div>
+                                {idx === 0 && (
+                                  <div className="flex flex-col items-center">
+                                    <span className="px-2.5 py-1 bg-green-500 text-white text-xs font-bold rounded-full shadow-lg">下一班</span>
+                                    {trains[1] && (
+                                      <span className="text-xs text-gray-400 mt-1">第2班: {formatMinutes(trains[1].ttnt)}</span>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            ))}
                           </div>
-                        ))}
-                      </div>
-                    ))}
+                        )
+                      })
+                    })}
                   </div>
                 ) : (
                   <div className="text-center py-4 text-gray-500">
