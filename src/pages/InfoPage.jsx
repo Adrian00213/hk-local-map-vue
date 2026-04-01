@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Utensils, Star, Heart, Gift, MessageCircle, Search, MapPin, Navigation, Clock, Calendar, Sparkles, ChevronRight, RefreshCw, Wifi, X, Moon, Sun, UsersRound, ExternalLink, MessageCircle as MsgIcon, HeartHandshake, Globe, TrendingUp, Newspaper, Building2, Users, Filter, Trash2, Bookmark, Heart as HeartIcon } from 'lucide-react'
+import DistrictExplorer from '../components/DistrictExplorer'
 
 // HK 18 Districts
 const HK_DISTRICTS = [
@@ -115,7 +116,7 @@ const DistrictGroupCard = ({ group }) => (
 )
 
 export default function InfoPage({ showToast }) {
-  const [activeTab, setActiveTab] = useState('food')
+  const [activeTab, setActiveTab] = useState('community')
 
   const [restaurants, setRestaurants] = useState([])
   const [loading, setLoading] = useState(true)
@@ -254,23 +255,22 @@ export default function InfoPage({ showToast }) {
           <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-400 to-amber-500 flex items-center justify-center">
             <Utensils className="w-5 h-5 text-white" />
           </div>
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white">🍜 資訊</h1>
+          <h1 className="text-xl font-bold text-gray-900 dark:text-white">🗺️ 十八區深度遊</h1>
         </div>
         
         {/* Tabs */}
         <div className="flex gap-2 overflow-x-auto">
           {[
+            { key: 'community', label: '🗺️ 探索' },
             { key: 'food', label: '🍽️ 餐飲' },
             { key: 'favorites', label: `❤️ 收藏 (${favorites.length})` },
-            { key: 'news', label: '📰 新聞' },
-            { key: 'community', label: '👥 社區' },
           ].map(tab => (
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
               className={`px-4 py-2 rounded-2xl text-sm font-medium whitespace-nowrap transition-all active:scale-95 ${
                 activeTab === tab.key 
-                  ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white' 
+                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' 
                   : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border'
               }`}
             >
@@ -406,41 +406,14 @@ export default function InfoPage({ showToast }) {
           </div>
         )}
 
-        {/* 📰 News Tab - Empty but structured */}
-        {activeTab === 'news' && (
-          <EmptyState 
-            icon="📰" 
-            title="新聞功能準備中" 
-            subtitle="我哋整合緊真實新聞來源，敬請期待！" 
-          />
-        )}
-
-        {/* 👥 Community Tab */}
+        {/* 🗺️ District Explorer Tab */}
         {activeTab === 'community' && (
-          <div className="space-y-3">
-            <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-4 border border-purple-100 dark:border-gray-600">
-              <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                <Building2 className="w-4 h-4" />
-                香港十八區
-              </h3>
-              <p className="text-xs text-gray-500 mt-1">自由探索各區資訊</p>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              {HK_DISTRICTS.map(d => (
-                <button
-                  key={d.name}
-                  onClick={() => {
-                    setSelectedDistrict(d.name)
-                    setActiveTab('food')
-                  }}
-                  className="bg-white dark:bg-gray-900 rounded-xl p-3 border border-gray-100 dark:border-gray-800 flex items-center gap-2 hover:shadow-md transition-all"
-                >
-                  <span className="text-xl">{d.icon}</span>
-                  <span className="text-sm font-medium text-gray-900 dark:text-white">{d.name}</span>
-                </button>
-              ))}
-            </div>
-          </div>
+          <DistrictExplorer 
+            onSelectDistrict={(district) => {
+              setSelectedDistrict(district)
+              setActiveTab('food')
+            }}
+          />
         )}
       </div>
     </div>
