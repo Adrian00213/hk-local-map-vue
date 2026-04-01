@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>香港本地生活地圖 - 商業計劃書</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+    }
+    
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 60px;
+      position: relative;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    }
+    
+    .slide::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 80%, rgba(0,122,255,0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 20%, rgba(88,86,214,0.15) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    
+    .slide-number {
+      position: absolute;
+      bottom: 30px;
+      right: 60px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.4);
+      font-weight: 500;
+    }
+    
+    .logo {
+      position: absolute;
+      top: 40px;
+      left: 60px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #ff9500, #ff5e3a);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    
+    .logo-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.9);
+    }
+    
+    .content {
+      position: relative;
+      z-index: 1;
+      max-width: 1000px;
+      text-align: center;
+    }
+    
+    h1 {
+      font-size: 72px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 30px;
+      background: linear-gradient(135deg, #fff 0%, #a0a0a0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    h2 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 40px;
+      color: #fff;
+    }
+    
+    .subtitle {
+      font-size: 24px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 50px;
+      line-height: 1.6;
+    }
+    
+    .highlight {
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+    
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      text-align: left;
+    }
+    
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 30px;
+    }
+    
+    .card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #007AFF;
+    }
+    
+    .card p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.6;
+    }
+    
+    .stat-row {
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      margin-top: 50px;
+    }
+    
+    .stat {
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 64px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #00D4AA, #00B4D8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .stat-label {
+      font-size: 16px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 8px;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin-top: 40px;
+    }
+    
+    .feature {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 25px;
+      text-align: left;
+    }
+    
+    .feature-icon {
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+    
+    .feature h4 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    
+    .feature p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.5;
+    }
+    
+    .timeline {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 50px;
+      position: relative;
+    }
+    
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 30px;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: rgba(255,255,255,0.2);
+    }
+    
+    .timeline-item {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      width: 150px;
+    }
+    
+    .timeline-year {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-weight: 700;
+      font-size: 18px;
+    }
+    
+    .timeline-text {
+      font-size: 14px;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.5;
+    }
+    
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .pricing-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      padding: 40px 30px;
+      text-align: left;
+    }
+    
+    .pricing-card.featured {
+      background: linear-gradient(135deg, rgba(0,122,255,0.2), rgba(88,86,214,0.2));
+      border: 2px solid #007AFF;
+      transform: scale(1.05);
+    }
+    
+    .pricing-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      background: linear-gradient(135deg, #ff9500, #ff5e3a);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    
+    .pricing-name {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    
+    .pricing-price {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 5px;
+    }
+    
+    .pricing-period {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 25px;
+    }
+    
+    .pricing-features {
+      list-style: none;
+    }
+    
+    .pricing-features li {
+      padding: 10px 0;
+      font-size: 15px;
+      color: rgba(255,255,255,0.8);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .pricing-features li::before {
+      content: '✓';
+      color: #00D4AA;
+      font-weight: 700;
+    }
+    
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      margin-top: 50px;
+    }
+    
+    .team-member {
+      text-align: center;
+    }
+    
+    .team-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+    }
+    
+    .team-name {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    
+    .team-role {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+    }
+    
+    .cta-button {
+      display: inline-block;
+      padding: 20px 50px;
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+      border-radius: 50px;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 40px;
+      text-decoration: none;
+    }
+    
+    .contact-info {
+      margin-top: 30px;
+      font-size: 18px;
+      color: rgba(255,255,255,0.6);
+    }
+    
+    .contact-info a {
+      color: #007AFF;
+      text-decoration: none;
+    }
+    
+    .slide-cover {
+      background: linear-gradient(135deg, #ff9500 0%, #ff5e3a 100%);
+    }
+    
+    .cover-logo {
+      width: 120px;
+      height: 120px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      margin-bottom: 40px;
+    }
+    
+    .cover-title {
+      font-size: 56px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+    
+    .cover-subtitle {
+      font-size: 24px;
+      opacity: 0.9;
+    }
+    
+    .cover-date {
+      position: absolute;
+      bottom: 60px;
+      font-size: 16px;
+      opacity: 0.7;
+    }
+    
+    .section-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #007AFF;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+    
+    .problem-list {
+      text-align: left;
+      margin-top: 30px;
+    }
+    
+    .problem-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .problem-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: rgba(255,59,48,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    
+    .problem-text h4 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    
+    .problem-text p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+    }
+    
+    .solution-list {
+      text-align: left;
+      margin-top: 30px;
+    }
+    
+    .solution-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .solution-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: rgba(0,212,170,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+    
+    .tech-badge {
+      padding: 12px 24px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    
+    .mockup-container {
+      margin-top: 40px;
+      position: relative;
+    }
+    
+    .mockup-phone {
+      width: 280px;
+      height: 560px;
+      background: #1a1a1a;
+      border-radius: 40px;
+      border: 3px solid #333;
+      padding: 10px;
+      margin: 0 auto;
+    }
+    
+    .mockup-screen {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ff9500, #ff5e3a);
+      border-radius: 30px;
+      overflow: hidden;
+    }
+    
+    .mockup-notch {
+      width: 120px;
+      height: 30px;
+      background: #000;
+      border-radius: 0 0 20px 20px;
+      margin: 0 auto;
+    }
+    
+    .mockup-content {
+      padding: 20px;
+      padding-top: 30px;
+    }
+    
+    .mockup-header {
+      height: 40px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .mockup-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    
+    .mockup-card {
+      height: 80px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 15px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Slide 1: Cover -->
+  <div class="slide slide-cover">
+    <div class="cover-logo">🐉</div>
+    <h1 class="cover-title">香港本地生活地圖</h1>
+    <p class="cover-subtitle">香港人的一站式本地生活平台</p>
+    <p class="cover-date">商業計劃書 | 2026年4月</p>
+  </div>
+  <div class="slide-number">1</div>
+
+  <!-- Slide 2: Problem -->
+  <div class="slide">
+    <div class="logo">
+      <div class="logo-icon">🐉</div>
+      <span class="logo-text">香港本地生活地圖</span>
+    </div>
+    <div class="content">
+      <p class="section-label">痛點分析</p>
+      <h2>香港人生活中的問題</h2>
+      <div class="problem-list">
+        <div class="problem-item">
+          <div class="problem-icon">📍</div>
+          <div class="problem-text">
+            <h4>資訊分散</h4>
+            <p>餐廳、活動、交通資訊分散在不同平台，難以整合</p>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">🤔</div>
+          <div class="problem-text">
+            <h4>選擇困難</h4>
+            <p>面對海量資訊，難以快速找到適合自己的選擇</p>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">💸</div>
+          <div class="problem-text">
+            <h4>錯過優惠</h4>
+            <p>最新優惠和活動資訊不及時，經常錯過</p>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">🗣️</div>
+          <div class="problem-text">
+            <h4>缺乏互動</h4>
+            <p>現有平台缺乏用戶之間的即時交流和分享</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">2</div>
+
+  <!-- Slide 3: Solution -->
+  <div class="slide">
+    <div class="logo">
+      <div class="logo-icon">🐉</div>
+      <span class="logo-text">香港本地生活地圖</span>
+    </div>
+    <div class="content">
+      <p class="section-label">解決方案</p>
+      <h2>一站式本地生活平台</h2>
+      <div class="solution-list">
+        <div class="solution-item">
+          <div class="solution-icon">🗺️</div>
+          <div class="problem-text">
+            <h4>智能地圖</h4>
+            <p>整合餐廳、商店、活動地點，一圖掌握</p>
+          </div>
+        </div>
+        <div class="solution-item">
+          <div class="solution-icon">🤖</div>
+          <div class="problem-text">
+            <h4>AI 助理</h4>
+            <p>智能推薦，根據你的偏好推薦最適合的選擇</p>
+          </div>
+        </div>
+        <div class="solution-item">
+          <div class="solution-icon">💬</div>
+          <div class="problem-text">
+            <h4>即時討論</h4>
+            <p>用戶可以分享圖片、語音、影片，即時交流</p>
+          </div>
+        </div>
+        <div class="solution-item">
+          <div class="solution-icon">🚨</div>
+          <div class="problem-text">
+            <h4>即時路況</h4>
+            <p>實時交通資訊，助你避開塞車</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">3</div>
+
+  <!-- Slide 4: Market -->
+  <div class="slide">
+    <div class="logo">
+      <div class="logo-icon">🐉</div>
+      <span class="logo-text">香港本地生活地圖</span>
+    </div>
+    <div class="content">
+      <p class="section-label">市場機遇</p>
+      <h2>龐大的市場潛力</h2>
+      <div class="stat-row">
+        <div class="stat">
+          <div class="stat-number">750萬</div>
+          <div class="stat-label">香港人口</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">98%</div>
+          <div class="stat-label">智能手機普及率</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">92%</div>
+          <div class="stat-label">流動支付使用率</div>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top: 60px;">
+        <div class="card">
+          <h3>本地消費市場</h3>
+          <p>香港本地消費市場規模龐大，餐飲、休閒、娛樂消費持續增長</p>
+        </div>
+        <div class="card">
+          <h3>數碼轉型</h3>
+          <p>疫情加速數碼轉型，用戶對線上平台需求大增</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">4</div>
+
+  <!-- Slide 5: Features -->
+  <div class="slide">
+    <div class="logo">
+      <div class="logo-icon">🐉</div>
+      <span class="logo-text">香港本地生活地圖</span>
+    </div>
+    <div class="content">
+      <p class="section-label">核心功能</p>
+      <h2>六大功能模塊</h2>
+      <div class="features-grid">
+        <div class="feature">
+          <div class="feature-icon">🗺️</div>
+          <h4>智能地圖</h4>
+          <p>互動式地圖，顯示餐廳、商店、景點位置</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🍜</div>
+          <h4>美食指南</h4>
+          <p>60+間餐廳資料，評分、評論、距離</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">📅</div>
+          <h4>活動資訊</h4>
+          <p>20+個本地活動，即時更新</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🚇</div>
+          <h4>交通資訊</h4>
+          <p>港鐵、巴士即時到站，附近站點</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">💬</div>
+          <h4>即時討論</h4>
+          <p>話題、留言、圖片、語音、影片分享</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🤖</div>
+          <h4>AI 助理</h4>
+          <p>智能問答，旅遊建議，私人助理</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">5</div>
+
+  <!-- Slide 6: App Preview -->
+  <div class="slide">
+    <div class="logo">
+      <div class="logo-icon">🐉</div>
+      <span class="logo-text">香港本地生活地圖</span>
+    </div>
+    <div class="content">
+      <p class="section-label">產品預覽</p>
+      <h2>精美的用戶界面</h2>
+      <div class="mockup-container">
+        <div class="mockup-phone">
+          <div class="mockup-screen">
+            <div class="mockup-notch"></div>
+            <div class="mockup-content">
+              <div class="mockup-header"></div>
+              <div style="height: 20px; background: rgba(255,255,255,0.3); border-radius: 10px; margin-bottom: 10px;"></div>
+              <div class="mockup-grid">
+                <div class="mockup-card"></div>
+                <div class="mockup-card"></div>
+                <div class="mockup-card"></div>
+                <div class="mockup-card"></div>
+              </div>
+              <div style="height: 60px; background: rgba(255,255,255,0.2); border-radius: 15px; margin-top: 15px;"></div>
+              <div style="height: 60px; background: rgba(255,255,255,0.2); border-radius: 15px; margin-top: 10px;"></div>
+              <div style="height: 60px; background: rgba(255,255,255,0.2); border-radius: 15px; margin-top: 10px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tech-stack">
+        <span class="tech-badge">React</span>
+        <span class="tech-badge">Tailwind CSS</span>
+        <span class="tech-badge">Firebase</span>
+        <span class="tech-badge">Google Maps</span>
+        <span class="tech-badge">MTR API</span>
+        <span class="tech-badge">KMB API</span>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">6</div>
+
+  <!-- Slide 7: Business Model -->
+  <div class="slide">
+    <div class="logo">
+      <div class="logo-icon">🐉</div>
+      <span class="logo-text">香港本地生活地圖</span>
+    </div>
+    <div class="content">
+      <p class="section-label">商業模式</p>
+      <h2>多元化的收入來源</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>廣告收入</h3>
+          <p>本地商家廣告投放、精準定向廣告、品牌合作</p>
+        </div>
+        <div class="card">
+          <h3>佣金收入</h3>
+          <p>餐廳預訂、活動門票、交通票務佣金</p>
+        </div>
+        <div class="card">
+          <h3>會員訂閱</h3>
+          <p>Premium會員專享優惠、廣告移除、獨家功能</p>
+        </div>
+        <div class="card">
+          <h3>數據服務</h3>
+          <p>商戶數據分析、市場洞察服務</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">7</div>
+
+  <!-- Slide 8: Pricing -->
+  <div class="slide">
+    <div class="logo">
+      <div class="logo-icon">🐉</div>
+      <span class="logo-text">香港本地生活地圖</span>
+    </div>
+    <div class="content">
+      <p class="section-label">收費方案</p>
+      <h2>彈性的訂閱計劃</h2>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-name">免費版</div>
+          <div class="pricing-price">$0</div>
+          <div class="pricing-period">永久免費</div>
+          <ul class="pricing-features">
+            <li>基本地圖功能</li>
+            <li>餐廳搜尋</li>
+            <li>基本活動資訊</li>
+            <li>一般討論區</li>
+          </ul>
+        </div>
+        <div class="pricing-card featured">
+          <div class="pricing-badge">最受歡迎</div>
+          <div class="pricing-name">Premium</div>
+          <div class="pricing-price">$28</div>
+          <div class="pricing-period">每月</div>
+          <ul class="pricing-features">
+            <li>無廣告干擾</li>
+            <li>AI 助理優先回覆</li>
+            <li>會員專享優惠</li>
+            <li>離線地圖下載</li>
+            <li>優先客服支援</li>
+          </ul>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-name">商戶版</div>
+          <div class="pricing-price">$128</div>
+          <div class="pricing-period">每月</div>
+          <ul class="pricing-features">
+            <li>商家專頁</li>
+            <li>推廣工具</li>
+            <li>數據分析</li>
+            <li>優先展示</li>
+            <li>API 接入</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">8</div>
+
+  <!-- Slide 9: Roadmap -->
+  <div class="slide">
+    <div class="logo">
+      <div class="logo-icon">🐉</div>
+      <span class="logo-text">香港本地生活地圖</span>
+    </div>
+    <div class="content">
+      <p class="section-label">發展藍圖</p>
+      <h2>未來發展規劃</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">Q2 2026</div>
+          <div class="timeline-text">正式上線<br/>達到 10,000 用戶</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">Q3 2026</div>
+          <div class="timeline-text">推出 Premium<br/>達到 50,000 用戶</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">Q4 2026</div>
+          <div class="timeline-text">商戶平台<br/>達到 100,000 用戶</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2027</div>
+          <div class="timeline-text">擴展至澳門、台灣<br/>年收入突破千萬</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">9</div>
+
+  <!-- Slide 10: Team -->
+  <div class="slide">
+    <div class="logo">
+      <div class="logo-icon">🐉</div>
+      <span class="logo-text">香港本地生活地圖</span>
+    </div>
+    <div class="content">
+      <p class="section-label">核心團隊</p>
+      <h2>專業的開發團隊</h2>
+      <div class="team-grid">
+        <div class="team-member">
+          <div class="team-avatar">👨‍💻</div>
+          <div class="team-name">Adrian</div>
+          <div class="team-role">創辦人 / 開發者</div>
+        </div>
+        <div class="team-member">
+          <div class="team-avatar">🐉</div>
+          <div class="team-name">金龍</div>
+          <div class="team-role">AI 策略顧問</div>
+        </div>
+        <div class="team-member">
+          <div class="team-avatar">👩‍🎨</div>
+          <div class="team-name">設計師</div>
+          <div class="team-role">UI/UX 設計</div>
+        </div>
+        <div class="team-member">
+          <div class="team-avatar">📱</div>
+          <div class="team-name">市場專員</div>
+          <div class="team-role">市場推廣</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">10</div>
+
+  <!-- Slide 11: Contact -->
+  <div class="slide">
+    <div class="logo">
+      <div class="logo-icon">🐉</div>
+      <span class="logo-text">香港本地生活地圖</span>
+    </div>
+    <div class="content">
+      <h2>立即行動！</h2>
+      <p class="subtitle">加入我們，成為香港本地生活地圖的<br/>首批用戶和合作夥伴</p>
+      <a href="https://adrian00213.github.io/hk-local-map-vue/" class="cta-button">
+        立即體驗 App →
+      </a>
+      <div class="contact-info">
+        <p>📧 contact@hklocalmap.hk</p>
+        <p>🌐 <a href="#">www.hklocalmap.hk</a></p>
+        <p>📱 +852 1234 5678</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">11</div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        if (currentSlide < slides.length - 1) {
+          currentSlide++;
+          slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+        }
+      } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        if (currentSlide > 0) {
+          currentSlide--;
+          slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+    
+    window.addEventListener('wheel', (e) => {
+      if (e.deltaY > 0 && currentSlide < slides.length - 1) {
+        currentSlide++;
+        slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+      } else if (e.deltaY < 0 && currentSlide > 0) {
+        currentSlide--;
+        slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  </script>
+</body>
+</html>
