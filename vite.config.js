@@ -1,26 +1,27 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { copyFileSync, mkdirSync, existsSync } from 'fs'
+import { copyFileSync, mkdirSync, existsSync, readdirSync } from 'fs'
 
-// Copy CSV files to dist/docs folder during build
-const copyCsvFiles = () => ({
-  name: 'copy-csv-files',
+// Copy data files to dist/docs folder during build
+const copyDataFiles = () => ({
+  name: 'copy-data-files',
   closeBundle: () => {
-    const csvSource = 'public/hk-local-map/data'
-    const csvDest = 'docs/data'
+    const sourceDir = 'public/data'
+    const destDir = 'docs/data'
     
-    if (existsSync(csvSource)) {
-      if (!existsSync(csvDest)) {
-        mkdirSync(csvDest, { recursive: true })
+    if (existsSync(sourceDir)) {
+      if (!existsSync(destDir)) {
+        mkdirSync(destDir, { recursive: true })
       }
       
-      const files = ['restaurants.csv', 'traffic_sensors.csv']
+      // Copy all files from public/data to docs/data
+      const files = readdirSync(sourceDir)
       files.forEach(file => {
         try {
-          copyFileSync(`${csvSource}/${file}`, `${csvDest}/${file}`)
-          console.log(`Copied ${file} to ${csvDest}`)
+          copyFileSync(`${sourceDir}/${file}`, `${destDir}/${file}`)
+          console.log(`Copied ${file} to ${destDir}`)
         } catch (e) {
-          // File may not exist
+          console.log(`Failed to copy ${file}: ${e.message}`)
         }
       })
     }
@@ -29,7 +30,7 @@ const copyCsvFiles = () => ({
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), copyCsvFiles()],
+  plugins: [react(), copyDataFiles()],
   base: './',
   build: {
     outDir: 'docs',
@@ -37,5 +38,5 @@ export default defineConfig({
       external: []
     }
   },
-  assetsInclude: ['**/*.csv']
+  assetsInclude: ['**/*.csv', '**/*.json']
 })

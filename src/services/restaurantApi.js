@@ -143,7 +143,15 @@ export const getPopularityScore = (restaurant) => {
   return Math.floor(Math.random() * 50) + restaurant.rating * 10
 }
 
-// Initialize restaurants (no-op for local data)
+// Initialize restaurants - loads data from Google Places JSON
 export const initRestaurants = async () => {
+  try {
+    const module = await import('./GooglePlacesDataService')
+    if (module.loadRestaurantData) {
+      await module.loadRestaurantData()
+    }
+  } catch (e) {
+    console.warn('[RestaurantApi] Failed to load GooglePlaces data:', e)
+  }
   return true
 }

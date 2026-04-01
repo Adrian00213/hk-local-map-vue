@@ -1,7 +1,5 @@
 // Google Places Real Restaurant Data Service
-// Loads real restaurant data from hk_restaurants.json (857 restaurants from Google Places API)
-
-import HK_RESTAURANTS_DATA from '../../scripts/hk_restaurants.json'
+// Runtime-loaded from hk_food_places.json
 
 // Map address keywords to correct districts
 const ADDRESS_TO_DISTRICT = {
@@ -27,7 +25,6 @@ const ADDRESS_TO_DISTRICT = {
 // Get correct district from address
 const getDistrictFromAddress = (address = '') => {
   const addr = address.toUpperCase()
-  
   for (const [district, keywords] of Object.entries(ADDRESS_TO_DISTRICT)) {
     for (const keyword of keywords) {
       if (addr.includes(keyword.toUpperCase())) {
@@ -39,31 +36,58 @@ const getDistrictFromAddress = (address = '') => {
 }
 
 // Transform the data to match app format with correct districts
-const transformRestaurant = (r, index) => {
-  const address = r.address || r.vicinity || r.Districts || ''
+const transformRestaurant = (r) => {
+  const address = r.address || ''
   const correctDistrict = getDistrictFromAddress(address)
+  const primaryType = r.types?.[0] || 'restaurant'
   
   return {
-    id: r.placeId || `restaurant-${index}`,
-    name: r.name || r.restaurant_name || 'Unknown',
+    id: `${r.lat}-${r.lng}-${r.name}`,
+    name: r.name || 'Unknown',
     category: 'restaurants',
-    lat: parseFloat(r.lat || r.geometry?.location?.lat || 0),
-    lng: parseFloat(r.lng || r.geometry?.location?.lng || 0),
+    lat: parseFloat(r.lat || 0),
+    lng: parseFloat(r.lng || 0),
     address: address,
     district: correctDistrict,
-    originalDistrict: r.district || '',
     rating: r.rating || null,
     userRatingsTotal: r.userRatingsTotal || 0,
-    priceLevel: r.priceLevel || r.price_level || null,
-    type: r.types?.[0] || r.type1 || 'restaurant',
-    phone: r.international_phone_number || r.phone || '',
-    openNow: r.openNow || r.opening_hours?.open_now || null,
-    description: r.types ? r.types.filter(t => !['food', 'restaurant', 'point_of_interest', 'establishment']).slice(0, 3).join(', ') : ''
+    priceLevel: r.priceLevel || null,
+    type: primaryType,
+    cuisine: primaryType,
+    description: r.types?.filter(t => !['food', 'restaurant', 'point_of_interest', 'establishment'].includes(t)).join(', ') || '',
+    price: r.priceLevel ? '$'.repeat(r.priceLevel) : '',
   }
 }
 
-// All restaurants
-export const ALL_RESTAURANTS = (HK_RESTAURANTS_DATA.restaurants || []).map(transformRestaurant)
+// Default restaurant data (fallback if JSON fails to load)
+const DEFAULT_RESTAURANTS = [
+  { name: '麥當勞', address: '旺角彌敦道601號', lat: 22.3172, lng: 114.1686, rating: 4.2, types: ['restaurant', 'fast_food'], userRatingsTotal: 1000, priceLevel: 1 },
+  { name: '肯德基', address: '尖沙咀加拿芬道18號', lat: 22.2956, lng: 114.1720, rating: 4.0, types: ['restaurant', 'fast_food'], userRatingsTotal: 800, priceLevel: 1 },
+  { name: '譚仔三哥', address: '中環士丹利街18號', lat: 22.2808, lng: 114.1588, rating: 4.5, types: ['restaurant'], userRatingsTotal: 2000, priceLevel: 2 },
+]
+
+// All restaurants - loaded dynamically (exported for read access)
+export let ALL_RESTAURANTS = DEFAULT_RESTAURANTS.map(transformRestaurant)
+let dataLoaded = false
+
+// Load data from JSON file
+export const loadRestaurantData = async () => {
+  if (dataLoaded) return ALL_RESTAURANTS
+  
+  try {
+    const response = await fetch('./data/hk_food_places.json')
+    if (response.ok) {
+      const data = await response.json()
+      ALL_RESTAURANTS = (data.places || []).map(transformRestaurant)
+      dataLoaded = true
+      console.log(`[RestaurantData] Loaded ${ALL_RESTAURANTS.length} places`)
+    }
+  } catch (e) {
+    console.warn('[RestaurantData] Failed to load, using defaults:', e.message)
+  }
+  
+  return ALL_RESTAURANTS
+}
 
 // Get restaurants by district
 export const getRestaurantsByDistrict = (district) => {
@@ -86,7 +110,7 @@ export const getRestaurantsNearLocation = (lat, lng, radiusKm = 5) => {
 }
 
 // Calculate distance between two points (Haversine formula)
-const calculateDistance = (lat1, lon1, lat2, lon2) => {
+export const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6371 // km
   const dLat = (lat2 - lat1) * Math.PI / 180
   const dLon = (lon2 - lon1) * Math.PI / 180
@@ -111,7 +135,7 @@ export const getRestaurantById = (id) => {
 export const getRestaurantsByType = (type) => {
   return ALL_RESTAURANTS.filter(r => 
     r.type?.toLowerCase().includes(type.toLowerCase()) ||
-    r.description?.toLowerCase().includes(type.toLowerCase())
+    r.cuisine?.toLowerCase().includes(type.toLowerCase())
   )
 }
 
@@ -131,8 +155,14 @@ export const searchRestaurants = (query) => {
     r.district?.toLowerCase().includes(q) ||
     r.address?.toLowerCase().includes(q) ||
     r.type?.toLowerCase().includes(q) ||
-    r.description?.toLowerCase().includes(q)
+    r.cuisine?.toLowerCase().includes(q)
   )
+}
+
+// Get cuisine types
+export const getCuisineTypes = () => {
+  const types = [...new Set(ALL_RESTAURANTS.map(r => r.type).filter(Boolean))]
+  return types.sort()
 }
 
 // Stats
@@ -144,6 +174,7 @@ export const getRestaurantStats = () => ({
 })
 
 export default {
+  loadRestaurantData,
   getRestaurantsByDistrict,
   getAllDistricts,
   getRestaurantsNearLocation,
@@ -152,5 +183,6 @@ export default {
   getRestaurantsByType,
   getTopRatedRestaurants,
   searchRestaurants,
+  getCuisineTypes,
   getRestaurantStats
 }

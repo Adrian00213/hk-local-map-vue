@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Utensils, Star, ThumbsUp, MapPin, Navigation, Clock, Search, Filter, X, Calendar, AlertCircle, Users, MessageCircle, Sparkles, ChevronRight, Heart, Share2, RefreshCw, Wifi, Newspaper, UsersRound, TrendingUp, Clock3, ExternalLink, Send, Image, MapPinned, Heart as HeartIcon, ThumbsUp as ThumbsUpIcon, Gift } from 'lucide-react'
-import { getNearbyRestaurants, getTopRatedRestaurants, getRestaurantsByCuisine, getCuisineTypes, formatPrice, getPopularityScore } from '../services/restaurantApi'
+import { getNearbyRestaurants, getTopRatedRestaurants, getRestaurantsByCuisine, getCuisineTypes, formatPrice, getPopularityScore, initRestaurants } from '../services/restaurantApi'
 import { getAllEvents, formatEventDate } from '../services/eventsApi'
 import LiveChat from '../components/LiveChat'
 
@@ -354,6 +354,9 @@ export default function InfoPage({ showToast }) {
 
   useEffect(() => {
     const loadData = async () => {
+      // First initialize and load the restaurant data from JSON
+      await initRestaurants()
+      
       const [nearby, top, cuisines] = await Promise.all([
         getNearbyRestaurants(22.3193, 114.1694, 5),
         getTopRatedRestaurants(50),
