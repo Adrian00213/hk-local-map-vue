@@ -13,8 +13,11 @@ import {
   getTopRatedRestaurants as getTopRated,
   searchRestaurants,
   getCuisineTypes as getCuisineTypesFromData,
-  getRestaurantStats
+  getRestaurantStats,
+  calculateDistance
 } from './GooglePlacesDataService'
+
+export { calculateDistance }
 
 // Get all restaurants
 export const getAllRestaurants = async () => {
