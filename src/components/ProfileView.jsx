@@ -1,577 +1,250 @@
 import { useState, useEffect } from 'react'
-import { User, Settings, Bell, Globe, Shield, Star, Gift, MessageCircle, Heart, ChevronRight, Clock, MapPin, CreditCard, Smartphone, CheckCircle, ThumbsUp, LogOut, Edit3, Camera, Sparkles, TrendingUp, X, Moon, Volume2, Vibrate, ChevronDown, Award, Crown, Zap, Palette, Lock, QrCode, HeartHandshake, Clock3, ShoppingBag, BellRing } from 'lucide-react'
+import { Settings, Bell, Globe, Shield, Star, Gift, MessageCircle, Heart, ChevronRight, Clock, MapPin, CreditCard, Smartphone, CheckCircle, LogOut, Camera, Sparkles, X, Moon, HeartHandshake, Crown, Zap, QrCode, CheckCircle as Check } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { useLocale } from '../context/LocaleContext'
 
-// Refined Premium Color Palette - Apple/Samsung Style
-const colors = {
-  primary: '#007AFF',      // iOS Blue
-  secondary: '#5856D6',    // Purple
-  success: '#34C759',     // Green
-  warning: '#FF9500',     // Orange
-  danger: '#FF3B30',      // Red
-  gray: {
-    50: '#F5F5F7',
-    100: '#E5E5EA',
-    200: '#D1D1D6',
-    300: '#C7C7CC',
-    400: '#AEAEB2',
-    500: '#8E8E93',
-    600: '#636366',
-    700: '#48484A',
-    800: '#3A3A3C',
-    900: '#2C2C2E',
-  }
+// 2027 Style Components
+const GlassCard = ({ children, className = '', glow = false }) => (
+  <div className={`relative overflow-hidden rounded-3xl ${className}`}>
+    {glow && <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-pink-500/20 blur-xl" />}
+    <div className="relative bg-white/[0.05] backdrop-blur-2xl border border-white/10 rounded-3xl">
+      {children}
+    </div>
+  </div>
+)
+
+const NeonButton = ({ children, icon: Icon, color = 'cyan', onClick, className = '' }) => {
+  const colorMap = { cyan: 'from-cyan-500 to-blue-600', purple: 'from-purple-500 to-pink-600', orange: 'from-orange-500 to-rose-600', green: 'from-emerald-500 to-teal-600' }
+  return (
+    <button onClick={onClick} className={`relative group ${className}`}>
+      <div className="absolute -inset-1 bg-gradient-to-r ${colorMap[color]} rounded-2xl blur opacity-40 group-hover:opacity-70 transition-opacity" />
+      <div className={`relative flex items-center gap-3 px-5 py-3.5 bg-gradient-to-r ${colorMap[color]} rounded-2xl font-semibold text-white shadow-lg`}>
+        {Icon && <Icon className="w-5 h-5" />}
+        {children}
+      </div>
+    </button>
+  )
 }
 
-// Premium Icon Component with subtle background
-const PremiumIcon = ({ icon: Icon, color = 'primary', size = 'md' }) => {
-  const sizeClasses = {
-    sm: 'w-9 h-9',
-    md: 'w-11 h-11',
-    lg: 'w-14 h-14'
-  }
-  const iconSizes = {
-    sm: 'w-4.5 h-4.5',
-    md: 'w-5 h-5',
-    lg: 'w-6 h-6'
-  }
-  
+const GlowIcon = ({ icon: Icon, color = 'cyan', size = 'md' }) => {
+  const sizeClasses = { sm: 'w-10 h-10', md: 'w-12 h-12', lg: 'w-14 h-14' }
+  const iconSizes = { sm: 'w-5 h-5', md: 'w-6 h-6', lg: 'w-7 h-7' }
   return (
-    <div className={`${sizeClasses[size]} rounded-2xl flex items-center justify-center`} 
-         style={{ backgroundColor: `${color}15` }}>
-      <Icon className={`${iconSizes[size]}`} style={{ color }} />
+    <div className={`${sizeClasses[size]} rounded-2xl bg-gradient-to-br ${color === 'cyan' ? 'from-cyan-500 to-blue-600' : color === 'purple' ? 'from-purple-500 to-pink-600' : 'from-orange-500 to-rose-600'} p-0.5`}>
+      <div className="w-full h-full rounded-2xl bg-slate-900 flex items-center justify-center">
+        <Icon className={`${iconSizes[size]} text-cyan-400`} />
+      </div>
     </div>
   )
 }
 
-// Premium Section Header
-const SectionHeader = ({ title, action }) => (
-  <div className="flex items-center justify-between px-4 py-2">
-    <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide">{title}</h3>
-    {action}
-  </div>
-)
-
-// Premium List Item
-const PremiumListItem = ({ icon, iconColor, title, subtitle, value, showArrow = true, onClick }) => (
-  <button 
-    onClick={onClick}
-    className="w-full flex items-center gap-4 px-4 py-4 hover:bg-gray-50/70 transition-colors active:bg-gray-100/50"
-  >
-    <PremiumIcon icon={icon} color={iconColor} />
-    <div className="flex-1 text-left">
-      <p className="font-semibold text-gray-900 text-[15px]">{title}</p>
-      {subtitle && <p className="text-sm text-gray-500 mt-0.5">{subtitle}</p>}
+const FuturisticAvatar = ({ name, size = 'lg' }) => {
+  const sizeClasses = { sm: 'w-12 h-12 text-xl', md: 'w-16 h-16 text-2xl', lg: 'w-24 h-24 text-4xl' }
+  return (
+    <div className="relative">
+      <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 animate-spin-slow opacity-50 blur-sm" />
+      <div className={`relative ${sizeClasses[size]} rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 flex items-center justify-center font-bold text-white shadow-2xl shadow-purple-500/30`}>
+        {name?.charAt(0) || 'U'}
+      </div>
+      <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 border-2 border-slate-900" />
     </div>
-    {value && <span className="text-sm text-gray-400 mr-2">{value}</span>}
-    {showArrow && <ChevronRight className="w-5 h-5 text-gray-300" />}
+  )
+}
+
+const FuturisticToggle = ({ enabled, onToggle }) => (
+  <button onClick={onToggle} className={`relative w-14 h-8 rounded-full transition-all duration-500 ${enabled ? 'bg-gradient-to-r from-cyan-500 to-purple-500 shadow-lg shadow-cyan-500/50' : 'bg-slate-700'}`}>
+    {enabled && <div className="absolute inset-0 rounded-full bg-cyan-400/30 blur-md" />}
+    <span className={`absolute top-1 w-6 h-6 rounded-full transition-all duration-500 flex items-center justify-center ${enabled ? 'left-8 bg-white shadow-lg shadow-cyan-500/50' : 'left-1 bg-slate-400'}`}>
+      {enabled && <div className="w-2 h-2 rounded-full bg-cyan-400" />}
+    </span>
   </button>
 )
 
-// Premium Divider
-const Divider = ({ inset = 'lg' }) => (
-  <div className={`${inset === 'lg' ? 'mx-4' : inset === 'sm' ? 'mx-4' : 'mx-4'} h-px bg-gray-200/60`} />
-)
-
-// Premium Settings Modal
-const SettingsModal = ({ title, icon: Icon, children }) => (
-  <div className="fixed inset-0 z-50 flex items-end justify-center">
-    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setActiveSection(null)} />
-    <div className="relative w-full max-w-md bg-gray-50 rounded-t-3xl shadow-2xl max-h-[90vh] overflow-hidden"
-         style={{ animation: 'slideUp 0.35s ease-out' }}>
-      {/* Header */}
-      <div className="sticky top-0 z-10 bg-white/90 backdrop-blur-xl border-b border-gray-200/50">
-        <div className="flex items-center gap-4 px-5 py-4">
-          <button 
-            onClick={() => setActiveSection(null)}
-            className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center -ml-2"
-          >
-            <X className="w-5 h-5 text-gray-600" />
-          </button>
-          <div className="flex items-center gap-3">
-            <PremiumIcon icon={Icon} />
-            <h2 className="text-lg font-bold text-gray-900">{title}</h2>
-          </div>
-        </div>
-      </div>
-      {/* Content */}
-      <div className="overflow-y-auto" style={{ maxHeight: 'calc(90vh - 80px)' }}>
-        {children}
-      </div>
+const FuturisticListItem = ({ icon: Icon, color = 'cyan', title, subtitle, value, onClick }) => (
+  <button onClick={onClick} className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl hover:bg-white/[0.05] transition-all active:scale-[0.98]">
+    <GlowIcon icon={Icon} color={color} size="md" />
+    <div className="flex-1 text-left">
+      <p className="font-semibold text-white text-[15px]">{title}</p>
+      {subtitle && <p className="text-sm text-slate-400 mt-0.5">{subtitle}</p>}
     </div>
-    <style>{`
-      @keyframes slideUp {
-        from { transform: translateY(100%); }
-        to { transform: translateY(0); }
-      }
-    `}</style>
-  </div>
-)
-
-// Premium Toggle
-const PremiumToggle = ({ enabled, onToggle, label, subtitle }) => (
-  <div className="flex items-center gap-4 px-4 py-4">
-    <div className="flex-1">
-      <p className="font-semibold text-gray-900 text-[15px]">{label}</p>
-      {subtitle && <p className="text-sm text-gray-500 mt-0.5">{subtitle}</p>}
-    </div>
-    <button
-      onClick={onToggle}
-      className={`relative w-51 h-31 rounded-full transition-all duration-300 ${
-        enabled ? 'bg-success' : 'bg-gray-300'
-      }`}
-      style={{ width: '51px', height: '31px' }}
-    >
-      <span 
-        className={`absolute top-0.5 w-7 h-7 rounded-full bg-white shadow-md transition-all duration-300 ${
-          enabled ? 'left-[22px]' : 'left-[2px]'
-        }`}
-        style={{ width: '28px', height: '28px', top: '1.5px' }}
-      />
-    </button>
-  </div>
-)
-
-// Language Option
-const LanguageOption = ({ label, flag, selected, onClick }) => (
-  <button
-    onClick={onClick}
-    className={`w-full flex items-center gap-4 px-4 py-4 transition-colors ${
-      selected ? 'bg-blue-50/70' : 'hover:bg-gray-100/50'
-    }`}
-  >
-    <span className="text-2xl">{flag}</span>
-    <span className={`flex-1 text-left font-semibold text-[15px] ${selected ? 'text-primary' : 'text-gray-900'}`}>
-      {label}
-    </span>
-    {selected && <CheckCircle className="w-6 h-6 text-primary" />}
+    {value && <span className="text-sm text-slate-500">{value}</span>}
+    <ChevronRight className="w-5 h-5 text-slate-600" />
   </button>
 )
 
 export default function ProfileView() {
-  const { user, isAuthenticated } = useAuth()
-  const { locale, changeLanguage, getLanguageName, t } = useLocale()
+  const { user } = useAuth()
+  const { changeLanguage, getLanguageName } = useLocale()
   const currentLangName = getLanguageName(locale)
   
-  const [savedDeals, setSavedDeals] = useState([])
-  const [userReviews, setUserReviews] = useState([])
-  const [favorites, setFavorites] = useState([])
   const [activeSection, setActiveSection] = useState(null)
+  const [notifications, setNotifications] = useState({ push: true, sound: true, vibration: true, promotions: false })
   
-  const [notifications, setNotifications] = useState({
-    push: true,
-    sound: true,
-    vibration: true,
-    promotions: false,
-  })
-  const [darkMode, setDarkMode] = useState(() => {
-    // Load from localStorage or system preference
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('hk_dark_mode')
-      if (saved !== null) return saved === 'true'
-      return window.matchMedia('(prefers-color-scheme: dark)').matches
-    }
-    return false
-  })
-
-  // Apply dark mode to document
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-    localStorage.setItem('hk_dark_mode', String(darkMode))
-  }, [darkMode])
-
-  useEffect(() => {
-    const saved = localStorage.getItem('hk_saved_deals')
-    if (saved) {
-      const savedIds = JSON.parse(saved)
-      setSavedDeals(SAVED_DEALS.filter(d => savedIds.includes(d.id)))
-    }
-    setUserReviews(USER_REVIEWS)
-    
-    const favs = localStorage.getItem('hk_favorites')
-    if (favs) setFavorites(JSON.parse(favs))
+    document.documentElement.classList.add('dark')
+    localStorage.setItem('hk_dark_mode', 'true')
   }, [])
 
-  // Ultra Clean Profile Page
   return (
-    <div className="h-full w-full bg-white overflow-y-auto">
-      {/* Clean Profile Header */}
-      <div className="bg-white px-5 pt-12 pb-6">
-        <div className="flex items-center gap-4">
-          {/* Avatar */}
-          <div className="relative">
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white text-2xl font-bold">
-              {user?.name?.charAt(0) || 'A'}
+    <div className="h-full w-full bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 overflow-y-auto">
+      {/* Animated background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-pink-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+      </div>
+      
+      <div className="relative z-10">
+        {/* Header */}
+        <div className="px-6 pt-16 pb-8">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <p className="text-sm text-cyan-400 font-medium mb-1">2027 Edition</p>
+              <h1 className="text-3xl font-bold text-white">我的</h1>
             </div>
-            <button className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center shadow-sm">
-              <Camera className="w-4 h-4 text-gray-600" />
+            <button className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
+              <Settings className="w-6 h-6 text-slate-400" />
             </button>
           </div>
           
-          {/* User Info */}
-          <div className="flex-1">
-            <h2 className="text-2xl font-bold text-gray-900">{user?.name || 'Adrian'}</h2>
-            <p className="text-sm text-gray-500 mt-1">{user?.email || 'adrian@example.com'}</p>
-            <button className="mt-3 px-4 py-2 bg-gray-100 rounded-full text-sm font-semibold text-gray-700 hover:bg-gray-200 transition-colors">
-              編輯個人資料
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Clean Stats Row */}
-      <div className="px-5 py-4 bg-gray-50/50">
-        <div className="flex justify-around">
-          {[
-            { label: '收藏', value: favorites.length || 3 },
-            { label: '優惠', value: savedDeals.length || 2 },
-            { label: '點評', value: userReviews.length || 2 },
-          ].map((stat, idx) => (
-            <button key={idx} className="text-center group">
-              <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-              <p className="text-xs text-gray-500 mt-1 group-hover:text-gray-700">{stat.label}</p>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Menu Sections - Apple Style */}
-      <div className="py-4">
-        <SectionHeader title="我的內容" />
-        <div className="bg-white">
-          <PremiumListItem 
-            icon={Heart} 
-            iconColor={colors.danger}
-            title="我的收藏"
-            subtitle="已收藏的地點和內容"
-            onClick={() => setActiveSection('favorites')}
-          />
-          <Divider />
-          <PremiumListItem 
-            icon={Gift} 
-            iconColor={colors.warning}
-            title="我的優惠"
-            subtitle="收藏的優惠和折扣"
-            onClick={() => setActiveSection('deals')}
-          />
-          <Divider />
-          <PremiumListItem 
-            icon={MessageCircle} 
-            iconColor={colors.success}
-            title="我的點評"
-            subtitle="發表過的評論"
-            onClick={() => setActiveSection('reviews')}
-          />
-          <Divider />
-          <PremiumListItem 
-            icon={Star} 
-            iconColor={colors.warning}
-            title="我的評分"
-            subtitle="評分歷史"
-            onClick={() => setActiveSection('ratings')}
-          />
-        </div>
-      </div>
-
-      <div className="py-4">
-        <SectionHeader title="設定" />
-        <div className="bg-white">
-          <PremiumListItem 
-            icon={Bell} 
-            iconColor={colors.primary}
-            title="通知設定"
-            subtitle="推送通知和提醒"
-            onClick={() => setActiveSection('notifications')}
-          />
-          <Divider />
-          <PremiumListItem 
-            icon={Globe} 
-            iconColor={colors.success}
-            title="語言"
-            subtitle={currentLangName}
-            showArrow={false}
-            onClick={() => setActiveSection('language')}
-          />
-          <Divider />
-          <PremiumListItem 
-            icon={Lock} 
-            iconColor={colors.secondary}
-            title="私隱設定"
-            subtitle="資料和安全"
-            onClick={() => setActiveSection('privacy')}
-          />
-          <Divider />
-          <PremiumListItem 
-            icon={QrCode} 
-            iconColor={colors.primary}
-            title="二維碼"
-            subtitle="會員二維碼"
-            onClick={() => {}}
-          />
-        </div>
-      </div>
-
-      <div className="py-4">
-        <SectionHeader title="帳戶" />
-        <div className="bg-white">
-          <PremiumListItem 
-            icon={Smartphone} 
-            iconColor={colors.gray[600]}
-            title="電話"
-            value="未設定"
-            onClick={() => setActiveSection('account')}
-          />
-          <Divider />
-          <PremiumListItem 
-            icon={CreditCard} 
-            iconColor={colors.gray[600]}
-            title="付款"
-            subtitle="添加信用卡或扣帳卡"
-            onClick={() => {}}
-          />
-          <Divider />
-          <PremiumListItem 
-            icon={HeartHandshake} 
-            iconColor={colors.gray[600]}
-            title="已連結的帳戶"
-            subtitle="Google、Apple 等"
-            onClick={() => {}}
-          />
-          <Divider />
-          <PremiumListItem 
-            icon={Settings} 
-            iconColor={colors.gray[600]}
-            title="帳戶設定"
-            subtitle="個人資料和偏好設定"
-            onClick={() => setActiveSection('account')}
-          />
-        </div>
-      </div>
-
-      {/* Dark Mode */}
-      <div className="py-4">
-        <div className="bg-white">
-          <div className="flex items-center justify-between px-4 py-4">
-            <div className="flex items-center gap-4">
-              <PremiumIcon icon={Moon} color={colors.gray[600]} />
-              <span className="font-semibold text-gray-900 text-[15px]">深色模式</span>
+          {/* User Card */}
+          <GlassCard glow className="p-6">
+            <div className="flex items-center gap-5">
+              <FuturisticAvatar name={user?.name || 'A'} size="lg" />
+              <div className="flex-1">
+                <h2 className="text-2xl font-bold text-white">{user?.name || 'Adrian'}</h2>
+                <p className="text-slate-400 text-sm mt-1">{user?.email || 'Premium Member'}</p>
+                <div className="flex items-center gap-3 mt-3">
+                  <span className="px-3 py-1 rounded-full bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 text-cyan-400 text-xs font-medium">⭐ Premium</span>
+                  <span className="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-medium">✓ 已驗證</span>
+                </div>
+              </div>
             </div>
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className={`relative w-51 h-31 rounded-full transition-all duration-300 ${
-                darkMode ? 'bg-success' : 'bg-gray-300'
-              }`}
-              style={{ width: '51px', height: '31px' }}
-            >
-              <span 
-                className={`absolute top-0.5 w-7 h-7 rounded-full bg-white shadow-md transition-all duration-300 ${
-                  darkMode ? 'left-[22px]' : 'left-[2px]'
-                }`}
-                style={{ width: '28px', height: '28px', top: '1.5px' }}
-              />
-            </button>
+          </GlassCard>
+        </div>
+
+        {/* Stats */}
+        <div className="px-6 mb-8">
+          <div className="grid grid-cols-3 gap-4">
+            {[{ label: '收藏', value: 3, icon: Heart, color: 'pink' }, { label: '積分', value: 2.8, icon: Zap, color: 'cyan' }, { label: '等級', value: 'VIP', icon: Crown, color: 'orange' }].map((stat, idx) => (
+              <GlassCard key={idx} className="p-4 text-center">
+                <div className={`w-10 h-10 mx-auto rounded-xl bg-gradient-to-br ${stat.color === 'pink' ? 'from-pink-500 to-rose-600' : stat.color === 'cyan' ? 'from-cyan-500 to-blue-600' : 'from-orange-500 to-rose-600'} flex items-center justify-center mb-3`}>
+                  <stat.icon className="w-5 h-5 text-white" />
+                </div>
+                <p className="text-2xl font-bold text-white">{stat.value}</p>
+                <p className="text-xs text-slate-400 mt-1">{stat.label}</p>
+              </GlassCard>
+            ))}
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="px-6 mb-8">
+          <div className="flex gap-3">
+            <NeonButton icon={Gift} color="purple" className="flex-1 justify-center" onClick={() => setActiveSection('deals')}>我的優惠</NeonButton>
+            <NeonButton icon={QrCode} color="cyan" className="flex-1 justify-center">二維碼</NeonButton>
+          </div>
+        </div>
+
+        {/* Menu */}
+        <div className="px-6 space-y-6 pb-24">
+          <div>
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 px-1">我的內容</p>
+            <GlassCard>
+              <FuturisticListItem icon={Heart} color="pink" title="我的收藏" subtitle="已收藏的地點和內容" onClick={() => {}} />
+              <div className="h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+              <FuturisticListItem icon={MessageCircle} color="purple" title="我的點評" subtitle="發表過的評論" onClick={() => {}} />
+              <div className="h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+              <FuturisticListItem icon={Star} color="orange" title="我的評分" subtitle="評分歷史" onClick={() => {}} />
+            </GlassCard>
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 px-1">設定</p>
+            <GlassCard>
+              <FuturisticListItem icon={Bell} color="cyan" title="通知" subtitle="推送和提醒" onClick={() => setActiveSection('notifications')} />
+              <div className="h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+              <FuturisticListItem icon={Globe} color="emerald" title="語言" subtitle={currentLangName} onClick={() => setActiveSection('language')} />
+              <div className="h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+              <FuturisticListItem icon={Shield} color="blue" title="私隱和安全" subtitle="帳戶保護" onClick={() => {}} />
+              <div className="h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+              <FuturisticListItem icon={Moon} color="purple" title="深色模式" subtitle="界面主題" />
+            </GlassCard>
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 px-1">帳戶</p>
+            <GlassCard>
+              <FuturisticListItem icon={User || Heart} color="cyan" title="個人資料" subtitle="編輯個人資訊" onClick={() => {}} />
+              <div className="h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+              <FuturisticListItem icon={CreditCard} color="purple" title="付款方式" subtitle="添加信用卡" onClick={() => {}} />
+              <div className="h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+              <FuturisticListItem icon={HeartHandshake} color="pink" title="已連結" subtitle="Google, Apple" onClick={() => {}} />
+            </GlassCard>
+          </div>
+
+          <button className="w-full py-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 font-semibold flex items-center justify-center gap-2 hover:bg-red-500/20 transition-colors">
+            <LogOut className="w-5 h-5" />
+            登出帳戶
+          </button>
+
+          <div className="text-center py-8">
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-violet-600 to-fuchsia-600 flex items-center justify-center"><Sparkles className="w-5 h-5 text-white" /></div>
+            </div>
+            <p className="text-white font-semibold">香港本地生活地圖</p>
+            <p className="text-slate-500 text-sm mt-1">Version 2.0 · 2027 Edition</p>
+            <p className="text-slate-600 text-xs mt-2">Made with 🐉 in Hong Kong</p>
           </div>
         </div>
       </div>
-
-      {/* Sign Out */}
-      <div className="py-4">
-        <div className="bg-white">
-          <button className="w-full flex items-center justify-center gap-2 py-4 text-danger font-semibold">
-            <LogOut className="w-5 h-5" />
-            登出
-          </button>
-        </div>
-      </div>
-
-      {/* App Version */}
-      <div className="text-center py-8 px-5">
-        <p className="text-sm text-gray-400">香港本地生活地圖 v1.0</p>
-        <p className="text-xs text-gray-300 mt-1">Made with 🐉 in Hong Kong</p>
-      </div>
-
-      {/* Spacer for tab bar */}
-      <div className="h-20" />
 
       {/* Notifications Modal */}
       {activeSection === 'notifications' && (
-        <SettingsModal title="通知" icon={Bell}>
-          <div className="py-2">
-            <div className="px-4 py-3 bg-gray-100/50">
-              <p className="text-xs text-gray-500">選擇你希望收到的通知</p>
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-2xl" onClick={() => setActiveSection(null)}>
+          <div className="absolute bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-2xl rounded-t-3xl border-t border-white/10 max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <div className="sticky top-0 bg-slate-900/95 backdrop-blur-xl border-b border-white/10 p-5 flex items-center gap-4">
+              <button onClick={() => setActiveSection(null)} className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center"><X className="w-5 h-5 text-slate-400" /></button>
+              <h2 className="text-lg font-bold text-white">通知設定</h2>
             </div>
-            <div className="bg-white">
-              <PremiumToggle 
-                label="推送通知"
-                subtitle="接收新優惠和更新"
-                enabled={notifications.push}
-                onToggle={() => setNotifications(n => ({ ...n, push: !n.push }))}
-              />
-              <Divider />
-              <PremiumToggle 
-                label="聲音"
-                subtitle="通知提示音"
-                enabled={notifications.sound}
-                onToggle={() => setNotifications(n => ({ ...n, sound: !n.sound }))}
-              />
-              <Divider />
-              <PremiumToggle 
-                label="震動"
-                subtitle="配合聲音使用"
-                enabled={notifications.vibration}
-                onToggle={() => setNotifications(n => ({ ...n, vibration: !n.vibration }))}
-              />
-              <Divider />
-              <PremiumToggle 
-                label="促銷"
-                subtitle="優惠和活動資訊"
-                enabled={notifications.promotions}
-                onToggle={() => setNotifications(n => ({ ...n, promotions: !n.promotions }))}
-              />
+            <div className="p-5 space-y-3">
+              <GlassCard className="p-4">
+                <div className="flex items-center justify-between">
+                  <div><p className="font-semibold text-white">推送通知</p><p className="text-sm text-slate-400">接收新優惠和更新</p></div>
+                  <FuturisticToggle enabled={notifications.push} onToggle={() => setNotifications(n => ({...n, push: !n.push}))} />
+                </div>
+              </GlassCard>
+              <GlassCard className="p-4">
+                <div className="flex items-center justify-between">
+                  <div><p className="font-semibold text-white">聲音</p><p className="text-sm text-slate-400">通知提示音</p></div>
+                  <FuturisticToggle enabled={notifications.sound} onToggle={() => setNotifications(n => ({...n, sound: !n.sound}))} />
+                </div>
+              </GlassCard>
             </div>
           </div>
-        </SettingsModal>
+        </div>
       )}
 
       {/* Language Modal */}
       {activeSection === 'language' && (
-        <SettingsModal title="語言" icon={Globe}>
-          <div className="py-2">
-            <div className="bg-white">
-              <LanguageOption 
-                label="繁體中文"
-                flag="🇭🇰"
-                selected={currentLangName === '繁體中文'}
-                onClick={() => changeLanguage('繁體中文')}
-              />
-              <Divider />
-              <LanguageOption 
-                label="簡體中文"
-                flag="🇨🇳"
-                selected={currentLangName === '簡體中文'}
-                onClick={() => changeLanguage('簡體中文')}
-              />
-              <Divider />
-              <LanguageOption 
-                label="English"
-                flag="🇺🇸"
-                selected={currentLangName === 'English'}
-                onClick={() => changeLanguage('English')}
-              />
-              <Divider />
-              <LanguageOption 
-                label="日本語"
-                flag="🇯🇵"
-                selected={currentLangName === '日本語'}
-                onClick={() => changeLanguage('日本語')}
-              />
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-2xl" onClick={() => setActiveSection(null)}>
+          <div className="absolute bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-2xl rounded-t-3xl border-t border-white/10 max-h-[85vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <div className="sticky top-0 bg-slate-900/95 backdrop-blur-xl border-b border-white/10 p-5 flex items-center gap-4">
+              <button onClick={() => setActiveSection(null)} className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center"><X className="w-5 h-5 text-slate-400" /></button>
+              <h2 className="text-lg font-bold text-white">語言</h2>
+            </div>
+            <div className="p-5 space-y-3">
+              {[{ label: '繁體中文', flag: '🇭🇰', lang: '繁體中文' }, { label: '簡體中文', flag: '🇨🇳', lang: '簡體中文' }, { label: 'English', flag: '🇺🇸', lang: 'English' }, { label: '日本語', flag: '🇯🇵', lang: '日本語' }].map((item) => (
+                <button key={item.lang} onClick={() => changeLanguage(item.lang)} className={`w-full flex items-center gap-4 p-4 rounded-2xl transition-all ${currentLangName === item.lang ? 'bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30' : 'bg-white/5 border border-white/10 hover:bg-white/10'}`}>
+                  <span className="text-2xl">{item.flag}</span>
+                  <span className={`flex-1 text-left font-semibold ${currentLangName === item.lang ? 'text-cyan-400' : 'text-white'}`}>{item.label}</span>
+                  {currentLangName === item.lang && <Check className="w-6 h-6 text-cyan-400" />}
+                </button>
+              ))}
             </div>
           </div>
-        </SettingsModal>
-      )}
-
-      {/* Privacy Modal */}
-      {activeSection === 'privacy' && (
-        <SettingsModal title="私隱" icon={Shield}>
-          <div className="py-2">
-            <div className="bg-white">
-              <PremiumListItem 
-                icon={User} 
-                iconColor={colors.primary}
-                title="個人資料"
-                subtitle="管理你的帳戶資料"
-              />
-              <Divider />
-              <PremiumListItem 
-                icon={MapPin} 
-                iconColor={colors.success}
-                title="位置"
-                subtitle="位置共享設定"
-              />
-              <Divider />
-              <PremiumListItem 
-                icon={Clock3} 
-                iconColor={colors.warning}
-                title="瀏覽記錄"
-                subtitle="查看和刪除歷史"
-              />
-              <Divider />
-              <PremiumListItem 
-                icon={BellRing} 
-                iconColor={colors.danger}
-                title="被遮擋的內容"
-                subtitle="管理被遮擋的項目"
-              />
-            </div>
-          </div>
-        </SettingsModal>
-      )}
-
-      {/* Account Modal */}
-      {activeSection === 'account' && (
-        <SettingsModal title="帳戶設定" icon={Settings}>
-          <div className="py-2">
-            <div className="bg-white">
-              <PremiumListItem 
-                icon={User} 
-                iconColor={colors.primary}
-                title="個人資料"
-                subtitle="編輯姓名和頭像"
-              />
-              <Divider />
-              <PremiumListItem 
-                icon={Smartphone} 
-                iconColor={colors.secondary}
-                title="電話號碼"
-                value="未設定"
-              />
-              <Divider />
-              <PremiumListItem 
-                icon={Lock} 
-                iconColor={colors.gray[600]}
-                title="更改密碼"
-              />
-              <Divider />
-              <PremiumListItem 
-                icon={HeartHandshake} 
-                iconColor={colors.success}
-                title="已連結的帳戶"
-                subtitle="Google、Apple"
-              />
-            </div>
-          </div>
-        </SettingsModal>
-      )}
-
-      {/* Ratings Modal */}
-      {activeSection === 'ratings' && (
-        <SettingsModal title="我的評分" icon={Star}>
-          <div className="py-8 px-5">
-            <div className="text-center">
-              <div className="w-20 h-20 mx-auto rounded-full bg-gray-100 flex items-center justify-center mb-4">
-                <Star className="w-10 h-10 text-gray-300" />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-700">暫無評分記錄</h3>
-              <p className="text-sm text-gray-400 mt-2">去地圖評分你去過的地方</p>
-            </div>
-          </div>
-        </SettingsModal>
+        </div>
       )}
     </div>
   )
 }
-
-// Sample data
-const SAVED_DEALS = [
-  { id: '1', title: 'AlipayHK 消費券', desc: '最高回贈 $500', icon: '💜', gradient: 'purple', validUntil: '2026-03-31' },
-  { id: '4', title: 'HSBC 餐飲85折', desc: '指定餐廳', icon: '🔴', gradient: 'pink', validUntil: '2026-03-31' },
-]
-const USER_REVIEWS = [
-  { id: '1', placeName: '九記牛腩', rating: 5, text: '真係必試！', time: '2日前', likes: 23 },
-  { id: '2', placeName: '山頂纜車', rating: 4, text: '維港景色一流！', time: '1週前', likes: 45 },
-]
