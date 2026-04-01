@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Sparkles, Send, Mic, MapPin, Clock, Sun, Moon, Cloud, Zap, Star, Heart, Gift, TrendingUp, Brain, ChevronRight, Loader2, X, Camera, Image } from 'lucide-react'
+import { queryRestaurants, formatResponseText } from '../services/RestaurantQAService'
 
 // Advanced AI responses with context awareness
 const AI_BRAIN = {
@@ -445,7 +446,7 @@ ${greeting.icon} ${greeting.text}
 
 我係你嘅AI智能助理，可以幫你：
 
-🍜 搵餐廳 / 嘢食
+🍜 搵餐廳 / 嘢食（用真實857間餐廳數據！）
 💰 搵優惠 / 平嘢
 📍 附近好去處
 ✈️ 行程規劃
@@ -455,24 +456,31 @@ ${greeting.icon} ${greeting.text}
 你想搵咩？`
     }
     
+    // Try to query real restaurant data
+    const restaurantQuery = queryRestaurants(message)
+    if (restaurantQuery.results.length > 0) {
+      return formatResponseText(restaurantQuery)
+    }
+    
     return `🤔 我明你意思，不過我想幫得更精準！
 
 你可以試下問：
 
-🍜 「附近有咩好嘢食？」
+🍜 「中環有咩日本菜？」
+🍜 「沙田高分餐廳」
+🍜 「旺角平嘢食」
 💰 「幫我搵平嘢優惠」
 📍 「沙田好去處」
-✈️ 「幫我計劃台北3日行程」
 
-或者直接問我任何關於香港嘅問題！`
+我已經有857間真實餐廳數據，可以幫你精確搵到想要嘅！`
   }
 
   const quickActions = [
-    { icon: '🍜', label: '搵嘢食', prompt: '附近有咩好嘢食？' },
+    { icon: '🍜', label: '中環日本菜', prompt: '中環有咩日本菜好食？' },
+    { icon: '⭐', label: '高分餐廳', prompt: '高分餐廳有邊幾間？' },
     { icon: '💰', label: '平嘢優惠', prompt: '有咩信用卡優惠？' },
-    { icon: '📍', label: '附近好去處', prompt: '旺角有咩好玩？' },
-    { icon: '✈️', label: '行程規劃', prompt: '幫我計劃台北3日行程' },
-    { icon: '🌤️', label: '天氣', prompt: '今日天氣點？' },
+    { icon: '📍', label: '沙田好去處', prompt: '沙田有咩好玩？' },
+    { icon: '☕', label: '咖啡店', prompt: '邊度有咖啡店？' },
     { icon: '🚌', label: '交通', prompt: '點去山頂？' },
   ]
 
