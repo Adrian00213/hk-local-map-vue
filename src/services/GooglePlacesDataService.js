@@ -1,5 +1,6 @@
 // Google Places Real Restaurant Data Service
 // Runtime-loaded from hk_nearby_500.json (500 nearest places, 164KB)
+// Plus local HK restaurants for authentic local food experience
 
 // Map address keywords to correct districts
 const ADDRESS_TO_DISTRICT = {
@@ -38,7 +39,7 @@ const getDistrictFromAddress = (address = '') => {
 // Transform the data to match app format with correct districts
 const transformRestaurant = (r) => {
   const address = r.address || ''
-  const correctDistrict = getDistrictFromAddress(address)
+  const correctDistrict = r.district || getDistrictFromAddress(address)
   const types = r.types || []
   
   // Get the best primary type - prefer food-related types
@@ -95,15 +96,31 @@ export const loadRestaurantData = async () => {
     return DEFAULT_RESTAURANTS
   }
   
-  console.log('[RestaurantData] Loading data from ./data/hk_food_places.json...')
+  console.log('[RestaurantData] Loading data from ./data/hk_nearby_500.json...')
+  
+  // Import local restaurants dynamically
+  let localRestaurants = []
+  try {
+    const localModule = await import('../data/localRestaurants')
+    localRestaurants = (localModule.LOCAL_RESTAURANTS || []).map(r => ({
+      ...r,
+      allTypes: [r.type],
+      isLocal: true
+    }))
+    console.log(`[RestaurantData] ✅ Loaded ${localRestaurants.length} local HK restaurants`)
+  } catch (e) {
+    console.error('[RestaurantData] ❌ Failed to load local restaurants:', e.message)
+  }
   
   try {
     const response = await fetch('./data/hk_nearby_500.json')
     if (response.ok) {
       const data = await response.json()
-      ALL_RESTAURANTS = (data.places || []).map(transformRestaurant)
+      const googlePlaces = (data.places || []).map(transformRestaurant)
+      // Merge: local restaurants first, then Google Places
+      ALL_RESTAURANTS = [...localRestaurants, ...googlePlaces]
       dataLoaded = true
-      console.log(`[RestaurantData] ✅ Loaded ${ALL_RESTAURANTS.length} places from JSON`)
+      console.log(`[RestaurantData] ✅ Loaded ${ALL_RESTAURANTS.length} places (${localRestaurants.length} local + ${googlePlaces.length} Google)`)
     } else {
       console.error('[RestaurantData] ❌ Failed to fetch:', response.status)
     }
