@@ -335,6 +335,8 @@ export default function InfoPage({ showToast }) {
   const [eventsLoading, setEventsLoading] = useState(false)
   const [userLocation, setUserLocation] = useState(null)
   const [nearbyRestaurants, setNearbyRestaurants] = useState([])
+  const [allRestaurantsFull, setAllRestaurantsFull] = useState([])
+  const [displayedCount, setDisplayedCount] = useState(30)
   const [topRestaurants, setTopRestaurants] = useState([])
   const [cuisineFilter, setCuisineFilter] = useState('')
   const [cuisineTypes, setCuisineTypes] = useState([])
@@ -371,7 +373,9 @@ export default function InfoPage({ showToast }) {
       console.log('[InfoPage] getAllRestaurants returned:', all.length, 'restaurants')
       console.log('[InfoPage] getTopRatedRestaurants returned:', top.length, 'restaurants')
       
-      setNearbyRestaurants(all)  // Show ALL restaurants
+      // Show only first 30 for fast initial load, rest are kept in memory
+      setNearbyRestaurants(all.slice(0, 30))
+      setAllRestaurantsFull(all)  // Keep full list in state
       setTopRestaurants(top)
       setCuisineTypes(cuisines.slice(0, 15))
       if (navigator.geolocation) {
@@ -488,25 +492,49 @@ export default function InfoPage({ showToast }) {
 
             {/* Stats */}
             <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-3 border border-orange-100">
-              <p className="text-sm font-medium text-orange-800">📊 餐飲總數：{nearbyRestaurants.length} 間</p>
+              <p className="text-sm font-medium text-orange-800">📊 餐飲總數：{allRestaurantsFull.length} 間（已載入 {displayedCount} 間）</p>
             </div>
 
-            {/* Restaurant List */}
+            {/* Restaurant List - loads 30 at a time */}
             <div className="space-y-3">
-              {nearbyRestaurants
-                .filter(r => {
+              {(() => {
+                const filtered = allRestaurantsFull
+                  .filter(r => {
+                    if (foodCategory === '全部') return true
+                    const cat = FOOD_CATEGORIES.find(c => c.key === foodCategory)
+                    if (!cat || cat.types.length === 0) return true
+                    const rType = (r.type || '').toLowerCase()
+                    const rAllTypes = (r.allTypes || []).map(t => t.toLowerCase())
+                    return cat.types.some(t => 
+                      rType === t.toLowerCase() || rAllTypes.includes(t.toLowerCase())
+                    )
+                  })
+                  .slice(0, displayedCount)
+                return filtered.map((r, i) => <RestaurantCard key={r.name} restaurant={r} index={i} onLike={() => handleLike(r.name)} />)
+              })()}
+              
+              {/* Load More Button */}
+              {(() => {
+                const filteredCount = allRestaurantsFull.filter(r => {
                   if (foodCategory === '全部') return true
                   const cat = FOOD_CATEGORIES.find(c => c.key === foodCategory)
                   if (!cat || cat.types.length === 0) return true
-                  // Check both type and allTypes for matches
                   const rType = (r.type || '').toLowerCase()
                   const rAllTypes = (r.allTypes || []).map(t => t.toLowerCase())
                   return cat.types.some(t => 
                     rType === t.toLowerCase() || rAllTypes.includes(t.toLowerCase())
                   )
-                })
-                .filter(r => !cuisineFilter || r.district === cuisineFilter || r.name.includes(cuisineFilter))
-                .map((r, i) => <RestaurantCard key={r.name} restaurant={r} index={i} onLike={() => handleLike(r.name)} />)}
+                }).length
+                
+                return filteredCount > displayedCount ? (
+                  <button 
+                    onClick={() => setDisplayedCount(prev => Math.min(prev + 30, filteredCount))}
+                    className="w-full py-3 bg-orange-500 text-white rounded-2xl text-sm font-medium active:scale-98"
+                  >
+                    載入更多 ({displayedCount}/{filteredCount})
+                  </button>
+                ) : null
+              })()}
             </div>
           </div>
         )}
