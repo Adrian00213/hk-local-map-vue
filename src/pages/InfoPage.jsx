@@ -273,7 +273,6 @@ export default function InfoPage({ showToast }) {
   const [activeTab, setActiveTab] = useState('nearby')
   const [newsTab, setNewsTab] = useState('latest')
   const [communityDistrict, setCommunityDistrict] = useState('全部')
-  const [newsDistrict, setNewsDistrict] = useState('全部')
   const [events, setEvents] = useState([])
   const [eventsLoading, setEventsLoading] = useState(false)
   const [userLocation, setUserLocation] = useState(null)
@@ -394,28 +393,16 @@ export default function InfoPage({ showToast }) {
           <div className="space-y-4">
             {/* News Sub-tabs */}
             <div className="flex gap-2 overflow-x-auto pb-2">
-              {[{ key: 'latest', label: '🔥 最新' }, { key: 'trending', label: '📈 熱話' }, { key: 'district', label: '📍 十八區' }].map(tab => (
+              {[{ key: 'latest', label: '🔥 最新' }, { key: 'trending', label: '📈 熱話' }].map(tab => (
                 <button key={tab.key} onClick={() => setNewsTab(tab.key)} className={`px-4 py-2 rounded-2xl text-sm font-medium whitespace-nowrap transition-all ${newsTab === tab.key ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white' : 'bg-white text-gray-600 border'}`}>
                   {tab.label}
                 </button>
               ))}
             </div>
             
-            {/* District Filter for 十八區 */}
-            {newsTab === 'district' && (
-              <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-                <button onClick={() => setNewsDistrict('全部')} className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap shrink-0 ${newsDistrict === '全部' ? 'bg-blue-500 text-white' : 'bg-white text-gray-600 border'}`}>全部</button>
-                {HK_DISTRICTS.map(d => (
-                  <button key={d.name} onClick={() => setNewsDistrict(d.name)} className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap shrink-0 ${newsDistrict === d.name ? 'bg-blue-500 text-white' : 'bg-white text-gray-600 border'}`}>
-                    {d.icon} {d.name}
-                  </button>
-                ))}
-              </div>
-            )}
-            
             {/* News Feed */}
             <div className="space-y-3">
-              {MOCK_NEWS.filter(n => newsTab !== 'district' || newsDistrict === '全部' || n.district === newsDistrict).map(news => <NewsCard key={news.id} news={news} />)}
+              {MOCK_NEWS.map(news => <NewsCard key={news.id} news={news} />)}
             </div>
           </div>
         )}
