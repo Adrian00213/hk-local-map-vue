@@ -1,39 +1,99 @@
 import { useState, useEffect, useRef } from 'react'
-import { Send, Mic, Image, Video, X, Play, Heart, MoreHorizontal, MessageCircle, Trash2 } from 'lucide-react'
+import { Send, Mic, Image, Video, X, Play, Heart, MoreHorizontal, MessageCircle, Trash2, Plus, ArrowLeft, Clock, User, ChevronRight, MessageSquare, Eye } from 'lucide-react'
 
-// Demo messages for showcase
-const DEMO_MESSAGES = [
+// Demo topics
+const DEMO_TOPICS = [
   {
-    id: 'demo_1',
-    text: '👋 大家好！灣仔有間新開嘅咖啡店，環境好舒服',
-    type: 'text',
-    userName: '灣仔咖啡控',
-    userId: 'demo_user_1',
-    isAnonymous: true,
-    createdAt: { toDate: () => new Date(Date.now() - 300000) },
-    likes: 12
+    id: 'topic_1',
+    title: '灣仔有咩好食？求推介 🇭🇰',
+    category: '美食',
+    author: '灣仔咖啡控',
+    authorId: 'demo_1',
+    createdAt: { toDate: () => new Date(Date.now() - 3600000) },
+    likes: 24,
+    comments: 8,
+    views: 156,
+    isHot: true
   },
   {
-    id: 'demo_2',
-    text: '🗺️ 旺角邊度有嘢食？求推介',
-    type: 'text',
-    userName: '九龍遊客',
-    userId: 'demo_user_2',
-    isAnonymous: true,
-    createdAt: { toDate: () => new Date(Date.now() - 180000) },
-    likes: 3
+    id: 'topic_2',
+    title: '旺角掃街攻略 🏮 必食小店',
+    category: '美食',
+    author: '九龍遊客',
+    authorId: 'demo_2',
+    createdAt: { toDate: () => new Date(Date.now() - 7200000) },
+    likes: 45,
+    comments: 15,
+    views: 312,
+    isHot: true
   },
   {
-    id: 'demo_3',
-    text: '🍜 義順牛奶公司幾好食！可以去試下',
-    type: 'text',
-    userName: '旺角街坊',
-    userId: 'demo_user_3',
-    isAnonymous: true,
-    createdAt: { toDate: () => new Date(Date.now() - 60000) },
-    likes: 8
+    id: 'topic_3',
+    title: '長洲一日遊 有咩玩？🐚',
+    category: '旅遊',
+    author: '週末旅行家',
+    authorId: 'demo_3',
+    createdAt: { toDate: () => new Date(Date.now() - 86400000) },
+    likes: 18,
+    comments: 6,
+    views: 89,
+    isHot: false
+  },
+  {
+    id: 'topic_4',
+    title: '中環酒吧推介 🍸 Happy Hour',
+    category: '娛樂',
+    author: '中環OL',
+    authorId: 'demo_4',
+    createdAt: { toDate: () => new Date(Date.now() - 172800000) },
+    likes: 32,
+    comments: 12,
+    views: 234,
+    isHot: false
+  },
+  {
+    id: 'topic_5',
+    title: '香港行山徑邊個最靚？⛰️',
+    category: '運動',
+    author: '山系情侶',
+    authorId: 'demo_5',
+    createdAt: { toDate: () => new Date(Date.now() - 259200000) },
+    likes: 56,
+    comments: 22,
+    views: 445,
+    isHot: true
   }
 ]
+
+// Demo comments for topic 1
+const DEMO_COMMENTS = {
+  'topic_1': [
+    {
+      id: 'c1',
+      text: '灣仔嘅Hashtag Coffee幾好，環境舒服之餘咖啡質素高 👍',
+      author: '咖啡愛好者',
+      authorId: 'user_c1',
+      createdAt: { toDate: () => new Date(Date.now() - 3000000) },
+      likes: 8
+    },
+    {
+      id: 'c2',
+      text: '船街有間幾隱世嘅日本餐廳，師傅好有心機 🍣',
+      author: '灣仔居民',
+      authorId: 'user_c2',
+      createdAt: { toDate: () => new Date(Date.now() - 2400000) },
+      likes: 5
+    },
+    {
+      id: 'c3',
+      text: '偉南記可以去試下，奶茶正！🧋',
+      author: '茶記迷',
+      authorId: 'user_c3',
+      createdAt: { toDate: () => new Date(Date.now() - 1800000) },
+      likes: 12
+    }
+  ]
+}
 
 const ANONYMOUS_NAMES = [
   '香港遊客', '灣仔居民', '旺角街坊', '中環OL', '九龍塘學生',
@@ -41,342 +101,491 @@ const ANONYMOUS_NAMES = [
   '堅尼地茶記迷', '北角老街坊', '筲箕灣海鮮佬', '西環讀書人'
 ]
 
+const CATEGORIES = ['全部', '美食', '旅遊', '娛樂', '運動', '生活', '其他']
+
 export default function LiveChat({ channel = 'general' }) {
-  const [messages, setMessages] = useState([])
-  const [newMessage, setNewMessage] = useState('')
-  const [isRecording, setIsRecording] = useState(false)
-  const [showMediaPicker, setShowMediaPicker] = useState(false)
-  const [likedMessages, setLikedMessages] = useState(new Set())
-  const [isDemoMode, setIsDemoMode] = useState(true)
-  const [localImage, setLocalImage] = useState(null)
-  const messagesEndRef = useRef(null)
-  const fileInputRef = useRef(null)
-  const videoInputRef = useRef(null)
+  const [view, setView] = useState('topics') // 'topics', 'topic_detail', 'create_topic'
+  const [topics, setTopics] = useState([])
+  const [selectedTopic, setSelectedTopic] = useState(null)
+  const [comments, setComments] = useState({})
+  const [newComment, setNewComment] = useState('')
+  const [newTopicTitle, setNewTopicTitle] = useState('')
+  const [newTopicCategory, setNewTopicCategory] = useState('美食')
+  const [selectedCategory, setSelectedCategory] = useState('全部')
+  const [likedTopics, setLikedTopics] = useState(new Set())
+  const [likedComments, setLikedComments] = useState(new Set())
+  const [isDemoMode] = useState(true)
+  
+  const commentsEndRef = useRef(null)
   const anonymousId = useRef('demo_' + Math.random().toString(36).substr(2, 9))
   const anonymousName = useRef(ANONYMOUS_NAMES[Math.floor(Math.random() * ANONYMOUS_NAMES.length)])
 
-  // Load liked messages from localStorage
+  // Load data from localStorage
   useEffect(() => {
-    const liked = JSON.parse(localStorage.getItem('hk_liked_messages') || '[]')
-    setLikedMessages(new Set(liked))
+    const savedTopics = JSON.parse(localStorage.getItem('hk_demo_topics') || '[]')
+    const savedComments = JSON.parse(localStorage.getItem('hk_demo_comments') || '{}')
+    const savedLikedTopics = JSON.parse(localStorage.getItem('hk_liked_topics') || '[]')
+    const savedLikedComments = JSON.parse(localStorage.getItem('hk_liked_comments') || '[]')
     
-    // Load saved messages from localStorage
-    const saved = JSON.parse(localStorage.getItem('hk_demo_messages') || '[]')
-    if (saved.length > 0) {
-      setMessages(saved)
+    if (savedTopics.length > 0) {
+      setTopics(savedTopics)
     } else {
-      setMessages(DEMO_MESSAGES)
+      setTopics(DEMO_TOPICS)
     }
+    
+    if (Object.keys(savedComments).length > 0) {
+      setComments(savedComments)
+    } else {
+      setComments(DEMO_COMMENTS)
+    }
+    
+    setLikedTopics(new Set(savedLikedTopics))
+    setLikedComments(new Set(savedLikedComments))
   }, [])
 
-  // Scroll to bottom when new messages arrive
+  // Scroll to bottom when comments change
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
-
-  const saveMessages = (msgs) => {
-    localStorage.setItem('hk_demo_messages', JSON.stringify(msgs))
-  }
-
-  const sendMessage = (text, type = 'text', mediaUrl = null) => {
-    if (!text.trim() && !mediaUrl) return
-
-    const message = {
-      id: 'msg_' + Date.now(),
-      text: text.trim(),
-      type,
-      mediaUrl,
-      userId: anonymousId.current,
-      userName: anonymousName.current,
-      userPhoto: null,
-      isAnonymous: true,
-      createdAt: { toDate: () => new Date() },
-      likes: 0
+    if (view === 'topic_detail') {
+      commentsEndRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
+  }, [comments, view])
 
-    const newMessages = [...messages, message]
-    setMessages(newMessages)
-    saveMessages(newMessages)
+  const saveTopics = (topicsData) => {
+    localStorage.setItem('hk_demo_topics', JSON.stringify(topicsData))
   }
 
-  const handleSend = (e) => {
-    e?.preventDefault()
-    if (newMessage.trim()) {
-      sendMessage(newMessage)
-      setNewMessage('')
-    }
-  }
-
-  const handleFileSelect = (e, type) => {
-    const file = e.target.files[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (ev) => {
-        const mediaUrl = ev.target.result
-        sendMessage('', type, mediaUrl)
-      }
-      reader.readAsDataURL(file)
-    }
-    setShowMediaPicker(false)
-  }
-
-  const toggleLike = (messageId) => {
-    const newLiked = new Set(likedMessages)
-    const newMessages = messages.map(msg => {
-      if (msg.id === messageId) {
-        if (newLiked.has(messageId)) {
-          newLiked.delete(messageId)
-          return { ...msg, likes: msg.likes - 1 }
-        } else {
-          newLiked.add(messageId)
-          return { ...msg, likes: msg.likes + 1 }
-        }
-      }
-      return msg
-    })
-    
-    localStorage.setItem('hk_liked_messages', JSON.stringify([...newLiked]))
-    setLikedMessages(newLiked)
-    setMessages(newMessages)
-    saveMessages(newMessages)
-  }
-
-  const deleteMessage = (messageId) => {
-    if (messages.find(m => m.id === messageId)?.userId !== anonymousId.current) return
-    const newMessages = messages.filter(m => m.id !== messageId)
-    setMessages(newMessages)
-    saveMessages(newMessages)
+  const saveComments = (commentsData) => {
+    localStorage.setItem('hk_demo_comments', JSON.stringify(commentsData))
   }
 
   const formatTime = (timestamp) => {
     if (!timestamp) return ''
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp)
-    return date.toLocaleTimeString('zh-HK', { hour: '2-digit', minute: '2-digit' })
+    const diff = Math.floor((new Date() - date) / 1000)
+    
+    if (diff < 60) return '剛剛'
+    if (diff < 3600) return `${Math.floor(diff / 60)} 分鐘前`
+    if (diff < 86400) return `${Math.floor(diff / 3600)} 小時前`
+    return `${Math.floor(diff / 86400)} 日前`
   }
 
-  return (
-    <div className="flex flex-col h-full bg-gradient-to-b from-stone-50 to-white">
-      {/* Chat Header */}
-      <div className="bg-white/90 backdrop-blur border-b border-stone-200 px-4 py-3 flex items-center gap-3">
-        <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center">
-          <MessageCircle className="w-5 h-5 text-white" />
-        </div>
-        <div className="flex-1">
-          <h3 className="font-bold text-gray-900">💬 即時討論</h3>
-          <p className="text-xs text-gray-500 flex items-center gap-1">
-            {isDemoMode ? (
-              <>
-                <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
-                Demo 模式 · 本地演示
-              </>
-            ) : (
-              <>
-                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                {messages.length} 條留言
-              </>
-            )}
-          </p>
-        </div>
-        {isDemoMode && (
-          <button
-            onClick={() => setIsDemoMode(false)}
-            className="px-3 py-1.5 bg-green-500 text-white text-xs font-medium rounded-full"
-          >
-            開啟 Firestore
-          </button>
-        )}
-      </div>
+  const handleCreateTopic = () => {
+    if (!newTopicTitle.trim()) return
+    
+    const topic = {
+      id: 'topic_' + Date.now(),
+      title: newTopicTitle.trim(),
+      category: newTopicCategory,
+      author: anonymousName.current,
+      authorId: anonymousId.current,
+      createdAt: { toDate: () => new Date() },
+      likes: 0,
+      comments: 0,
+      views: 1,
+      isHot: false
+    }
+    
+    const newTopics = [topic, ...topics]
+    setTopics(newTopics)
+    saveTopics(newTopics)
+    setNewTopicTitle('')
+    setNewTopicCategory('美食')
+    setView('topics')
+  }
 
-      {/* Demo Mode Banner */}
-      {isDemoMode && (
-        <div className="mx-4 mt-3 p-3 bg-amber-50 border border-amber-200 rounded-xl">
-          <p className="text-xs text-amber-700">
-            🎭 <strong>Demo 模式</strong>：訊息保存在本地瀏覽器，唔需要 Firebase。
-            配置 Firebase 後即可開啟即時同步功能。
-          </p>
-        </div>
-      )}
+  const handleLikeTopic = (topicId) => {
+    const newLiked = new Set(likedTopics)
+    const newTopics = topics.map(t => {
+      if (t.id === topicId) {
+        if (newLiked.has(topicId)) {
+          newLiked.delete(topicId)
+          return { ...t, likes: t.likes - 1 }
+        } else {
+          newLiked.add(topicId)
+          return { ...t, likes: t.likes + 1 }
+        }
+      }
+      return t
+    })
+    
+    localStorage.setItem('hk_liked_topics', JSON.stringify([...newLiked]))
+    setLikedTopics(newLiked)
+    setTopics(newTopics)
+    saveTopics(newTopics)
+  }
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.length === 0 && (
-          <div className="text-center py-12 text-gray-400">
-            <MessageCircle className="w-12 h-12 mx-auto mb-3 opacity-50" />
-            <p>暫時冇留言</p>
-            <p className="text-sm">成為第一個留言嘅人！</p>
-          </div>
-        )}
+  const handleLikeComment = (topicId, commentId) => {
+    const newLiked = new Set(likedComments)
+    const key = `${topicId}_${commentId}`
+    const topicComments = comments[topicId] || []
+    const newTopicComments = topicComments.map(c => {
+      if (c.id === commentId) {
+        if (newLiked.has(key)) {
+          newLiked.delete(key)
+          return { ...c, likes: c.likes - 1 }
+        } else {
+          newLiked.add(key)
+          return { ...c, likes: c.likes + 1 }
+        }
+      }
+      return c
+    })
+    
+    const newComments = { ...comments, [topicId]: newTopicComments }
+    localStorage.setItem('hk_liked_comments', JSON.stringify([...newLiked]))
+    setLikedComments(newLiked)
+    setComments(newComments)
+    saveComments(newComments)
+  }
 
-        {messages.map((msg) => (
-          <div 
-            key={msg.id} 
-            className={`flex gap-3 ${msg.userId === anonymousId.current ? 'flex-row-reverse' : ''}`}
-          >
-            {/* Avatar */}
-            <div className={`w-10 h-10 rounded-2xl flex items-center justify-center text-sm font-bold shrink-0 ${
-              msg.isAnonymous 
-                ? 'bg-gradient-to-br from-amber-400 to-orange-500 text-white' 
-                : 'bg-gradient-to-br from-blue-500 to-indigo-500 text-white'
-            }`}>
-              {msg.userPhoto ? (
-                <img src={msg.userPhoto} className="w-full h-full rounded-2xl object-cover" />
-              ) : (
-                msg.userName?.charAt(0) || '?'
-              )}
-            </div>
+  const handleAddComment = () => {
+    if (!newComment.trim() || !selectedTopic) return
+    
+    const comment = {
+      id: 'c_' + Date.now(),
+      text: newComment.trim(),
+      author: anonymousName.current,
+      authorId: anonymousId.current,
+      createdAt: { toDate: () => new Date() },
+      likes: 0
+    }
+    
+    const topicComments = comments[selectedTopic.id] || []
+    const newTopicComments = [...topicComments, comment]
+    const newComments = { ...comments, [selectedTopic.id]: newTopicComments }
+    
+    const newTopics = topics.map(t => {
+      if (t.id === selectedTopic.id) {
+        return { ...t, comments: t.comments + 1 }
+      }
+      return t
+    })
+    
+    setComments(newComments)
+    saveComments(newComments)
+    setTopics(newTopics)
+    saveTopics(newTopics)
+    setSelectedTopic({ ...selectedTopic, comments: selectedTopic.comments + 1 })
+    setNewComment('')
+  }
 
-            {/* Message Content */}
-            <div className={`max-w-[75%] ${msg.userId === anonymousId.current ? 'items-end' : 'items-start'}`}>
-              <div className={`px-4 py-2.5 rounded-2xl ${
-                msg.userId === anonymousId.current
-                  ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-tr-md'
-                  : 'bg-white border border-stone-200 text-gray-800 rounded-tl-md'
-              }`}>
-                {/* Name */}
-                <p className={`text-xs font-medium mb-1 ${
-                  msg.userId === anonymousId.current ? 'text-white/80' : 'text-gray-500'
-                }`}>
-                  {msg.userName}
-                </p>
+  const filteredTopics = selectedCategory === '全部' 
+    ? topics 
+    : topics.filter(t => t.category === selectedCategory)
 
-                {/* Text */}
-                {msg.type === 'text' && msg.text && (
-                  <p className="text-sm leading-relaxed">{msg.text}</p>
-                )}
-
-                {/* Image */}
-                {msg.type === 'image' && msg.mediaUrl && (
-                  <div className="space-y-2">
-                    <img 
-                      src={msg.mediaUrl} 
-                      alt="分享的圖片"
-                      className="rounded-xl max-w-full max-h-64 cursor-pointer hover:opacity-90 transition-opacity"
-                      onClick={() => window.open(msg.mediaUrl, '_blank')}
-                    />
-                    {msg.text && <p className="text-sm">{msg.text}</p>}
-                  </div>
-                )}
-
-                {/* Video */}
-                {msg.type === 'video' && msg.mediaUrl && (
-                  <div className="space-y-2">
-                    <video 
-                      src={msg.mediaUrl}
-                      controls
-                      className="rounded-xl max-w-full max-h-64"
-                    />
-                    {msg.text && <p className="text-sm">{msg.text}</p>}
-                  </div>
-                )}
+  // ========== TOPICS LIST VIEW ==========
+  if (view === 'topics') {
+    return (
+      <div className="flex flex-col h-full bg-gradient-to-b from-stone-50 to-amber-50/50">
+        {/* Header */}
+        <div className="bg-white/90 backdrop-blur border-b border-stone-200 px-4 py-3">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center">
+                <MessageCircle className="w-5 h-5 text-white" />
               </div>
+              <div>
+                <h3 className="font-bold text-gray-900">💬 討論區</h3>
+                <p className="text-xs text-gray-500">{topics.length} 個話題</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setView('create_topic')}
+              className="px-4 py-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-2xl text-sm font-bold flex items-center gap-1 shadow-lg shadow-pink-200 active:scale-95 transition-all"
+            >
+              <Plus className="w-4 h-4" />
+              新話題
+            </button>
+          </div>
+          
+          {/* Category Filter */}
+          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+            {CATEGORIES.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
+                  selectedCategory === cat 
+                    ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-md' 
+                    : 'bg-stone-100 text-stone-600'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
 
-              {/* Time & Actions */}
-              <div className={`flex items-center gap-2 mt-1 px-1 ${msg.userId === anonymousId.current ? 'flex-row-reverse' : ''}`}>
-                <span className="text-xs text-gray-400">{formatTime(msg.createdAt)}</span>
+        {/* Topics List */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+          {filteredTopics.length === 0 ? (
+            <div className="text-center py-12 text-gray-400">
+              <MessageCircle className="w-12 h-12 mx-auto mb-3 opacity-50" />
+              <p>暫時冇話題</p>
+              <p className="text-sm">成為第一個創建話題嘅人！</p>
+            </div>
+          ) : (
+            filteredTopics.map(topic => (
+              <div 
+                key={topic.id}
+                onClick={() => {
+                  setSelectedTopic(topic)
+                  setView('topic_detail')
+                }}
+                className="bg-white rounded-2xl p-4 shadow-sm border border-stone-100 cursor-pointer active:scale-98 transition-all hover:shadow-md"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center text-2xl shrink-0">
+                    {topic.category === '美食' ? '🍜' : 
+                     topic.category === '旅遊' ? '✈️' : 
+                     topic.category === '娛樂' ? '🎉' : 
+                     topic.category === '運動' ? '⚽' : '💬'}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      {topic.isHot && (
+                        <span className="px-1.5 py-0.5 bg-red-100 text-red-600 text-xs rounded font-bold animate-pulse">🔥 熱門</span>
+                      )}
+                      <span className="px-1.5 py-0.5 bg-stone-100 text-stone-500 text-xs rounded">{topic.category}</span>
+                    </div>
+                    <h4 className="font-bold text-gray-900 line-clamp-2">{topic.title}</h4>
+                    <div className="flex items-center gap-3 mt-2 text-xs text-gray-400">
+                      <span className="flex items-center gap-1">
+                        <User className="w-3 h-3" />
+                        {topic.author}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        {formatTime(topic.createdAt)}
+                      </span>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-gray-300 shrink-0" />
+                </div>
+                
+                {/* Stats */}
+                <div className="flex items-center gap-4 mt-3 pt-3 border-t border-stone-100">
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); handleLikeTopic(topic.id) }}
+                    className={`flex items-center gap-1 text-sm ${likedTopics.has(topic.id) ? 'text-red-500' : 'text-gray-400'}`}
+                  >
+                    <Heart className="w-4 h-4" fill={likedTopics.has(topic.id) ? 'currentColor' : 'none'} />
+                    {topic.likes}
+                  </button>
+                  <span className="flex items-center gap-1 text-sm text-gray-400">
+                    <MessageSquare className="w-4 h-4" />
+                    {topic.comments}
+                  </span>
+                  <span className="flex items-center gap-1 text-sm text-gray-400">
+                    <Eye className="w-4 h-4" />
+                    {topic.views}
+                  </span>
+                </div>
+              </div>
+            ))
+          )}
+          <div ref={commentsEndRef} />
+        </div>
+      </div>
+    )
+  }
+
+  // ========== CREATE TOPIC VIEW ==========
+  if (view === 'create_topic') {
+    return (
+      <div className="flex flex-col h-full bg-gradient-to-b from-stone-50 to-amber-50/50">
+        {/* Header */}
+        <div className="bg-white/90 backdrop-blur border-b border-stone-200 px-4 py-3">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setView('topics')}
+              className="w-10 h-10 rounded-2xl bg-stone-100 flex items-center justify-center"
+            >
+              <ArrowLeft className="w-5 h-5 text-gray-600" />
+            </button>
+            <h3 className="font-bold text-gray-900">創建新話題</h3>
+          </div>
+        </div>
+
+        {/* Form */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">話題標題</label>
+            <input
+              type="text"
+              value={newTopicTitle}
+              onChange={(e) => setNewTopicTitle(e.target.value)}
+              placeholder="例如：灣仔有咩好食？求推介 🇭🇰"
+              className="w-full px-4 py-3 bg-white rounded-2xl border border-stone-200 text-sm outline-none focus:ring-2 focus:ring-pink-300"
+              maxLength={100}
+            />
+            <p className="text-xs text-gray-400 mt-1 text-right">{newTopicTitle.length}/100</p>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">分類</label>
+            <div className="flex flex-wrap gap-2">
+              {CATEGORIES.filter(c => c !== '全部').map(cat => (
                 <button
-                  onClick={() => toggleLike(msg.id)}
-                  className={`flex items-center gap-1 text-xs transition-colors ${
-                    likedMessages.has(msg.id) ? 'text-red-500' : 'text-gray-400 hover:text-red-500'
+                  key={cat}
+                  onClick={() => setNewTopicCategory(cat)}
+                  className={`px-4 py-2 rounded-2xl text-sm font-medium transition-all ${
+                    newTopicCategory === cat 
+                      ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-md' 
+                      : 'bg-white border border-stone-200 text-gray-600'
                   }`}
                 >
-                  <Heart className="w-4 h-4" fill={likedMessages.has(msg.id) ? 'currentColor' : 'none'} />
-                  {msg.likes > 0 && msg.likes}
+                  {cat}
                 </button>
-                {msg.userId === anonymousId.current && (
-                  <button
-                    onClick={() => deleteMessage(msg.id)}
-                    className="text-gray-400 hover:text-red-500 transition-colors"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                )}
-              </div>
+              ))}
             </div>
           </div>
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
+          
+          <div className="bg-amber-50 rounded-2xl p-4 border border-amber-100">
+            <p className="text-sm text-amber-700">
+              💡 <strong>提示：</strong>發佈虛假或垃圾訊息可能被移除。
+            </p>
+          </div>
+        </div>
 
-      {/* Media Picker */}
-      {showMediaPicker && (
-        <div className="absolute inset-x-0 bottom-20 bg-white border-t border-stone-200 p-4 flex justify-around">
+        {/* Submit Button */}
+        <div className="p-4 bg-white border-t border-stone-200">
           <button
-            onClick={() => {
-              setShowMediaPicker(false)
-              fileInputRef.current?.click()
-            }}
-            className="flex flex-col items-center gap-2 p-4 rounded-2xl hover:bg-stone-100 transition-colors"
+            onClick={handleCreateTopic}
+            disabled={!newTopicTitle.trim()}
+            className="w-full py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-2xl font-bold shadow-lg shadow-pink-200 disabled:opacity-50 disabled:cursor-not-allowed active:scale-98 transition-all"
           >
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center">
-              <Image className="w-7 h-7 text-white" />
-            </div>
-            <span className="text-xs font-medium text-gray-600">相片</span>
-          </button>
-          <button
-            onClick={() => {
-              setShowMediaPicker(false)
-              videoInputRef.current?.click()
-            }}
-            className="flex flex-col items-center gap-2 p-4 rounded-2xl hover:bg-stone-100 transition-colors"
-          >
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center">
-              <Video className="w-7 h-7 text-white" />
-            </div>
-            <span className="text-xs font-medium text-gray-600">影片</span>
-          </button>
-          <button
-            onClick={() => setShowMediaPicker(false)}
-            className="absolute top-2 right-2 w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center"
-          >
-            <X className="w-5 h-5 text-gray-500" />
+            發佈話題
           </button>
         </div>
-      )}
-
-      {/* Hidden Inputs */}
-      <input
-        type="file"
-        ref={fileInputRef}
-        accept="image/*"
-        className="hidden"
-        onChange={(e) => handleFileSelect(e, 'image')}
-      />
-      <input
-        type="file"
-        ref={videoInputRef}
-        accept="video/*"
-        className="hidden"
-        onChange={(e) => handleFileSelect(e, 'video')}
-      />
-
-      {/* Input Area */}
-      <div className="bg-white/90 backdrop-blur border-t border-stone-200 p-4">
-        <form onSubmit={handleSend} className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => setShowMediaPicker(!showMediaPicker)}
-            className="w-11 h-11 rounded-2xl bg-stone-100 hover:bg-stone-200 flex items-center justify-center transition-colors"
-          >
-            <MoreHorizontal className="w-5 h-5 text-gray-600" />
-          </button>
-
-          <input
-            type="text"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="寫下你的留言..."
-            className="flex-1 py-3 px-4 bg-stone-100 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-500"
-          />
-
-          <button
-            type="submit"
-            disabled={!newMessage.trim()}
-            className="w-11 h-11 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95"
-          >
-            <Send className="w-5 h-5 text-white" />
-          </button>
-        </form>
       </div>
+    )
+  }
+
+  // ========== TOPIC DETAIL VIEW ==========
+  if (view === 'topic_detail' && selectedTopic) {
+    const topicComments = comments[selectedTopic.id] || []
+    
+    return (
+      <div className="flex flex-col h-full bg-gradient-to-b from-stone-50 to-amber-50/50">
+        {/* Header */}
+        <div className="bg-white/90 backdrop-blur border-b border-stone-200 px-4 py-3">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setView('topics')}
+              className="w-10 h-10 rounded-2xl bg-stone-100 flex items-center justify-center"
+            >
+              <ArrowLeft className="w-5 h-5 text-gray-600" />
+            </button>
+            <div className="flex-1">
+              <h3 className="font-bold text-gray-900 text-sm line-clamp-1">{selectedTopic.title}</h3>
+              <p className="text-xs text-gray-500">{topicComments.length} 個留言</p>
+            </div>
+            <button 
+              onClick={() => handleLikeTopic(selectedTopic.id)}
+              className={`p-2 rounded-2xl ${likedTopics.has(selectedTopic.id) ? 'bg-red-100 text-red-500' : 'bg-stone-100 text-gray-400'}`}
+            >
+              <Heart className="w-5 h-5" fill={likedTopics.has(selectedTopic.id) ? 'currentColor' : 'none'} />
+            </button>
+          </div>
+        </div>
+
+        {/* Topic Content */}
+        <div className="p-4 bg-white border-b border-stone-100">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="px-2 py-0.5 bg-stone-100 text-stone-600 text-xs rounded">{selectedTopic.category}</span>
+            {selectedTopic.isHot && <span className="px-2 py-0.5 bg-red-100 text-red-600 text-xs rounded font-bold">🔥 熱門</span>}
+          </div>
+          <h2 className="font-bold text-lg text-gray-900 mb-2">{selectedTopic.title}</h2>
+          <div className="flex items-center gap-3 text-xs text-gray-400">
+            <span className="flex items-center gap-1">
+              <User className="w-3 h-3" />
+              {selectedTopic.author}
+            </span>
+            <span>·</span>
+            <span className="flex items-center gap-1">
+              <Clock className="w-3 h-3" />
+              {formatTime(selectedTopic.createdAt)}
+            </span>
+            <span>·</span>
+            <span className="flex items-center gap-1">
+              <Eye className="w-3 h-3" />
+              {selectedTopic.views} 次瀏覽
+            </span>
+          </div>
+        </div>
+
+        {/* Comments */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+          <h4 className="text-sm font-medium text-gray-500 flex items-center gap-2">
+            <MessageSquare className="w-4 h-4" />
+            {topicComments.length} 個留言
+          </h4>
+          
+          {topicComments.length === 0 ? (
+            <div className="text-center py-8 text-gray-400">
+              <MessageCircle className="w-12 h-12 mx-auto mb-3 opacity-50" />
+              <p>暫時冇留言</p>
+              <p className="text-sm">成為第一個留言嘅人！</p>
+            </div>
+          ) : (
+            topicComments.map(comment => (
+              <div key={comment.id} className="bg-white rounded-2xl p-4 shadow-sm border border-stone-100">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white font-bold shrink-0">
+                    {comment.author.charAt(0)}
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-medium text-gray-900 text-sm">{comment.author}</span>
+                      <span className="text-xs text-gray-400">{formatTime(comment.createdAt)}</span>
+                    </div>
+                    <p className="text-gray-700 text-sm leading-relaxed">{comment.text}</p>
+                    <button 
+                      onClick={() => handleLikeComment(selectedTopic.id, comment.id)}
+                      className={`flex items-center gap-1 mt-2 text-xs ${likedComments.has(`${selectedTopic.id}_${comment.id}`) ? 'text-red-500' : 'text-gray-400'}`}
+                    >
+                      <Heart className="w-4 h-4" fill={likedComments.has(`${selectedTopic.id}_${comment.id}`) ? 'currentColor' : 'none'} />
+                      {comment.likes}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+          <div ref={commentsEndRef} />
+        </div>
+
+        {/* Comment Input */}
+        <div className="p-4 bg-white border-t border-stone-200">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="寫下你的留言..."
+              className="flex-1 px-4 py-3 bg-stone-100 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-pink-300"
+              onKeyDown={(e) => e.key === 'Enter' && handleAddComment()}
+            />
+            <button
+              onClick={handleAddComment}
+              disabled={!newComment.trim()}
+              className="w-12 h-12 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-500 flex items-center justify-center text-white disabled:opacity-50 active:scale-95 transition-all"
+            >
+              <Send className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Fallback
+  return (
+    <div className="flex items-center justify-center h-full">
+      <button onClick={() => setView('topics')} className="px-4 py-2 bg-pink-500 text-white rounded-2xl">
+        返回討論區
+      </button>
     </div>
   )
 }
