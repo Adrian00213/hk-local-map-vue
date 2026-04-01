@@ -55,31 +55,44 @@ export const queryRestaurants = (query, userLat = null, userLng = null) => {
   
   // Cuisine/type search
   const cuisineKeywords = {
-    '日本': ['Japanese', 'Sushi', 'Ramen', '拉麵', '日本料理'],
-    '中': ['Chinese', 'Cantonese', '粵菜', '中菜'],
-    '西': ['Western', 'French', 'Italian', '意大利', '法國'],
-    '韓': ['Korean', '韓國', '烤肉'],
-    '泰': ['Thai', '泰國'],
-    '越': ['Vietnamese', '越南', 'Pho'],
-    '印度': ['Indian', '印度'],
-    '美': ['American', 'Burger', '漢堡'],
-    '意大利': ['Italian', 'Pizza', '意大利', 'Pizza'],
-    '法國': ['French', '法國'],
-    '海鮮': ['Seafood', '海鮮'],
-    '快餐': ['Fast food', '快餐'],
-    '茶餐廳': ['Cha chaan teng', '茶餐廳'],
-    '甜品': ['Dessert', '甜品', 'Cake'],
-    '咖啡': ['Coffee', 'Cafe', '咖啡', 'Café'],
-    '點心': ['Dim sum', '點心', 'yum cha'],
-    '燒味': ['BBQ', '燒味', 'Roast'],
-    '麵': ['Noodle', '麵', ' Mee'],
-    '粥': ['Congee', 'Porridge', '粥'],
-    '火鍋': ['Hotpot', '火鍋'],
+    '日本': ['Japanese', 'Sushi', 'Ramen', '拉麵', '日本料理', '日本菜', '日式', '壽司', '刺身', '和牛', '居酒屋'],
+    '中': ['Chinese', 'Cantonese', '粵菜', '中菜', '中餐', '中國菜'],
+    '西': ['Western', 'French', 'Italian', '意大利', '法國', '西餐', '西式', '扒房'],
+    '韓': ['Korean', '韓國', '烤肉', '韓式', '韓燒', '泡菜'],
+    '泰': ['Thai', '泰國', '泰式'],
+    '越': ['Vietnamese', '越南', 'Pho', '越式'],
+    '印度': ['Indian', '印度', '咖哩', '印式'],
+    '美': ['American', 'Burger', '漢堡', '美式'],
+    '意大利': ['Italian', 'Pizza', '意大利', 'Pizza', '意式', '意粉', '薄餅'],
+    '法國': ['French', '法國', '法式'],
+    '海鮮': ['Seafood', '海鮮', '海產', '龍蝦', '蟹'],
+    '快餐': ['Fast food', '快餐', '麥當勞', 'KFC', 'Burger King'],
+    '茶餐廳': ['Cha chaan teng', '茶餐廳', '冰室', '茶記'],
+    '甜品': ['Dessert', '甜品', 'Cake', '蛋糕', '雪糕', '豆腐花', '糖水'],
+    '咖啡': ['Coffee', 'Cafe', '咖啡', 'Café', 'Starbucks', '太平洋', 'Caffe'],
+    '點心': ['Dim sum', '點心', 'yum cha', '蝦餃', '燒賣', '叉燒包'],
+    '燒味': ['BBQ', '燒味', 'Roast', '燒鵝', '叉燒', '乳豬'],
+    '麵': ['Noodle', '麵', ' Mee', '雲吞麵', '魚蛋粉', '米粉'],
+    '粥': ['Congee', 'Porridge', '粥', '及第粥', '皮蛋瘦肉粥'],
+    '火鍋': ['Hotpot', '火鍋', '打邊爐', '麻辣燙'],
+    'cafe': ['cafe', 'Cafe', 'café', '咖啡店', '茶座'],
+    'bar': ['bar', 'Bar', '酒吧', '酒bar', 'pub'],
+    '日本菜': ['日本菜', '日式料理', '和食'],
+    '越南菜': ['Vietnamese', '越南', 'Pho', '越式', '越南菜'],
+    '韓國菜': ['Korean', '韓國', '烤肉', '韓式', '韓燒'],
+    '泰國菜': ['Thai', '泰國', '泰式'],
   }
+  
+  // Check if query is about food/restaurants
+  const foodIndicators = ['食', '食嘢', '嘢食', '餐廳', '餐', '食咩', '食邊', '邊度食', '好食', '好嘢', '搵嘢食', '餐廳', '日本菜', '中餐', '西餐', 'cafe', 'coffee', 'eat', 'food', 'restaurant']
+  const isFoodQuery = foodIndicators.some(fi => q.includes(fi))
   
   for (const [cuisine, keywords] of Object.entries(cuisineKeywords)) {
     if (keywords.some(k => q.includes(k.toLowerCase()))) {
       let results = searchRestaurants(cuisine)
+      if (results.length === 0) {
+        results = ALL_RESTAURANTS.slice(0, 20)
+      }
       if (userLat && userLng) {
         results = results.map(r => ({
           ...r,
@@ -88,6 +101,21 @@ export const queryRestaurants = (query, userLat = null, userLng = null) => {
       }
       return { type: 'cuisine', cuisine, results }
     }
+  }
+  
+  // If it's a food query but no cuisine matched, do general search
+  if (isFoodQuery) {
+    let results = searchRestaurants(query)
+    if (results.length === 0) {
+      results = ALL_RESTAURANTS.slice(0, 20)
+    }
+    if (userLat && userLng) {
+      results = results.map(r => ({
+        ...r,
+        distance: calculateDistance(userLat, userLng, r.lat, r.lng)
+      })).sort((a, b) => a.distance - b.distance)
+    }
+    return { type: 'general', results }
   }
   
   // Rating search
