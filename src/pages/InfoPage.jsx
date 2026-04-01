@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Utensils, Star, Heart, Gift, MessageCircle, Search, MapPin, Navigation, Clock, Calendar, Sparkles, ChevronRight, RefreshCw, Wifi, X, Moon, Sun, UsersRound, ExternalLink, MessageCircle as MsgIcon, HeartHandshake, Globe, TrendingUp, Newspaper, Building2, Users } from 'lucide-react'
+import { useState, useEffect, useMemo } from 'react'
+import { Utensils, Star, Heart, Gift, MessageCircle, Search, MapPin, Navigation, Clock, Calendar, Sparkles, ChevronRight, RefreshCw, Wifi, X, Moon, Sun, UsersRound, ExternalLink, MessageCircle as MsgIcon, HeartHandshake, Globe, TrendingUp, Newspaper, Building2, Users, Filter, Trash2, Bookmark } from 'lucide-react'
 
 // HK 18 Districts
 const HK_DISTRICTS = [
@@ -11,52 +11,45 @@ const HK_DISTRICTS = [
   { name: '荃灣', icon: '🌸' }, { name: '屯門', icon: '🏮' }, { name: '元朗', icon: '🌾' },
 ]
 
-// Real News Data
-const MOCK_NEWS = [
-  { id: 1, title: '天文台發出三號強風信號 熱帶風暴迫近香港', source: '香港電台', time: '10分鐘前', category: 'hot', icon: '🔴' },
-  { id: 2, title: '中環灣仔寫字樓空置率創5年新高', source: '信報', time: '30分鐘前', category: 'hot', icon: '📉' },
-  { id: 3, title: '港鐵加價後繁忙時段載客率達105%', source: '獨立媒體', time: '1小時前', category: 'latest', icon: '🚇' },
-  { id: 4, title: '政府宣布新一轮「夜缤纷」活动 刺激夜间经济', source: 'Now新聞', time: '2小時前', category: 'latest', icon: '🌃' },
-  { id: 5, title: '屯馬線宋皇臺站出口 quanta 半年未能完工', source: '香港01', time: '2小時前', category: 'district', district: '九龍城', icon: '🚧' },
-  { id: 6, title: '東區走廊更換隔音屏 來往交通受阻', source: '東方日報', time: '3小時前', category: 'district', district: '東區', icon: '🛣️' },
-  { id: 7, title: '元朗YOHO Mall二期開幕 吸區外客', source: '蘋果日報', time: '4小時前', category: 'district', district: '元朗', icon: '🏬' },
-  { id: 8, title: '沙田馬場公眾席明日開放免費入場', source: '明報', time: '5小時前', category: 'district', district: '沙田', icon: '🏇' },
+// Real News Categories - Empty but ready for real data
+const NEWS_CATEGORIES = [
+  { key: 'latest', label: '📰 最新', empty: true },
+  { key: 'district', label: '📍 區議會', empty: true },
 ]
 
-// Community Data - HK Forums & Groups
-const COMMUNITY_FORUMS = [
+// Community Platforms - Real HK forums
+const COMMUNITY_PLATFORMS = [
   { id: 1, name: '香港討論區', desc: '全港最大討論區', icon: '💬', color: 'from-blue-400 to-indigo-500', members: '50萬+', link: 'https://www.discuss.com.hk' },
   { id: 2, name: 'Uwants', desc: '本地生活討論', icon: '💭', color: 'from-purple-400 to-pink-500', members: '30萬+', link: 'https://www.uwants.com' },
   { id: 3, name: 'Baby-Kingdom', desc: '親子育兒熱點', icon: '👶', color: 'from-pink-400 to-rose-500', members: '20萬+', link: 'https://www.baby-kingdom.com' },
-  { id: 4, name: 'MySmoothHeap', desc: '升學移民資訊', icon: '✈️', color: 'from-teal-400 to-cyan-500', members: '15萬+', link: 'https://www.mysmoothheap.com' },
+  { id: 4, name: '我的世紀', desc: '升學移民資訊', icon: '✈️', color: 'from-teal-400 to-cyan-500', members: '15萬+', link: 'https://www.mysmoothheap.com' },
 ]
 
-// District Facebook Groups (Real Groups)
-const DISTRICT_FB_GROUPS = [
+// District Groups
+const DISTRICT_GROUPS = [
   { district: '中西區', name: '中西區街坊會', members: '2.3萬' },
   { district: '灣仔', name: '灣仔社區事務', members: '1.8萬' },
   { district: '東區', name: '東區人', members: '3.2萬' },
-  { district: '南區', name: '南區街坊', members: '1.5萬' },
-  { district: '油尖旺', name: '油尖旺街坊', members: '2.8萬' },
-  { district: '九龍城', name: '九龍城街坊會', members: '2.1萬' },
   { district: '觀塘', name: '觀塘友', members: '4.5萬' },
+  { district: '油尖旺', name: '油尖旺街坊', members: '2.8萬' },
   { district: '沙田', name: '沙田社區', members: '3.8萬' },
   { district: '屯門', name: '屯門街坊', members: '3.2萬' },
   { district: '元朗', name: '元朗人', members: '4.1萬' },
 ]
 
-// Mock Deals
-const MOCK_DEALS = [
-  { id: 1, brand: '麥當勞', title: '巨無霸套餐半價優惠', desc: '任何時間適用', discount: '50%', badge: '熱賣', color: 'from-yellow-400 to-orange-500' },
-  { id: 2, brand: '星巴克', title: '買一送一', desc: '指定飲品', discount: '50%', badge: '限時', color: 'from-green-400 to-emerald-500' },
-  { id: 3, brand: '肯德基', title: '炸雞桶減價', desc: '只限外賣', discount: '30%', badge: '抵食', color: 'from-red-400 to-rose-500' },
-]
-
 // Restaurant Card
-const RestaurantCard = ({ restaurant, onLike }) => {
+const RestaurantCard = ({ restaurant, isLiked, onLike, onUnlike }) => {
   const getCuisineEmoji = (type) => {
     const map = { restaurant: '🍜', cafe: '☕', bar: '🍸', bakery: '🥐', fast_food: '🍔', food: '🍽️' }
     return map[type] || '🍽️'
+  }
+  
+  const handleHeart = () => {
+    if (isLiked) {
+      onUnlike(restaurant.name)
+    } else {
+      onLike(restaurant.name)
+    }
   }
   
   return (
@@ -70,41 +63,31 @@ const RestaurantCard = ({ restaurant, onLike }) => {
           <div className="flex items-center gap-2 mt-1">
             <span className="text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-600 dark:text-gray-400">{restaurant.type}</span>
             {restaurant.rating && <span className="text-xs text-amber-500">⭐ {restaurant.rating}</span>}
+            {restaurant.distance && <span className="text-xs text-blue-500">📍 {restaurant.distance}km</span>}
           </div>
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 truncate">{restaurant.address}</p>
         </div>
-        <button onClick={() => onLike(restaurant.name)} className="p-2 text-gray-400 hover:text-red-500">
-          <Heart className="w-5 h-5" />
+        <button 
+          onClick={handleHeart}
+          className={`p-2 rounded-full transition-all ${isLiked ? 'text-red-500 bg-red-50 dark:bg-red-900/30' : 'text-gray-300 hover:text-red-400'}`}
+        >
+          <Heart className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} />
         </button>
       </div>
     </div>
   )
 }
 
-// News Card
-const NewsCard = ({ news }) => (
-  <a href="#" className="block bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800 hover:shadow-md transition-all">
-    <div className="flex items-start gap-3">
-      <div className="text-2xl">{news.icon}</div>
-      <div className="flex-1 min-w-0">
-        <h4 className="font-medium text-gray-900 dark:text-white text-sm leading-snug">{news.title}</h4>
-        <div className="flex items-center gap-2 mt-2 text-xs text-gray-500">
-          <span>{news.source}</span>
-          <span>•</span>
-          <span>{news.time}</span>
-          {news.district && (
-            <>
-              <span>•</span>
-              <span className="text-orange-500">{news.district}</span>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
-  </a>
+// Empty State Component
+const EmptyState = ({ icon, title, subtitle }) => (
+  <div className="text-center py-16">
+    <div className="text-5xl mb-4">{icon}</div>
+    <h3 className="font-bold text-gray-900 dark:text-white text-lg">{title}</h3>
+    <p className="text-gray-500 mt-2">{subtitle}</p>
+  </div>
 )
 
-// Community Forum Card
+// Forum Card
 const ForumCard = ({ forum }) => (
   <a href={forum.link} target="_blank" rel="noopener noreferrer" className="block bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800 hover:shadow-md transition-all">
     <div className="flex items-center gap-3">
@@ -142,12 +125,29 @@ const DistrictGroupCard = ({ group }) => (
 
 export default function InfoPage({ showToast }) {
   const [activeTab, setActiveTab] = useState('food')
-  const [newsTab, setNewsTab] = useState('latest')
   const [communityTab, setCommunityTab] = useState('forums')
   const [restaurants, setRestaurants] = useState([])
   const [loading, setLoading] = useState(true)
   const [displayCount, setDisplayCount] = useState(50)
+  
+  // Search state
+  const [searchQuery, setSearchQuery] = useState('')
+  const [showSearch, setShowSearch] = useState(false)
+  
+  // Favorites state (persisted to localStorage)
+  const [favorites, setFavorites] = useState(() => {
+    try {
+      const saved = localStorage.getItem('hkmap_favorites')
+      return saved ? JSON.parse(saved) : []
+    } catch {
+      return []
+    }
+  })
+  
+  // Districts filter
+  const [selectedDistrict, setSelectedDistrict] = useState('')
 
+  // Load restaurants
   useEffect(() => {
     const loadData = async () => {
       setLoading(true)
@@ -156,7 +156,6 @@ export default function InfoPage({ showToast }) {
         await initRestaurants()
         const all = await getAllRestaurants()
         
-        // Sort by distance from center of HK
         const centerLat = 22.3193
         const centerLng = 114.1694
         const sorted = all
@@ -173,16 +172,72 @@ export default function InfoPage({ showToast }) {
     loadData()
   }, [])
 
+  // Persist favorites to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('hkmap_favorites', JSON.stringify(favorites))
+    } catch (e) {
+      console.error('Failed to save favorites:', e)
+    }
+  }, [favorites])
+
   const handleLike = (name) => {
-    showToast?.({ message: `❤️ 已收藏 ${name}`, type: 'success' })
+    setFavorites(prev => [...prev, { name, timestamp: Date.now() }])
+    showToast?.({ message: `❤️ 已收藏：${name}`, type: 'success' })
   }
 
-  // Filter news by tab
-  const filteredNews = newsTab === 'hot' 
-    ? MOCK_NEWS.filter(n => n.category === 'hot')
-    : newsTab === 'district'
-    ? MOCK_NEWS.filter(n => n.category === 'district')
-    : MOCK_NEWS.filter(n => n.category === 'latest' || n.category === 'hot')
+  const handleUnlike = (name) => {
+    setFavorites(prev => prev.filter(f => f.name !== name))
+    showToast?.({ message: `💔 已取消收藏`, type: 'success' })
+  }
+
+  const handleClearFavorites = () => {
+    setFavorites([])
+    showToast?.({ message: `🗑️ 已清空收藏`, type: 'success' })
+  }
+
+  // Filter restaurants based on search and district
+  const filteredRestaurants = useMemo(() => {
+    let result = restaurants
+    
+    // Filter by search
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase()
+      result = result.filter(r => 
+        r.name.toLowerCase().includes(query) ||
+        (r.address && r.address.toLowerCase().includes(query)) ||
+        (r.type && r.type.toLowerCase().includes(query))
+      )
+    }
+    
+    // Filter by district
+    if (selectedDistrict) {
+      result = result.filter(r => r.district === selectedDistrict)
+    }
+    
+    return result.slice(0, displayCount)
+  }, [restaurants, searchQuery, selectedDistrict, displayCount])
+
+  const totalFiltered = useMemo(() => {
+    let result = restaurants
+    
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase()
+      result = result.filter(r => 
+        r.name.toLowerCase().includes(query) ||
+        (r.address && r.address.toLowerCase().includes(query))
+      )
+    }
+    
+    if (selectedDistrict) {
+      result = result.filter(r => r.district === selectedDistrict)
+    }
+    
+    return result.length
+  }, [restaurants, searchQuery, selectedDistrict])
+
+  // Check if restaurant is liked
+  const isLiked = (name) => favorites.some(f => f.name === name)
 
   return (
     <div className="h-full bg-gradient-to-b from-orange-50/50 to-amber-50/50 dark:from-gray-950 dark:to-gray-900">
@@ -195,12 +250,11 @@ export default function InfoPage({ showToast }) {
           <h1 className="text-xl font-bold text-gray-900 dark:text-white">🍜 資訊</h1>
         </div>
         
-        {/* Main Tabs */}
+        {/* Tabs */}
         <div className="flex gap-2 overflow-x-auto">
           {[
             { key: 'food', label: '🍽️ 餐飲' },
-            { key: 'deals', label: '🎁 優惠' },
-            { key: 'events', label: '📅 活動' },
+            { key: 'favorites', label: `❤️ 收藏 (${favorites.length})` },
             { key: 'news', label: '📰 新聞' },
             { key: 'community', label: '👥 社區' },
           ].map(tab => (
@@ -224,91 +278,134 @@ export default function InfoPage({ showToast }) {
         {/* 🍽️ Food Tab */}
         {activeTab === 'food' && (
           <div className="space-y-3">
+            {/* Search Bar */}
+            <div className="sticky top-24 z-10 bg-gradient-to-b from-orange-50/80 to-amber-50/80 dark:from-gray-900 dark:to-gray-900 pb-2">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="搜尋餐廳..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+                {searchQuery && (
+                  <button 
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+              
+              {/* District Quick Filter */}
+              <div className="flex gap-2 mt-2 overflow-x-auto pb-1">
+                <button
+                  onClick={() => setSelectedDistrict('')}
+                  className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap shrink-0 ${!selectedDistrict ? 'bg-orange-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-600 border'}`}
+                >
+                  🏙️ 全部
+                </button>
+                {HK_DISTRICTS.slice(0, 6).map(d => (
+                  <button
+                    key={d.name}
+                    onClick={() => setSelectedDistrict(d.name)}
+                    className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap shrink-0 ${selectedDistrict === d.name ? 'bg-orange-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-600 border'}`}
+                  >
+                    {d.icon} {d.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+            
+            {/* Results count */}
+            {searchQuery && (
+              <p className="text-sm text-gray-500">
+                搵到 {totalFiltered} 間「{searchQuery}」
+              </p>
+            )}
+            
+            {/* Restaurant List */}
             {loading ? (
               <div className="text-center py-12 text-gray-500">載入中...</div>
-            ) : (
+            ) : filteredRestaurants.length > 0 ? (
               <>
-                {restaurants.slice(0, displayCount).map((r, i) => (
-                  <RestaurantCard key={r.name + i} restaurant={r} onLike={handleLike} />
+                {filteredRestaurants.map((r, i) => (
+                  <RestaurantCard 
+                    key={r.name + i} 
+                    restaurant={r} 
+                    isLiked={isLiked(r.name)}
+                    onLike={handleLike}
+                    onUnlike={handleUnlike}
+                  />
                 ))}
-                {restaurants.length > displayCount && (
+                {totalFiltered > displayCount && (
                   <button 
-                    onClick={() => setDisplayCount(prev => Math.min(prev + 50, restaurants.length))}
+                    onClick={() => setDisplayCount(prev => Math.min(prev + 50, totalFiltered))}
                     className="w-full py-3 bg-orange-500 text-white rounded-2xl text-sm font-medium"
                   >
-                    載入更多 ({displayCount}/{restaurants.length})
+                    載入更多 ({displayCount}/{totalFiltered})
                   </button>
                 )}
               </>
+            ) : (
+              <EmptyState 
+                icon="🔍" 
+                title="搵唔到" 
+                subtitle={searchQuery ? `冇嘢叫「${searchQuery}」` : '呢個區冇餐廳'} 
+              />
             )}
           </div>
         )}
 
-        {/* 🎁 Deals Tab */}
-        {activeTab === 'deals' && (
-          <div className="space-y-4">
-            <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-4 border border-amber-100 dark:border-gray-600">
-              <h2 className="font-bold text-gray-900 dark:text-white">🎁 香港優惠</h2>
-              <p className="text-sm text-gray-500">{MOCK_DEALS.length} 個精選優惠</p>
-            </div>
-            {MOCK_DEALS.map(deal => (
-              <div key={deal.id} className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
-                <div className="flex items-center gap-3">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${deal.color} flex flex-col items-center justify-center`}>
-                    <span className="text-white font-bold">{deal.discount}</span>
-                    <span className="text-white/80 text-xs">OFF</span>
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-500">{deal.brand}</p>
-                    <h3 className="font-bold text-gray-900 dark:text-white">{deal.title}</h3>
-                    <p className="text-xs text-gray-500">{deal.desc}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* 📅 Events Tab */}
-        {activeTab === 'events' && (
-          <div className="text-center py-12">
-            <div className="text-5xl mb-4">🎭</div>
-            <p className="text-gray-500">精彩活動即將推出</p>
-            <p className="text-xs text-gray-400 mt-2">敬請期待本地活動資訊</p>
-          </div>
-        )}
-
-        {/* 📰 News Tab */}
-        {activeTab === 'news' && (
-          <div className="space-y-4">
-            {/* News Tabs */}
-            <div className="flex gap-2 overflow-x-auto">
-              {[
-                { key: 'latest', label: '🔥 最新' },
-                { key: 'hot', label: '📈 熱話' },
-                { key: 'district', label: '📍 區議會' },
-              ].map(tab => (
-                <button
-                  key={tab.key}
-                  onClick={() => setNewsTab(tab.key)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
-                    newsTab === tab.key 
-                      ? 'bg-blue-500 text-white' 
-                      : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border'
-                  }`}
+        {/* ❤️ Favorites Tab */}
+        {activeTab === 'favorites' && (
+          <div className="space-y-3">
+            {favorites.length > 0 && (
+              <div className="flex justify-between items-center">
+                <p className="text-sm text-gray-500">{favorites.length} 間收藏</p>
+                <button 
+                  onClick={handleClearFavorites}
+                  className="text-xs text-red-500 flex items-center gap-1"
                 >
-                  {tab.label}
+                  <Trash2 className="w-3 h-3" />
+                  清空
                 </button>
-              ))}
-            </div>
+              </div>
+            )}
             
-            {/* News List */}
-            <div className="space-y-3">
-              {filteredNews.map(news => (
-                <NewsCard key={news.id} news={news} />
-              ))}
-            </div>
+            {favorites.length > 0 ? (
+              favorites.map((fav, i) => {
+                const restaurant = restaurants.find(r => r.name === fav.name)
+                if (!restaurant) return null
+                return (
+                  <RestaurantCard 
+                    key={fav.name + i}
+                    restaurant={restaurant}
+                    isLiked={true}
+                    onLike={handleLike}
+                    onUnlike={handleUnlike}
+                  />
+                )
+              })
+            ) : (
+              <EmptyState 
+                icon="❤️" 
+                title="未有收藏" 
+                subtitle="撳心心收藏餐廳" 
+              />
+            )}
           </div>
+        )}
+
+        {/* 📰 News Tab - Empty but structured */}
+        {activeTab === 'news' && (
+          <EmptyState 
+            icon="📰" 
+            title="新聞功能準備中" 
+            subtitle="我哋整合緊真實新聞來源，敬請期待！" 
+          />
         )}
 
         {/* 👥 Community Tab */}
@@ -337,7 +434,7 @@ export default function InfoPage({ showToast }) {
             {/* Forums */}
             {communityTab === 'forums' && (
               <div className="space-y-3">
-                {COMMUNITY_FORUMS.map(forum => (
+                {COMMUNITY_PLATFORMS.map(forum => (
                   <ForumCard key={forum.id} forum={forum} />
                 ))}
               </div>
@@ -354,7 +451,7 @@ export default function InfoPage({ showToast }) {
                   <p className="text-xs text-gray-500 mt-1">各區街坊會 Facebook 群組</p>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
-                  {DISTRICT_FB_GROUPS.map(group => (
+                  {DISTRICT_GROUPS.map(group => (
                     <DistrictGroupCard key={group.district} group={group} />
                   ))}
                 </div>
