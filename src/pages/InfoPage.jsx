@@ -341,7 +341,7 @@ export default function InfoPage({ showToast }) {
               activeTab === tab ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg shadow-orange-200' : 'bg-white text-gray-600 border border-gray-200'
             }`}>
               {tab === 'nearby' && '📍 附近'}
-              {tab === 'top' && '⭐ 人氣'}
+              {tab === 'top' && '🎁 優惠'}
               {tab === 'events' && '📅 活動'}
               {tab === 'news' && '📰 新聞'}
               {tab === 'community' && '👥 社區'}
