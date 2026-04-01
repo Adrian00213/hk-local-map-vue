@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Utensils, Star, ThumbsUp, MapPin, Navigation, Clock, Search, Filter, X, Calendar, AlertCircle, Users, MessageCircle, Sparkles, ChevronRight, Heart, Share2, RefreshCw, Wifi, Newspaper, UsersRound, TrendingUp, Clock3, ExternalLink, Send, Image, MapPinned, Heart as HeartIcon, ThumbsUp as ThumbsUpIcon } from 'lucide-react'
+import { Utensils, Star, ThumbsUp, MapPin, Navigation, Clock, Search, Filter, X, Calendar, AlertCircle, Users, MessageCircle, Sparkles, ChevronRight, Heart, Share2, RefreshCw, Wifi, Newspaper, UsersRound, TrendingUp, Clock3, ExternalLink, Send, Image, MapPinned, Heart as HeartIcon, ThumbsUp as ThumbsUpIcon, Gift } from 'lucide-react'
 import { getNearbyRestaurants, getTopRatedRestaurants, getRestaurantsByCuisine, getCuisineTypes, formatPrice, getPopularityScore } from '../services/restaurantApi'
 import { getAllEvents, formatEventDate } from '../services/eventsApi'
 import LiveChat from '../components/LiveChat'
@@ -24,6 +24,22 @@ const HK_DISTRICTS = [
   { name: '荃灣', nameEn: 'Tsuen Wan', icon: '🌸' },
   { name: '屯門', nameEn: 'Tuen Mun', icon: '🏮' },
   { name: '元朗', nameEn: 'Yuen Long', icon: '🌾' },
+]
+
+// Mock Deals Data
+const MOCK_DEALS = [
+  { id: 1, brand: '麥當勞', title: '巨無霸套餐半價優惠', desc: '任何時間適用', discount: '50%', original: 'HK$45', badge: '熱賣', color: 'from-yellow-400 to-orange-500' },
+  { id: 2, brand: '星巴克', title: '買一送一', desc: '指定飲品', discount: '50%', original: 'HK$38', badge: '限時', color: 'from-green-400 to-emerald-500' },
+  { id: 3, brand: '肯德基', title: '炸雞桶減價', desc: '只限外賣', discount: '30%', original: 'HK$98', badge: '抵食', color: 'from-red-400 to-rose-500' },
+  { id: 4, brand: '譚仔三哥', title: '米線買一送一', desc: '午市適用', discount: '50%', original: 'HK$55', badge: '必搶', color: 'from-orange-400 to-amber-500' },
+  { id: 5, brand: '759零食', title: '全線85折', desc: '零食、飲品', discount: '15%', original: '', badge: '零食', color: 'from-pink-400 to-rose-500' },
+  { id: 6, brand: '屈臣氏', title: '護膚品7折', desc: '指定品牌', discount: '30%', original: 'HK$280', badge: '美容', color: 'from-purple-400 to-violet-500' },
+  { id: 7, brand: 'Nike', title: 'Air Max優惠', desc: '限量發售', discount: '40%', original: 'HK$1299', badge: '運動', color: 'from-blue-400 to-indigo-500' },
+  { id: 8, brand: 'HM', title: '童裝減價', desc: '春夏新款', discount: '60%', original: 'HK$199', badge: '童裝', color: 'from-teal-400 to-cyan-500' },
+  { id: 9, brand: 'Donki', title: '日式零食特賣', desc: '人氣零食', discount: '20%', original: '', badge: '日本', color: 'from-rose-400 to-pink-500' },
+  { id: 10, brand: '影院', title: '星期二電影票', desc: '全線適用', discount: '半價', original: 'HK$90', badge: '娛樂', color: 'from-indigo-400 to-blue-500' },
+  { id: 11, brand: 'Pizza Hut', title: 'pizza套餐優惠', desc: '家庭套餐', discount: '35%', original: 'HK$288', badge: '美食', color: 'from-amber-400 to-yellow-500' },
+  { id: 12, brand: '大家樂', title: '早餐套餐', desc: '早上11時前', discount: '25%', original: 'HK$35', badge: '早餐', color: 'from-lime-400 to-green-500' },
 ]
 
 // Mock News Data
@@ -207,6 +223,40 @@ const EventCard = ({ event, index }) => (
   </div>
 )
 
+// Deal Card Component
+const DealCard = ({ deal }) => (
+  <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-md transition-all cursor-pointer active:scale-98">
+    <div className={`h-2 bg-gradient-to-r ${deal.color}`} />
+    <div className="p-4">
+      <div className="flex items-start gap-3">
+        <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${deal.color} flex flex-col items-center justify-center shrink-0`}>
+          <span className="text-white font-bold text-lg">{deal.discount}</span>
+          <span className="text-white/80 text-xs">OFF</span>
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-xs font-medium text-gray-500">{deal.brand}</span>
+            <span className={`px-2 py-0.5 rounded-full text-xs font-medium text-white bg-gradient-to-r ${deal.color}`}>{deal.badge}</span>
+          </div>
+          <h3 className="font-bold text-gray-900 text-sm">{deal.title}</h3>
+          <p className="text-xs text-gray-500 mt-1">{deal.desc}</p>
+          {deal.original && (
+            <p className="text-xs text-gray-400 mt-1"><span className="line-through">{deal.original}</span> → <span className="text-green-600 font-medium">優惠價</span></p>
+          )}
+        </div>
+      </div>
+      <div className="flex gap-2 mt-3">
+        <button className="flex-1 py-2 bg-gradient-to-r from-amber-50 to-orange-50 text-amber-600 rounded-xl text-xs font-medium flex items-center justify-center gap-1">
+          <Heart className="w-4 h-4" /> 收藏
+        </button>
+        <button className="flex-1 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-600 rounded-xl text-xs font-medium flex items-center justify-center gap-1">
+          <Share2 className="w-4 h-4" /> 分享
+        </button>
+      </div>
+    </div>
+  </div>
+)
+
 // News Card Component
 const NewsCard = ({ news }) => (
   <div className="bg-white rounded-2xl p-4 border border-gray-100 hover:shadow-md transition-all cursor-pointer active:scale-98">
@@ -271,6 +321,7 @@ const CommunityPost = ({ post }) => (
 
 export default function InfoPage({ showToast }) {
   const [activeTab, setActiveTab] = useState('nearby')
+  const [dealCategory, setDealCategory] = useState('全部')
   const [newsTab, setNewsTab] = useState('latest')
   const [communityDistrict, setCommunityDistrict] = useState('全部')
   const [events, setEvents] = useState([])
@@ -365,15 +416,32 @@ export default function InfoPage({ showToast }) {
 
         {activeTab === 'top' && (
           <div className="space-y-4">
+            {/* Deals Header */}
+            <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-4 border border-amber-100">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+                  <Gift className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="font-bold text-gray-900">🎁 香港優惠</h2>
+                  <p className="text-xs text-gray-500">{MOCK_DEALS.length} 個精選優惠</p>
+                </div>
+              </div>
+            </div>
+            
+            {/* Category Filter */}
             <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-              <button onClick={() => setCuisineFilter('')} className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${!cuisineFilter ? 'bg-amber-500 text-white' : 'bg-white text-gray-600 border'}`}>全部</button>
-              {cuisineTypes.map(c => (
-                <button key={c} onClick={() => setCuisineFilter(cuisineFilter === c ? '' : c)} className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${cuisineFilter === c ? 'bg-amber-500 text-white' : 'bg-white text-gray-600 border'}`}>
-                  {getCuisineEmoji(c)} {c}
+              {['全部', '美食', '購物', '美容', '運動', '娛樂', '生活'].map(cat => (
+                <button key={cat} onClick={() => setDealCategory(cat)} className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${dealCategory === cat ? 'bg-amber-500 text-white' : 'bg-white text-gray-600 border'}`}>
+                  {cat}
                 </button>
               ))}
             </div>
-            <div className="space-y-3">{displayedRestaurants.filter(r => !searchQuery || r.name.includes(searchQuery)).slice(0, 30).map((r, i) => <RestaurantCard key={r.name} restaurant={r} index={i} onLike={() => handleLike(r.name)} />)}</div>
+            
+            {/* Deals Grid */}
+            <div className="grid grid-cols-1 gap-3">
+              {MOCK_DEALS.map(deal => <DealCard key={deal.id} deal={deal} />)}
+            </div>
           </div>
         )}
 
