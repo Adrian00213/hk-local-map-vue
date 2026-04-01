@@ -360,15 +360,18 @@ export default function InfoPage({ showToast }) {
       await initRestaurants()
       console.log('[InfoPage] initRestaurants completed')
       
-      const [nearby, top, cuisines] = await Promise.all([
-        getNearbyRestaurants(22.3193, 114.1694, 5),
-        getTopRatedRestaurants(50),
+      // Get ALL restaurants (no distance filter) and top rated
+      const { getAllRestaurants, getTopRatedRestaurants, getCuisineTypes } = await import('../services/restaurantApi')
+      const [all, top, cuisines] = await Promise.all([
+        getAllRestaurants(),
+        getTopRatedRestaurants(100),
         getCuisineTypes()
       ])
-      console.log('[InfoPage] getNearbyRestaurants returned:', nearby.length, 'restaurants')
+      
+      console.log('[InfoPage] getAllRestaurants returned:', all.length, 'restaurants')
       console.log('[InfoPage] getTopRatedRestaurants returned:', top.length, 'restaurants')
       
-      setNearbyRestaurants(nearby.slice(0, 20))
+      setNearbyRestaurants(all.slice(0, 100))  // Show up to 100
       setTopRestaurants(top)
       setCuisineTypes(cuisines.slice(0, 15))
       if (navigator.geolocation) {
