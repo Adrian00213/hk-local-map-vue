@@ -165,7 +165,25 @@ export default function ProfileView() {
     vibration: true,
     promotions: false,
   })
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useState(() => {
+    // Load from localStorage or system preference
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('hk_dark_mode')
+      if (saved !== null) return saved === 'true'
+      return window.matchMedia('(prefers-color-scheme: dark)').matches
+    }
+    return false
+  })
+
+  // Apply dark mode to document
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+    localStorage.setItem('hk_dark_mode', String(darkMode))
+  }, [darkMode])
 
   useEffect(() => {
     const saved = localStorage.getItem('hk_saved_deals')

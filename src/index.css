@@ -264,3 +264,113 @@ button:focus-visible, a:focus-visible {
 /* Safe area padding */
 .pb-safe { padding-bottom: env(safe-area-inset-bottom, 8px); }
 .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+
+/* ==================== DARK MODE ==================== */
+.dark {
+  color-scheme: dark;
+}
+
+.dark body {
+  background: #1C1C1E;
+  color: #FFFFFF;
+}
+
+/* Dark mode backgrounds */
+.dark .bg-white {
+  background-color: #2C2C2E !important;
+}
+
+.dark .bg-gray-50 {
+  background-color: #1C1C1E !important;
+}
+
+.dark .bg-gray-100 {
+  background-color: #3A3A3C !important;
+}
+
+.dark .bg-gray-200 {
+  background-color: #48484A !important;
+}
+
+/* Dark mode text */
+.dark .text-gray-900 {
+  color: #FFFFFF !important;
+}
+
+.dark .text-gray-800 {
+  color: #F5F5F7 !important;
+}
+
+.dark .text-gray-700 {
+  color: #E5E5EA !important;
+}
+
+.dark .text-gray-600 {
+  color: #D1D1D6 !important;
+}
+
+.dark .text-gray-500 {
+  color: #AEAEB2 !important;
+}
+
+.dark .text-gray-400 {
+  color: #8E8E93 !important;
+}
+
+.dark .text-gray-300 {
+  color: #636366 !important;
+}
+
+/* Dark mode borders */
+.dark .border-gray-200 {
+  border-color: #48484A !important;
+}
+
+.dark .border-gray-100 {
+  border-color: #3A3A3C !important;
+}
+
+/* Dark mode dividers */
+.dark hr, 
+.dark .divide-gray-200 > * {
+  border-color: #3A3A3C !important;
+}
+
+/* Dark mode cards/sections */
+.dark .bg-gray-50\/70,
+.dark .bg-gray-100\/50,
+.dark .bg-blue-50\/70,
+.dark .bg-blue-50 {
+  background-color: #2C2C2E !important;
+}
+
+/* Dark mode input backgrounds */
+.dark input,
+.dark textarea {
+  background-color: #3A3A3C !important;
+  color: #FFFFFF !important;
+  border-color: #48484A !important;
+}
+
+/* Dark mode modal/overlay */
+.dark .fixed.inset-0.bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Dark mode rounded sections */
+.dark .rounded-t-3xl {
+  background-color: #2C2C2E !important;
+}
+
+/* Dark mode list items hover */
+.dark .hover\:bg-gray-50\/70:hover {
+  background-color: #3A3A3C !important;
+}
+
+.dark .hover\:bg-gray-100\/50:hover {
+  background-color: #48484A !important;
+}
+
+.dark .active\:bg-gray-100\/50:active {
+  background-color: #48484A !important;
+}
