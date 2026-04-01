@@ -1,189 +1,157 @@
 import { useState, useEffect, useRef } from 'react'
-import { Send, Mic, Image, Video, X, Play, Pause, Download, Heart, MoreHorizontal, MessageCircle } from 'lucide-react'
-import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, updateDoc, increment } from 'firebase/firestore'
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-import { db, storage } from '../services/firebase'
-import { useAuth } from '../context/AuthContext'
+import { Send, Mic, Image, Video, X, Play, Heart, MoreHorizontal, MessageCircle, Trash2 } from 'lucide-react'
 
-// Generate anonymous user ID
-const getAnonymousId = () => {
-  let id = localStorage.getItem('hk_anonymous_id')
-  if (!id) {
-    id = 'user_' + Math.random().toString(36).substr(2, 9)
-    localStorage.setItem('hk_anonymous_id', id)
+// Demo messages for showcase
+const DEMO_MESSAGES = [
+  {
+    id: 'demo_1',
+    text: '👋 大家好！灣仔有間新開嘅咖啡店，環境好舒服',
+    type: 'text',
+    userName: '灣仔咖啡控',
+    userId: 'demo_user_1',
+    isAnonymous: true,
+    createdAt: { toDate: () => new Date(Date.now() - 300000) },
+    likes: 12
+  },
+  {
+    id: 'demo_2',
+    text: '🗺️ 旺角邊度有嘢食？求推介',
+    type: 'text',
+    userName: '九龍遊客',
+    userId: 'demo_user_2',
+    isAnonymous: true,
+    createdAt: { toDate: () => new Date(Date.now() - 180000) },
+    likes: 3
+  },
+  {
+    id: 'demo_3',
+    text: '🍜 義順牛奶公司幾好食！可以去試下',
+    type: 'text',
+    userName: '旺角街坊',
+    userId: 'demo_user_3',
+    isAnonymous: true,
+    createdAt: { toDate: () => new Date(Date.now() - 60000) },
+    likes: 8
   }
-  return id
-}
+]
 
 const ANONYMOUS_NAMES = [
   '香港遊客', '灣仔居民', '旺角街坊', '中環OL', '九龍塘學生',
-  '銅鑼灣購物者', '深水埗街坊', '紅磡港漂', '太子網紅', '油麻地小店'
+  '銅鑼灣購物者', '深水埗街坊', '紅磡港漂', '太子網紅', '油麻地小店',
+  '堅尼地茶記迷', '北角老街坊', '筲箕灣海鮮佬', '西環讀書人'
 ]
 
 export default function LiveChat({ channel = 'general' }) {
-  const { user } = useAuth()
   const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState('')
   const [isRecording, setIsRecording] = useState(false)
   const [showMediaPicker, setShowMediaPicker] = useState(false)
-  const [uploading, setUploading] = useState(false)
   const [likedMessages, setLikedMessages] = useState(new Set())
+  const [isDemoMode, setIsDemoMode] = useState(true)
+  const [localImage, setLocalImage] = useState(null)
   const messagesEndRef = useRef(null)
   const fileInputRef = useRef(null)
   const videoInputRef = useRef(null)
-  const mediaRecorderRef = useRef(null)
-  const audioChunksRef = useRef([])
-  const anonymousId = useRef(getAnonymousId())
+  const anonymousId = useRef('demo_' + Math.random().toString(36).substr(2, 9))
   const anonymousName = useRef(ANONYMOUS_NAMES[Math.floor(Math.random() * ANONYMOUS_NAMES.length)])
 
   // Load liked messages from localStorage
   useEffect(() => {
     const liked = JSON.parse(localStorage.getItem('hk_liked_messages') || '[]')
     setLikedMessages(new Set(liked))
-  }, [])
-
-  // Listen to real-time messages
-  useEffect(() => {
-    const messagesRef = collection(db, 'chats', channel, 'messages')
-    const q = query(messagesRef, orderBy('createdAt', 'desc'), limit(50))
     
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const msgs = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }))
-      setMessages(msgs.reverse())
-    })
-
-    return () => unsubscribe()
-  }, [channel])
+    // Load saved messages from localStorage
+    const saved = JSON.parse(localStorage.getItem('hk_demo_messages') || '[]')
+    if (saved.length > 0) {
+      setMessages(saved)
+    } else {
+      setMessages(DEMO_MESSAGES)
+    }
+  }, [])
 
   // Scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  const sendMessage = async (text, type = 'text', mediaUrl = null) => {
+  const saveMessages = (msgs) => {
+    localStorage.setItem('hk_demo_messages', JSON.stringify(msgs))
+  }
+
+  const sendMessage = (text, type = 'text', mediaUrl = null) => {
     if (!text.trim() && !mediaUrl) return
 
     const message = {
+      id: 'msg_' + Date.now(),
       text: text.trim(),
       type,
       mediaUrl,
-      userId: user?.uid || anonymousId.current,
-      userName: user?.displayName || anonymousName.current,
-      userPhoto: user?.photoURL || null,
-      isAnonymous: !user,
-      createdAt: serverTimestamp(),
+      userId: anonymousId.current,
+      userName: anonymousName.current,
+      userPhoto: null,
+      isAnonymous: true,
+      createdAt: { toDate: () => new Date() },
       likes: 0
     }
 
-    try {
-      await addDoc(collection(db, 'chats', channel, 'messages'), message)
-    } catch (error) {
-      console.error('Error sending message:', error)
-    }
+    const newMessages = [...messages, message]
+    setMessages(newMessages)
+    saveMessages(newMessages)
   }
 
   const handleSend = (e) => {
-    e.preventDefault()
+    e?.preventDefault()
     if (newMessage.trim()) {
       sendMessage(newMessage)
       setNewMessage('')
     }
   }
 
-  const uploadMedia = async (file, type) => {
-    setUploading(true)
-    try {
-      const filename = `${Date.now()}_${file.name}`
-      const storageRef = ref(storage, `chats/${channel}/${filename}`)
-      await uploadBytes(storageRef, file)
-      const url = await getDownloadURL(storageRef)
-      
-      const mediaType = file.type.startsWith('video') ? 'video' : 'image'
-      sendMessage('', mediaType, url)
-    } catch (error) {
-      console.error('Upload error:', error)
-    }
-    setUploading(false)
-    setShowMediaPicker(false)
-  }
-
   const handleFileSelect = (e, type) => {
     const file = e.target.files[0]
     if (file) {
-      uploadMedia(file, type)
-    }
-  }
-
-  // Voice Recording
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-      mediaRecorderRef.current = new MediaRecorder(stream)
-      audioChunksRef.current = []
-
-      mediaRecorderRef.current.ondataavailable = (e) => {
-        audioChunksRef.current.push(e.data)
+      const reader = new FileReader()
+      reader.onload = (ev) => {
+        const mediaUrl = ev.target.result
+        sendMessage('', type, mediaUrl)
       }
-
-      mediaRecorderRef.current.onstop = async () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' })
-        stream.getTracks().forEach(track => track.stop())
-        
-        // Upload audio
-        setUploading(true)
-        try {
-          const filename = `voice_${Date.now()}.webm`
-          const storageRef = ref(storage, `chats/${channel}/${filename}`)
-          await uploadBytes(storageRef, audioBlob)
-          const url = await getDownloadURL(storageRef)
-          sendMessage('', 'voice', url)
-        } catch (error) {
-          console.error('Voice upload error:', error)
-        }
-        setUploading(false)
-      }
-
-      mediaRecorderRef.current.start()
-      setIsRecording(true)
-    } catch (error) {
-      console.error('Recording error:', error)
+      reader.readAsDataURL(file)
     }
+    setShowMediaPicker(false)
   }
 
-  const stopRecording = () => {
-    if (mediaRecorderRef.current && isRecording) {
-      mediaRecorderRef.current.stop()
-      setIsRecording(false)
-    }
-  }
-
-  const toggleLike = async (message) => {
-    const messageRef = doc(db, 'chats', channel, 'messages', message.id)
+  const toggleLike = (messageId) => {
     const newLiked = new Set(likedMessages)
-    
-    if (newLiked.has(message.id)) {
-      newLiked.delete(message.id)
-      await updateDoc(messageRef, { likes: increment(-1) })
-    } else {
-      newLiked.add(message.id)
-      await updateDoc(messageRef, { likes: increment(1) })
-    }
+    const newMessages = messages.map(msg => {
+      if (msg.id === messageId) {
+        if (newLiked.has(messageId)) {
+          newLiked.delete(messageId)
+          return { ...msg, likes: msg.likes - 1 }
+        } else {
+          newLiked.add(messageId)
+          return { ...msg, likes: msg.likes + 1 }
+        }
+      }
+      return msg
+    })
     
     localStorage.setItem('hk_liked_messages', JSON.stringify([...newLiked]))
     setLikedMessages(newLiked)
+    setMessages(newMessages)
+    saveMessages(newMessages)
+  }
+
+  const deleteMessage = (messageId) => {
+    if (messages.find(m => m.id === messageId)?.userId !== anonymousId.current) return
+    const newMessages = messages.filter(m => m.id !== messageId)
+    setMessages(newMessages)
+    saveMessages(newMessages)
   }
 
   const formatTime = (timestamp) => {
     if (!timestamp) return ''
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp)
     return date.toLocaleTimeString('zh-HK', { hour: '2-digit', minute: '2-digit' })
-  }
-
-  const formatDuration = (url) => {
-    return '📎 語音'
   }
 
   return (
@@ -195,12 +163,39 @@ export default function LiveChat({ channel = 'general' }) {
         </div>
         <div className="flex-1">
           <h3 className="font-bold text-gray-900">💬 即時討論</h3>
-          <p className="text-xs text-green-500 flex items-center gap-1">
-            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-            {messages.length} 條留言
+          <p className="text-xs text-gray-500 flex items-center gap-1">
+            {isDemoMode ? (
+              <>
+                <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
+                Demo 模式 · 本地演示
+              </>
+            ) : (
+              <>
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                {messages.length} 條留言
+              </>
+            )}
           </p>
         </div>
+        {isDemoMode && (
+          <button
+            onClick={() => setIsDemoMode(false)}
+            className="px-3 py-1.5 bg-green-500 text-white text-xs font-medium rounded-full"
+          >
+            開啟 Firestore
+          </button>
+        )}
       </div>
+
+      {/* Demo Mode Banner */}
+      {isDemoMode && (
+        <div className="mx-4 mt-3 p-3 bg-amber-50 border border-amber-200 rounded-xl">
+          <p className="text-xs text-amber-700">
+            🎭 <strong>Demo 模式</strong>：訊息保存在本地瀏覽器，唔需要 Firebase。
+            配置 Firebase 後即可開啟即時同步功能。
+          </p>
+        </div>
+      )}
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -215,7 +210,7 @@ export default function LiveChat({ channel = 'general' }) {
         {messages.map((msg) => (
           <div 
             key={msg.id} 
-            className={`flex gap-3 ${msg.userId === (user?.uid || anonymousId.current) ? 'flex-row-reverse' : ''}`}
+            className={`flex gap-3 ${msg.userId === anonymousId.current ? 'flex-row-reverse' : ''}`}
           >
             {/* Avatar */}
             <div className={`w-10 h-10 rounded-2xl flex items-center justify-center text-sm font-bold shrink-0 ${
@@ -231,15 +226,15 @@ export default function LiveChat({ channel = 'general' }) {
             </div>
 
             {/* Message Content */}
-            <div className={`max-w-[75%] ${msg.userId === (user?.uid || anonymousId.current) ? 'items-end' : 'items-start'}`}>
+            <div className={`max-w-[75%] ${msg.userId === anonymousId.current ? 'items-end' : 'items-start'}`}>
               <div className={`px-4 py-2.5 rounded-2xl ${
-                msg.userId === (user?.uid || anonymousId.current)
+                msg.userId === anonymousId.current
                   ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-tr-md'
                   : 'bg-white border border-stone-200 text-gray-800 rounded-tl-md'
               }`}>
                 {/* Name */}
                 <p className={`text-xs font-medium mb-1 ${
-                  msg.userId === (user?.uid || anonymousId.current) ? 'text-white/80' : 'text-gray-500'
+                  msg.userId === anonymousId.current ? 'text-white/80' : 'text-gray-500'
                 }`}>
                   {msg.userName}
                 </p>
@@ -255,7 +250,7 @@ export default function LiveChat({ channel = 'general' }) {
                     <img 
                       src={msg.mediaUrl} 
                       alt="分享的圖片"
-                      className="rounded-xl max-w-full cursor-pointer hover:opacity-90 transition-opacity"
+                      className="rounded-xl max-w-full max-h-64 cursor-pointer hover:opacity-90 transition-opacity"
                       onClick={() => window.open(msg.mediaUrl, '_blank')}
                     />
                     {msg.text && <p className="text-sm">{msg.text}</p>}
@@ -273,36 +268,13 @@ export default function LiveChat({ channel = 'general' }) {
                     {msg.text && <p className="text-sm">{msg.text}</p>}
                   </div>
                 )}
-
-                {/* Voice */}
-                {msg.type === 'voice' && msg.mediaUrl && (
-                  <div className="flex items-center gap-2 min-w-[200px]">
-                    <button
-                      onClick={() => {
-                        const audio = new Audio(msg.mediaUrl)
-                        audio.play()
-                      }}
-                      className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors"
-                    >
-                      <Play className="w-5 h-5" fill="white" />
-                    </button>
-                    <div className="flex-1 h-10 bg-white/20 rounded-full overflow-hidden">
-                      <div className="h-full w-full flex items-center px-3">
-                        <Mic className="w-4 h-4" />
-                        <div className="flex-1 mx-2 h-1 bg-white/30 rounded-full">
-                          <div className="w-1/3 h-full bg-white rounded-full animate-pulse"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* Time & Actions */}
-              <div className={`flex items-center gap-2 mt-1 px-1 ${msg.userId === (user?.uid || anonymousId.current) ? 'flex-row-reverse' : ''}`}>
+              <div className={`flex items-center gap-2 mt-1 px-1 ${msg.userId === anonymousId.current ? 'flex-row-reverse' : ''}`}>
                 <span className="text-xs text-gray-400">{formatTime(msg.createdAt)}</span>
                 <button
-                  onClick={() => toggleLike(msg)}
+                  onClick={() => toggleLike(msg.id)}
                   className={`flex items-center gap-1 text-xs transition-colors ${
                     likedMessages.has(msg.id) ? 'text-red-500' : 'text-gray-400 hover:text-red-500'
                   }`}
@@ -310,6 +282,14 @@ export default function LiveChat({ channel = 'general' }) {
                   <Heart className="w-4 h-4" fill={likedMessages.has(msg.id) ? 'currentColor' : 'none'} />
                   {msg.likes > 0 && msg.likes}
                 </button>
+                {msg.userId === anonymousId.current && (
+                  <button
+                    onClick={() => deleteMessage(msg.id)}
+                    className="text-gray-400 hover:text-red-500 transition-colors"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -345,18 +325,6 @@ export default function LiveChat({ channel = 'general' }) {
             <span className="text-xs font-medium text-gray-600">影片</span>
           </button>
           <button
-            onClick={() => {
-              setShowMediaPicker(false)
-              if (!isRecording) startRecording()
-            }}
-            className="flex flex-col items-center gap-2 p-4 rounded-2xl hover:bg-stone-100 transition-colors"
-          >
-            <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center ${isRecording ? 'animate-pulse' : ''}`}>
-              <Mic className="w-7 h-7 text-white" />
-            </div>
-            <span className="text-xs font-medium text-gray-600">{isRecording ? '錄製中...' : '語音'}</span>
-          </button>
-          <button
             onClick={() => setShowMediaPicker(false)}
             className="absolute top-2 right-2 w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center"
           >
@@ -383,13 +351,6 @@ export default function LiveChat({ channel = 'general' }) {
 
       {/* Input Area */}
       <div className="bg-white/90 backdrop-blur border-t border-stone-200 p-4">
-        {uploading && (
-          <div className="mb-2 text-sm text-gray-500 flex items-center gap-2">
-            <div className="w-4 h-4 border-2 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
-            上傳緊，等一等...
-          </div>
-        )}
-        
         <form onSubmit={handleSend} className="flex items-center gap-3">
           <button
             type="button"
@@ -399,28 +360,17 @@ export default function LiveChat({ channel = 'general' }) {
             <MoreHorizontal className="w-5 h-5 text-gray-600" />
           </button>
 
-          {isRecording ? (
-            <button
-              type="button"
-              onClick={stopRecording}
-              className="flex-1 py-3 px-4 bg-red-500 text-white rounded-xl font-medium flex items-center justify-center gap-2 animate-pulse"
-            >
-              <Mic className="w-5 h-5" />
-              錄製中... 點擊停止
-            </button>
-          ) : (
-            <input
-              type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="寫下你的留言..."
-              className="flex-1 py-3 px-4 bg-stone-100 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-500"
-            />
-          )}
+          <input
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            placeholder="寫下你的留言..."
+            className="flex-1 py-3 px-4 bg-stone-100 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-500"
+          />
 
           <button
             type="submit"
-            disabled={!newMessage.trim() || isRecording}
+            disabled={!newMessage.trim()}
             className="w-11 h-11 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95"
           >
             <Send className="w-5 h-5 text-white" />
