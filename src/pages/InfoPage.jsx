@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Utensils, Star, Heart, Gift, MessageCircle, Search, MapPin, Navigation, Clock, Calendar, Sparkles, ChevronRight, RefreshCw, Wifi, X, Moon, Sun, UsersRound, ExternalLink, MessageCircle as MsgIcon, HeartHandshake, Globe, TrendingUp, Newspaper, Building2, Users, Filter, Trash2, Bookmark, Heart as HeartIcon } from 'lucide-react'
 import DistrictExplorer from '../components/DistrictExplorer'
+import CommunityBoard from '../components/CommunityBoard'
 
 // HK 18 Districts
 const HK_DISTRICTS = [
@@ -263,6 +264,7 @@ export default function InfoPage({ showToast }) {
           {[
             { key: 'community', label: '🗺️ 探索' },
             { key: 'food', label: '🍽️ 餐飲' },
+            { key: 'chat', label: '💬 社區' },
             { key: 'favorites', label: `❤️ 收藏 (${favorites.length})` },
           ].map(tab => (
             <button
@@ -414,6 +416,11 @@ export default function InfoPage({ showToast }) {
               setActiveTab('food')
             }}
           />
+        )}
+
+        {/* 💬 Community Chat Tab */}
+        {activeTab === 'chat' && (
+          <CommunityBoard selectedDistrict={selectedDistrict} />
         )}
       </div>
     </div>
