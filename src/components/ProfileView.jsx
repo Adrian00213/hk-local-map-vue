@@ -11,7 +11,18 @@ export default function ProfileView() {
   const [toast, setToast] = useState(null)
 
   useEffect(() => {
-    document.documentElement.classList.add('dark')
+    // Load saved preference or default to dark
+    const saved = localStorage.getItem('hk_dark_mode')
+    if (saved !== null) {
+      setDarkMode(saved === 'true')
+      if (saved === 'true') {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+    } else {
+      document.documentElement.classList.add('dark')
+    }
   }, [])
 
   useEffect(() => {
@@ -22,6 +33,19 @@ export default function ProfileView() {
   }, [toast])
 
   const showToast = (message) => setToast(message)
+
+  const toggleDarkMode = () => {
+    const newValue = !darkMode
+    setDarkMode(newValue)
+    localStorage.setItem('hk_dark_mode', String(newValue))
+    if (newValue) {
+      document.documentElement.classList.add('dark')
+      showToast('已切換至深色模式')
+    } else {
+      document.documentElement.classList.remove('dark')
+      showToast('已切換至淺色模式')
+    }
+  }
 
   const toggle = (key) => {
     setNotifications(prev => ({ ...prev, [key]: !prev[key] }))
@@ -181,7 +205,7 @@ export default function ProfileView() {
               </div>
             </div>
             <button
-              onClick={() => { setDarkMode(!darkMode); showToast(darkMode ? '已切換至淺色模式' : '已切換至深色模式') }}
+              onClick={toggleDarkMode}
               className={`w-14 h-8 rounded-full relative transition-colors ${darkMode ? 'bg-cyan-500' : 'bg-amber-500'}`}
             >
               <span className={`absolute top-1 w-6 h-6 rounded-full bg-white shadow transition-all ${darkMode ? 'left-8' : 'left-1'}`} />
