@@ -7,9 +7,31 @@ let initAttempts = 0
 const MAX_INIT_ATTEMPTS = 50 // 5 seconds max wait
 const GOOGLE_MAPS_API_KEY = 'AIzaSyC4OsiPMTcrtqsIQB-3YGJIFcsJelBsZpw'
 
+// Import our collected Places data
+import { ALL_RESTAURANTS, getTopRatedRestaurants, calculateDistance } from './GooglePlacesDataService'
+
 // Check if PlacesService is ready
 export const isPlacesServiceReady = () => {
   return placesService !== null
+}
+
+// Get our local places data
+export const getLocalPlaces = () => {
+  return ALL_RESTAURANTS
+}
+
+// Calculate distance and sort by distance
+export const getPlacesSortedByDistance = (lat, lng, limit = 15) => {
+  if (!lat || !lng) return ALL_RESTAURANTS.slice(0, limit)
+  
+  return ALL_RESTAURANTS
+    .filter(p => p.lat && p.lng)
+    .map(p => ({
+      ...p,
+      distance: calculateDistance(lat, lng, p.lat, p.lng)
+    }))
+    .sort((a, b) => a.distance - b.distance)
+    .slice(0, limit)
 }
 
 // Initialize Places Service with retry
@@ -146,37 +168,61 @@ export const searchForRecommendations = async (region, timeContext, location) =>
   
   const results = []
   
-  // Time-based search query
-  const timeQueries = {
-    morning: 'breakfast',
-    noon: 'lunch restaurant',
-    afternoon: 'café dessert',
-    evening: 'dinner restaurant',
-    night: 'night market food'
+  // Time-based category preference
+  const timeCategories = {
+    morning: ['cafe', 'bakery', 'restaurant'],
+    noon: ['restaurant', 'cafe'],
+    afternoon: ['cafe', 'bakery', 'restaurant'],
+    evening: ['restaurant', 'bar'],
+    night: ['bar', 'restaurant', 'cafe']
   }
   
-  const query = timeQueries[timeContext] || 'restaurant'
+  // Get local places as primary source
+  let localPlaces = ALL_RESTAURANTS
   
-  if (location) {
-    // Use nearby search if we have location
-    const nearbyResults = await searchNearby(location, { type: 'restaurant', limit: 15 })
-    results.push(...nearbyResults)
-    console.log('📍 Nearby results:', nearbyResults.length)
+  if (location && location.lat && location.lng) {
+    // Sort by distance if location available
+    localPlaces = getPlacesSortedByDistance(location.lat, location.lng, 50)
+  } else {
+    // Otherwise get top rated
+    localPlaces = getTopRatedRestaurants(50)
   }
   
-  // Also try text search
-  const textResults = await searchPlacesText(`${query} in ${region}`, { limit: 15 })
-  results.push(...textResults)
-  console.log('📝 Text results:', textResults.length)
+  // Filter by time-based category preference
+  const preferredCategories = timeCategories[timeContext] || ['restaurant']
   
-  // Remove duplicates
-  const unique = results.reduce((acc, place) => {
-    if (!acc.find(p => p.name === place.name)) {
-      acc.push(place)
-    }
-    return acc
-  }, [])
+  // Get places matching preferred categories
+  const categorizedPlaces = localPlaces.filter(p => 
+    preferredCategories.some(cat => p.type?.includes(cat) || p.cuisine?.includes(cat))
+  )
   
-  console.log('🎯 Total unique results:', unique.length)
-  return unique.slice(0, 15)
+  // Get top rated as fallback
+  const topRated = getTopRatedRestaurants(20)
+  
+  // Combine categorized and top rated
+  const combined = [...categorizedPlaces.slice(0, 10), ...topRated.slice(0, 10)]
+  
+  // Remove duplicates and map to result format
+  const seen = new Set()
+  const unique = combined.filter(p => {
+    if (seen.has(p.name)) return false
+    seen.add(p.name)
+    return true
+  }).slice(0, 15).map(p => ({
+    id: p.id,
+    name: p.name,
+    lat: p.lat,
+    lng: p.lng,
+    rating: p.rating,
+    price_level: p.priceLevel,
+    types: [p.type],
+    category: p.type || 'restaurant',
+    address: p.address,
+    distance: p.distance,
+    user_ratings_total: p.userRatingsTotal,
+    provider: 'local_data'
+  }))
+  
+  console.log('🎯 Local data results:', unique.length)
+  return unique
 }
