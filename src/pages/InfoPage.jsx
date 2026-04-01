@@ -273,6 +273,7 @@ export default function InfoPage({ showToast }) {
   const [activeTab, setActiveTab] = useState('nearby')
   const [newsTab, setNewsTab] = useState('latest')
   const [communityDistrict, setCommunityDistrict] = useState('全部')
+  const [newsDistrict, setNewsDistrict] = useState('全部')
   const [events, setEvents] = useState([])
   const [eventsLoading, setEventsLoading] = useState(false)
   const [userLocation, setUserLocation] = useState(null)
@@ -335,7 +336,7 @@ export default function InfoPage({ showToast }) {
           <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="搵餐廳... 🔍" className="w-full pl-10 pr-4 py-3 bg-gray-50 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-orange-300 transition-all" />
         </div>
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-          {['nearby', 'top', 'events', 'news', 'chat'].map(tab => (
+          {['nearby', 'top', 'events', 'news', 'community'].map(tab => (
             <button key={tab} onClick={() => setActiveTab(tab)} className={`px-4 py-2 rounded-2xl text-sm font-medium whitespace-nowrap transition-all active:scale-95 ${
               activeTab === tab ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg shadow-orange-200' : 'bg-white text-gray-600 border border-gray-200'
             }`}>
@@ -343,7 +344,7 @@ export default function InfoPage({ showToast }) {
               {tab === 'top' && '⭐ 人氣'}
               {tab === 'events' && '📅 活動'}
               {tab === 'news' && '📰 新聞'}
-              {tab === 'chat' && '💬 討論'}
+              {tab === 'community' && '👥 社區'}
             </button>
           ))}
         </div>
@@ -402,10 +403,10 @@ export default function InfoPage({ showToast }) {
             
             {/* District Filter for 十八區 */}
             {newsTab === 'district' && (
-              <div className="flex gap-2 overflow-x-auto pb-2">
-                <button onClick={() => setCommunityDistrict('全部')} className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap ${communityDistrict === '全部' ? 'bg-blue-500 text-white' : 'bg-white text-gray-600 border'}`}>全部</button>
+              <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                <button onClick={() => setNewsDistrict('全部')} className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap shrink-0 ${newsDistrict === '全部' ? 'bg-blue-500 text-white' : 'bg-white text-gray-600 border'}`}>全部</button>
                 {HK_DISTRICTS.map(d => (
-                  <button key={d.name} onClick={() => setCommunityDistrict(d.name)} className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap ${communityDistrict === d.name ? 'bg-blue-500 text-white' : 'bg-white text-gray-600 border'}`}>
+                  <button key={d.name} onClick={() => setNewsDistrict(d.name)} className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap shrink-0 ${newsDistrict === d.name ? 'bg-blue-500 text-white' : 'bg-white text-gray-600 border'}`}>
                     {d.icon} {d.name}
                   </button>
                 ))}
@@ -414,14 +415,14 @@ export default function InfoPage({ showToast }) {
             
             {/* News Feed */}
             <div className="space-y-3">
-              {MOCK_NEWS.filter(n => newsTab !== 'district' || communityDistrict === '全部' || n.district === communityDistrict).map(news => <NewsCard key={news.id} news={news} />)}
+              {MOCK_NEWS.filter(n => newsTab !== 'district' || newsDistrict === '全部' || n.district === newsDistrict).map(news => <NewsCard key={news.id} news={news} />)}
             </div>
           </div>
         )}
 
-        {activeTab === 'chat' && (
+        {activeTab === 'community' && (
           <div className="space-y-4">
-            {/* Community Header */}
+            {/* Community Header with 18 Districts */}
             <div className="bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl p-4 border border-pink-100">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center">
@@ -432,13 +433,13 @@ export default function InfoPage({ showToast }) {
                   <p className="text-xs text-gray-500">與18區街坊互動</p>
                 </div>
               </div>
-              {/* District Tabs */}
-              <div className="flex gap-2 overflow-x-auto pb-2">
-                <button onClick={() => setCommunityDistrict('全部')} className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap ${communityDistrict === '全部' ? 'bg-pink-500 text-white' : 'bg-white text-gray-600'}`}>
+              {/* 18 Districts Selector */}
+              <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                <button onClick={() => setCommunityDistrict('全部')} className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap shrink-0 ${communityDistrict === '全部' ? 'bg-pink-500 text-white' : 'bg-white text-gray-600'}`}>
                   🌍 全部
                 </button>
-                {HK_DISTRICTS.slice(0, 6).map(d => (
-                  <button key={d.name} onClick={() => setCommunityDistrict(d.name)} className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap ${communityDistrict === d.name ? 'bg-pink-500 text-white' : 'bg-white text-gray-600'}`}>
+                {HK_DISTRICTS.map(d => (
+                  <button key={d.name} onClick={() => setCommunityDistrict(d.name)} className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap shrink-0 ${communityDistrict === d.name ? 'bg-pink-500 text-white' : 'bg-white text-gray-600'}`}>
                     {d.icon} {d.name}
                   </button>
                 ))}
@@ -447,7 +448,15 @@ export default function InfoPage({ showToast }) {
             
             {/* Community Posts */}
             <div className="space-y-3">
-              {filteredPosts.map(post => <CommunityPost key={post.id} post={post} />)}
+              {filteredPosts.length > 0 ? (
+                filteredPosts.map(post => <CommunityPost key={post.id} post={post} />)
+              ) : (
+                <div className="text-center py-12 bg-white rounded-2xl border border-gray-100">
+                  <div className="text-4xl mb-3">👻</div>
+                  <p className="text-gray-500 text-sm">呢個區仲未有post</p>
+                  <p className="text-xs text-gray-400 mt-1">成個區分享你嘅發現！</p>
+                </div>
+              )}
             </div>
             
             {/* Load More */}
