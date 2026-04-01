@@ -175,7 +175,7 @@ export default function ProfileView() {
           <div>
             <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 px-1">帳戶</p>
             <GlassCard>
-              <FuturisticListItem icon={User || Heart} color="cyan" title="個人資料" subtitle="編輯個人資訊" onClick={() => {}} />
+              <FuturisticListItem icon={User} color="cyan" title="個人資料" subtitle="編輯個人資訊" onClick={() => {}} />
               <div className="h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
               <FuturisticListItem icon={CreditCard} color="purple" title="付款方式" subtitle="添加信用卡" onClick={() => {}} />
               <div className="h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
