@@ -1,10 +1,31 @@
 // Traffic Data API - Real Hong Kong Traffic Sensors
 // Data source: Hong Kong Transport Department
 
-const BASE_URL = '/hk-local-map/data/traffic_sensors.csv'
-
 // Cache for parsed data
 let sensorsCache = null
+
+// Load CSV with multiple path fallbacks
+const loadCSV = async (filename) => {
+  // Try relative path first
+  try {
+    const response = await fetch(`./data/${filename}`)
+    if (response.ok) {
+      return await response.text()
+    }
+  } catch (e) {}
+  
+  // Try hk-local-map-vue path
+  try {
+    const response = await fetch(`/hk-local-map-vue/data/${filename}`)
+    if (response.ok) {
+      return await response.text()
+    }
+  } catch (e) {}
+  
+  // Fallback to original path
+  const response = await fetch(`/hk-local-map/data/${filename}`)
+  return await response.text()
+}
 
 // Parse CSV
 const parseCSV = (csvText) => {
@@ -41,8 +62,7 @@ export const getAllSensors = async () => {
   if (sensorsCache) return sensorsCache
   
   try {
-    const response = await fetch(BASE_URL)
-    const csvText = await response.text()
+    const csvText = await loadCSV('traffic_sensors.csv')
     sensorsCache = parseCSV(csvText)
     return sensorsCache
   } catch (error) {

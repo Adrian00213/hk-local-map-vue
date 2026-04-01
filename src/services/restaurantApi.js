@@ -39,8 +39,31 @@ const loadRestaurants = async () => {
   if (restaurantCache) return restaurantCache
   
   try {
-    const response = await fetch('/hk-local-map/data/restaurants.csv')
-    const csvText = await response.text()
+    // Try multiple paths for compatibility with different hosting setups
+    let csvText = null
+    
+    // Try relative path first (works with base: './')
+    try {
+      const response = await fetch('./data/restaurants.csv')
+      if (response.ok) {
+        csvText = await response.text()
+      }
+    } catch (e) {}
+    
+    // Fallback to absolute path
+    if (!csvText) {
+      const response = await fetch('/hk-local-map-vue/data/restaurants.csv')
+      if (response.ok) {
+        csvText = await response.text()
+      }
+    }
+    
+    // Last fallback to original path
+    if (!csvText) {
+      const response = await fetch('/hk-local-map/data/restaurants.csv')
+      csvText = await response.text()
+    }
+    
     restaurantCache = parseCSV(csvText)
     return restaurantCache
   } catch (e) {
