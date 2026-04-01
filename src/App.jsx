@@ -81,7 +81,7 @@ function LoadingSplash({ onDone }) {
 }
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('map')
+  const [activeTab, setActiveTab] = useState('info')
   const [showOnboarding, setShowOnboarding] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [toast, setToast] = useState(null)
