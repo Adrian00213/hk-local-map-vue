@@ -70,11 +70,18 @@ const DEFAULT_RESTAURANTS = [
 export let ALL_RESTAURANTS = DEFAULT_RESTAURANTS.map(transformRestaurant)
 let dataLoaded = false
 
-// Load data from JSON file
+// Load data from JSON file - only runs on client side
 export const loadRestaurantData = async () => {
+  // Skip if already loaded or if running on server (SSR/FastBoot)
   if (dataLoaded) {
     console.log(`[RestaurantData] Already loaded: ${ALL_RESTAURANTS.length} places`)
     return ALL_RESTAURANTS
+  }
+  
+  // Check if we're in browser environment
+  if (typeof window === 'undefined') {
+    console.log('[RestaurantData] Skipping server-side load')
+    return DEFAULT_RESTAURANTS
   }
   
   console.log('[RestaurantData] Loading data from ./data/hk_food_places.json...')
