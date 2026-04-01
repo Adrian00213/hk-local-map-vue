@@ -8,6 +8,7 @@ import SmartAssistantView from './components/SmartAssistantView'
 import ProfileView from './components/ProfileView'
 import OnboardingView from './components/OnboardingView'
 import TransportationPage from './pages/TransportationPage'
+import InfoPage from './pages/InfoPage'
 import ErrorBoundary from './components/ErrorBoundary'
 
 export default function App() {
@@ -24,7 +25,7 @@ export default function App() {
   const renderView = () => {
     const views = {
       map: <MapView />,
-      news: <NewsView />,
+      info: <InfoPage />,
       transport: <TransportationPage />,
       ai: <SmartAssistantView />,
       profile: <ProfileView />

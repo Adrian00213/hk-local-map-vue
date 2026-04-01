@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { Send, Mic, Image, Video, X, Play, Pause, Download, Heart, MoreHorizontal, MessageCircle } from 'lucide-react'
 import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, updateDoc, increment } from 'firebase/firestore'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-import { db, storage, useAuth } from '../services/firebase'
+import { db, storage } from '../services/firebase'
+import { useAuth } from '../context/AuthContext'
 
 // Generate anonymous user ID
 const getAnonymousId = () => {
