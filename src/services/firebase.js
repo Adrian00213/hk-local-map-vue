@@ -7,51 +7,21 @@ import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
 
-// For demo purposes, we use a placeholder config
-// In production, use environment variables or a config file
+// Firebase configuration
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "demo-api-key",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "demo-project.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "demo-project",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "demo-project.appspot.com",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "123456789",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:123456789:web:abc123"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyCNjxklbpJ4RvISrLrWulL85IxDEIG5jnNA",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "hk-local-map.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "hk-local-map",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "hk-local-map.firebasestorage.app",
+  messagingSenderId: import.meta.env.VITE_FITE_MESSAGING_SENDER_ID || "820852428321",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:820852428321:web:bfbed28c5a688fece25d60"
 }
 
 // Initialize Firebase
-let app
-let auth
-let db
-let storage
+const app = initializeApp(firebaseConfig)
+const auth = getAuth(app)
+const db = getFirestore(app)
+const storage = getStorage(app)
 
-try {
-  app = initializeApp(firebaseConfig)
-  auth = getAuth(app)
-  db = getFirestore(app)
-  storage = getStorage(app)
-} catch (error) {
-  console.warn('Firebase initialization error:', error.message)
-  // Create dummy objects for demo mode
-  auth = {
-    currentUser: null,
-    onAuthStateChanged: (callback) => {
-      callback(null)
-      return () => {}
-    }
-  }
-  db = {
-    collection: () => ({
-      addDoc: async () => ({ id: 'demo-' + Date.now() }),
-      getDocs: async () => ({ empty: true, docs: [] }),
-      doc: () => ({})
-    })
-  }
-  storage = {
-    ref: () => ({ put: async () => ({}) })
-  }
-}
-
-export { auth }
-export { db }
-export { storage }
+export { auth, db, storage }
 export default app
