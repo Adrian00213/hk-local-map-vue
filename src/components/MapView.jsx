@@ -3,10 +3,10 @@ import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
 import { useMap, CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
 import MarkerForm from './MarkerForm'
 import SmartRecommendationEngine from './SmartRecommendationEngine'
-import RegionSelector from './RegionSelector'
-import { X, Locate, Zap, Brain, Search } from 'lucide-react'
+import { X, Locate, Zap, Brain, Search, MapPin } from 'lucide-react'
 import { REGION_DETAILS, getPlaces } from '../services/MapData'
 import { searchForRecommendations, initPlacesService } from '../services/GooglePlacesService'
+import { getNearbyRestaurants, initRestaurants as initRestaurantData } from '../services/restaurantApi'
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyC4OsiPMTcrtqsIQB-3YGJIFcsJelBsZpw'
 const containerStyle = { width: '100%', height: '100%' }
@@ -22,7 +22,42 @@ export default function MapView() {
   const [searchResults, setSearchResults] = useState([])
   const [isSearching, setIsSearching] = useState(false)
   const [mapReady, setMapReady] = useState(false)
+  const [restaurantMarkers, setRestaurantMarkers] = useState([])
+  const [showRestaurants, setShowRestaurants] = useState(false)
+  const [currentPlace, setCurrentPlace] = useState(null)
   const mapRef = useRef(null)
+
+  // Reverse geocode user location to get place name
+  useEffect(() => {
+    if (userLocation && window.google?.maps?.Geocoder) {
+      const geocoder = new window.google.maps.Geocoder()
+      geocoder.geocode({ location: { lat: userLocation.lat, lng: userLocation.lng } }, (results, status) => {
+        if (status === 'OK' && results[0]) {
+          // Get the most specific address component
+          const addr = results[0]
+          const components = addr.address_components || []
+          
+          // Try to find neighborhood/district first
+          const neighborhood = components.find(c => 
+            c.types.includes('neighborhood') || 
+            c.types.includes('sublocality_level_1')
+          )
+          const district = components.find(c => 
+            c.types.includes('administrative_area_level_1') ||
+            c.types.includes('locality')
+          )
+          
+          if (neighborhood) {
+            setCurrentPlace(neighborhood.long_name)
+          } else if (district) {
+            setCurrentPlace(district.long_name)
+          } else if (components[0]) {
+            setCurrentPlace(components[0].long_name)
+          }
+        }
+      })
+    }
+  }, [userLocation])
 
   useEffect(() => {
     const saved = localStorage.getItem('hk_selected_region')
@@ -43,6 +78,18 @@ export default function MapView() {
   
   // Merge: sample data + user-added markers
   const allPlaces = [...regionPlaces, ...markers.filter(m => !m.userId)]
+
+  // Load restaurant markers when location is available
+  useEffect(() => {
+    if (userLocation && mapReady) {
+      const loadRestaurants = async () => {
+        await initRestaurantData()
+        const nearby = getNearbyRestaurants(userLocation.lat, userLocation.lng, 5)
+        setRestaurantMarkers(nearby.slice(0, 50)) // Limit to 50 markers
+      }
+      loadRestaurants()
+    }
+  }, [userLocation, mapReady])
 
   useEffect(() => {
     if (userLocation && regionPlaces.length > 0) {
@@ -222,14 +269,42 @@ export default function MapView() {
             />
           )
         })}
+        
+        {/* Restaurant Markers */}
+        {showRestaurants && restaurantMarkers.length > 0 && restaurantMarkers.map((r, idx) => {
+          if (!r.lat || !r.lon) return null
+          return (
+            <Marker 
+              key={`restaurant-${idx}`}
+              position={{ lat: parseFloat(r.lat), lng: parseFloat(r.lon) }}
+              icon={{
+                url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<div style="width:40px;height:40px;background:#F97316;border:3px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 12px rgba(0,0,0,0.2)">🍜</div>`)}`,
+                scaledSize: { width: 40, height: 40 },
+                anchor: { x: 20, y: 20 }
+              }}
+              onClick={() => setSelected({
+                name: r.restaurant_name,
+                category: 'restaurants',
+                address: r.address || r.Districts,
+                description: r.type1,
+                lat: parseFloat(r.lat),
+                lng: parseFloat(r.lon),
+                rating: r.smiles ? `${r.smiles} 個赞` : null,
+                price: r.avg_price
+              })}
+            />
+          )
+        })}
       </GoogleMap>
 
-      {/* Region Selector - Top Right */}
+      {/* Current Place - Top Right */}
       <div className="absolute top-4 right-4 z-20">
-        <RegionSelector 
-          currentRegion={currentRegion}
-          onRegionChange={setCurrentRegion}
-        />
+        <div className="bg-white/90 backdrop-blur rounded-xl shadow-md px-3 py-2 flex items-center gap-2">
+          <MapPin className="w-4 h-4 text-yellow-600" />
+          <span className="text-sm font-medium text-zinc-700">
+            {currentPlace || '香港'}
+          </span>
+        </div>
       </div>
 
       {/* Category Pills */}
@@ -349,6 +424,21 @@ export default function MapView() {
       >
         <Locate className="w-5 h-5 text-yellow-600" />
       </button>
+
+      {/* Restaurant Toggle Button */}
+      {restaurantMarkers.length > 0 && (
+        <button 
+          onClick={() => setShowRestaurants(!showRestaurants)}
+          className={`absolute right-4 bottom-44 z-20 py-2 px-4 rounded-2xl shadow-lg flex items-center gap-2 active:scale-95 transition-all ${
+            showRestaurants 
+              ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white' 
+              : 'bg-white text-orange-500 border border-orange-200'
+          }`}
+        >
+          <span className="text-lg">🍜</span>
+          <span className="text-sm font-medium">{restaurantMarkers.length}</span>
+        </button>
+      )}
 
       {/* Add Button */}
       <button

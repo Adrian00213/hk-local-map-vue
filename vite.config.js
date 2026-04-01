@@ -5,4 +5,10 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: '/hk-local-map/',
+  build: {
+    rollupOptions: {
+      external: []
+    }
+  },
+  assetsInclude: ['**/*.csv']
 })

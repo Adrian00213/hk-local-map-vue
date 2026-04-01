@@ -1,9 +1,5 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
-import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from '@react-google-maps/api'
+import { useState, useEffect, useRef } from 'react'
 import { useMap as useMapContext, CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
-import MarkerPopup from './MarkerPopup'
-
-const GOOGLE_MAPS_API_KEY = 'AIzaSyA6VU14iA_ytRMWMxKbVvT_dWamaGeWAFE'
 
 const containerStyle = {
   width: '100%',
@@ -39,100 +35,193 @@ const mapStyles = [
   }
 ]
 
-const lightMapStyles = [] // Default Google Maps style
+const lightMapStyles = []
 
 export default function Map({ onAddMarker }) {
-  const { markers, userLocation, loading, selectedCategory, setSelectedCategory } = useMapContext()
-  const [mapRef, setMapRef] = useState(null)
-  const [selectedMarker, setSelectedMarker] = useState(null)
+  const { markers, userLocation, selectedCategory, setSelectedCategory } = useMapContext()
+  const mapRef = useRef(null)
+  const mapContainerRef = useRef(null)
   const [isDark, setIsDark] = useState(false)
+  const [isGoogleLoaded, setIsGoogleLoaded] = useState(false)
+  const markersRef = useRef([])
 
-  const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: GOOGLE_MAPS_API_KEY
-  })
-
+  // Load Google Maps script dynamically
   useEffect(() => {
     setIsDark(document.documentElement.classList.contains('dark'))
-  }, [])
-
-  const onLoad = useCallback((map) => {
-    setMapRef(map)
     
-    // Try to get user's location
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
+    // Check if already loaded
+    if (window.google && window.google.maps) {
+      setIsGoogleLoaded(true)
+      return
+    }
+
+    const script = document.createElement('script')
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyA6VU14iA_ytRMWMxKbVvT_dWamaGeWAFE'
+    script.async = true
+    script.defer = true
+    script.onload = () => {
+      setIsGoogleLoaded(true)
+    }
+    script.onerror = () => {
+      console.error('Failed to load Google Maps script')
+    }
+    document.head.appendChild(script)
+    
+    return () => {
+      // Cleanup if needed
+    }
+  }, [])
+
+  // Initialize map when Google Maps is loaded
+  useEffect(() => {
+    if (!isGoogleLoaded || !mapContainerRef.current || mapRef.current) return
+
+    try {
+      const map = new window.google.maps.Map(mapContainerRef.current, {
+        center: defaultCenter,
+        zoom: 13,
+        styles: isDark ? mapStyles : lightMapStyles,
+        disableDefaultUI: false,
+        zoomControl: true,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: true,
+        gestureHandling: 'cooperative'
+      })
+      
+      mapRef.current = map
+      
+      // Try to get user's location
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            }
+            map.panTo(pos)
+            map.setZoom(14)
+            
+            // Add user location marker
+            new window.google.maps.Marker({
+              position: pos,
+              map: map,
+              icon: {
+                url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
+                  <div style="
+                    width: 20px;
+                    height: 20px;
+                    background: #4ECDC4;
+                    border: 3px solid white;
+                    border-radius: 50%;
+                    box-shadow: 0 2px 8px rgba(78, 205, 196, 0.5);
+                  "></div>
+                `)}`,
+                scaledSize: { width: 20, height: 20 },
+                anchor: { x: 10, y: 10 }
+              }
+            })
+          },
+          () => {
+            map.panTo(defaultCenter)
+            map.setZoom(13)
           }
-          map.panTo(pos)
-          map.setZoom(14)
-        },
-        () => {
-          // Default to Hong Kong center
-          map.panTo(defaultCenter)
-          map.setZoom(13)
-        }
-      )
+        )
+      }
+    } catch (error) {
+      console.error('Error initializing map:', error)
     }
-  }, [])
+  }, [isGoogleLoaded, isDark])
 
-  const onUnmount = useCallback(() => {
-    setMapRef(null)
-  }, [])
+  // Update markers when they change
+  useEffect(() => {
+    if (!mapRef.current) return
 
-  const center = userLocation || defaultCenter
+    // Clear existing markers
+    markersRef.current.forEach(marker => marker.setMap(null))
+    markersRef.current = []
 
-  const filteredMarkers = selectedCategory
-    ? markers.filter(m => m.category === selectedCategory)
-    : markers
+    const filteredMarkers = selectedCategory
+      ? markers.filter(m => m.category === selectedCategory)
+      : markers
 
-  const getMarkerIcon = (category) => {
-    const icons = {
-      deals: '🛒',
-      restaurants: '🍜',
-      places: '🎯',
-      news: '📰'
+    const getMarkerIcon = (category) => {
+      const icons = {
+        deals: '🛒',
+        restaurants: '🍜',
+        places: '🎯',
+        news: '📰'
+      }
+      const colors = {
+        deals: '#FF6B6B',
+        restaurants: '#FF9F43',
+        places: '#54A0FF',
+        news: '#5FD068'
+      }
+      return {
+        url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
+          <div style="
+            width: 40px;
+            height: 40px;
+            background: ${colors[category] || '#54A0FF'};
+            border: 3px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+          ">
+            ${icons[category] || '📍'}
+          </div>
+        `)}`,
+        scaledSize: { width: 40, height: 40 },
+        anchor: { x: 20, y: 20 }
+      }
     }
-    return {
-      url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
-        <div style="
-          width: 40px;
-          height: 40px;
-          background: ${
-            category === 'deals' ? '#FF6B6B' :
-            category === 'restaurants' ? '#FF9F43' :
-            category === 'places' ? '#54A0FF' : '#5FD068'
-          };
-          border: 3px solid white;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 18px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        ">
-          ${icons[category] || '📍'}
-        </div>
-      `)}`,
-      scaledSize: { width: 40, height: 40 },
-      anchor: { x: 20, y: 20 }
-    }
-  }
 
-  if (loadError) {
-    return (
-      <div className="h-full w-full flex items-center justify-center bg-gray-100">
-        <div className="text-center p-4">
-          <p className="text-red-500">地圖載入失敗</p>
-          <p className="text-sm text-gray-500 mt-2">請檢查網絡連接</p>
-        </div>
-      </div>
-    )
-  }
+    filteredMarkers.forEach(marker => {
+      try {
+        const mapMarker = new window.google.maps.Marker({
+          position: { lat: marker.lat, lng: marker.lng },
+          map: mapRef.current,
+          icon: getMarkerIcon(marker.category),
+          title: marker.title
+        })
 
-  if (!isLoaded) {
+        const infoWindow = new window.google.maps.InfoWindow({
+          content: `
+            <div style="min-width: 200px; padding: 8px;">
+              <div style="display: flex; align-items: start; gap: 8px; margin-bottom: 8px;">
+                <span style="font-size: 24px;">${CATEGORY_ICONS[marker.category]}</span>
+                <div>
+                  <h3 style="font-weight: 600; margin: 0;">${marker.title}</h3>
+                  <span style="font-size: 12px; padding: 2px 6px; background: #f3f4f6; border-radius: 4px;">
+                    ${CATEGORY_LABELS[marker.category]}
+                  </span>
+                </div>
+              </div>
+              ${marker.description ? `<p style="font-size: 14px; color: #666; margin-bottom: 8px;">${marker.description}</p>` : ''}
+              ${marker.contact ? `<p style="font-size: 12px; color: #999; margin-bottom: 8px;">📍 ${marker.contact}</p>` : ''}
+              <a href="https://www.google.com/maps?q=${marker.lat},${marker.lng}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 6px 12px; background: #3b82f6; color: white; font-size: 12px; border-radius: 4px; text-decoration: none;">
+                查看地圖
+              </a>
+            </div>
+          `
+        })
+
+        mapMarker.addListener('click', () => {
+          infoWindow.open(mapRef.current, mapMarker)
+        })
+
+        markersRef.current.push(mapMarker)
+      } catch (error) {
+        console.error('Error creating marker:', error)
+      }
+    })
+  }, [markers, selectedCategory])
+
+  if (!isGoogleLoaded) {
     return (
       <div className="h-full w-full flex items-center justify-center bg-gray-100">
         <div className="text-center">
@@ -175,92 +264,8 @@ export default function Map({ onAddMarker }) {
         </div>
       </div>
 
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={13}
-        onLoad={onLoad}
-        onUnmount={onUnmount}
-        options={{
-          styles: isDark ? mapStyles : lightMapStyles,
-          disableDefaultUI: false,
-          zoomControl: true,
-          mapTypeControl: false,
-          streetViewControl: false,
-          fullscreenControl: true,
-          gestureHandling: 'cooperative'
-        }}
-      >
-        {/* User Location Marker */}
-        {userLocation && (
-          <Marker
-            position={userLocation}
-            icon={{
-              url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
-                <div style="
-                  width: 20px;
-                  height: 20px;
-                  background: #4ECDC4;
-                  border: 3px solid white;
-                  border-radius: 50%;
-                  box-shadow: 0 2px 8px rgba(78, 205, 196, 0.5);
-                "></div>
-              `)}`,
-              scaledSize: { width: 20, height: 20 },
-              anchor: { x: 10, y: 10 }
-            }}
-          />
-        )}
-
-        {/* Place Markers */}
-        {filteredMarkers.map((marker) => (
-          <Marker
-            key={marker.id}
-            position={{ lat: marker.lat, lng: marker.lng }}
-            icon={getMarkerIcon(marker.category)}
-            onClick={() => setSelectedMarker(marker)}
-          />
-        ))}
-
-        {/* Info Window */}
-        {selectedMarker && (
-          <InfoWindow
-            position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
-            onCloseClick={() => setSelectedMarker(null)}
-            options={{
-              pixelOffset: { width: 0, height: -40 }
-            }}
-          >
-            <div className="min-w-[200px]">
-              <div className="flex items-start gap-2 mb-2">
-                <span className="text-2xl">{CATEGORY_ICONS[selectedMarker.category]}</span>
-                <div>
-                  <h3 className="font-semibold text-gray-900">{selectedMarker.title}</h3>
-                  <span className="text-xs px-1.5 py-0.5 rounded bg-gray-100 text-gray-600">
-                    {CATEGORY_LABELS[selectedMarker.category]}
-                  </span>
-                </div>
-              </div>
-              {selectedMarker.description && (
-                <p className="text-sm text-gray-600 mb-2">{selectedMarker.description}</p>
-              )}
-              {selectedMarker.contact && (
-                <p className="text-xs text-gray-500 mb-2">📍 {selectedMarker.contact}</p>
-              )}
-              <div className="flex gap-2">
-                <a
-                  href={`https://www.google.com/maps?q=${selectedMarker.lat},${selectedMarker.lng}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600"
-                >
-                  查看地圖
-                </a>
-              </div>
-            </div>
-          </InfoWindow>
-        )}
-      </GoogleMap>
+      {/* Map Container */}
+      <div ref={mapContainerRef} style={containerStyle}></div>
 
       {/* Map Legend */}
       <div className="absolute bottom-24 left-4 z-[10] bg-white dark:bg-gray-800 rounded-lg shadow-lg p-3 text-xs">

@@ -7,6 +7,7 @@ import NewsView from './components/NewsView'
 import SmartAssistantView from './components/SmartAssistantView'
 import ProfileView from './components/ProfileView'
 import OnboardingView from './components/OnboardingView'
+import TransportationPage from './pages/TransportationPage'
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('map')
@@ -23,6 +24,7 @@ export default function App() {
     switch (activeTab) {
       case 'map': return <MapView />
       case 'news': return <NewsView />
+      case 'transport': return <TransportationPage />
       case 'ai': return <SmartAssistantView />
       case 'profile': return <ProfileView />
       default: return <MapView />
