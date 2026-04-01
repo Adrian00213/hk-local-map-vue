@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [react()],
   base: '/hk-local-map/',
   build: {
+    outDir: 'docs',
     rollupOptions: {
       external: []
     }
