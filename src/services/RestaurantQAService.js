@@ -37,8 +37,6 @@ export const getRestaurantsNearLocationSorted = (lat, lng, radiusKm = 10) => {
 export const queryRestaurants = (query, userLat = null, userLng = null) => {
   const q = query.toLowerCase()
   
-  console.log('[DEBUG] queryRestaurants called with:', query, 'ALL_RESTAURANTS count:', ALL_RESTAURANTS.length)
-  
   // District search
   const districts = getAllDistricts()
   for (const d of districts) {
