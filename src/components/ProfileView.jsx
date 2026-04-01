@@ -127,14 +127,19 @@ export default function ProfileView() {
         {subtitle && <p className="text-sm text-zinc-500">{subtitle}</p>}
       </div>
       <button
-        onClick={onToggle}
-        className={`w-14 h-8 rounded-full transition-colors relative ${
+        onClick={(e) => {
+          e.stopPropagation()
+          onToggle()
+        }}
+        className={`relative w-14 h-8 rounded-full transition-colors ${
           enabled ? 'bg-gradient-to-r from-green-500 to-emerald-500' : 'bg-zinc-300'
         }`}
       >
-        <div className={`w-6 h-6 rounded-full bg-white shadow-lg transition-transform absolute top-1 ${
-          enabled ? 'translate-x-7' : 'translate-x-1'
-        }`} />
+        <span 
+          className={`absolute top-1 w-6 h-6 rounded-full bg-white shadow-lg transition-transform ${
+            enabled ? 'translate-x-7' : 'translate-x-1'
+          }`}
+        />
       </button>
     </div>
   )
