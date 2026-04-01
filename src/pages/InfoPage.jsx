@@ -1,8 +1,102 @@
-import { useState, useEffect } from 'react'
-import { Utensils, Star, ThumbsUp, MapPin, Navigation, Clock, Search, Filter, X, Calendar, AlertCircle, Users, MessageCircle, Sparkles, ChevronRight, Heart, Share2 } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { Utensils, Star, ThumbsUp, MapPin, Navigation, Clock, Search, Filter, X, Calendar, AlertCircle, Users, MessageCircle, Sparkles, ChevronRight, Heart, Share2, RefreshCw, Wifi } from 'lucide-react'
 import { getNearbyRestaurants, getTopRatedRestaurants, getRestaurantsByCuisine, getCuisineTypes, formatPrice, getPopularityScore } from '../services/restaurantApi'
 import { getAllEvents, formatEventDate, getEventStatus } from '../services/eventsApi'
 import LiveChat from '../components/LiveChat'
+
+// Refresh Timer Bar Component
+const RefreshTimerBar = ({ onRefresh }) => {
+  const [secondsLeft, setSecondsLeft] = useState(300) // 5 minutes
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const [lastUpdate, setLastUpdate] = useState(new Date())
+  const intervalRef = useRef(null)
+
+  useEffect(() => {
+    // Countdown timer
+    intervalRef.current = setInterval(() => {
+      setSecondsLeft(prev => {
+        if (prev <= 1) {
+          handleRefresh()
+          return 300
+        }
+        return prev - 1
+      })
+    }, 1000)
+
+    return () => clearInterval(intervalRef.current)
+  }, [])
+
+  const handleRefresh = async () => {
+    if (isRefreshing) return
+    setIsRefreshing(true)
+    
+    // Simulate refresh delay
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    
+    setLastUpdate(new Date())
+    setSecondsLeft(300)
+    setIsRefreshing(false)
+    onRefresh?.()
+  }
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${mins}:${secs.toString().padStart(2, '0')}`
+  }
+
+  const formatLastUpdate = (date) => {
+    const diff = Math.floor((new Date() - date) / 1000)
+    if (diff < 60) return '剛剛'
+    if (diff < 3600) return `${Math.floor(diff / 60)} 分鐘前`
+    return date.toLocaleTimeString('zh-HK', { hour: '2-digit', minute: '2-digit' })
+  }
+
+  const progress = ((300 - secondsLeft) / 300) * 100
+
+  return (
+    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-3 border border-blue-100 mb-3">
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-xl bg-blue-100 flex items-center justify-center">
+            <Wifi className="w-4 h-4 text-blue-500" />
+          </div>
+          <div>
+            <p className="text-xs font-medium text-blue-800">📡 數據同步中</p>
+            <p className="text-xs text-blue-500">上次更新: {formatLastUpdate(lastUpdate)}</p>
+          </div>
+        </div>
+        
+        <button
+          onClick={handleRefresh}
+          disabled={isRefreshing}
+          className={`px-3 py-1.5 bg-blue-500 text-white rounded-xl text-xs font-medium flex items-center gap-1 transition-all active:scale-95 ${
+            isRefreshing ? 'opacity-70' : ''
+          }`}
+        >
+          <RefreshCw className={`w-3 h-3 ${isRefreshing ? 'animate-spin' : ''}`} />
+          {isRefreshing ? '更新中...' : '立即更新'}
+        </button>
+      </div>
+      
+      {/* Progress bar */}
+      <div className="relative h-1.5 bg-blue-100 rounded-full overflow-hidden">
+        <div 
+          className="absolute left-0 top-0 h-full bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full transition-all duration-1000"
+          style={{ width: `${progress}%` }}
+        />
+        {/* Animated dots */}
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-md animate-pulse" />
+      </div>
+      
+      <div className="flex justify-between mt-1.5">
+        <span className="text-xs text-blue-400">0:00</span>
+        <span className="text-xs font-medium text-blue-600">下次更新: {formatTime(secondsLeft)}</span>
+        <span className="text-xs text-blue-400">5:00</span>
+      </div>
+    </div>
+  )
+}
 
 // Cuisine emoji mapping
 const getCuisineEmoji = (cuisine) => {
@@ -264,6 +358,12 @@ export default function InfoPage({ showToast }) {
 
       {/* Content */}
       <div className="p-4">
+        {/* Refresh Timer Bar */}
+        <RefreshTimerBar onRefresh={() => {
+          // Refresh data
+          getTopRatedRestaurants(50).then(setTopRestaurants)
+        }} />
+        
         {/* Nearby Tab */}
         {activeTab === 'nearby' && (
           <div className="space-y-3">
