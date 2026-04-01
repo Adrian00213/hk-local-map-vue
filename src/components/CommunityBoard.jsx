@@ -58,7 +58,11 @@ export default function CommunityBoard({ selectedDistrict }) {
     : comments
 
   const handleSendComment = () => {
-    if (!newComment.trim() && uploadedImages.length === 0 && !voiceText) return
+    // Allow posting with text, image, or just to test
+    const hasContent = newComment.trim() || uploadedImages.length > 0 || voiceText
+    if (!hasContent) {
+      // Still allow posting for demo purposes
+    }
     
     const newEntry = {
       id: Date.now(),
@@ -153,15 +157,15 @@ export default function CommunityBoard({ selectedDistrict }) {
       <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 border border-gray-100 dark:border-gray-700">
         {/* Text Input */}
         <div className="flex gap-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-lg">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-lg shrink-0">
             🧑
           </div>
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <textarea
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              placeholder="分享你嘅發現...（示例：灣仔邊度有好嘢食？）"
-              className="w-full p-3 bg-gray-50 dark:bg-gray-700 rounded-xl text-sm resize-none h-20 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              placeholder="喺度輸入留言..."
+              className="w-full p-3 bg-gray-50 dark:bg-gray-700 rounded-xl text-sm resize-none h-24 focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900 dark:text-white placeholder-gray-400"
             />
             
             {/* Uploaded Images Preview */}
@@ -215,11 +219,10 @@ export default function CommunityBoard({ selectedDistrict }) {
           </div>
           <button
             onClick={handleSendComment}
-            disabled={!newComment.trim() && uploadedImages.length === 0 && !voiceText}
-            className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl text-sm font-bold flex items-center gap-2 active:scale-95 transition-all shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50"
           >
             <Send className="w-4 h-4" />
-            發佈
+            留言
           </button>
         </div>
 
