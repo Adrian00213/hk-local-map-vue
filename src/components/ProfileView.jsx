@@ -4,17 +4,19 @@ import { Settings, Bell, Globe, Shield, Star, Gift, MessageCircle, Heart, Chevro
 export default function ProfileView() {
   const [activeSection, setActiveSection] = useState(null)
   const [notifications, setNotifications] = useState({ push: true, sound: true, email: false })
-  const [darkMode, setDarkMode] = useState(true)
+  const [darkMode, setDarkMode] = useState(() => document.documentElement.classList.contains('dark'))
   const [language, setLanguage] = useState('繁體中文')
   const [userName] = useState('Adrian')
   const [userEmail] = useState('adrian@example.com')
   const [toast, setToast] = useState(null)
 
+  // Sync dark mode state with document class
   useEffect(() => {
-    const saved = localStorage.getItem('hk_dark_mode')
-    if (saved !== null) {
-      setDarkMode(saved === 'true')
-    }
+    const observer = new MutationObserver(() => {
+      setDarkMode(document.documentElement.classList.contains('dark'))
+    })
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+    return () => observer.disconnect()
   }, [])
 
   useEffect(() => {
@@ -27,10 +29,10 @@ export default function ProfileView() {
   const showToast = (message) => setToast(message)
 
   const toggleDarkMode = () => {
-    const newValue = !darkMode
-    setDarkMode(newValue)
-    localStorage.setItem('hk_dark_mode', String(newValue))
+    const newValue = !document.documentElement.classList.contains('dark')
     document.documentElement.classList.toggle('dark', newValue)
+    localStorage.setItem('hk_dark_mode', String(newValue))
+    setDarkMode(newValue)
     showToast(newValue ? '🌙 深色模式' : '☀️ 淺色模式')
   }
 
@@ -49,7 +51,7 @@ export default function ProfileView() {
       items: [
         { icon: Bell, label: '通知設定', subtitle: '開啟', color: 'bg-blue-500', action: () => setActiveSection('notifications') },
         { icon: Globe, label: '語言設定', subtitle: language, color: 'bg-teal-500', action: () => setActiveSection('language') },
-        { icon: Moon, label: '深色模式', subtitle: darkMode ? '開啟' : '關閉', color: 'bg-purple-500', action: toggleDarkMode },
+        { icon: Moon, label: darkMode ? '深色模式' : '淺色模式', subtitle: darkMode ? '🌙 開啟' : '☀️ 關閉', color: 'bg-purple-500', action: toggleDarkMode },
         { icon: Shield, label: '私隱設定', subtitle: '資料安全', color: 'bg-indigo-500', action: () => setActiveSection('privacy') },
       ]
     },
