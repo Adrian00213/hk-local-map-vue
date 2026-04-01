@@ -1,0 +1,5060 @@
+# 香港餐廳資料庫
+
+## 1. The Harbourview
+- 地區：中西區
+- 評分：3.8星（2234人評價）
+- 地址：2/F, The Harbourview, 4 Harbour Road, Wan Chai
+- 類型：lodging
+
+## 2. The Mira Hong Kong
+- 地區：中西區
+- 評分：4.1星（4606人評價）
+- 地址：118-130 Nathan Road, Tsim Sha Tsui
+- 類型：spa/bar/lodging
+
+## 3. Regent Hong Kong
+- 地區：中西區
+- 評分：4.4星（4236人評價）
+- 地址：18 Salisbury Road, Tsim Sha Tsui
+- 類型：cafe/bakery/lodging
+
+## 4. Regal Kowloon Hotel
+- 地區：中西區
+- 評分：4星（4950人評價）
+- 地址：71 Mody Road, Tsim Sha Tsui East
+- 類型：lodging
+
+## 5. Yung Kee Restaurant
+- 地區：中西區
+- 評分：3.8星（3343人評價）
+- 地址：Yung Kee Building, 32-40 Wellington Street, Central
+- 價格：$$$$
+
+## 6. JEN Hong Kong by Shangri-La
+- 地區：中西區
+- 評分：4.2星（1825人評價）
+- 地址：508號 Queen's Road West, Sai Wan
+- 類型：lodging
+
+## 7. Ruby Tuesday (Causeway Bay)
+- 地區：中西區
+- 評分：3.9星（758人評價）
+- 地址：2/F, Plaza 2000, 2-4 Russell Street, Causeway Bay
+- 價格：$$
+
+## 8. Luk Yu Tea House
+- 地區：中西區
+- 評分：3.6星（1783人評價）
+- 地址：24-26 Stanley Street, Central
+- 價格：$$$
+
+## 9. Yamm
+- 地區：中西區
+- 評分：3.9星（986人評價）
+- 地址：The Mira Hong Kong, Mira Place, G/F, 118-130 Nathan Road, Tsim Sha Tsui
+- 價格：$$$
+
+## 10. ABC Kitchen
+- 地區：中西區
+- 評分：4星（361人評價）
+- 地址：CF7 1/F, Cooked Food Market, 1 Queen Street, Sheung Wan
+- 價格：$$
+
+## 11. Shugetsu (Central)
+- 地區：中西區
+- 評分：4.2星（1007人評價）
+- 地址：5 Gough Street, Central
+- 價格：$$
+
+## 12. The Chairman Restaurant
+- 地區：中西區
+- 評分：4.4星（748人評價）
+- 地址：3rd Floor, The Wellington, 198 Wellington Street, Central
+- 價格：$$$
+
+## 13. Bo Innovation
+- 地區：中西區
+- 評分：4.3星（416人評價）
+- 地址：1/F, H Code, 45 Pottinger Street, Central
+- 價格：$$$$
+
+## 14. Fook Lam Moon (Wan Chai)
+- 地區：中西區
+- 評分：4.2星（554人評價）
+- 地址：Newman House, Johnston Road, Wan Chai
+- 價格：$$$$
+
+## 15. Two Chinachem Plaza
+- 地區：中西區
+- 評分：3.4星（345人評價）
+- 地址：68 Connaught Road Central, Central
+- 價格：$$
+
+## 16. The Royal Garden
+- 地區：中西區
+- 評分：4.2星（4580人評價）
+- 地址：69號 Mody Road, Tsim Sha Tsui East
+- 類型：lodging
+
+## 17. Harbourside - Hotel Buffet
+- 地區：中西區
+- 評分：4.3星（618人評價）
+- 地址：Ground Floor, Regent Hong Kong, 18 Salisbury Road, Tsim Sha Tsui
+- 價格：$$$$
+
+## 18. Peking Garden (Central)
+- 地區：中西區
+- 評分：3.9星（511人評價）
+- 地址：B1, 7-15 Des Voeux Road Central, Central
+- 價格：$$
+- 類型：cafe/bakery/store
+
+## 19. Lung King Heen
+- 地區：中西區
+- 評分：4.5星（961人評價）
+- 地址：4F, Four Seasons Hotel Hong Kong, 8 Finance Street, Central
+- 價格：$$$$
+
+## 20. Amber
+- 地區：中西區
+- 評分：4.5星（626人評價）
+- 地址：15 Queen's Road Central, Central
+- 價格：$$$$
+
+## 21. La Maison
+- 地區：中西區
+- 評分：4.2星（158人評價）
+- 地址：Mountain View Mansion, 2-4 Swatow Street, Wan Chai
+
+## 22. Zhejiang Heen
+- 地區：中西區
+- 評分：4.3星（729人評價）
+- 地址：Floor 1, 興業大廈, 3, 浙江, 300-306號 Lockhart Road, Wan Chai
+- 價格：$$$
+
+## 23. Jiang Nan by Crystal Jade - Harbour City
+- 地區：中西區
+- 評分：3.6星（1426人評價）
+- 地址：3328號舖, 海港城港威商場, 廣東道, 尖沙咀
+- 價格：$$
+
+## 24. Crystal Jade La Mian Xiao Long Bao Wan Chai Branch
+- 地區：中西區
+- 評分：3.9星（756人評價）
+- 地址：Tai Yau Building, Tai Yau Plaza 3rd Floor, Johnston Road, Wan Chai
+- 價格：$$
+
+## 25. Burgeroom (Causeway Bay)
+- 地區：中西區
+- 評分：3.9星（1046人評價）
+- 地址：Towning Mansion, Paterson Street, Causeway Bay
+- 價格：$$
+
+## 26. Paisano's
+- 地區：中西區
+- 評分：4星（1361人評價）
+- 地址：8 Granville Road, Tsim Sha Tsui
+- 價格：$$
+
+## 27. Yardbird
+- 地區：中西區
+- 評分：4.5星（1752人評價）
+- 地址：Winsome House, 154-158 Wing Lok Street G/F, Shops A and B, Sheung Wan
+- 價格：$$$
+
+## 28. Caprice
+- 地區：中西區
+- 評分：4.5星（608人評價）
+- 地址：6F, Four Seasons Hotel Hong Kong, 8 Finance Street, Central
+- 價格：$$$$
+
+## 29. cafe TOO
+- 地區：中西區
+- 評分：4.1星（440人評價）
+- 地址：Supreme Court Road, Central
+- 價格：$$$
+
+## 30. One Harbour Road at Grand Hyatt Hong Kong
+- 地區：中西區
+- 評分：4.5星（417人評價）
+- 地址：8th Floor, Grand Hyatt Hong Kong, 1 Harbour Road, Wan Chai
+- 價格：$$$$
+
+## 31. 8 1/2 Otto E Mezzo Bombana
+- 地區：中西區
+- 評分：4.5星（628人評價）
+- 地址：Shop 202, 18 Chater Road, Central
+- 價格：$$$$
+
+## 32. Mak An Kee Noodle
+- 地區：中西區
+- 評分：4星（638人評價）
+- 地址：37 Wing Kut Street, Central
+
+## 33. Lai Ching Heen (Yan Toh Heen)
+- 地區：中西區
+- 評分：4.5星（659人評價）
+- 地址：18 Salisbury Road, Tsim Sha Tsui
+- 價格：$$$$
+
+## 34. The Foreign Correspondents’ Club, Hong Kong
+- 地區：中西區
+- 評分：4.5星（781人評價）
+- 地址：North, 2 Lower Albert Road, Central
+- 類型：tourist_attraction/night_club/bar
+
+## 35. 南海一號 Nanhai No.1
+- 地區：中西區
+- 評分：3.9星（1034人評價）
+- 地址：30, iSQUARE, 63 Nathan Road, Tsim Sha Tsui
+- 價格：$$$
+
+## 36. Crystal Jade (Times Square)
+- 地區：中西區
+- 評分：3.7星（753人評價）
+- 地址：時代廣場B221A號舖, Matheson Street, Causeway Bay
+- 價格：$$
+
+## 37. Megan's Kitchen
+- 地區：中西區
+- 評分：4.1星（462人評價）
+- 地址：5/F, HK Hong Kong Island, 165-171 Wan Chai Road, Wan Chai
+- 價格：$$
+
+## 38. Hong Kong Lao Shang Hai Restaurant Ltd.
+- 地區：中西區
+- 評分：4星（362人評價）
+- 地址：英皇集團中心1樓, 288號 Hennessy Road, Wan Chai
+- 價格：$$$
+
+## 39. Gaylord Indian Restaurant
+- 地區：中西區
+- 評分：4.2星（1194人評價）
+- 地址：5/F, Prince Tower, 12A Peking Road, Tsim Sha Tsui
+- 價格：$$
+- 類型：meal_takeaway
+
+## 40. Man Wah
+- 地區：中西區
+- 評分：4.4星（455人評價）
+- 地址：25/F, Mandarin Oriental Hong Kong, 5 Connaught Road Central, Central
+- 價格：$$$$
+
+## 41. Grand Hyatt Steakhouse
+- 地區：中西區
+- 評分：4.5星（477人評價）
+- 地址：Lobby Level, Grand Hyatt Hong Kong, 1 Harbour Road, Wan Chai
+
+## 42. Lobby Lounge at Kowloon Shangri-La, Hong Kong
+- 地區：中西區
+- 評分：4.2星（153人評價）
+- 地址：Lobby Level, 64 Mody Road, Tsim Sha Tsui East
+- 類型：night_club/bar
+
+## 43. Cafe (Hyatt Regency Hong Kong, Tsim Sha Tsui)
+- 地區：中西區
+- 評分：3.9星（508人評價）
+- 地址：18 Hanoi Road, Tsim Sha Tsui
+- 價格：$$$
+
+## 44. La Crêperie
+- 地區：中西區
+- 評分：4.4星（681人評價）
+- 地址：1/F, Kui Chi Mansion, 100 Queen's Road East, Wan Chai
+- 價格：$$
+- 類型：store
+
+## 45. Paisano's Pizzeria
+- 地區：中西區
+- 評分：4.1星（1126人評價）
+- 地址：G/F, 5 O'Brien Road, Wan Chai
+- 價格：$
+
+## 46. Le Moment
+- 地區：中西區
+- 評分：4.7星（387人評價）
+- 地址：55 Peel Street, Central
+- 價格：$$
+- 類型：bar
+
+## 47. Tung Po Kitchen
+- 地區：中西區
+- 評分：3.9星（1873人評價）
+- 地址：2樓, 銀河大廈, 303號 謝斐道, 灣仔
+- 價格：$$
+
+## 48. Paisano's Pizzeria
+- 地區：中西區
+- 評分：4星（774人評價）
+- 地址：23 Hollywood Road, Central
+- 價格：$
+
+## 49. Veggie 4 love
+- 地區：中西區
+- 評分：4.5星（453人評價）
+- 地址：10/F, 11號 Stanley Street, Central
+- 價格：$$
+
+## 50. Mira Moon Hotel
+- 地區：中西區
+- 評分：4.4星（682人評價）
+- 地址：388 Jaffe Road, Causeway Bay
+- 類型：lodging
+
+## 51. Dynasty
+- 地區：中西區
+- 評分：4.4星（488人評價）
+- 地址：Hong Kong Convention And Exhibition Centre, 1 Harbour Road, Wan Chai
+
+## 52. Morton's The Steakhouse
+- 地區：中西區
+- 評分：4.4星（791人評價）
+- 地址：The Sheraton Hotel & Towers Fourth Level, 20 Nathan Road, Tsim Sha Tsui
+- 價格：$$$$
+
+## 53. The Luxe Manor
+- 地區：中西區
+- 評分：4.3星（1180人評價）
+- 地址：The Luxe Manor, 39 Kimberley Road, Tsim Sha Tsui
+- 類型：night_club/bar/lodging
+
+## 54. Café Landmark
+- 地區：中西區
+- 評分：4.2星（1192人評價）
+- 地址：置地廣場中庭, 1 樓 107-108 號, 15 號 Queen's Road Central, Central
+- 價格：$$$
+- 類型：cafe
+
+## 55. Green Waffle Diner
+- 地區：中西區
+- 評分：4.3星（623人評價）
+- 地址：號地下, 43號 Lyndhurst Terrace, Central
+- 價格：$$
+
+## 56. Dot Cod Seafood Restaurant & Oyster Bar
+- 地區：中西區
+- 評分：4.1星（369人評價）
+- 地址：G/F & 1/F, Takshing House, Theatre Lane, 20 Des Voeux Road Central, Central
+- 價格：$$$
+
+## 57. 曾記粿品
+- 地區：中西區
+- 評分：4.2星（238人評價）
+- 地址：上環皇后街1號皇后街熟食市場8號檔
+- 價格：$
+
+## 58. Palm Court
+- 地區：中西區
+- 評分：4.2星（133人評價）
+- 地址：Lobby Level, The Langham, Hong Kong, 8 Peking Road, Tsim Sha Tsui
+- 價格：$$$
+- 類型：night_club/bar/lodging
+
+## 59. Boston Restaurant
+- 地區：中西區
+- 評分：3.6星（2068人評價）
+- 地址：3號 Luard Road, Wan Chai
+- 價格：$$
+
+## 60. Ivan The Kozak
+- 地區：中西區
+- 評分：4.7星（1871人評價）
+- 地址：1樓, 巴力大廈, 63號 雲咸街, 中環
+- 價格：$$
+- 類型：bar
+
+## 61. Greens Cafe
+- 地區：東區
+- 評分：3.5星（322人評價）
+- 地址：665號 King's Road, North Point
+- 價格：$$
+
+## 62. Jinjin Cha Caan Teng Restaurant
+- 地區：東區
+- 評分：3.6星（176人評價）
+- 地址：G/F, 762-774 King's Road, North Point
+- 價格：$
+
+## 63. On Lee Noodle Soup
+- 地區：東區
+- 評分：3.8星（2170人評價）
+- 地址：22 Shau Kei Wan Main Street East, Shau Kei Wan
+- 價格：$$
+
+## 64. AGE Cuisine Express
+- 地區：東區
+- 評分：4.2星（267人評價）
+- 地址：1105, Eastern Centre, 1065 King's Road, Quarry Bay
+
+## 65. Corner 90
+- 地區：東區
+- 評分：4.3星（812人評價）
+- 地址：90 Hung To Road, Kwun Tong
+- 價格：$$
+
+## 66. Indonesian Sate House
+- 地區：東區
+- 評分：4星（189人評價）
+- 地址：Shau Kei Wan Main Street East 76D地下, Shau Kei Wan
+- 價格：$
+
+## 67. 鋒記小炒王
+- 地區：東區
+- 評分：4星（127人評價）
+- 地址：低層3A舖地下, Sun Lee Building, 6-28號 愛民街, 筲箕灣
+- 價格：$$
+
+## 68. Grove Sandwiches
+- 地區：東區
+- 評分：3.9星（62人評價）
+- 地址：Hong Kong
+
+## 69. MOS BURGER
+- 地區：東區
+- 評分：3.6星（61人評價）
+- 地址：太 古道 18 號 太 古城 中心 2 期 地 庫 1 樓 O 鋪, Quarry Bay
+- 價格：$$
+
+## 70. alfafa
+- 地區：東區
+- 評分：3.7星（592人評價）
+- 地址：閣樓M2舖, 廣場北座, 鰂魚涌康山道1號康怡, Quarry Bay
+- 價格：$$
+
+## 71. 紹華小廚
+- 地區：東區
+- 評分：3.4星（297人評價）
+- 地址：Shop CF3, Cooked Food Centre, Aldrich Bay Market, 15 Aldrich Bay Road, Shau Kei Wan
+- 價格：$
+
+## 72. Tak Hing Lung
+- 地區：東區
+- 評分：4.3星（258人評價）
+- 地址：1 Marble Road, North Point
+- 價格：$
+
+## 73. Peking Garden (Cityplaza)
+- 地區：東區
+- 評分：3.7星（1101人評價）
+- 地址：太古城中心第二期2樓201號, 18號 Tai Koo Shing Road, 太古
+- 價格：$$
+- 類型：cafe
+
+## 74. SHE WONG LEUNG
+- 地區：東區
+- 評分：3.8星（330人評價）
+- 地址：號地下A舖, 298號 Electric Road, North Point
+- 價格：$$
+
+## 75. Auntie Sweet Dessert (Tin Hau)
+- 地區：東區
+- 評分：4星（663人評價）
+- 地址：G/F, 13 Tsing Fung Street, Causeway Bay
+
+## 76. Nam Kee Spring Roll Noodle
+- 地區：東區
+- 評分：3.6星（398人評價）
+- 地址：北角渣華道78號地下（熟食中心對面）, North Point
+- 價格：$
+
+## 77. Man Shing Restaurant
+- 地區：東區
+- 評分：4星（382人評價）
+- 地址：16 Wun Sha Street, Tai Hang
+- 價格：$$
+
+## 78. Pak Lee Cafe
+- 地區：東區
+- 評分：3.9星（777人評價）
+- 地址：G/F, 216 Shau Kei Wan Road, Sai Wan Ho
+- 價格：$
+
+## 79. Aquadeli 海家。小品
+- 地區：東區
+- 評分：3.6星（214人評價）
+- 地址：128-130 Shau Kei Wan Road, 128 Shau Kei Wan Road, Shau Kei Wan
+- 價格：$
+
+## 80. 勁辣派甜甜掌門
+- 地區：東區
+- 評分：3.9星（7人評價）
+- 地址：492 King's Road, Kam Hong Street, North Point
+
+## 81. Maxim’s MX
+- 地區：東區
+- 評分：3.4星（889人評價）
+- 地址：Shop G3, Kornhill Plaza G/F, 1 Kornhill Road, Quarry Bay
+- 價格：$$
+
+## 82. Myung Ga Korean Restaurant (Cityplaza)
+- 地區：東區
+- 評分：3.7星（329人評價）
+- 地址：Taikoo Shing, Kam Din Terrace Yuan Kung Mansion, 18 Tai Koo Shing Road
+- 價格：$$$
+
+## 83. 順豐排骨麵
+- 地區：東區
+- 評分：3.4星（133人評價）
+- 地址：Fat Cheong Building, Electric Road, Causeway Bay
+- 價格：$$
+
+## 84. Three Virtues Vegetarian Restaurant
+- 地區：東區
+- 評分：3.8星（844人評價）
+- 地址：1樓, 395號 King's Road, North Point
+- 價格：$$
+- 類型：bakery/store
+
+## 85. Tung Tai Restaurant
+- 地區：東區
+- 評分：3.6星（521人評價）
+- 地址：號 地下, Fu Bong Mansion, 106-110 Tsat Tsz Mui Road, North Point
+- 價格：$
+
+## 86. SUBWAY Fortress Hill
+- 地區：東區
+- 評分：4.6星（364人評價）
+- 地址：Shop 6, 218 Electric Road, Fortress Hill, North Point
+- 價格：$
+
+## 87. McDonald's (Shau Kei Wan Main Street East)
+- 地區：東區
+- 評分：3.6星（653人評價）
+- 地址：地下至 二樓, 159號 Shau Kei Wan Main Street East, Shau Kei Wan
+- 價格：$
+
+## 88. ChaosHotpot
+- 地區：東區
+- 評分：4星（57人評價）
+- 地址：大坑浣紗街22 22 Wun Sha Street, Tai Hang, Causeway Bay
+
+## 89. Ashoka Indian Restaurant
+- 地區：東區
+- 評分：4.2星（434人評價）
+- 地址：G/F Rear Block, Hoi Fu Building, 240 Shau Kei Wan Road, Sai Wan Ho
+- 價格：$$
+
+## 90. Ootoya (Kornhill)
+- 地區：東區
+- 評分：3.9星（550人評價）
+- 地址：Unit L-013, 2 Kornhill Road, Kornhill
+- 價格：$$
+
+## 91. 粥棧小廚
+- 地區：東區
+- 評分：4.2星（144人評價）
+- 地址：Hong Kong
+- 價格：$$
+
+## 92. Tai Hing
+- 地區：東區
+- 評分：3.2星（458人評價）
+- 地址：地下B號舖, 豐榮苑, 1號 華蘭路, 鰂魚涌
+- 價格：$$
+
+## 93. The Spaghetti House (Cityplaza)
+- 地區：東區
+- 評分：3.7星（606人評價）
+- 地址：18 Tai Koo Shing Road, Quarry Bay
+- 價格：$$
+
+## 94. FRITES Belgium on Tap
+- 地區：東區
+- 評分：4.1星（630人評價）
+- 地址：G/F, Oxford House, Taikoo Place, 979 King's Road, (Entrance at 22 Westlands Road), Quarry Bay
+- 價格：$$$
+
+## 95. Gateway Cuisine
+- 地區：東區
+- 評分：4星（433人評價）
+- 地址：58A 鯉魚門海傍道中
+- 價格：$$$
+
+## 96. 雲南阿老表黑羊湯鍋米線
+- 地區：東區
+- 評分：3.9星（466人評價）
+- 地址：1樓, 90號 Hung To Road, Kwun Tong
+- 價格：$
+
+## 97. Wong Lam Kee Chiu Chow Fish Ball Noodles
+- 地區：東區
+- 評分：3.9星（1124人評價）
+- 地址：Shop A, 10 Shau Kei Wan Main Street East, Shau Kei Wan
+- 價格：$
+
+## 98. Genki Sushi (Kornhill)
+- 地區：東區
+- 評分：3.7星（643人評價）
+- 地址：Shop G4 G/F, Kornhill Plaza North, 1 Kornhill Road, Quarry Bay
+- 價格：$$
+
+## 99. Enoteca Quarry Bay
+- 地區：東區
+- 評分：4星（528人評價）
+- 地址：G/F., 35 - 41 Tong Chong Street. Tai Koo Fong, Quarry Bay
+- 價格：$$$
+
+## 100. Locomotive Contemporary Vietnamese Cuisine
+- 地區：東區
+- 評分：3.4星（381人評價）
+- 地址：11 Wun Sha Street, Tai Hang
+- 價格：$$
+
+## 101. Master Low-key Food Shop (Shau Kei Wan)
+- 地區：東區
+- 評分：4.2星（1094人評價）
+- 地址：B3號舖地下, Kwong Shun Building, 東大街, Shau Kei Wan
+- 價格：$
+- 類型：meal_takeaway
+
+## 102. McDonald's (Roca Centre)
+- 地區：東區
+- 評分：3.5星（1499人評價）
+- 地址：Roca Centre, 460-470 King's Road, North Point
+- 價格：$
+
+## 103. Clay Pot Indian Restaurant
+- 地區：東區
+- 評分：4星（184人評價）
+- 地址：北角電氣道229號電氣道市政大廈2樓CF5號舖
+- 價格：$$
+
+## 104. Vegelink vegetarian restaurant
+- 地區：東區
+- 評分：4.1星（352人評價）
+- 地址：胡曰皆商業中心一樓112室, 56號 Java Road, North Point
+- 價格：$$
+
+## 105. Capital Cafe (Shau Kei Wan)
+- 地區：東區
+- 評分：3.6星（690人評價）
+- 地址：順景樓地下, 177號 Shau Kei Wan Main Street East, Shau Kei Wan
+- 價格：$$
+
+## 106. Formosa Autumn
+- 地區：東區
+- 評分：4.2星（350人評價）
+- 地址：地下B舖, Tak Fat Building, 13號 Finnie Street, Quarry Bay
+- 價格：$$
+
+## 107. Bangkok Restaurant
+- 地區：東區
+- 評分：3.4星（287人評價）
+- 地址：地下E-F舖, Tung Po Building, 483-497號 King's Road, North Point
+- 價格：$$
+
+## 108. MOS Café
+- 地區：東區
+- 評分：3.9星（323人評價）
+- 地址：樓F20號鋪, 廣場(北, 1 Kornhill Road, Quarry Bay
+- 價格：$$
+
+## 109. Tulsi Indian Restaurant (Quarry Bay)
+- 地區：東區
+- 評分：4.5星（1037人評價）
+- 地址：13-15 Hoi Kwong Street, Quarry Bay
+- 價格：$$
+
+## 110. 呂仔記二哥一九七八
+- 地區：東區
+- 評分：3.6星（345人評價）
+- 地址：Tung Hing Building, Shau Kei Wan Main Street East, Shau Kei Wan
+- 價格：$
+- 類型：meal_takeaway
+
+## 111. Corner 18
+- 地區：東區
+- 評分：3.8星（97人評價）
+- 地址：銅鑼灣如心酒店1/F, 18號 King's Road, Causeway Bay
+
+## 112. FEAST (Food by EAST)
+- 地區：東區
+- 評分：4.1星（581人評價）
+- 地址：1/F, EAST Hong Kong, 29 Tai Koo Shing Road, Quarry Bay
+- 價格：$$
+
+## 113. AEON STYLE Kornhill
+- 地區：東區
+- 評分：4.1星（5674人評價）
+- 地址：Kornhill Plaza South, 2號 Kornhill Road, Kornhill
+- 類型：department_store/supermarket/grocery_or_supermarket
+
+## 114. Hung Kee Top Quality Egg Waffles
+- 地區：東區
+- 評分：3.3星（128人評價）
+- 地址：西灣河筲箕灣道57-87號太安樓第二街A34C號鋪
+- 價格：$
+- 類型：meal_takeaway
+
+## 115. Congee and Noodle Shop by Lubuds 粥麵館
+- 地區：東區
+- 評分：3.7星（180人評價）
+- 地址：2樓, 683號 King's Road, Quarry Bay
+- 價格：$$
+
+## 116. Chiuchow Garden (Taikoo Shing)
+- 地區：東區
+- 評分：3.7星（522人評價）
+- 地址：太古太古灣道12號1樓100號, Quarry Bay
+- 價格：$$$
+
+## 117. Lei Yue Mun Seafood Bazaar
+- 地區：東區
+- 評分：3.6星（1578人評價）
+- 地址：6 Lei Yue Mun Path, Yau Tong
+
+## 118. Tai Hing
+- 地區：東區
+- 評分：3.2星（512人評價）
+- 地址：地下 2號, Harmony Place, 333號 Shau Kei Wan Road, Shau Kei Wan
+- 價格：$$
+
+## 119. Ocean Treasure Seafood Restaurant
+- 地區：東區
+- 評分：3.3星（620人評價）
+- 地址：41 Shau Kei Wan Road, Sai Wan Ho
+- 價格：$$
+
+## 120. Grand Cuisine Shanghai Kitchen
+- 地區：東區
+- 評分：3.6星（392人評價）
+- 地址：G510-511, Taikoo Shing, On Shing Terrace Po On Mansion, 1 Tai Yue Avenue, Taikoo Shing
+- 價格：$$
+
+## 121. I-O-N Wong Chuk Hang
+- 地區：南區
+- 評分：3.9星（339人評價）
+- 地址：P3/F, Nina Hotel Island South, 55 Wong Chuk Hang Road
+- 類型：cafe
+
+## 122. Neptune's Restaurant
+- 地區：南區
+- 評分：3.7星（389人評價）
+- 地址：Grand Aquarium, Aqua City, The Waterfront, Ocean Park Road, Wong Chuk Hang
+
+## 123. The Bayview Restaurant
+- 地區：南區
+- 評分：3.5星（565人評價）
+- 地址：Wong Chuk Hang
+- 價格：$$$
+
+## 124. TamJai Yunnan Mixian (Aberdeen)
+- 地區：南區
+- 評分：3.4星（251人評價）
+- 地址：Shop No. 208, 2/F, 38 Chengtu Road, Aberdeen
+- 價格：$
+
+## 125. Café Ocean
+- 地區：南區
+- 評分：3.3星（270人評價）
+- 地址：180號 黃竹坑道, 香港仔
+- 類型：bakery/store
+
+## 126. Pizza Hut Hong Kong
+- 地區：南區
+- 評分：3.6星（517人評價）
+- 地址：樓210號舖, 香港仔成都道38號利港中心2, Aberdeen
+- 價格：$$
+- 類型：meal_delivery
+
+## 127. Café de Coral
+- 地區：南區
+- 評分：3.3星（178人評價）
+- 地址：Shek Pai Wan Shopping Centre, 68 Yue Kwong Road, Aberdeen
+- 價格：$
+
+## 128. Paramount Banquet Hall (Aberdeen)
+- 地區：南區
+- 評分：3.4星（791人評價）
+- 地址：���港仔中心商場第5期1樓F舖, 9號 Nam Ning Street, Aberdeen
+- 價格：$$
+
+## 129. Maxim's MX
+- 地區：南區
+- 評分：3.3星（314人評價）
+- 地址：Portion 3 1/F Albert House, 20-28 Chengtu Road, Aberdeen
+- 價格：$$
+
+## 130. Café de Coral
+- 地區：南區
+- 評分：3.4星（650人評價）
+- 地址：HK 香港島 香港仔 香港仔中心第三期地下 15 及 16 號商舖
+- 價格：$
+
+## 131. Nam Kee Spring Roll Noodle
+- 地區：南區
+- 評分：3.6星（734人評價）
+- 地址：香港仔東勝道10號朗盈商業大廈一樓及二樓, Aberdeen
+- 價格：$
+
+## 132. Fairwood (Aberdeen Centre)
+- 地區：南區
+- 評分：3.6星（383人評價）
+- 地址：Capitol Centre Tower II, 28 Jardine's Crescent, Aberdeen
+- 價格：$
+
+## 133. Sang Kee
+- 地區：南區
+- 評分：3.6星（30人評價）
+- 地址：1 Nam Long Shan Road, Wong Chuk Hang
+
+## 134. Pizza Hut
+- 地區：南區
+- 評分：3.8星（161人評價）
+- 地址：香港仔鴨脷洲村利怡樓25-30號地舖
+- 價格：$$
+- 類型：meal_delivery
+
+## 135. Genki Sushi (Aberdeen)
+- 地區：南區
+- 評分：3.7星（622人評價）
+- 地址：Aberdeen Centre Kwun King Court, Shops 9 11&13, G/F, Site 3, Aberdeen Centre, Nam Ning Street, Aberdeen
+- 價格：$$
+- 類型：meal_takeaway
+
+## 136. Take a Break
+- 地區：南區
+- 評分：4.3星（26人評價）
+- 地址：5/F, Aberdeen Municipal Service Building, 203 Aberdeen Main Road 香港仔大道203號 香港仔體育館5樓, Aberdeen
+- 價格：$$
+
+## 137. Super Super Congee & Noodles
+- 地區：南區
+- 評分：3星（105人評價）
+- 地址：Hong Kong
+- 價格：$
+
+## 138. McDonald's (Lei Tung Estate)
+- 地區：南區
+- 評分：3.5星（244人評價）
+- 地址：212號舖, 利東邨利東商場第二期, Ap Lei Chau
+- 價格：$
+
+## 139. McDonald's (Marina Square)
+- 地區：南區
+- 評分：3.5星（439人評價）
+- 地址：12A South Horizon Drive, Ap Lei Chau
+- 價格：$
+
+## 140. Café de Coral
+- 地區：南區
+- 評分：3.5星（601人評價）
+- 地址：12A South Horizon Drive, Ap Lei Chau
+- 價格：$
+
+## 141. McDonald's (Ocean Park)
+- 地區：南區
+- 評分：3.3星（297人評價）
+- 地址：海洋公園山頂小食亭, Aberdeen
+- 價格：$
+
+## 142. Hsin Kuang Banquet
+- 地區：南區
+- 評分：3.2星（836人評價）
+- 地址：2/F, Aberdeen Centre Kwun Chiu Court, Nam Ning Street, Aberdeen
+- 價格：$$
+
+## 143. Sing Teck Canteen
+- 地區：南區
+- 評分：3.4星（82人評價）
+- 地址：44 號 Wong Chuk Hang Road, Aberdeen
+- 價格：$
+
+## 144. Zhu Kee
+- 地區：南區
+- 評分：3.4星（53人評價）
+- 地址：1樓, 市政大廈, Hung Shing Street, Ap Lei Chau
+
+## 145. Pizza Hut (Chi Fu Landmark, Pokfulam)
+- 地區：南區
+- 評分：3.9星（32人評價）
+- 地址：薄扶林道置富南區廣場美食嘉年華2樓5號舖 Pokfulam, Chi Fu Road, Pok Fu Lam
+- 價格：$$
+- 類型：meal_delivery
+
+## 146. Genki Sushi (South Horizons)
+- 地區：南區
+- 評分：3.8星（380人評價）
+- 地址：HK 香港島 鴨脷洲 Shop G46, G49C&G49E, G/F, West Commercial Block, Marina Square
+- 價格：$$
+- 類型：meal_takeaway
+
+## 147. Café de Coral
+- 地區：南區
+- 評分：3.2星（192人評價）
+- 地址：第一期利東商場 206 號 Commercial Centre Phase I 206, Lei Tung Estate Road, Ap Lei Chau
+- 價格：$
+
+## 148. McDonald's (Tin Wan, Aberdeen)
+- 地區：南區
+- 評分：3.4星（436人評價）
+- 地址：地下1及, Silver Mansion, 2號舖, 81號 Shek Pai Wan Road, Aberdeen
+- 價格：$
+
+## 149. Fairwood
+- 地區：南區
+- 評分：3.6星（170人評價）
+- 地址：5號舖, 鴨脷洲邨停車場, 鴨脷洲
+- 價格：$
+
+## 150. Green Curry House Thai Food
+- 地區：南區
+- 評分：3.9星（104人評價）
+- 地址：1/F, Nam Long Shan Road Cooked Food Market, Nam Long Shan Road, Wong Chuk Hang
+
+## 151. 祥興咖啡
+- 地區：南區
+- 評分：3.6星（14人評價）
+- 地址：香港仔香港仔街市大廈2樓熟食中心
+- 類型：cafe
+
+## 152. 太興 (香港仔中心店)
+- 地區：南區
+- 評分：3.2星（311人評價）
+- 地址：Chengtu Road, Aberdeen
+- 價格：$$
+
+## 153. Kwan Sham Restaurant
+- 地區：南區
+- 評分：3.5星（182人評價）
+- 地址：Ka Fook Court, 2-10 Ka Wo Street, Tin Wan
+- 價格：$
+
+## 154. Han Kee Restaurant
+- 地區：南區
+- 評分：3.2星（71人評價）
+- 地址：2村34號鋪, Wah Fu Road, 香港仔
+
+## 155. Café de Coral
+- 地區：南區
+- 評分：3.3星（181人評價）
+- 地址：華貴商場26號舖 Wah Kwai Estate Wah Oi House 3 Wah Kwai Road, Aberdeen
+- 價格：$
+
+## 156. 珍珠奶茶美食坊
+- 地區：南區
+- 評分：3.3星（7人評價）
+- 地址：號舖, Nam Long Shan Road Cooked Food Market中心1樓, 11 Nam Long Shan Road, Wong Chuk Hang
+
+## 157. 耀記
+- 地區：南區
+- 評分：3.3星（6人評價）
+- 地址：Hong Kong
+
+## 158. Shui Ki Canteen
+- 地區：南區
+- 評分：3.1星（169人評價）
+- 地址：Shui Ki Industrial Building, 18 Wong Chuk Hang Road
+
+## 159. Club Panda
+- 地區：南區
+- 評分：3.6星（166人評價）
+- 地址：Wong Chuk Hang
+
+## 160. Silver Cafe
+- 地區：南區
+- 評分：3.7星（391人評價）
+- 地址：Wah Fu (I) Estate Wah Kwong House, 707-708號, Aberdeen
+- 價格：$
+
+## 161. McDonald's (Wah Fu Estate)
+- 地區：南區
+- 評分：3.3星（251人評價）
+- 地址：香港仔華富村華富商場1A號舖
+- 價格：$
+
+## 162. Fairwood
+- 地區：南區
+- 評分：3.7星（100人評價）
+- 地址：薄扶林薄扶林道置富廣場5樓501,532-533及535-538號舖, Chi Fu Road, Pok Fu Lam
+- 價格：$
+
+## 163. McDonald's (Chi Fu)
+- 地區：南區
+- 評分：3.8星（176人評價）
+- 地址：Chi Fu Road, Pok Fu Lam
+- 價格：$
+
+## 164. 松柏食堂
+- 地區：南區
+- 評分：3.2星（52人評價）
+- 地址：C舖, 松栢工業大廈, 12 業發街, 香港仔
+
+## 165. 明星食堂
+- 地區：南區
+- 評分：2.7星（31人評價）
+- 地址：33 Yip Kan Street
+
+## 166. Tak Kee Restaurant
+- 地區：南區
+- 評分：3.3星（60人評價）
+- 地址：Hong Kong
+
+## 167. McDonald's (The Peak)
+- 地區：南區
+- 評分：3.8星（289人評價）
+- 地址：Shop 209 & 210, The Peak Galleria, 二樓11及12號舖, 118號 Peak Road, The Peak
+- 價格：$
+
+## 168. Chan Sun Kee
+- 地區：南區
+- 評分：3.8星（222人評價）
+- 地址：鴨脷洲鴨利洲大街鴨利洲市政大廈1樓
+- 價格：$
+
+## 169. 食記
+- 地區：南區
+- 評分：3.9星（138人評價）
+- 地址：42號 Ap Lei Chau Main Street, Ap Lei Chau
+- 價格：$
+
+## 170. Tak Fat Noodle Shop
+- 地區：南區
+- 評分：3.3星（48人評價）
+- 地址：鴨脷洲洪聖街8號鴨脷洲市政大廈1樓CF5
+- 價格：$
+
+## 171. Thai Co Co Nut
+- 地區：南區
+- 評分：3.9星（66人評價）
+- 地址：Hong Kong
+- 價格：$$
+
+## 172. 成記牛什粉麵
+- 地區：南區
+- 評分：3.7星（11人評價）
+- 地址：香港仔香港仔街市大廈2樓熟食中心10號舖
+
+## 173. 鸚鵡推介
+- 地區：南區
+- 地址：香港島香港仔海洋公園山下近呠呠火車頭
+
+## 174. Horizon
+- 地區：南區
+- 評分：4.4星（19人評價）
+- 地址：9/F, Aberdeen Marina Club, 8 Shum Wan Road, Aberdeen
+
+## 175. 潮興滷味專門店
+- 地區：南區
+- 評分：3.9星（8人評價）
+- 地址：Hong Kong
+- 類型：meal_takeaway
+
+## 176. Wah Yuen
+- 地區：南區
+- 評分：3.1星（9人評價）
+- 地址：香港仔田灣嘉禾街1-3號地下E舖, Aberdeen
+
+## 177. Ming Fai Fast Food Restaurant
+- 地區：南區
+- 評分：3.7星（51人評價）
+- 地址：70 Aberdeen Main Road, Aberdeen
+
+## 178. Shun Fat Noodles
+- 地區：南區
+- 評分：3.8星（76人評價）
+- 地址：Ap Lei Chau Estate Lei Fook House, 322 Ap Lei Chau Bridge Road, Ap Lei Chau
+
+## 179. KFC
+- 地區：南區
+- 評分：3.9星（289人評價）
+- 地址：號舖, 209 Chengtu Road, Aberdeen
+- 價格：$
+
+## 180. Dive Into A Float
+- 地區：南區
+- 評分：1.8星（4人評價）
+- 地址：Hong Kong
+- 類型：meal_takeaway
+
+## 181. Tai Ping Koon Restaurant
+- 地區：灣仔
+- 評分：4星（755人評價）
+- 地址：6 Pak Sha Road, Causeway Bay
+- 價格：$$
+
+## 182. Din Tai Fung (Causeway Bay)
+- 地區：灣仔
+- 評分：4.2星（3096人評價）
+- 地址：地下3-11舖, 怡和街68號地下3-11舖, 68號 Yee Wo Street, Causeway Bay
+- 價格：$$
+
+## 183. Amigo
+- 地區：灣仔
+- 評分：4.5星（727人評價）
+- 地址：79A Wong Nai Chung Road, Happy Valley
+- 價格：$$$$
+
+## 184. Brunch Club & Supper (Causeway Bay)
+- 地區：灣仔
+- 評分：4.1星（856人評價）
+- 地址：1st Floor, 13 Leighton Road, Causeway Bay
+- 價格：$$
+
+## 185. 富臨飯店 Forum Restaurant
+- 地區：灣仔
+- 評分：4.2星（290人評價）
+- 地址：255-257 Gloucester Road, Causeway Bay
+- 價格：$$$$
+
+## 186. Dong Lai Shun
+- 地區：灣仔
+- 評分：4.1星（402人評價）
+- 地址：69 Mody Road, Tsim Sha Tsui East
+- 價格：$$$
+
+## 187. Harlan's
+- 地區：灣仔
+- 評分：4.3星（498人評價）
+- 地址：19/F, The ONE, 100 Nathan Road, Tsim Sha Tsui
+- 價格：$$$$
+- 類型：bar
+
+## 188. The Window Cafe
+- 地區：灣仔
+- 評分：3.9星（742人評價）
+- 地址：2樓, The Kowloon Hotel, 19～21號 Nathan Road, Tsim Sha Tsui
+
+## 189. Regal Oriental Hotel
+- 地區：九龍城
+- 評分：3.6星（3090人評價）
+- 地址：30-38 Sa Po Road, Kowloon City
+- 類型：lodging
+
+## 190. Tim Ho Wan
+- 地區：九龍城
+- 評分：4.2星（5468人評價）
+- 地址：9-11 Fuk Wing Street, Sham Shui Po
+- 價格：$
+
+## 191. Ah Chun Shandong Dumpling
+- 地區：九龍城
+- 評分：3.9星（591人評價）
+- 地址：60號 Lai Chi Kok Road, Prince Edward
+- 價格：$
+
+## 192. Lei Garden
+- 地區：九龍城
+- 評分：3.8星（663人評價）
+- 地址：No. 121 Sai Yee Street, Mong Kok
+- 價格：$$$
+
+## 193. 漢城美食 Han Sung Korean Cuisine
+- 地區：九龍城
+- 評分：4.3星（301人評價）
+- 地址：G/F, 74-76號 Kimberley Road, Tsim Sha Tsui
+
+## 194. The Market
+- 地區：九龍城
+- 評分：4.2星（1822人評價）
+- 地址：17 Science Museum Road, Tsim Sha Tsui
+- 價格：$$$
+
+## 195. Ming Court Mong Kok
+- 地區：九龍城
+- 評分：4.1星（776人評價）
+- 地址：Level 6, 555 Shanghai Street Cordis, Mong Kok
+- 價格：$$$
+
+## 196. Sportful Garden Restaurant
+- 地區：九龍城
+- 評分：3.2星（465人評價）
+- 地址：118 Soy Street, Mong Kok
+- 價格：$$
+
+## 197. Cuisine Cuisine The Mira
+- 地區：九龍城
+- 評分：4.2星（843人評價）
+- 地址：三樓, The Mira Hong Kong, 118-130號 Nathan Road, Tsim Sha Tsui
+- 價格：$$$$
+
+## 198. Cambo Thai Restaurant
+- 地區：九龍城
+- 評分：3.7星（615人評價）
+- 地址：23-25 Nga Tsin Long Road, Kowloon City
+- 價格：$$
+
+## 199. Amour Cafe
+- 地區：九龍城
+- 評分：4.1星（468人評價）
+- 地址：佐敦南京街25號, Yau Ma Tei
+- 價格：$$
+
+## 200. Chee Kei
+- 地區：九龍城
+- 評分：4星（941人評價）
+- 地址：52 Lock Road, Tsim Sha Tsui
+- 價格：$$
+
+## 201. Sun Tung Lok Chinese Cuisine
+- 地區：九龍城
+- 評分：4.1星（467人評價）
+- 地址：Hong Kong
+
+## 202. Royal Pacific Hotel
+- 地區：九龍城
+- 評分：4.1星（1550人評價）
+- 地址：L3 3305A, 33 Canton Road, Tsim Sha Tsui
+- 類型：bar/lodging
+
+## 203. Hoi King Heen
+- 地區：九龍城
+- 評分：4.3星（492人評價）
+- 地址：B2/F, InterContinental Grand Stanford Hong Kong, 70 Mody Road, Tsim Sha Tsui
+
+## 204. Prince Hotel, Hong Kong
+- 地區：九龍城
+- 評分：4.2星（919人評價）
+- 地址：Harbour City, 23 Canton Road, Tsim Sha Tsui
+- 類型：bar/lodging
+
+## 205. Man Wah Restaurant
+- 地區：九龍城
+- 評分：3.6星（1511人評價）
+- 地址：G/F, 旺角通菜街153-159號地舖 Shop no. C & D, 153-159 Tung Choi Street, Mong Kok
+- 價格：$$
+
+## 206. Wooloomooloo Prime
+- 地區：九龍城
+- 評分：4.3星（951人評價）
+- 地址：Level 21, The ONE, 100 Nathan Road, Tsim Sha Tsui
+
+## 207. Curry House CoCo Ichibanya (Tsim Sha Tsui)
+- 地區：九龍城
+- 評分：4星（371人評價）
+- 地址：Shop 302, 30 Canton Road, Tsim Sha Tsui
+- 價格：$$
+
+## 208. V Dimpal Fusion and Pizza House
+- 地區：九龍城
+- 評分：4.2星（521人評價）
+- 地址：Po Fat Building, 273-285 Temple Street, Yau Ma Tei
+- 價格：$$
+
+## 209. Sweet Tooth
+- 地區：九龍城
+- 評分：3.7星（305人評價）
+- 地址：Shop 4, Paradise Square, 3 Kwong Wa Street, Mong Kok
+- 類型：store
+
+## 210. Hungry Korean (Tsim Sha Tsui)
+- 地區：九龍城
+- 評分：3.8星（331人評價）
+- 地址：地下B號舖, 天星大廈, 24-38號 亞士厘道, 尖沙咀
+- 價格：$
+
+## 211. 万豚屋 Mochi Cafe
+- 地區：九龍城
+- 評分：3.6星（247人評價）
+- 地址：Hart Avenue Court, 19 Hart Avenue, Tsim Sha Tsui
+- 價格：$$
+
+## 212. Very Good Seafood Restaurant
+- 地區：九龍城
+- 評分：3.8星（1471人評價）
+- 地址：B1, 90-94C Nathan Road, Tsim Sha Tsui
+- 價格：$$
+
+## 213. Sabatini Ristorante Italiano
+- 地區：九龍城
+- 評分：4.4星（630人評價）
+- 地址：69 Mody Road, Tsim Sha Tsui East
+- 價格：$$$$
+
+## 214. Macau Tsui Yuen Cafe
+- 地區：九龍城
+- 評分：3.7星（100人評價）
+- 地址：號 旺角 熟食 中心 2 樓 8 號 舖, 557 Shanghai Street, Mong Kok
+
+## 215. Café Kool
+- 地區：九龍城
+- 評分：4星（1315人評價）
+- 地址：Mezzanine Level, 64 Mody Road, Tsim Sha Tsui East
+- 價格：$$$
+- 類型：cafe/store
+
+## 216. The Place
+- 地區：九龍城
+- 評分：4星（1006人評價）
+- 地址：Level L, 555 Shanghai Street, Mong Kok
+- 價格：$$$
+
+## 217. The Mistral
+- 地區：九龍城
+- 評分：4.3星（538人評價）
+- 地址：1/F, InterContinental Grand Stanford Hong Kong, 70 Mody Road, Tsim Sha Tsui
+- 價格：$$$
+
+## 218. THE LOBBY
+- 地區：九龍城
+- 評分：4.4星（1427人評價）
+- 地址：Salisbury Road, Tsim Sha Tsui
+
+## 219. Islam Food Since 1950
+- 地區：九龍城
+- 評分：4星（3778人評價）
+- 地址：Shun King Building, 33-35 Tak Ku Ling Road, Kowloon City
+- 價格：$$
+
+## 220. Villa 26
+- 地區：九龍城
+- 評分：4.2星（316人評價）
+- 地址：66號 Mody Road, Tsim Sha Tsui
+- 價格：$$
+
+## 221. Promenade Restaurant
+- 地區：九龍城
+- 評分：4星（841人評價）
+- 地址：G/F, 7 Metropolis Drive, Hung Hom
+- 價格：$$$
+
+## 222. The Sky Bar
+- 地區：九龍城
+- 評分：4.1星（285人評價）
+- 地址：Shop 1, 8 Argyle Street, Mong Kok
+
+## 223. Sai Kee Congee Shop
+- 地區：九龍城
+- 評分：3.5星（655人評價）
+- 地址：25 Mong Kok Road, Mong Kok
+- 價格：$
+
+## 224. Biergarten German Bar & Restaurant
+- 地區：九龍城
+- 評分：4.2星（492人評價）
+- 地址：Shop 1, G/F, 5 Hanoi Road, Tsim Sha Tsui
+- 價格：$$
+- 類型：bar
+
+## 225. Café on the PARK
+- 地區：九龍城
+- 評分：3.8星（394人評價）
+- 地址：2/F, Hotel Wing Royal Pacific Hotel, 33 Canton Road, Tsim Sha Tsui
+- 類型：cafe
+
+## 226. Cucina
+- 地區：九龍城
+- 評分：4.4星（596人評價）
+- 地址：Harbour City, Level 6, Marco Polo Hongkong Hotel, 3 Canton Road, Tsim Sha Tsui
+- 價格：$$$
+
+## 227. Sagano
+- 地區：九龍城
+- 評分：4.3星（193人評價）
+- 地址：1/F, New World Millennium Hong Kong Hotel, 72 Mody Road, Tsim Sha Tsui
+
+## 228. Tai Fung Lau Peking Restaurant
+- 地區：九龍城
+- 評分：3.9星（741人評價）
+- 地址：Windsor Mansion, 29-31號 Chatham Road South, Tsim Sha Tsui
+- 價格：$$
+
+## 229. 大和燒
+- 地區：九龍城
+- 評分：4星（1人評價）
+- 地址：43H Dundas Street, Mong Kok
+
+## 230. Gyu-Kaku (Telford Plaza)
+- 地區：觀塘
+- 評分：3.9星（401人評價）
+- 地址：Shop 429, 4/F, 33 Wai Yip Street, Kowloon Bay
+- 價格：$$
+
+## 231. KFC
+- 地區：觀塘
+- 評分：3.6星（975人評價）
+- 地址：Millennium City Phase V, Shop No. L2-1 Level 2, apm, 418 Kwun Tong Road, Kwun Tong
+- 價格：$
+
+## 232. She Wong Kuen
+- 地區：觀塘
+- 評分：4星（559人評價）
+- 地址：Chi Cheong Building, 4D號 Yee On Street, Ngau Tau Kok
+- 價格：$$
+
+## 233. California Pizza Kitchen MegaBox
+- 地區：觀塘
+- 評分：3.6星（331人評價）
+- 地址：L11, Shop 10, Enterprise Square, Megabox, 38 Wang Chiu Road, Kowloon Bay
+- 價格：$$
+
+## 234. Pepper Lunch (One Pacific Place)
+- 地區：觀塘
+- 評分：3.9星（353人評價）
+- 地址：Shop No.02, 2/F, One Pacific Centre, 414 Kwun Tong Road, Kwun Tong
+- 價格：$$
+
+## 235. Menu
+- 地區：觀塘
+- 評分：3.5星（59人評價）
+- 地址：國際展貿中心, 3/F, 1 展貿徑, 九龍灣
+
+## 236. Fook Lam Moon (Kowloon Bay)
+- 地區：觀塘
+- 評分：4星（289人評價）
+- 地址：2/F, Kingston International Centre, 19 Wang Chiu Road, Kowloon Bay
+- 價格：$$$$
+
+## 237. ClubONE Telford
+- 地區：觀塘
+- 評分：3.6星（260人評價）
+- 地址：Telford Garden Podium, Units P13-P14, Podium Level, Telford Gardens, 33 Wai Yip Street, Kowloon Bay
+- 類型：meal_delivery
+
+## 238. V Cuisine
+- 地區：觀塘
+- 評分：3.4星（449人評價）
+- 地址：7/F, Crocodile Center, 79 Hoi Yuen Road, Kwun Tong
+
+## 239. Jade Garden (Kowloon Bay)
+- 地區：觀塘
+- 評分：3.6星（1041人評價）
+- 地址：第1期 F20 號, 德福廣場, 九龍灣
+- 價格：$$
+
+## 240. Italian Tomato Café (APM)
+- 地區：觀塘
+- 評分：3.6星（295人評價）
+- 地址：APM, Millennium City Phase V, Shop No. L5-6b, Level 5, 418 Kwun Tong Road
+- 價格：$$
+
+## 241. Ho Choi Seafood Restaurant
+- 地區：觀塘
+- 評分：3.6星（978人評價）
+- 地址：Phase 1, 1 Millennium City, 5/F, 388 Kwun Tong Road, Kwu Tung
+- 價格：$$
+
+## 242. Pepper Lunch (Telford Plaza)
+- 地區：觀塘
+- 評分：3.2星（21人評價）
+- 地址：Unit 501B, 5/F, Telford Plaza Phase I, Stall No. 11, Kowloon Bay
+
+## 243. Tai Wing Wah Village Cuisine
+- 地區：觀塘
+- 評分：3.6星（1087人評價）
+- 地址：8 Wang Hoi Road, Kowloon Bay
+- 價格：$$
+
+## 244. Sidewalk Cafe
+- 地區：觀塘
+- 評分：3.5星（1485人評價）
+- 地址：德福廣場第1期P8號舖
+- 價格：$$
+
+## 245. TamJai Yunnan Mixian (Hong Ning Road)
+- 地區：觀塘
+- 評分：3.7星（162人評價）
+- 地址：號地下, 56 Hong Ning Road, Kwun Tong
+- 價格：$
+
+## 246. Fulum Palace
+- 地區：觀塘
+- 評分：3.2星（627人評價）
+- 地址：Enterprise Square, 9 Sheung Yuet Road, Kowloon Bay
+- 價格：$$
+
+## 247. Wing Hing King of Soya Milk
+- 地區：觀塘
+- 評分：3.4星（69人評價）
+- 地址：1B10, 1/F, 裕民坊, 33號 Hip Wo Street, Kwun Tong
+- 價格：$
+
+## 248. Bubble Tree
+- 地區：觀塘
+- 評分：4.1星（168人評價）
+- 地址：Shing Yip Industrial Building, Room27, 2//F, 19-21 Shing Yip Street, Kwun Tong
+- 類型：cafe/meal_takeaway
+
+## 249. 美心西餅
+- 地區：觀塘
+- 評分：2.5星（8人評價）
+- 地址：鐵路站, 藍田
+- 價格：$$
+
+## 250. Tai Hing (MegaBox)
+- 地區：觀塘
+- 評分：3.3星（256人評價）
+- 地址：38 Wang Chiu Road, Kowloon Bay
+- 價格：$$
+
+## 251. Jumbo Japanese
+- 地區：觀塘
+- 評分：3.6星（798人評價）
+- 地址：404 Kwun Tong Road, Kwun Tong
+- 價格：$$
+
+## 252. New Harbour Pearl Seafood Restaurant
+- 地區：觀塘
+- 評分：3.6星（589人評價）
+- 地址：一樓, Kwong Ming Building, 8號 Yee On Street, Ngau Tau Kok
+- 價格：$$
+
+## 253. Oliver's Super Sandwiches
+- 地區：觀塘
+- 評分：3.7星（254人評價）
+- 地址：No. L2-13 Level, Shop, 2 418 Kwun Tong Road, Kwun Tong
+- 價格：$$
+
+## 254. Factory 99
+- 地區：觀塘
+- 評分：3.9星（1549人評價）
+- 地址：1樓A室, 99號 How Ming Street, Kwun Tong
+- 價格：$$
+
+## 255. E-pai
+- 地區：觀塘
+- 評分：3.9星（538人評價）
+- 地址：418 Kwun Tong Road, Kwun Tong
+
+## 256. Shanghai Wing Wa Szechuen Restaurant
+- 地區：觀塘
+- 評分：3.8星（357人評價）
+- 地址：15 Shung Yan Street, Kwun Tong
+- 類型：meal_delivery/meal_takeaway
+
+## 257. Grandma Cooking
+- 地區：觀塘
+- 評分：4星（85人評價）
+- 地址：得寶商場地下木馬工房FC08號舖, 3號 Ngau Tau Kok Road, Kwun Tong
+- 價格：$$
+- 類型：store
+
+## 258. KFC
+- 地區：觀塘
+- 評分：3.3星（396人評價）
+- 地址：Shop Nos. G92-95, G/F, Amoy Plaza, Phase 1, 77 Ngau Tau Kok Road, Ngau Tau Kok
+- 價格：$
+
+## 259. Maxim's Palace
+- 地區：觀塘
+- 評分：3.5星（1662人評價）
+- 地址：33 Wai Yip Street, Kowloon Bay
+- 價格：$$
+
+## 260. McDonald's (MegaBox)
+- 地區：觀塘
+- 評分：3.7星（413人評價）
+- 地址：2/f, MegaBox, 38號 Wang Chiu Road, Kowloon Bay
+- 價格：$
+
+## 261. The Graces Restaurant (Kwun Tong)
+- 地區：觀塘
+- 評分：3.3星（1108人評價）
+- 地址：Level 6, 79 Hoi Yuen Road, Kwun Tong
+- 價格：$$
+
+## 262. 臻味豬扒酸辣米線
+- 地區：觀塘
+- 評分：3.7星（388人評價）
+- 地址：G/F Shop C, 聯安街, 觀塘
+- 價格：$
+
+## 263. 簽上的波兒
+- 地區：觀塘
+- 評分：4.2星（5人評價）
+- 地址：5樓, Sceneway Plaza, 170B, 8號 Sceneway Road, Lam Tin
+- 類型：meal_takeaway
+
+## 264. Fook Tak Vegetarian Kitchen
+- 地區：觀塘
+- 評分：4星（31人評價）
+- 地址：2樓, 熟食市場, 67號 Tsun Yip Street, Kwun Tong
+
+## 265. 香港佛光道場滴水坊
+- 地區：觀塘
+- 評分：4.4星（156人評價）
+- 地址：億京中心地舖, 1號 宏光道, 九龍灣
+- 價格：$$
+
+## 266. Yoshinoya
+- 地區：觀塘
+- 評分：3.2星（172人評價）
+- 地址：Portion A, Unit 2, Level 4, Sceneway Plaza, 1-7 Sceneway Road, Lam Tin
+- 價格：$
+
+## 267. Fairwood
+- 地區：觀塘
+- 評分：3.5星（89人評價）
+- 地址：Hong Kong
+- 價格：$
+
+## 268. Cafe de Itamomo (Lam Tin)
+- 地區：觀塘
+- 評分：3.7星（866人評價）
+- 地址：50號 Kai Tin Road, Lam Tin
+- 價格：$
+
+## 269. McDonald's (Richland Gardens)
+- 地區：觀塘
+- 評分：3.4星（390人評價）
+- 地址：九龍灣宏光道80號 麗晶花園商場及停車場218-1號舖, Kowloon
+- 價格：$
+
+## 270. Maxim's MX
+- 地區：觀塘
+- 評分：3.2星（412人評價）
+- 地址：Shop no. 1 Upper Ngau Tau Kok Estate Shopping Center, Ngau Tau Kok
+- 價格：$$
+
+## 271. Pizza Hut Hong Kong
+- 地區：觀塘
+- 評分：4.1星（120人評價）
+- 地址：E&E1地鋪, 南僑大廈, 73-87號 Wan Hon Street, Kwun Tong
+- 價格：$$
+- 類型：meal_takeaway/meal_delivery
+
+## 272. McDonald's (Millennium City)
+- 地區：觀塘
+- 評分：3.5星（906人評價）
+- 地址：��塘觀塘道388號 創紀之城1號1A地下, Kowloon
+- 價格：$
+
+## 273. Café de Coral
+- 地區：觀塘
+- 評分：3.3星（562人評價）
+- 地址：地庫二層 B201A 舖, 匯八坊, 8號 Clear Water Bay Road, 彩虹
+- 價格：$
+
+## 274. Café de Coral
+- 地區：觀塘
+- 評分：3.3星（203人評價）
+- 地址：官塘道 388 號創紀之城一期地下 1B 號舖
+- 價格：$
+
+## 275. Shanghai Min
+- 地區：觀塘
+- 評分：3.6星（210人評價）
+- 地址：shop 2, 6/F 38 Wang Chiu Road, Kowloon Bay
+
+## 276. Café de Coral
+- 地區：觀塘
+- 評分：3.3星（270人評價）
+- 地址：號舖, 藍田匯景廣場第四層2M, Lam Tin
+- 價格：$
+
+## 277. Café de Coral
+- 地區：觀塘
+- 評分：3.2星（217人評價）
+- 地址：秀茂坪商場1樓101號舖, Kwun Tong
+- 價格：$
+
+## 278. Fairwood
+- 地區：觀塘
+- 評分：3.5星（480人評價）
+- 地址：77 Ngau Tau Kok Road, Ngau Tau Kok
+- 價格：$
+
+## 279. The Starview (Kwun Tong)
+- 地區：觀塘
+- 評分：3.5星（891人評價）
+- 地址：2 樓 (港鐵, 鱷魚恤中心, 觀塘站A2出口APM通道, 79 號 Hoi Yuen Road, Kwun Tong
+- 價格：$$
+
+## 280. Sour and Spicy Noodle
+- 地區：觀塘
+- 評分：3.3星（231人評價）
+- 地址：42 Hong Ning Road, Kwun Tong
+- 價格：$$
+
+## 281. Lucky Indonesia Restaurant
+- 地區：觀塘
+- 評分：4.1星（349人評價）
+- 地址：46號 Tung Ming Street, Kwun Tong
+- 價格：$$
+
+## 282. Ka Ho Restaurant
+- 地區：觀塘
+- 評分：3.3星（768人評價）
+- 地址：On Kay Court Kay Yue House, 20號 Chun Wah Road, Ngau Tau Kok
+- 價格：$$
+
+## 283. Pizza Hut (Kai Tin Shopping Centre)
+- 地區：觀塘
+- 評分：3.6星（397人評價）
+- 地址：Shop 230, Kai Tin Road, Lam Tin
+- 價格：$$
+- 類型：meal_delivery
+
+## 284. Ying Fat Cafe
+- 地區：觀塘
+- 評分：3.6星（285人評價）
+- 地址：號地下, Fu Shing House, 16 Fu Yan Street, Kwun Tong
+- 價格：$
+
+## 285. TH Vegetarian
+- 地區：觀塘
+- 評分：4.5星（11人評價）
+- 地址：7 Shing Yip Street, Kwun Tong
+
+## 286. Kwan Kee Bamboo Noodle
+- 地區：深水埗
+- 評分：3.8星（805人評價）
+- 地址：1 Wing Lung Street, Cheung Sha Wan
+- 價格：$$
+
+## 287. Wai Kee
+- 地區：深水埗
+- 評分：3.6星（3246人評價）
+- 地址：62及66號 Fuk Wing Street, Sham Shui Po
+- 價格：$
+
+## 288. Greater China Restaurant
+- 地區：深水埗
+- 評分：3.7星（1190人評價）
+- 地址：550-554號 Fuk Wing Street, Cheung Sha Wan
+- 價格：$$
+
+## 289. simplylife (Festival Walk)
+- 地區：深水埗
+- 評分：3.8星（785人評價）
+- 地址：Festival Walk, L2-30, Kowloon Tong
+- 價格：$$
+
+## 290. Amaroni's (Kowloon Tong)
+- 地區：深水埗
+- 評分：3.7星（1184人評價）
+- 地址：32號舖, 又一城LG1, 80號 Tat Chee Avenue, Kowloon Tong
+- 價格：$$
+
+## 291. Jasmine
+- 地區：深水埗
+- 評分：3.6星（1198人評價）
+- 地址：LG2, 5 Tat Chee Avenue, Festival Walk
+- 價格：$$$
+
+## 292. EXP
+- 地區：深水埗
+- 評分：3.8星（1094人評價）
+- 地址：Shop UG23, Festival Walk, Kowloon Tong
+- 價格：$$
+
+## 293. 珠江酒家
+- 地區：深水埗
+- 評分：4星（643人評價）
+- 地址：138 Lai Chi Kok Road, Prince Edward
+- 價格：$$
+
+## 294. Dan Ryan's Chicago Grill (Kowloon Tong)
+- 地區：深水埗
+- 評分：3.7星（1112人評價）
+- 地址：LG2-28 Festival Walk, 80 Tat Chee Avenue, Kowloon Tong
+- 價格：$$$
+
+## 295. Hon Fat Noodle (Sham Shui Po)
+- 地區：深水埗
+- 評分：3.9星（1495人評價）
+- 地址：192號 Tai Nan Street, Tong Mi
+- 價格：$$
+
+## 296. Star Seafood Restaurant
+- 地區：深水埗
+- 評分：3.2星（1114人評價）
+- 地址：地下及2樓, Tai Po Road, Sham Shui Po
+- 價格：$$
+
+## 297. Kowloon Restaurant (Sham Shui Po)
+- 地區：深水埗
+- 評分：3.4星（1371人評價）
+- 地址：號地下, 282 Yu Chau Street, Sham Shui Po
+- 價格：$$
+
+## 298. Fulum Palace
+- 地區：深水埗
+- 評分：3.1星（1433人評價）
+- 地址：c地下, Mei Foo Sun Chuen Stage 4 - 85-87 Broadway, Broadway, Mei Foo Sun Chuen
+- 價格：$$
+
+## 299. Euro Go Go
+- 地區：深水埗
+- 評分：3.6星（120人評價）
+- 地址：8 Argyle Street, Mong Kok
+- 價格：$$
+
+## 300. New Yung Kee
+- 地區：深水埗
+- 評分：3.4星（359人評價）
+- 地址：118 Fuk Wa Street, Sham Shui Po
+- 價格：$$
+
+## 301. Kung Fu Dim Sum
+- 地區：深水埗
+- 評分：3.3星（830人評價）
+- 地址：72號 Fuk Wing Street, Sham Shui Po
+- 價格：$$
+
+## 302. Glorious Cuisine
+- 地區：深水埗
+- 評分：3.7星（1138人評價）
+- 地址：31-33 Shek Kip Mei Street, Sham Shui Po
+- 價格：$$
+
+## 303. Dim Dim Sum Mong Kok
+- 地區：深水埗
+- 評分：4星（3307人評價）
+- 地址：106號 Tung Choi Street, Mong Kok
+- 價格：$$
+
+## 304. Sun Heung Yuen (Kin Kee)
+- 地區：深水埗
+- 評分：3.8星（1812人評價）
+- 地址：A地下, 38號 Kweilin Street, Sham Shui Po
+- 價格：$
+
+## 305. Flying Eagle Restaurant
+- 地區：深水埗
+- 評分：3.4星（1471人評價）
+- 地址：256 Lai Chi Kok Road, Sham Shui Po
+- 價格：$
+
+## 306. Sweet 19
+- 地區：深水埗
+- 評分：4星（204人評價）
+- 地址：G/F, 19 Ho Man Tin Street, Ho Man Tin
+- 價格：$$
+
+## 307. Yokozuna
+- 地區：深水埗
+- 評分：4星（1148人評價）
+- 地址：Shop B, G/F, 466-472 Nathan Road, Yau Ma Tei
+- 價格：$$
+
+## 308. Billion Seafood Restaurant
+- 地區：深水埗
+- 評分：3.7星（328人評價）
+- 地址：號地舖, 396-398號 砵蘭街, 旺角
+- 價格：$$
+
+## 309. 潮滙館
+- 地區：深水埗
+- 評分：3.8星（300人評價）
+- 地址：Hong Kong
+- 價格：$$
+
+## 310. Ho Choi Seafood Restaurant
+- 地區：深水埗
+- 評分：3.3星（785人評價）
+- 地址：3樓, Wing Kiu Building, Nathan Road, Yau Ma Tei
+- 價格：$$
+
+## 311. Se Wong Hing (Snake Soup)
+- 地區：深水埗
+- 評分：4星（285人評價）
+- 地址：Hong Kong
+- 價格：$$
+
+## 312. Pepper Lunch (Langham Place)
+- 地區：深水埗
+- 評分：3.8星（212人評價）
+- 地址：Shop F2, 8 Argyle Street, Mong Kok
+- 價格：$$
+
+## 313. STARBUCKS Cheung Sha Wan Plaza Shop
+- 地區：深水埗
+- 評分：3.9星（386人評價）
+- 地址：G09B2 及 G09B4, 833 Cheung Sha Wan Road, Cheung Sha Wan
+- 價格：$$
+- 類型：cafe/store
+
+## 314. KFC
+- 地區：深水埗
+- 評分：3.5星（1666人評價）
+- 地址：Shop 317, Level 3, Dragon Centre, 37K Yen Chow Street, Sham Shui Po
+- 價格：$
+
+## 315. So Kee
+- 地區：深水埗
+- 評分：3.8星（246人評價）
+- 地址：15-16 Yiu Tung Street, Sham Shui Po
+- 價格：$
+
+## 316. City Chinese Restaurant
+- 地區：深水埗
+- 評分：3.8星（405人評價）
+- 地址：8/F Bank of China (Hong Kong) Complex, City University of, Kowloon Tong
+- 價格：$$
+
+## 317. Liu Tong Beancurd Store
+- 地區：深水埗
+- 評分：4.2星（96人評價）
+- 地址：1067 Canton Road, Mong Kok
+- 價格：$
+
+## 318. 紅蔥頭
+- 地區：深水埗
+- 評分：3.6星（14人評價）
+- 地址：Hong Kong
+
+## 319. 譚仔雲南米線 TamJai Yunnan Mixian
+- 地區：深水埗
+- 評分：3.7星（698人評價）
+- 地址：Shop B, 1/F, 50 Soy Street, Mong Kok
+- 價格：$
+
+## 320. Pizza Hut Hong Kong
+- 地區：深水埗
+- 評分：3.6星（125人評價）
+- 地址：地下11號地舖, Playing Field Road, Mong Kok
+- 價格：$$
+- 類型：meal_delivery
+
+## 321. Tao Heung The Pier Market
+- 地區：深水埗
+- 評分：3.3星（1168人評價）
+- 地址：Grand Tower, 639號 Nathan Road, Mong Kok
+- 價格：$$
+
+## 322. 老川皇
+- 地區：深水埗
+- 評分：3.7星（495人評價）
+- 地址：ground, 114 砵蘭街, 旺角
+- 價格：$$
+
+## 323. Cova Pasticceria & Confetteria
+- 地區：深水埗
+- 評分：3.8星（415人評價）
+- 地址：80號 Tat Chee Avenue, Kowloon Tong
+
+## 324. Wing Hap Lung Restaurant
+- 地區：深水埗
+- 評分：3.3星（684人評價）
+- 地址：392 Portland Street, Prince Edward
+- 價格：$$
+
+## 325. Modern China Restaurant
+- 地區：深水埗
+- 評分：3.7星（735人評價）
+- 地址：18 Hoi Ting Road, Tai Kok Tsui
+- 價格：$$
+
+## 326. Chan's Tofu Fa
+- 地區：深水埗
+- 評分：4.1星（128人評價）
+- 地址：5 Soares Avenue, Ho Man Tin
+- 價格：$
+
+## 327. Dragon Place Restaurant
+- 地區：深水埗
+- 評分：3.4星（2054人評價）
+- 地址：280-288 Un Chau Street, Sham Shui Po
+- 價格：$$
+
+## 328. Café de Coral
+- 地區：深水埗
+- 評分：3.5星（1673人評價）
+- 地址：Argyle Centre Phase I, 688 Nathan Road, Mong Kok
+- 價格：$
+
+## 329. Yuen Fong Dumplings
+- 地區：深水埗
+- 評分：3.9星（1526人評價）
+- 地址：號地下, 104 Fuk Wa Street, Sham Shui Po
+- 價格：$
+
+## 330. Kai Kai Dessert
+- 地區：深水埗
+- 評分：4.2星（5672人評價）
+- 地址：號地舖, 113-115 白加士街, 佐敦
+- 價格：$
+- 類型：store
+
+## 331. French Corner
+- 地區：深水埗
+- 評分：4.5星（6人評價）
+- 地址：Hong Kong
+
+## 332. Chong Fat Chiu Chow Restaurant
+- 地區：黃大仙
+- 評分：3.6星（590人評價）
+- 地址：60-62號 South Wall Road, Kowloon City
+- 價格：$$$
+
+## 333. Tsui Wah Restaurant
+- 地區：黃大仙
+- 評分：3.6星（916人評價）
+- 地址：地下, 欣榮花園, 8-10號舖, 33號 Ma Tau Kok Road, To Kwa Wan
+- 價格：$$
+
+## 334. Kau Kee Seafood Kitchen
+- 地區：黃大仙
+- 評分：3.9星（304人評價）
+- 地址：地下 49, 49號 Mei King Street, To Kwa Wan
+- 價格：$$
+
+## 335. 大喜屋飲食集團辦公室
+- 地區：黃大仙
+- 評分：4.1星（215人評價）
+- 地址：美華工業中心B座11樓 18, 94號 To Kwa Wan Road, To Kwa Wan
+- 價格：$$
+
+## 336. Wing Lai Yuen
+- 地區：黃大仙
+- 評分：3.8星（1407人評價）
+- 地址：10-12 Ming Fung Street, Chuk Un
+- 價格：$$
+
+## 337. Nichigyu Shabu Shabu & Sukiyaki Restaurant
+- 地區：黃大仙
+- 評分：3.6星（300人評價）
+- 地址：第, 3層311B, 3號 Lung Poon Street, Diamond Hill
+- 價格：$$
+
+## 338. Xia Mian Guan (Plaza Hollywood)
+- 地區：黃大仙
+- 評分：3.4星（467人評價）
+- 地址：樓173A號舖, 3號, 1 Lung Poon Street, Tai Hom
+- 價格：$$
+
+## 339. Café 8 Degrees
+- 地區：黃大仙
+- 評分：3.8星（515人評價）
+- 地址：Harbour Plaza 8 Degrees, Ma Tau Chung Road, Ma Tau Chung
+
+## 340. DaiSuke
+- 地區：黃大仙
+- 評分：4.3星（295人評價）
+- 地址：Kar Fat Building, 35-37 Hau Wong Road, Kowloon City
+- 價格：$$
+
+## 341. Wong Chun Chun Thai Restaurant
+- 地區：黃大仙
+- 評分：3.8星（1070人評價）
+- 地址：地庫至1樓百營中心, 23號 Tak Ku Ling Road, Kowloon City
+- 價格：$$
+
+## 342. Cafe de Itamomo (Wong Tai Sin)
+- 地區：黃大仙
+- 評分：3.6星（1249人評價）
+- 地址：南館L1樓130號舖, Wong Tai Sin Plaza, 103號 Ching Tak Street, Chuk Un
+- 價格：$$
+
+## 343. Dondonya (Plaza Hollywood)
+- 地區：黃大仙
+- 評分：3.4星（172人評價）
+- 地址：3樓371號舖, 鑽石山
+- 價格：$$
+
+## 344. Copacabana
+- 地區：黃大仙
+- 評分：3.8星（326人評價）
+- 地址：37 Lion Rock Road, Kowloon City
+- 價格：$$
+
+## 345. In Sa Dong Korean Restaurant
+- 地區：黃大仙
+- 評分：3.5星（320人評價）
+- 地址：2B, Chong Chien Court - Wyler Gardens Block A, 335號 To Kwa Wan Road, To Kwa Wan
+- 價格：$$
+
+## 346. Ho Choi Seafood Restaurant
+- 地區：黃大仙
+- 評分：3.4星（849人評價）
+- 地址：B101-102, Kowloon City Plaza, 128 賈炳達道, 九龍城
+- 價格：$$
+
+## 347. Tso Choi Restaurant
+- 地區：黃大仙
+- 評分：3.8星（359人評價）
+- 地址：A舖, 17-19 Nga Tsin Wai Road, Kowloon City
+- 價格：$$
+
+## 348. Cheong Fat Thai Food
+- 地區：黃大仙
+- 評分：3.9星（651人評價）
+- 地址：25-27, South Wall Road, Kowloon City
+- 價格：$$
+
+## 349. Cheung Fat Seafood Restaurant
+- 地區：黃大仙
+- 評分：3.5星（520人評價）
+- 地址：號 4 樓, 3-23 Ning Yuen Street, San Po Kong
+- 價格：$$
+
+## 350. Shing Kee Restaurant
+- 地區：黃大仙
+- 評分：3.8星（627人評價）
+- 地址：4A Kam Wing Street, San Po Kong
+- 價格：$
+
+## 351. EI Restaurant
+- 地區：黃大仙
+- 評分：4.3星（181人評價）
+- 地址：地下, 福成閣, 82-84 福佬村道, 九龍城
+- 價格：$$
+
+## 352. Tai Hing
+- 地區：黃大仙
+- 評分：3.2星（282人評價）
+- 地址：商場地下G01號, 翔龍灣, 土瓜灣
+- 價格：$$
+
+## 353. TamJai SamGor (Chuk Yuen)
+- 地區：黃大仙
+- 評分：3.5星（178人評價）
+- 地址：No. S223, Plaza Shop, Wong Tai Sin 15, 2/F Chuk Yuen Road, Chuk Un
+- 價格：$
+
+## 354. Mrs Hunan
+- 地區：黃大仙
+- 評分：3.7星（242人評價）
+- 地址：54號 Nga Tsin Wai Road, Kowloon City
+- 價格：$$
+
+## 355. The China Coast Pub + Restaurant
+- 地區：黃大仙
+- 評分：4星（36人評價）
+- 地址：G/F, 30-38 Sa Po Road, Kowloon City
+- 類型：bar
+
+## 356. McDonald's
+- 地區：黃大仙
+- 評分：3.6星（823人評價）
+- 地址：Prince Ritz, 448 Prince Edward Road West, Kowloon City
+- 價格：$
+
+## 357. Fulum Palace
+- 地區：黃大仙
+- 評分：3星（1688人評價）
+- 地址：3樓, Hsin Kuang Centre Block 1, 120號 Lung Cheung Road, Chuk Un
+- 價格：$$
+
+## 358. Yummy Yummy
+- 地區：黃大仙
+- 評分：3.3星（27人評價）
+- 地址：198 Junction Road, Wang Tau Hom
+- 類型：meal_takeaway
+
+## 359. Genki Sushi (Diamond Hill)
+- 地區：黃大仙
+- 評分：3.7星（516人評價）
+- 地址：Shop 320D, Level 3, 3 Lung Poon Street, Diamond Hill
+- 價格：$$
+- 類型：meal_takeaway
+
+## 360. 永香冰室
+- 地區：黃大仙
+- 評分：3.7星（143人評價）
+- 地址：29號 Pau Chung Street, To Kwa Wan
+- 價格：$
+
+## 361. 囍慶酒家
+- 地區：黃大仙
+- 評分：3.3星（343人評價）
+- 地址：2樓, 海悅廣場, 209號 Ma Tau Wai Road, To Kwa Wan
+- 價格：$$
+
+## 362. Tak Cheong Noodle
+- 地區：黃大仙
+- 評分：3.6星（1135人評價）
+- 地址：Comfort Court, Shop B, G/F, 88 Fuk Lo Tsun Road, Kowloon City
+- 價格：$$
+
+## 363. Indian Curry King
+- 地區：黃大仙
+- 評分：4.3星（394人評價）
+- 地址：C, Cheong Wong Building, 24-28號 South Wall Road, Kowloon City
+- 價格：$$
+
+## 364. Mini Bangkok Thai Food (Kowloon City)
+- 地區：黃大仙
+- 評分：3.8星（653人評價）
+- 地址：10 Nam Kok Road, 8 Nam Kok Road, Kowloon City
+- 價格：$$
+
+## 365. Original Taste
+- 地區：黃大仙
+- 評分：3.9星（143人評價）
+- 地址：鳳凰新村, 44 Po Kong Lane, 44 Shung Wah Street, Chuk Un
+- 價格：$$
+
+## 366. Olea
+- 地區：離島
+- 評分：3.8星（72人評價）
+- 地址：Novotel Hotel, 51 Man Tung Road, Tung Chung
+- 類型：bar/lodging
+
+## 367. 東大門韓食
+- 地區：離島
+- 評分：2.8星（37人評價）
+- 地址：東 涌 東 涌 富 東村 萬 有 街市 M23 號 舖, Tung Chung
+
+## 368. Coco Cafe
+- 地區：離島
+- 評分：3.9星（568人評價）
+- 地址：2號地下, 馬灣新村, 東涌
+- 價格：$
+
+## 369. Essence
+- 地區：離島
+- 評分：3.6星（706人評價）
+- 地址：51 Man Tung Road, Tung Chung
+- 價格：$$
+
+## 370. Handi Indian Restaurant
+- 地區：離島
+- 評分：4.3星（430人評價）
+- 地址：8 HA LING PEI VILLAGE, TUNG CHUNG ROAD Chek Lap Kok, Lantau Island
+- 價格：$$
+- 類型：meal_takeaway
+
+## 371. Andante
+- 地區：離島
+- 評分：4.1星（20人評價）
+- 地址：Novotel Citygate Hong Kong Podium, 51 Man Tung Road, Tung Chung
+- 類型：bar
+
+## 372. Pizza Hut Hong Kong
+- 地區：離島
+- 評分：3.4星（920人評價）
+- 地址：地下24舖, 東涌東堤灣畔, Tung Chung
+- 價格：$$
+- 類型：meal_delivery
+
+## 373. Café de Coral
+- 地區：離島
+- 評分：3.4星（872人評價）
+- 地址：樓110B號舖, 新界東涌富東街6號富東邨富東商場1
+- 價格：$
+
+## 374. Moccato
+- 地區：離島
+- 評分：4星（153人評價）
+- 地址：51 Man Tung Road, Tung Chung
+- 類型：cafe/store
+
+## 375. Tao Heung
+- 地區：離島
+- 評分：3.3星（1171人評價）
+- 地址：Hong Kong
+- 價格：$$
+
+## 376. PizzaBird Pizza and Chicken
+- 地區：離島
+- 評分：3.2星（74人評價）
+- 地址：G/F, 2A-2B Wong Nai UK, ��� 涌 黃 泥 屋 2A-2B 地下, Tung Chung
+
+## 377. King's Prawn Nan Fong Seafood Restaurant
+- 地區：離島
+- 評分：3.8星（276人評價）
+- 地址：Hong Kong
+- 價格：$$
+
+## 378. McDonald's (Citygate)
+- 地區：離島
+- 評分：3.6星（1254人評價）
+- 地址：112號舖, 大嶼山一, 20號 Tat Tung Road, Tung Chung
+- 價格：$
+
+## 379. Café de Coral
+- 地區：離島
+- 評分：3.4星（356人評價）
+- 地址：東涌逸東商場221號商舖
+- 價格：$
+
+## 380. McDonald's (Yat Tung Estate)
+- 地區：離島
+- 評分：3.5星（297人評價）
+- 地址：8 Yat Tung Street, Tung Chung
+- 價格：$
+
+## 381. Wah Tao Seafood Restaurant
+- 地區：離島
+- 評分：3.8星（412人評價）
+- 地址：2號 馬灣湧, 大嶼山
+- 價格：$$
+
+## 382. TamJai SamGor (Tung Chung)
+- 地區：離島
+- 評分：3.4星（475人評價）
+- 地址：Hong Kong
+- 價格：$
+
+## 383. Korea House
+- 地區：離島
+- 評分：2.2星（5人評價）
+- 地址：2樓, Citygate Outlets大食代美食廣場, Tat Tung Road, Tung Chung
+
+## 384. Juzzbar
+- 地區：離島
+- 地址：東涌達東路20號東薈城2樓大食代美食廣場
+
+## 385. Ouzo Bar and Restaurant
+- 地區：離島
+- 評分：4.1星（110人評價）
+- 地址：Shop G Ground Floor, 8 Tung Chung waterfront road, Tung chung, Tung Chung, Lantau Island
+
+## 386. Tsui Wah Restaurant
+- 地區：離島
+- 評分：3.3星（1390人評價）
+- 地址：1樓101號舖 大嶼山, Tung Chung
+- 價格：$$
+
+## 387. San Wa Restaurant
+- 地區：離島
+- 評分：4.2星（101人評價）
+- 地址：57號 馬灣湧, 東涌
+- 價格：$
+
+## 388. Mansarover Indian Restaurant
+- 地區：離島
+- 評分：4.1星（130人評價）
+- 地址：東涌路下嶺皮村21號地下
+
+## 389. Lion Rock Café
+- 地區：離島
+- 評分：3.7星（59人評價）
+- 地址：大嶼山赤鱲角香港國際機場觀景路8號 逸泰居酒店1樓(部分)
+- 價格：$$
+
+## 390. Munch Time
+- 地區：離島
+- 評分：3星（1人評價）
+- 地址：Shop No. 7 (Major Portion), G/F., Fu Tung Plaza, Fu Tung Estate, 6 Fu Tung Street, Tung Chung, New Territories
+- 類型：meal_takeaway
+
+## 391. Bafang Dumplings
+- 地區：離島
+- 評分：3.8星（189人評價）
+- 地址：G18, 19 Fu Tung Street, Tung Chung
+- 價格：$
+
+## 392. Tall Man Chongqing Noodle
+- 地區：離島
+- 評分：3.7星（31人評價）
+- 地址：33 Tat Tung Road, Tung Chung
+
+## 393. Pret A Manger
+- 地區：離島
+- 評分：3.4星（105人評價）
+- 地址：Shop G18, G/F, 20 Tat Tung Road, Tung Chung
+- 價格：$$
+
+## 394. PizzaExpress (Tung Chung)
+- 地區：離島
+- 評分：3.8星（554人評價）
+- 地址：Unit 418, 4/F, Lantau Island, 18-20 Tat Tung Road, Tung Chung
+- 價格：$$
+
+## 395. My Thai
+- 地區：離島
+- 評分：3.8星（262人評價）
+- 地址：Coastal Skyline
+- 價格：$$
+
+## 396. Catalina's Restaurant
+- 地區：離島
+- 評分：4.6星（5人評價）
+- 地址：大嶼山赤鱲角香港國際機場觀景路8號 逸泰居酒店23樓(部分)
+
+## 397. Food Tree
+- 地區：離島
+- 評分：4.1星（116人評價）
+- 地址：商場 9D, Coastal Skyline
+
+## 398. Tung Chung Pizza
+- 地區：離島
+- 評分：4.1星（162人評價）
+- 地址：9B Sheung Ling Pei, Tung Chung Road, Tung Chung
+
+## 399. KFC (Yat Tung Shopping Centre)
+- 地區：離島
+- 評分：3.3星（534人評價）
+- 地址：Shop No. 17, Ground Floor, Yat Tung Shopping Centre, Yat Tung Estate, 8 Yat Tung Street, Tung Chung
+- 價格：$
+
+## 400. SuperTerminal 1 Staff Canteen
+- 地區：離島
+- 評分：2.9星（15人評價）
+- 地址：Hong Kong
+
+## 401. Tung Shing Lau
+- 地區：離島
+- 評分：3.7星（765人評價）
+- 地址：大嶼山, 94號 馬灣涌, Tung Chung
+- 價格：$$
+
+## 402. Best Food
+- 地區：離島
+- 評分：3.2星（213人評價）
+- 地址：號地下, 22-23 馬灣新村
+- 價格：$
+- 類型：meal_delivery
+
+## 403. Fairwood
+- 地區：離島
+- 評分：3.3星（164人評價）
+- 地址：Caribbean Coast Phase 1 Monterey Cove Club House, 2 Kin Tung Road, Tung Chung
+- 價格：$
+
+## 404. Khao Tip Thai
+- 地區：離島
+- 評分：3.8星（275人評價）
+- 地址：下嶺皮村10號, Tung Chung
+- 價格：$$
+
+## 405. Sergeant Chicken Rice
+- 地區：離島
+- 地址：東涌達東路20號東薈城2樓大食代美食廣場
+
+## 406. Bao Dim Sin Seng
+- 地區：離島
+- 評分：4星（1人評價）
+- 地址：Hong Kong
+
+## 407. Bao Dim Sin Seng (Yat Tung)
+- 地區：離島
+- 評分：2.4星（9人評價）
+- 地址：Hong Kong
+
+## 408. Eat East
+- 地區：離島
+- 評分：4.3星（11人評價）
+- 地址：Hong Kong
+- 類型：meal_takeaway
+
+## 409. 素出色甜品美食天
+- 地區：離島
+- 地址：6 Fu Tung Street, Tung Chung
+- 類型：meal_takeaway
+
+## 410. 摩斯漢堡 MOS BURGER (富東廣場店)
+- 地區：離島
+- 評分：3.7星（81人評價）
+- 地址：富東邨富東廣場地下23號舖, 6號 Fu Tung Street, Tung Chung
+- 價格：$$
+
+## 411. 味千拉麵東涌富東商場店 Ajisen Ramen Fu Tung Plaza Tung Chung
+- 地區：離島
+- 評分：3.3星（602人評價）
+- 地址：Shop 2-3, G/F, Fu Tung Plaza Fu Tung Estate, Tung Chung, Lantau Island
+- 價格：$$
+
+## 412. Man Wah Restaurant
+- 地區：離島
+- 評分：3.4星（1005人評價）
+- 地址：地下21號舖, Shun Tung Road, Tung Chung
+- 價格：$$
+
+## 413. Grace Fresh Chicken Shop
+- 地區：離島
+- 地址：Shop F15, Fu Tung Shopping Centre, Fu Tung Estate, Tung Chung, New Territories
+
+## 414. Vibe The Fusion Corner
+- 地區：離島
+- 評分：4.4星（81人評價）
+- 地址：Lantau Island, Shop 01, G/F , Fu Tung Plaza , Fu Tung Estate, 6 Fu Tung Street, Tung Chung
+
+## 415. Ningji Lemon & Fruit Tea
+- 地區：離島
+- 評分：4星（1人評價）
+- 地址：Shop 17, GF, 6 Fu Tung Street, Tung Chung
+- 類型：meal_takeaway
+
+## 416. 洪記麵家
+- 地區：離島
+- 評分：4.5星（33人評價）
+- 地址：富東商場, 6號 富東街, 東涌
+
+## 417. Sugar & Spice
+- 地區：離島
+- 評分：3.7星（88人評價）
+- 地址：33 Tat Tung Road, Tung Chung
+
+## 418. TamJai Yunnan Mixian (Tung Chung)
+- 地區：離島
+- 評分：3.4星（203人評價）
+- 地址：Fu Tung Estate Tung Shing House, Shop No. 110C, 1/F, Fu Tung Plaza, 6 Fu Tung Street, Tung Chung
+- 價格：$
+
+## 419. 泰出色甜品
+- 地區：離島
+- 評分：3.8星（5人評價）
+- 地址：Shun Tung Road, Tung Chung
+
+## 420. 包點先生 (富東)
+- 地區：離島
+- 評分：4星（2人評價）
+- 地址：HK 新界 大嶼山邨富東街市M18號鋪, Fu Tung Street, Tung Chung
+
+## 421. Deluxe Cuisine
+- 地區：離島
+- 評分：3.1星（591人評價）
+- 地址：Shop 110A, 1/F, Fu Tung Plaza, 6 Fu Tung Street, Tung Chung
+- 價格：$$
+
+## 422. Hi Haw Bing Tanghulu 喜楂
+- 地區：離島
+- 評分：3.7星（3人評價）
+- 地址：Shun Tung Road, Tung Chung
+- 類型：meal_takeaway
+
+## 423. 大師傅粥品（外賣店不設堂）
+- 地區：離島
+- 評分：3.1星（7人評價）
+- 地址：6號號 Fu Tung Street, Tung Chung
+
+## 424. 東涌籃色的士站
+- 地區：離島
+- 評分：5星（1人評價）
+- 地址：Tung Chung
+
+## 425. 多納美食
+- 地區：離島
+- 評分：4.8星（9人評價）
+- 地址：Cheung Tung Road, Tung Chung
+
+## 426. Euro Go Go
+- 地區：葵青
+- 評分：3.8星（727人評價）
+- 地址：葵芳新都會廣場1樓168-171號, Kwai Chung
+- 價格：$$
+- 類型：store
+
+## 427. Great Restaurant Chicken Pot
+- 地區：葵青
+- 評分：3.9星（463人評價）
+- 地址：地下, 73號 眾安街, 荃灣
+- 價格：$$
+
+## 428. Dong Kong Grand Restaurant
+- 地區：葵青
+- 評分：3.5星（308人評價）
+- 地址：號地下, 290 Sha Tsui Road, Tsuen Wan
+- 價格：$$
+
+## 429. Oh! My Dog!
+- 地區：葵青
+- 評分：4.6星（260人評價）
+- 地址：葵涌石籬大隴街153號怡勝花園地下2號舖, Kwai Chung
+- 價格：$$
+
+## 430. Tai Hing
+- 地區：葵青
+- 評分：3.2星（672人評價）
+- 地址：Shui Sang Building, 地下, 13-19號 Chung On Street, Tsuen Wan
+- 價格：$$
+
+## 431. Min Fong Hong
+- 地區：葵青
+- 評分：3.8星（874人評價）
+- 地址：35 Tsuen Wan Market Street, Tsuen Wan
+- 價格：$
+
+## 432. 名廚燴 (橋底)
+- 地區：葵青
+- 評分：3.5星（194人評價）
+- 地址：荃灣楊屋道100號爵悅庭地下1-2號舖, Ma Tau Pa Road, Tsuen Wan
+- 價格：$$
+
+## 433. Chubby's Pizza
+- 地區：葵青
+- 評分：3.7星（134人評價）
+- 地址：177 Hing Fong Road, Kwai Chung
+
+## 434. Ming Kee
+- 地區：葵青
+- 評分：3.6星（516人評價）
+- 地址：1樓, 72號 Hau Tei Square, Tsuen Wan
+- 價格：$$
+
+## 435. Luen Fat Restaurant
+- 地區：葵青
+- 評分：3.2星（277人評價）
+- 地址：17 Tsuen Wan Market Street, Tsuen Wan
+- 價格：$$
+
+## 436. Pizza Hut Hong Kong
+- 地區：葵青
+- 評分：4.3星（62人評價）
+- 地址：舖C位, A101, 地下, 荃灣大窩口德士古道36-60號東亞商場, Tsuen Wan
+- 價格：$$
+- 類型：meal_delivery
+
+## 437. Tomato noodles
+- 地區：葵青
+- 評分：3.8星（218人評價）
+- 地址：Castle Peak Road - Tsuen Wan, Tsuen Wan
+
+## 438. Maxim's MX
+- 地區：葵青
+- 評分：3.5星（1120人評價）
+- 地址：22 - 66 Wai Tsuen Road, Tsuen Wan
+- 價格：$
+
+## 439. Tao Heung Tea House
+- 地區：葵青
+- 評分：3.3星（984人評價）
+- 地址：A, 68 Chung On Street, Tsuen Wan
+- 價格：$$
+
+## 440. Yoshinoya
+- 地區：葵青
+- 評分：3.4星（371人評價）
+- 地址：廣場 3 樓 4 號 舖 涌 葵 富 路 7 至 11 號, Kwai Chung
+- 價格：$
+
+## 441. TamJai Yunnan Mixian (Ho Chuck Centre)
+- 地區：葵青
+- 評分：3.4星（617人評價）
+- 地址：Shop Nos. 49-54, G/F, Ho Chuck Centre Nos. 2, 11 Kwai Yi Road
+- 價格：$
+
+## 442. Genki Sushi
+- 地區：葵青
+- 評分：3.8星（923人評價）
+- 地址：Shop Nos.480-483 L4, 223 Hing Fong Road, Kwai Fong
+- 價格：$$
+- 類型：meal_takeaway
+
+## 443. MacLehose Canteen
+- 地區：葵青
+- 評分：4星（63人評價）
+- 地址：22 Wo Yi Hop Road, Kwai Chung
+
+## 444. 海洋超級漁港
+- 地區：葵青
+- 評分：2.5星（2人評價）
+- 地址：眾安路68號5A
+
+## 445. McDonald's (Shek Yam Estate)
+- 地區：葵青
+- 評分：3.4星（365人評價）
+- 地址：二樓213及214號舖, 石蔭邨石蔭商場, 葵涌
+- 價格：$
+
+## 446. KFC
+- 地區：葵青
+- 評分：3.4星（430人評價）
+- 地址：Shop B106-107, B1/F, Panda Place, Panda Hotel, 3 Tsuen Wah Street, Tsuen Wan
+- 價格：$
+
+## 447. Daniel's Restaurant 燉奶佬 (美孚 M7)
+- 地區：葵青
+- 評分：3.1星（609人評價）
+- 地址：6A Nassau Street, Mei Foo Sun Chuen
+- 價格：$$
+
+## 448. Shunde Cuisine
+- 地區：葵青
+- 評分：3.9星（448人評價）
+- 地址：317號 Sha Tsui Road, Tsuen Wan
+- 價格：$$
+
+## 449. McDonald's (Luk Yeung Galleria)
+- 地區：葵青
+- 評分：3.7星（888人評價）
+- 地址：Shop S1-2, L2, Luk Yeung Galleria, 22 66 Wai N.T., Tsuen Wan Road, Tsuen Wan
+- 價格：$
+
+## 450. Chung Kee Dessert (Tsuen Wan)
+- 地區：葵青
+- 評分：3.5星（705人評價）
+- 地址：85 Hoi Pa Street, Tsuen Wan
+- 價格：$$
+- 類型：store
+
+## 451. Euro Go Go
+- 地區：葵青
+- 評分：3.6星（392人評價）
+- 地址：22號 Wai Tsuen Road, Tsuen Wan
+- 價格：$$
+- 類型：store
+
+## 452. Maxim's MX
+- 地區：葵青
+- 評分：3.4星（725人評價）
+- 地址：Mei Foo Sun Chuen Stage 7 - 14-16 Lai Wan Road, 14-16 Lai Wan Road, Lai Chi Kok
+- 價格：$$
+
+## 453. 永騰潮州鹵水鵝店
+- 地區：葵青
+- 評分：3.4星（88人評價）
+- 地址：號地下, 6 Chuen Lung Street, Tsuen Wan
+
+## 454. Yunnan Guizhou & Sichuan Noodle
+- 地區：葵青
+- 評分：3.9星（1065人評價）
+- 地址：Shop 13, Sze Pei Square, Tsuen Wan
+- 價格：$
+
+## 455. Dim Sum Bar
+- 地區：葵青
+- 評分：4星（474人評價）
+- 地址：如心廣場一期G01號舖, Yeung Uk Road, Tsuen Wan
+- 價格：$$
+
+## 456. Ngan Lung Restaurant
+- 地區：葵青
+- 評分：2.8星（199人評價）
+- 地址：葵盛東商場6號舖
+- 價格：$$
+
+## 457. Ho Choi Seafood Restaurant
+- 地區：葵青
+- 評分：3.6星（995人評價）
+- 地址：Tsuen Wan
+- 價格：$$
+
+## 458. Café de Coral
+- 地區：葵青
+- 評分：3.3星（359人評價）
+- 地址：新界荃灣怡康街 1-7 號海濱花園平台
+- 價格：$
+
+## 459. 細妹姐小廚
+- 地區：葵青
+- 評分：3.4星（149人評價）
+- 地址：坊地下G舖, 二坡, 89號 Chung On Street, Tsuen Wan
+- 價格：$$
+
+## 460. 雲米家
+- 地區：葵青
+- 評分：3.6星（139人評價）
+- 地址：17號 Sze Pei Square, Tsuen Wan
+- 價格：$$
+
+## 461. Gala Cafe
+- 地區：葵青
+- 評分：3.7星（884人評價）
+- 地址：40B San Tsuen Street, Tsuen Wan
+- 價格：$
+
+## 462. Kam Chiu Kitchen
+- 地區：葵青
+- 評分：4星（1046人評價）
+- 地址：恒景商場, 9號 Wing Fong Road, Kwai Chung
+- 價格：$$
+
+## 463. Ngan Lung Restaurant
+- 地區：葵青
+- 評分：3.2星（278人評價）
+- 地址：葵芳葵芳村葵芳廣場1樓112B-C號舖, Kwai Chung
+- 價格：$$
+
+## 464. Café de Coral
+- 地區：葵青
+- 評分：3.4星（552人評價）
+- 地址：N95 ( B ) 一樓, Mount Sterling Mall, Mei Foo Sun Chuen
+- 價格：$
+
+## 465. Shek Yam Wannam Siu Wok Noodle
+- 地區：葵青
+- 評分：4星（554人評價）
+- 地址：112 Lei Muk Road, Kwai Chung
+- 價格：$$
+
+## 466. KFC
+- 地區：葵青
+- 評分：3.6星（737人評價）
+- 地址：33 Tsing King Road, Tsing Yi
+- 價格：$
+
+## 467. Foodies
+- 地區：葵青
+- 地址：Room 4, 4/F, Wang Lung Industrial Building, 11 Lung Tak Street, 48-56 Wang Lung Street, Tsuen Wan
+
+## 468. Maxim's MX
+- 地區：葵青
+- 評分：3.3星（541人評價）
+- 地址：L2 二樓, 新葵興廣場, 166-174號 Hing Fong Road, Kwai Chung
+- 價格：$$
+
+## 469. 皇雀會（葵芳）
+- 地區：葵青
+- 評分：3.3星（130人評價）
+- 地址：號 地下 EFI 舖, Kwai Fong Terrace Block 1, 15 Kwai Yi Road, Kwai Fong
+
+## 470. Joy Cuisine
+- 地區：葵青
+- 評分：3.3星（667人評價）
+- 地址：Hong Kong
+- 價格：$$
+
+## 471. PHD
+- 地區：葵青
+- 評分：3.8星（85人評價）
+- 地址：Shop B, Ground Floor, 9 Po Lun Street, Lai Chi Kok
+- 價格：$$
+- 類型：meal_takeaway
+
+## 472. McDonald's (Metroplaza)
+- 地區：葵青
+- 評分：3.4星（375人評價）
+- 地址：Metroplaza, Hing Fong Road, Kwai Fong
+- 價格：$
+
+## 473. Taste Food Limited
+- 地區：葵青
+- 評分：3.7星（749人評價）
+- 地址：G/F, 30 Lo Tak Court, Tsuen Wan
+- 價格：$
+
+## 474. Delifrance
+- 地區：葵青
+- 評分：3.7星（451人評價）
+- 地址：一、二期地下C2D舖, 香港紗廠工業大廈, 800 Cheung Sha Wan Road, Cheung Sha Wan
+- 價格：$$
+
+## 475. PizzaBird
+- 地區：葵青
+- 評分：3.8星（153人評價）
+- 地址：E舖, 6號 Fu Yung Street, Tsuen Wan
+- 價格：$
+
+## 476. Calf Bone King
+- 地區：葵青
+- 評分：3.6星（5人評價）
+- 地址：Man Shing Building, 127 Wo Tong Tsui Street, Kwai Chung
+
+## 477. TamJai Yunnan Mixian (Kwai Fung Building)
+- 地區：葵青
+- 評分：3.5星（360人評價）
+- 地址：Shop B & C, G/F, Kwai Fung Building Nos. 192-194 & 198-202, Hing Fong Road
+- 價格：$
+
+## 478. Super Super Congee & Noodles
+- 地區：葵青
+- 評分：3星（262人評價）
+- 地址：110舖, 葵涌邨商場, 葵涌
+- 價格：$
+
+## 479. Tsui Lin Vegetarian
+- 地區：葵青
+- 評分：3.3星（466人評價）
+- 地址：號地下, 81 Chung On Street, Tsuen Wan
+- 價格：$
+
+## 480. Café de Coral
+- 地區：葵青
+- 評分：3.5星（383人評價）
+- 地址：二字樓, Nan Fung Centre, 264-298 號 Castle Peak Road - Tsuen Wan, Tsuen Wan
+- 價格：$
+
+## 481. McDonald's (Kwai Cheong Road)
+- 地區：葵青
+- 評分：3.5星（823人評價）
+- 地址：Millennium Trade Centre, 1樓1號舖, 56號 Kwai Cheong Road, Kwai Chung
+- 價格：$
+
+## 482. Cable Car Restaurant
+- 地區：北區
+- 評分：3.4星（570人評價）
+- 地址：10 Choi Yuen Road, Sheung Shui
+- 價格：$
+
+## 483. Fung Ying Seen Koon
+- 地區：北區
+- 評分：4星（2407人評價）
+- 地址：66 Pak Wo Road, Fanling
+- 類型：tourist_attraction/place_of_worship
+
+## 484. Tung Kun Lo Congee
+- 地區：北區
+- 評分：3.7星（115人評價）
+- 地址：Chi Cheong Road
+- 價格：$
+
+## 485. Fairwood (Regentville Shopping Centre)
+- 地區：北區
+- 評分：3.6星（120人評價）
+- 地址：8 Wo Mun Street, Fanling
+- 價格：$
+
+## 486. Kwong Sing Cafe
+- 地區：北區
+- 評分：3.8星（1135人評價）
+- 地址：10號 San Shing Avenue, 上水石湖墟
+- 價格：$
+
+## 487. Café de Coral
+- 地區：北區
+- 評分：3.3星（350人評價）
+- 地址：Shop 24, 8 Choi Yuen Road, Sheung Shui
+- 價格：$
+
+## 488. Sun Hon Kee Restaurant
+- 地區：北區
+- 評分：3.8星（420人評價）
+- 地址：聯和墟和豐街28號囍逸，地下1號舖, Fanling
+
+## 489. KFC
+- 地區：北區
+- 評分：3.4星（513人評價）
+- 地址：Shop No. 27A, Level, 2, 18 Fanling Station Road, Fanling
+- 價格：$
+
+## 490. Jazz Ramen
+- 地區：北區
+- 評分：3.8星（390人評價）
+- 地址：地下6號舖, Comfort Court, 65-73號 Luen Wo Road, Fanling
+- 價格：$$
+
+## 491. Pizza Hut (Flora Plaza)
+- 地區：北區
+- 評分：3.7星（139人評價）
+- 地址：Shop A71 - A73 & 131, 88 Pak Wo Road, Fanling
+- 價格：$$
+- 類型：meal_delivery
+
+## 492. Three Meals Four Seasons
+- 地區：北區
+- 評分：3.7星（265人評價）
+- 地址：172 Jockey Club Road, Sheung Shui
+- 價格：$
+
+## 493. McDonald's (Union Plaza)
+- 地區：北區
+- 評分：3.4星（681人評價）
+- 地址：聯和墟和睦路9號 海聯廣場地下2A及2B, Fanling
+- 價格：$
+
+## 494. Café de Coral
+- 地區：北區
+- 評分：3.4星（721人評價）
+- 地址：Fanling Station Road, Fanling
+- 價格：$
+
+## 495. Kwan Kee Beef Balls & Pork Knuckles
+- 地區：北區
+- 評分：3.8星（1732人評價）
+- 地址：5號 Luen Cheong Street, Fanling
+- 價格：$$
+
+## 496. McDonald's (Fanling)
+- 地區：北區
+- 評分：3.4星（798人評價）
+- 地址：二樓22號舖, 名都商場, 粉嶺
+- 價格：$
+
+## 497. Yoshinoya
+- 地區：北區
+- 評分：3.6星（565人評價）
+- 地址：MTR Sheung Shui Station, 上 水 港 鐵 站 SHS 10 號 舖 新界
+- 價格：$
+
+## 498. McDonald's (Tin Ping Estate)
+- 地區：北區
+- 評分：3.4星（372人評價）
+- 地址：Hong Kong
+- 價格：$
+
+## 499. Pisces
+- 地區：北區
+- 評分：3.5星（151人評價）
+- 地址：地下 1037-1038 地舖, 3 Chi Cheong Road, Sheung Shui
+- 價格：$$
+
+## 500. Fairwood
+- 地區：北區
+- 評分：3.5星（414人評價）
+- 地址：18號 Fanling Station Road, Fanling
+- 價格：$
+
+## 501. 榮華餅家 (彩園廣場店)
+- 地區：北區
+- 評分：3.2星（14人評價）
+- 地址：彩園廣場地下G5號舖, Sheung Shui
+- 價格：$$
+
+## 502. 漢興茶檔
+- 地區：北區
+- 評分：4星（492人評價）
+- 地址：號 B 舖 地下, Yuk Lung Building, 3 Luen Hing Street, Fanling
+- 價格：$
+
+## 503. McDonald's (San Fung Avenue)
+- 地區：北區
+- 評分：3.4星（851人評價）
+- 地址：Kam Shing Building金城大廈, 地下, San Fung Avenue, 上水石湖墟
+- 價格：$
+
+## 504. 林德記粉麵
+- 地區：北區
+- 評分：3.8星（59人評價）
+- 地址：上水石湖墟市政大廈2樓2號舖
+- 價格：$
+
+## 505. Mr. Yammy
+- 地區：北區
+- 評分：3.7星（210人評價）
+- 地址：7號 Luen Cheong Street, Fanling
+- 價格：$$
+
+## 506. Genki Sushi (Fanling)
+- 地區：北區
+- 評分：3.7星（565人評價）
+- 地址：Shop No.51 Level 2, Fanling Town Centre, 18 Fanling Station Road, Fanling
+- 價格：$$
+- 類型：meal_takeaway
+
+## 507. 家和盤菜專家
+- 地區：北區
+- 評分：3.8星（36人評價）
+- 地址：117號 San Shing Avenue, Sheung Shui
+- 類型：meal_takeaway
+
+## 508. Kau Li Heung Restaurant
+- 地區：北區
+- 評分：3.8星（297人評價）
+- 地址：89號 San Shing Avenue, Sheung Shui
+- 價格：$
+
+## 509. McDonald's (Choi Yuen Estate)
+- 地區：北區
+- 評分：3.4星（521人評價）
+- 地址：三樓R36及R37號舖, 彩園商場, Sheung Shui
+- 價格：$
+
+## 510. Lok Lok Icehouse
+- 地區：北區
+- 評分：3.9星（323人評價）
+- 地址：23號 San Cheung Street, Sheung Shui
+- 價格：$$
+
+## 511. Glasses Man Rice Roll
+- 地區：北區
+- 評分：3.9星（439人評價）
+- 地址：43-45 Wo Fung Street, Fanling
+- 價格：$
+- 類型：meal_takeaway
+
+## 512. 上海美食
+- 地區：北區
+- 評分：4星（2人評價）
+- 地址：Hong Kong
+
+## 513. Ngan Lung Restaurant
+- 地區：北區
+- 評分：2.8星（271人評價）
+- 地址：地下5號舖, 雍盛商場, Fanling
+- 價格：$$
+
+## 514. McDonald's (Sheung Shui Town Centre Shopping Arcade)
+- 地區：北區
+- 評分：3.5星（329人評價）
+- 地址：9 Chi Cheong Road, Sheung Shui
+- 價格：$
+
+## 515. Café de Coral
+- 地區：北區
+- 評分：3.5星（433人評價）
+- 地址：Moon Wah Building, 上水, 140-140A San Fung Avenue, 地下
+- 價格：$
+
+## 516. Pizza Hut Hong Kong
+- 地區：北區
+- 評分：3.4星（200人評價）
+- 地址：地下56A舖, 聯和墟, Union Plaza Block 2, 9號 Wo Muk Road, Fanling
+- 價格：$$
+- 類型：meal_delivery
+
+## 517. Deluxe Restaurant
+- 地區：北區
+- 評分：3.9星（834人評價）
+- 地址：23號 Wo Fung Street, Fanling
+- 價格：$$
+
+## 518. Café de Coral
+- 地區：北區
+- 評分：3.5星（105人評價）
+- 地址：粉嶺雍盛商場102號商舖
+- 價格：$
+
+## 519. 輕鬆美食
+- 地區：北區
+- 評分：3.6星（143人評價）
+- 地址：Sunningdale Garden Block 3, 8 Chi Cheong Road, Sheung Shui
+- 價格：$
+
+## 520. 上海小館
+- 地區：北區
+- 評分：3.6星（64人評價）
+- 地址：176號 Jockey Club Road, Sheung Shui
+
+## 521. 海記美食坊
+- 地區：北區
+- 評分：3.4星（16人評價）
+- 地址：粉嶺聯和墟街市2樓熟食中心10號舖
+
+## 522. 津苑粉麵茶餐廳
+- 地區：北區
+- 評分：3.7星（189人評價）
+- 地址：92, 88 Pak Wo Road, Fanling
+- 價格：$
+
+## 523. Seven Durian Thai Restaurant
+- 地區：北區
+- 評分：3.8星（410人評價）
+- 地址：Dawning Views Block 2, Yat Ming Road, Fanling
+- 價格：$$
+
+## 524. 媽子美點
+- 地區：北區
+- 評分：3.7星（187人評價）
+- 地址：21號 Wo Fung Street, Fanling
+- 價格：$
+
+## 525. Tai Wo Noodles
+- 地區：北區
+- 評分：3.3星（44人評價）
+- 地址：彩 園 巴士 站 旁邊, Choi Yuen Road, Sheung Shui
+
+## 526. 超記
+- 地區：北區
+- 評分：3星（8人評價）
+- 地址：Chi Cheong Road
+
+## 527. 馬仔記客家菜館
+- 地區：北區
+- 評分：3.3星（615人評價）
+- 地址：號地下, 57-59 San Hong Street, Sheung Shui
+- 價格：$$
+
+## 528. The Better 'Ole Bar & Restaurant (Sheung Shui)
+- 地區：北區
+- 評分：4星（1073人評價）
+- 地址：號地舖, 35-39號 符興街, 上水
+- 價格：$$
+- 類型：bar
+
+## 529. 魔法甜品屋
+- 地區：北區
+- 評分：2.9星（43人評價）
+- 地址：115, 88 Pak Wo Road, Fanling
+
+## 530. Tao Heung
+- 地區：北區
+- 評分：3.2星（989人評價）
+- 地址：地下 13 舖, 碧湖花園, 15號 一鳴路, 粉嶺
+- 價格：$$
+
+## 531. 城記飯店
+- 地區：北區
+- 評分：3.4星（27人評價）
+- 地址：Chi Cheong Road
+
+## 532. Keung Kee Street Restaurant
+- 地區：北區
+- 評分：3.3星（101人評價）
+- 地址：上水石湖墟市政大廈2樓
+- 價格：$$
+
+## 533. Fairwood (Flora Plaza)
+- 地區：北區
+- 評分：3.6星（114人評價）
+- 地址：Shop 72, 88 Pak Wo Road, Fanling
+- 價格：$
+
+## 534. Shing Fat Cafe
+- 地區：北區
+- 評分：3.9星（217人評價）
+- 地址：24 San Hong Street, Sheung Shui
+- 價格：$$
+
+## 535. 紅記
+- 地區：北區
+- 評分：3星（1人評價）
+- 地址：上水石湖墟市政大廈2樓17號舖
+
+## 536. 正宗山東餃子店
+- 地區：北區
+- 評分：3.7星（223人評價）
+- 地址：地下B舖, Yau Hing Building, 2-4號 聯盛街, 粉嶺
+
+## 537. Jia Yun Restaurant
+- 地區：北區
+- 評分：3.9星（33人評價）
+- 地址：上水石湖墟市政大廈2樓CF7號舖
+
+## 538. Jin Wei Xiao Chu Restaurant
+- 地區：北區
+- 評分：3.6星（272人評價）
+- 地址：粉嶺聯和墟和泰街37號地下
+- 價格：$$
+
+## 539. 明記腸粉
+- 地區：北區
+- 評分：3.5星（357人評價）
+- 地址：地下, 148 B 號, 馬會道, 上水
+- 價格：$
+
+## 540. Kwong Kee Congee Shop
+- 地區：北區
+- 評分：4星（1人評價）
+- 地址：Shop 13, 2/f., Urban Council Complex, Luen Wo Hui,, Fanling
+
+## 541. Boat People Fishball Rice Noodles
+- 地區：北區
+- 評分：3.8星（388人評價）
+- 地址：2號 Luen Cheong Street, Fanling
+
+## 542. Crowne Plaza Hong Kong Kowloon East by IHG
+- 地區：西頁
+- 評分：4.1星（2305人評價）
+- 地址：Tower 5, 3 Tong Tak Street, Tseung Kwan O
+- 類型：lodging
+
+## 543. Victoria Harbour Restaurant (Po Lam)
+- 地區：西頁
+- 評分：3.5星（1312人評價）
+- 地址：1 Wan Hang Road, Hang Hau
+- 價格：$$
+
+## 544. Saizeriya
+- 地區：西頁
+- 評分：3.8星（843人評價）
+- 地址：一期地下G7,G16-24號舖, 新都城中心, 1號 Wan Hang Road, Tseung Kwan O
+- 價格：$
+
+## 545. Ho Yin Seafood Restaurant
+- 地區：西頁
+- 評分：3.1星（315人評價）
+- 地址：調 景 嶺 號 都會 駅 商場 2 樓 R01 號, 8 King Ling Road, Tseung Kwan O
+- 價格：$$
+
+## 546. PhD
+- 地區：西頁
+- 評分：3.2星（50人評價）
+- 地址：Park Central, Tong Tak Street, Tseung Kwan O
+- 價格：$$
+- 類型：meal_takeaway
+
+## 547. McDonald's (Po Lam Estate)
+- 地區：西頁
+- 評分：3.6星（490人評價）
+- 地址：寶林邨寶林商場 地下103號舖, Tseung Kwan O
+- 價格：$
+
+## 548. UniBistro and Bar
+- 地區：西頁
+- 評分：3.9星（152人評價）
+- 地址：Lo Ka Chung University Center, Clear Water Bay
+- 價格：$$
+
+## 549. McDonald's
+- 地區：西頁
+- 評分：2.5星（89人評價）
+- 地址：LG5餐廳, 香港科技大學學術樓, 清水灣
+- 價格：$
+
+## 550. Sushi Express(HangHau
+- 地區：西頁
+- 評分：3.5星（430人評價）
+- 地址：南豐廣場1樓R1A號舖, 8號 Pui Shing Road, Tseung Kwan O
+- 價格：$
+
+## 551. McDonald's (TKO Spot)
+- 地區：西頁
+- 評分：3.5星（507人評價）
+- 地址：2樓216號鋪, 將軍澳尚德邨尚德廣場, 將軍澳
+- 價格：$
+
+## 552. 上海真美豆漿大王
+- 地區：西頁
+- 評分：3.5星（332人評價）
+- 地址：新都城中心三期地下商舖G22, 8號 Mau Yip Road, Tseung Kwan O
+- 價格：$
+
+## 553. Fairwood
+- 地區：西頁
+- 評分：3.6星（465人評價）
+- 地址：Metro City Phase 1 Block 4, 1 Wan Hang Road, Metro City
+- 價格：$
+
+## 554. Hung Fook Tong
+- 地區：西頁
+- 評分：2.3星（12人評價）
+- 地址：Tseung Kwan O Station, Tseung Kwan O
+- 價格：$$
+- 類型：health/store
+
+## 555. KFC
+- 地區：西頁
+- 評分：3.5星（383人評價）
+- 地址：G61-62, 9 Tong Chun Street, Tseung Kwan O
+- 價格：$
+
+## 556. Tong Kee Bao Dim
+- 地區：西頁
+- 評分：3.6星（63人評價）
+- 地址：134, 15 Pui Shing Road, Tseung Kwan O
+
+## 557. Café de Coral (Nan Fung Plaza)
+- 地區：西頁
+- 評分：3.4星（741人評價）
+- 地址：8 Pui Shing Road, Tseung Kwan O
+- 價格：$
+
+## 558. Café de Coral
+- 地區：西頁
+- 評分：3.4星（452人評價）
+- 地址：一樓 1-009-013 號舖, 將軍澳廣場商場, 1 號 Tong Tak Street, Tseung Kwan O
+- 價格：$
+
+## 559. KFC
+- 地區：西頁
+- 評分：3.5星（202人評價）
+- 地址：L2層2005號舖, 新都城中心二期商場, 8號 Yan King Road, Tseung Kwan O
+- 價格：$
+
+## 560. Fairwood
+- 地區：西頁
+- 評分：3.5星（598人評價）
+- 地址：15 Pui Shing Road, Hang Hau
+- 價格：$
+
+## 561. Fairwood
+- 地區：西頁
+- 評分：3.5星（290人評價）
+- 地址：將軍澳寶林村寶林商場地下102號舖
+- 價格：$
+
+## 562. Super Super Congee & Noodles
+- 地區：西頁
+- 評分：3.3星（539人評價）
+- 地址：將軍澳新都城二期UG001-003號舖
+- 價格：$
+
+## 563. McDonald's (TKO Gateway)
+- 地區：西頁
+- 評分：3.6星（388人評價）
+- 地址：TKO Gateway, 2 Sheung Ning Road, Tseung Kwan O
+- 價格：$
+
+## 564. Pizza Hut Hong Kong
+- 地區：西頁
+- 評分：3.7星（276人評價）
+- 地址：樓199A號舖, East Point City Shopping Arcade, Chung Wa Road, Tseung Kwan O
+- 價格：$$
+- 類型：meal_delivery
+
+## 565. Fika Restaurant & BAR
+- 地區：西頁
+- 評分：4.4星（415人評價）
+- 地址：No.24 Ground Floor Hang Hau Village, Tseung Kwan O
+- 價格：$$
+
+## 566. Fairwood
+- 地區：西頁
+- 評分：3.6星（410人評價）
+- 地址：Tiu Keng Wan
+- 價格：$
+
+## 567. McDonald's (Tsui Lam Estate)
+- 地區：西頁
+- 評分：3.7星（153人評價）
+- 地址：126號舖, 翠林邨翠林商場, Tseung Kwan O
+- 價格：$
+
+## 568. HKUST Restaurant
+- 地區：西頁
+- 評分：3.8星（32人評價）
+- 地址：G/F & 1/F, HKUST, Sai Kung
+- 價格：$
+
+## 569. Sushi Express
+- 地區：西頁
+- 評分：3.7星（64人評價）
+- 地址：15 Pui Shing Road, Tseung Kwan O
+- 價格：$
+
+## 570. China Gardens
+- 地區：西頁
+- 評分：3.7星（312人評價）
+- 地址：G/F, Academic Building, Hong Kong University of Science and Technology, Clear Water Bay
+- 價格：$$
+
+## 571. 正興美食
+- 地區：西頁
+- 評分：3.3星（15人評價）
+- 地址：Hong Kong
+
+## 572. McDonald's (Maritime Bay)
+- 地區：西頁
+- 評分：3.4星（951人評價）
+- 地址：18 Pui Shing Road, Hang Hau
+- 價格：$
+
+## 573. Grand Restaurant & Pub
+- 地區：西頁
+- 評分：3.5星（365人評價）
+- 地址：Hong Kong
+- 價格：$$
+
+## 574. Hop Sze Restaurant
+- 地區：西頁
+- 評分：3.3星（411人評價）
+- 地址：將軍澳坑口村5座地下至2樓
+- 價格：$$
+
+## 575. McDonald's (Verbena Heights)
+- 地區：西頁
+- 評分：3.4星（423人評價）
+- 地址：將軍澳茵怡花園地下1號舖
+- 價格：$
+
+## 576. McDonald's (Park Central)
+- 地區：西頁
+- 評分：3.6星（189人評價）
+- 地址：Park Central, G37號舖, Tong Tak Street, Tseung Kwan O
+- 價格：$
+
+## 577. McDonald's (Metro City Plaza II)
+- 地區：西頁
+- 評分：3.6星（665人評價）
+- 地址：新都城中心二期商場 一樓1017號舖, 8號 Yan King Road
+- 價格：$
+
+## 578. Snack Express
+- 地區：西頁
+- 評分：3.3星（29人評價）
+- 地址：Shop HAH14, Hang Hau Station Of Mass Transit Railway Cooperation, Hong Kong, 坑口, Tseung Kwan O
+- 類型：meal_takeaway
+
+## 579. Café de Coral
+- 地區：西頁
+- 評分：3.1星（146人評價）
+- 地址：翠林邨商場108號舖, Tseung Kwan O
+- 價格：$
+
+## 580. Pizza Hut (Metro City Plaza)
+- 地區：西頁
+- 評分：3.5星（175人評價）
+- 地址：Shop 2071-72, 8 Yan King Road, Tseung Kwan O
+- 價格：$$
+- 類型：meal_delivery
+
+## 581. McDonald's (Kai Tin Shopping Centre)
+- 地區：西頁
+- 評分：3.3星（118人評價）
+- 地址：一樓104A號舖, 德田商場, Lam Tin
+- 價格：$
+
+## 582. Café de Coral
+- 地區：西頁
+- 評分：3.2星（302人評價）
+- 地址：209號舖, 德田廣場, Lam Tin
+- 價格：$
+
+## 583. Tao Heung Tea House
+- 地區：西頁
+- 評分：3.2星（1160人評價）
+- 地址：R-3 No. 8, Nan Fung Plaza, Unit R-3, Podium Level 1, 8 Pui Shing Road, Tseung Kwan O
+- 價格：$$
+
+## 584. Tao Heung
+- 地區：西頁
+- 評分：3.3星（721人評價）
+- 地址：L2 新都城中心二期, 8 Yan King Road, Tseung Kwan O
+- 價格：$$
+
+## 585. Super Super Congee & Noodles
+- 地區：西頁
+- 評分：3.2星（247人評價）
+- 地址：三樓303號舖, 德田廣場, Lam Tin
+- 價格：$
+
+## 586. 潮州冷美食坊
+- 地區：西頁
+- 評分：3.2星（544人評價）
+- 地址：安寧花園二座地下18-21號, Hang Hau
+- 價格：$
+
+## 587. 利强記北角雞蛋仔 (將軍澳店)
+- 地區：西頁
+- 評分：2.5星（37人評價）
+- 地址：11號舖, 將軍澳港鐵寶琳站, Tseung Kwan O
+- 類型：meal_takeaway
+
+## 588. Riverside Restaurant
+- 地區：西頁
+- 評分：3.5星（483人評價）
+- 地址：8 Chung Wa Road, Tseung Kwan O
+- 價格：$$
+
+## 589. Wing Kee Noodle
+- 地區：西頁
+- 評分：3.6星（54人評價）
+- 地址：Sheung Ning Road, Hang Hau
+
+## 590. Yoshinoya
+- 地區：西頁
+- 評分：3.2星（140人評價）
+- 地址：都會 駅 商場 第 2 層 R04 號 舖 將軍澳
+- 價格：$
+
+## 591. 金牌麵家
+- 地區：西頁
+- 評分：4星（1人評價）
+- 地址：9 Tong Tak Street, Tseung Kwan O
+
+## 592. 尚德熟食
+- 地區：西頁
+- 評分：3.3星（7人評價）
+- 地址：Hong Kong
+
+## 593. 康順美食
+- 地區：西頁
+- 評分：4.5星（4人評價）
+- 地址：Hong Kong
+
+## 594. Cafe 100% (Nan Fung Plaza)
+- 地區：西頁
+- 評分：3.5星（526人評價）
+- 地址：Hang Hau
+- 價格：$$
+
+## 595. Tasteful Kitchen
+- 地區：西頁
+- 評分：3.6星（529人評價）
+- 地址：1 Ngan O Road, Hang Hau
+- 價格：$$
+
+## 596. 上海知味
+- 地區：西頁
+- 地址：Hong Kong
+
+## 597. Café de Coral
+- 地區：西頁
+- 評分：3.4星（320人評價）
+- 地址：三樓311及312號舖, 1號 Choi Ming Street, Tseung Kwan O
+- 價格：$
+
+## 598. Café de Coral
+- 地區：西頁
+- 評分：3.1星（134人評價）
+- 地址：廣田商場1樓101A號舖, Lam Tin
+- 價格：$
+
+## 599. Golden Rice Bowl
+- 地區：西頁
+- 評分：3.6星（22人評價）
+- 地址：1 University Road, Clear Water Bay
+
+## 600. The Chef’s Table
+- 地區：西頁
+- 評分：3.5星（351人評價）
+- 地址：香港九龍東皇冠假日酒店1樓, 3號 Tong Tak Street, Tseung Kwan O
+
+## 601. Praise House Congee & Noodle Cuisine
+- 地區：西頁
+- 評分：3.6星（575人評價）
+- 地址：號 PopCorn 商場 地下 G01 號 舖, 9 Tong Yin Street, Tseung Kwan O
+- 價格：$$
+
+## 602. Royal Park Hotel
+- 地區：沙田
+- 評分：4.1星（857人評價）
+- 地址：8 Pak Hok Ting Street, Sha Tin
+- 類型：bakery/lodging/store
+
+## 603. UCC Coffee Shop (Sha Tin)
+- 地區：沙田
+- 評分：3.4星（22人評價）
+- 地址：New Town Plaza Phase 3 Block 5 Cotton Tree Court, 2-8 Sha Tin Centre Street, Sha Tin
+- 類型：cafe
+
+## 604. Lei Garden (New Town Plaza)
+- 地區：沙田
+- 評分：3.8星（562人評價）
+- 地址：Shop 633, New Town Plaza, Sha Tin
+- 價格：$$$
+
+## 605. Lung Wah Hotel
+- 地區：沙田
+- 評分：3.5星（1736人評價）
+- 地址：22 Wo Che Ha, 沙田
+- 價格：$$
+
+## 606. Parkview
+- 地區：沙田
+- 評分：3.7星（493人評價）
+- 地址：117號舖, 新城市廣場一期, 18 沙田正街, 沙田
+- 價格：$$
+
+## 607. Avanti Pizzeria
+- 地區：沙田
+- 評分：3.5星（236人評價）
+- 地址：G/F, Regal Riverside Hotel, 34-36 Tai Chung Kiu Road, Sha Tin
+- 價格：$$
+
+## 608. Pizza Hut Hong Kong
+- 地區：沙田
+- 評分：4星（87人評價）
+- 地址：6號舖, Technology Park, 18號 On Lai Street, Sha Tin
+- 價格：$$
+- 類型：meal_delivery
+
+## 609. Regal Terrace
+- 地區：沙田
+- 評分：4.3星（84人評價）
+- 地址：2/F, Tai Chung Kiu Road, Sha Tin
+
+## 610. Tai Hing
+- 地區：沙田
+- 評分：3.3星（799人評價）
+- 地址：51, 沙田沙田正街21-27號 沙田廣場 3, 21～27 Sha Tin Centre Street, Sha Tin
+- 價格：$$
+
+## 611. Sakurada Japanese Restaurant
+- 地區：沙田
+- 評分：4.1星（99人評價）
+- 地址：8 Pak Hok Ting Street, Sha Tin
+
+## 612. Hong Lin Restaurant
+- 地區：沙田
+- 評分：3.8星（461人評價）
+- 地址：100 Chik Fuk Street, Tai Wai
+- 價格：$$
+
+## 613. L'Eau Restaurant
+- 地區：沙田
+- 評分：3.5星（113人評價）
+- 地址：3/F, 34-36 Tai Chung Kiu Road, Sha Tin
+
+## 614. Chun Chun Restaurant
+- 地區：沙田
+- 評分：3.5星（583人評價）
+- 地址：HK New Territories Fo Tan東熟食市場, Shan Mei Street, Fo Tan
+- 價格：$$
+
+## 615. Fairwood
+- 地區：沙田
+- 評分：3.3星（390人評價）
+- 地址：廣源商場1座 3號舖, Sha Tin
+- 價格：$
+
+## 616. Kong Hing Restaurant
+- 地區：沙田
+- 評分：3.5星（259人評價）
+- 地址：Lai Sing Mansion, 79-81號 Tsuen Nam Road, Tai Wai
+- 價格：$$
+
+## 617. Wing Lok Cafe
+- 地區：沙田
+- 評分：3.7星（290人評價）
+- 地址：6 Lek Yuen Street, Sha Tin
+- 價格：$
+
+## 618. Pizza-BOX
+- 地區：沙田
+- 評分：3.7星（48人評價）
+- 地址：6 Wong Chuk Yeung Street, Fo Tan
+- 類型：meal_takeaway
+
+## 619. Yoshinoya
+- 地區：沙田
+- 評分：3.3星（509人評價）
+- 地址：沙田 好運 中心 3 樓 108, 109, 109A1 號 舖
+- 價格：$
+
+## 620. KFC
+- 地區：沙田
+- 評分：3.6星（504人評價）
+- 地址：26C, 26D & 27, Shop Nos. 26C, 26D & 27, Level 3, Shatin Centre, 2-16 Wang Pok Street, Sha Tin
+- 價格：$
+
+## 621. Star Seafood Restaurant
+- 地區：沙田
+- 評分：3.2星（1553人評價）
+- 地址：9-11號 Tai Wai Road, Tai Wai
+- 價格：$$
+
+## 622. King's Fortune Banquet Hall
+- 地區：沙田
+- 評分：3.4星（942人評價）
+- 地址：愉 翠 商場 號, 2 Ngau Pei Sha Street
+- 價格：$$
+
+## 623. Genki Sushi (Fortune City One)
+- 地區：沙田
+- 評分：3.6星（357人評價）
+- 地址：7 Tak Po Street, Sha Tin
+- 價格：$$
+
+## 624. Tao Heung
+- 地區：沙田
+- 評分：3.2星（1342人評價）
+- 地址：3樓, 蔚景園2座, 1號 沙田正街, 沙田
+- 價格：$$
+
+## 625. Chan Kun Kee
+- 地區：沙田
+- 評分：3.7星（2723人評價）
+- 地址：2號 沙田石門安群街一號京瑞廣場二期地下G03號舖Shop G03, G/F, Kings Wing Plaza 2, No.1 On Kwan Street, Shek Mun, Sha Tin, N.T, 2 On Kwan Street, Sha Tin
+- 價格：$$
+
+## 626. Greenland Restaurant
+- 地區：沙田
+- 評分：3.4星（258人評價）
+- 地址：Hong Kong
+- 價格：$$
+
+## 627. 耀哥小廚
+- 地區：沙田
+- 評分：3.7星（125人評價）
+- 地址：Tai Wai
+- 價格：$
+
+## 628. Hsin Kuang Banquet Hall
+- 地區：沙田
+- 評分：3.5星（333人評價）
+- 地址：52 Tai Chung Kiu Road
+- 價格：$$
+
+## 629. Waki Shokudo
+- 地區：沙田
+- 評分：3.8星（477人評價）
+- 地址：沙田圍, Sha Tin
+- 價格：$$
+
+## 630. Café de Coral
+- 地區：沙田
+- 評分：2.8星（69人評價）
+- 地址：Sha Tin Tau
+- 價格：$
+
+## 631. Taiyuan Street Restaurant
+- 地區：沙田
+- 評分：3.6星（339人評價）
+- 地址：Fo Tan Cooked Food Market (East), Fo Tan
+- 價格：$$
+
+## 632. Café de Coral
+- 地區：沙田
+- 評分：3.4星（530人評價）
+- 地址：沙田火炭樂景街 28 號御龍山商場地下 101 號舖
+- 價格：$
+
+## 633. 來來重慶雞煲火鍋菜館
+- 地區：沙田
+- 評分：3.3星（91人評價）
+- 地址：Hong Kong
+
+## 634. Sun Kwong Fat
+- 地區：沙田
+- 評分：3.5星（189人評價）
+- 地址：熟食中心1號舖, 博康邨博文樓, 沙角街, 沙田
+- 價格：$
+
+## 635. Regal Patisserie
+- 地區：沙田
+- 評分：2.8星（17人評價）
+- 地址：G/F, 34-36 Tai Chung Kiu Road, Sha Tin
+- 類型：bakery/store
+
+## 636. McDonald's (New Town Plaza)
+- 地區：沙田
+- 評分：3.4星（285人評價）
+- 地址：223, 正街新城市廣場一期2樓221, Sha Tin
+- 價格：$
+- 類型：meal_takeaway
+
+## 637. TamJai Yunnan Mixian (Wai Wah Centre)
+- 地區：沙田
+- 評分：3.6星（266人評價）
+- 地址：Shop Nos. 5A to 5D, G/F, Chanway Shopping Centre Nos, 11-17 Sha Tin Centre Street, Sha Tin
+- 價格：$
+
+## 638. Shing Kee Noodles
+- 地區：沙田
+- 評分：4.2星（1184人評價）
+- 地址：Lek Yuen Street, Lek Yuen Estate
+- 價格：$$
+
+## 639. TamJai SamGor (Tai Wai)
+- 地區：沙田
+- 評分：3.5星（254人評價）
+- 地址：101-102說舖, 金禧商場, Tai Wai
+- 價格：$
+
+## 640. Fook Choi Seafood Restaurant
+- 地區：沙田
+- 評分：3.4星（655人評價）
+- 地址：141-145 Ngan Shing Street, City One - Shatin
+- 價格：$$
+
+## 641. Yoshinoya
+- 地區：沙田
+- 評分：3星（131人評價）
+- 地址：Fortune City One Plus, 2 Ngan Shing Street, Sha Tin
+- 價格：$
+
+## 642. Pizza Hut (Sun Chui Shopping Centre)
+- 地區：沙田
+- 評分：3.8星（291人評價）
+- 地址：大圍新翠邨商場2樓41-42號舖, Sha Tin
+- 價格：$$
+- 類型：meal_delivery
+
+## 643. McDonald's (Hilton Plaza)
+- 地區：沙田
+- 評分：3.4星（655人評價）
+- 地址：三樓8及20號舖, 希爾頓中心, Sha Tin
+- 價格：$
+
+## 644. KFC
+- 地區：沙田
+- 評分：3.4星（201人評價）
+- 地址：Shop Nos. 124A, 125A & 126A on the First Floor, Fortune City One, City One Shatin, Shatin
+- 價格：$
+
+## 645. McDonald's (Mei Lam Estate)
+- 地區：沙田
+- 評分：3.4星（190人評價）
+- 地址：Mei Lam Estate, HK New Territories 新界沙田一樓96號舖, Tai Wai
+- 價格：$
+
+## 646. McDonald's (Sun Chui Estate)
+- 地區：沙田
+- 評分：3.6星（618人評價）
+- 地址：地下1B舖, Sun Chui Shopping Centre, Chui Tin Street, Tai Wai
+- 價格：$
+
+## 647. McDonald's (Yu Chui Court)
+- 地區：沙田
+- 評分：3.3星（565人評價）
+- 地址：1樓101號舖, 愉翠苑愉翠商場, Sha Tin
+- 價格：$
+
+## 648. Asra Indian Restaurant
+- 地區：沙田
+- 評分：4.1星（219人評價）
+- 地址：18-24 Shan Mei St Shop 15,1/F, Shatin Galleria,Fotan (NT, Shan Mei Street, Fo Tan
+- 價格：$$
+
+## 649. Pizza Hut Hong Kong
+- 地區：沙田
+- 評分：4星（90人評價）
+- 地址：火炭坳背灣街27-31號協興工業中心地下B2E舖, Sha Tin
+- 價格：$$
+- 類型：meal_delivery
+
+## 650. Kam Sha Kok Cafe
+- 地區：沙田
+- 評分：3.4星（342人評價）
+- 地址：5號 Sha Kok Street, Sha Tin
+- 價格：$
+
+## 651. Sun Ming Kee Hot Pot
+- 地區：沙田
+- 評分：3.6星（328人評價）
+- 地址：Ka Chuen House, 38-44 Chik Chuen Street, Tai Wai
+- 價格：$$
+
+## 652. King Wu Ting Restaurant
+- 地區：沙田
+- 評分：3.7星（194人評價）
+- 地址：219號舖, 顯徑村, 沙田大圍
+- 價格：$$
+
+## 653. IKEA Swedish Restaurant
+- 地區：沙田
+- 評分：3.9星（773人評價）
+- 地址：5/F, Grand Central Plaza, HomeSquare, L6, 138, 138 Sha Tin Rural Committee Road, Sha Tin
+- 價格：$
+
+## 654. McDonald's (Tai Wai)
+- 地區：沙田
+- 評分：3.6星（1118人評價）
+- 地址：地下1 號鋪及1 樓全層, Yiu Po Mansion, 37-47 號 Tai Wai Road, Tai Wai
+- 價格：$
+
+## 655. Kwok Shui Heen (Sha Tin)
+- 地區：沙田
+- 評分：3.6星（67人評價）
+- 地址：10～18號 Pak Hok Ting Street, Sha Tin
+
+## 656. McDonald's
+- 地區：沙田
+- 評分：3.6星（253人評價）
+- 地址：Shop G84-G85, 1 Tsun King Road, Fo Tan
+- 價格：$
+
+## 657. 嚐味
+- 地區：沙田
+- 評分：3.6星（5人評價）
+- 地址：1 Sha Tin Station Circuit, Sha Tin
+
+## 658. New Star Restaurant
+- 地區：沙田
+- 評分：3.4星（107人評價）
+- 地址：香港小瀝源村小瀝源沙田小瀝源村地下, Siu Lek Yuen Tsuen
+- 價格：$$
+
+## 659. Dragon Inn
+- 地區：沙田
+- 評分：3.8星（142人評價）
+- 地址：1/F, 34-36 Tai Chung Kiu Road, Sha Tin
+
+## 660. Pappagallo - Sha Tin
+- 地區：沙田
+- 評分：1星（1人評價）
+- 地址：Sha Tin
+
+## 661. Café de Coral
+- 地區：沙田
+- 評分：3.2星（357人評價）
+- 地址：地下 1 號舖, Mei Tin Road, Sha Tin
+- 價格：$
+
+## 662. Billow Bar Seafood Bistro
+- 地區：大埔
+- 評分：3.9星（1533人評價）
+- 地址：Shop B , No, 2 紅林路, 大埔滘
+- 價格：$$$
+
+## 663. Cafe Seoul
+- 地區：大埔
+- 評分：4星（260人評價）
+- 地址：Shop 8, G/F, Block B, Tai Po Tai Wo Road, Tai Po
+
+## 664. Grampus Eight
+- 地區：大埔
+- 評分：4.2星（320人評價）
+- 地址：安泰路1號, 大埔廣場地鋪57號
+- 價格：$$
+
+## 665. Pizza Hut (Tai Po Mega Mall)
+- 地區：大埔
+- 評分：3.7星（357人評價）
+- 地址：Tai Po Centre Block 8, 大埔超級城商場A區2樓76-82號舖, 8 On Pong Road, Tai Po
+- 價格：$$
+- 類型：meal_delivery/meal_takeaway
+
+## 666. 余曉記上海包
+- 地區：大埔
+- 評分：3.5星（30人評價）
+- 地址：Shop E, G/F, Dragon Court, 26-28 Tai Ming Lane, Tai Po
+
+## 667. McDonald's (Uptown Plaza)
+- 地區：大埔
+- 評分：3.7星（844人評價）
+- 地址：Uptown Plaza, 9 Nam Wan Road, Wan Tau Tong
+- 價格：$
+
+## 668. Genki Sushi (Tai Po Mega Mall)
+- 地區：大埔
+- 評分：3.7星（547人評價）
+- 地址：Mega Mall, Shop 505-515 Level 1, Zone C, 3 On Pong Road, Tai Po
+- 價格：$$
+- 類型：meal_takeaway
+
+## 669. Rainbow BBQ food
+- 地區：大埔
+- 評分：4.4星（281人評價）
+- 地址：地下 D鋪, 廣安大廈, 20號 運頭街, 大埔
+- 價格：$$
+
+## 670. Pizza Hut Hong Kong
+- 地區：大埔
+- 評分：3.6星（49人評價）
+- 地址：地下3號舖, 大埔翠樂街11號美豐花園, Tai Po
+- 價格：$$
+- 類型：meal_delivery
+
+## 671. Star Palace, Star Seafood Restaurant
+- 地區：大埔
+- 評分：3.5星（1496人評價）
+- 地址：1/F, 花園一樓 29-35號榮睴 Ting Kok Road 1/F, Wing Fai Garden Shopping Centre, 29-35 Ting Kok Road, Tai Po
+- 價格：$$
+
+## 672. Pizza Hut Hong Kong
+- 地區：大埔
+- 評分：3.6星（141人評價）
+- 地址：號地舖, 大埔墟寶湖道18號麗湖閣11&12, Tai Po
+- 價格：$$
+- 類型：meal_delivery
+
+## 673. New Fortune Restaurant
+- 地區：大埔
+- 評分：3.6星（103人評價）
+- 地址：Hong Kong
+- 價格：$$
+
+## 674. Eightland Cafe
+- 地區：大埔
+- 評分：3.8星（295人評價）
+- 地址：地下1-2號舖, On Chee Road, Tai Po
+- 價格：$$
+
+## 675. 有記茶果
+- 地區：大埔
+- 評分：3.6星（8人評價）
+- 地址：CFS20, Tai Po Complex, 8號 Heung Sze Wui Street, Tai Po
+
+## 676. Sushi Express (Tai Po Plaza)
+- 地區：大埔
+- 評分：3.7星（393人評價）
+- 地址：大埔廣場第二層5D,5E號舖, 1號 On Tai Road, Tai Po
+- 價格：$
+
+## 677. 三小姐 (銓仔記) 海鮮小菜
+- 地區：大埔
+- 評分：3.6星（139人評價）
+- 地址：Tai Po Complex, CFS35, 2/F, Tai Po Complex, NT, 8 Heung Sze Wui Street, Tai Po
+
+## 678. McDonald's (Fortune Plaza)
+- 地區：大埔
+- 評分：3.6星（1416人評價）
+- 地址：HK New Territories昌運中心57-66號地下, 4號 On Chee Road, Tai Po
+- 價格：$
+
+## 679. Lam Kee Dim Sum
+- 地區：大埔
+- 評分：3.7星（172人評價）
+- 地址：大埔鄉事會街8號大埔墟街市及熟食中心2樓CFS08-09舖
+- 價格：$
+
+## 680. Carnival Seafood Restaurant
+- 地區：大埔
+- 評分：3.4星（356人評價）
+- 地址：富亨邨, 大埔
+- 價格：$$
+
+## 681. 李記咖啡奶茶
+- 地區：大埔
+- 評分：3.5星（32人評價）
+- 地址：CFS33, Tai Po Complex, 8號 Heung Sze Wui Street, Tai Po
+
+## 682. 嘉利美食店
+- 地區：大埔
+- 評分：3.9星（8人評價）
+- 地址：Hong Kong
+
+## 683. Egg Roll Specialist
+- 地區：大埔
+- 評分：3.6星（115人評價）
+- 地址：Hong Kong
+- 價格：$
+- 類型：meal_takeaway
+
+## 684. McDonald's (Tai Wo)
+- 地區：大埔
+- 評分：3.7星（1660人評價）
+- 地址：102, Tai Wo Shopping Centre, Tai Po Road (Tai Wo), Tai Po
+- 價格：$
+
+## 685. Victoria Harbour Supreme (Tai Po)
+- 地區：大埔
+- 評分：3.5星（1428人評價）
+- 地址：Hong Kong
+- 價格：$$
+
+## 686. 囍囍小廚
+- 地區：大埔
+- 評分：3.5星（296人評價）
+- 地址：地下G-I號舖, 廣安大廈, 20號 運頭街, 大埔
+- 價格：$$
+
+## 687. Cafe de Coral - Uptown Plaza
+- 地區：大埔
+- 評分：3.4星（579人評價）
+- 地址：大埔南運路 9 號新達廣場一樓 53 號
+- 價格：$
+
+## 688. Wah Fai Restaurant & Cake Shop
+- 地區：大埔
+- 評分：3.5星（611人評價）
+- 地址：13 Heung Sze Wui Street, Tai Po
+- 價格：$$
+
+## 689. Boat One
+- 地區：大埔
+- 評分：3.3星（1100人評價）
+- 地址：地下及1樓A鋪 Fuller Garden Phase I Marigold Court, 富萊花園, Chui Lok Street, Tai Po
+- 價格：$$
+
+## 690. McDonald's (Tai Po Market Kwong Fuk Road)
+- 地區：大埔
+- 評分：3.7星（1387人評價）
+- 地址：地庫, 70號 Kwong Fuk Road, Tai Po
+- 價格：$
+
+## 691. Fairwood
+- 地區：大埔
+- 評分：3.5星（173人評價）
+- 地址：2樓202號舖, Fu Shin Shopping CentreFu Shin Estate, Tai Po
+- 價格：$
+
+## 692. 郭仔記粥麵餐廳
+- 地區：大埔
+- 評分：3.4星（272人評價）
+- 地址：地下C4-5, 42-44號 大榮里, 大埔
+- 價格：$
+
+## 693. Golden Thai Delicious
+- 地區：大埔
+- 評分：4星（37人評價）
+- 地址：新界大埔鄉事會街8號大埔墟街市及熟食中心2樓
+
+## 694. Yeung Woo Tong
+- 地區：大埔
+- 評分：3.6星（12人評價）
+- 地址：4 On Chee Road, Tai Po
+
+## 695. Maxim's MX
+- 地區：大埔
+- 評分：3.3星（520人評價）
+- 地址：10 Hiu Wan Road, Tai Po
+- 價格：$$
+
+## 696. McDonald's (Kwong Fuk Commercial Centre)
+- 地區：大埔
+- 評分：3.4星（177人評價）
+- 地址：P316號舖, 廣福邨廣福商場, Tai Po
+- 價格：$
+
+## 697. McDonald's (Fu Shin Estate)
+- 地區：大埔
+- 評分：3.6星（530人評價）
+- 地址：大埔富善村富善商場地下G25號舖
+- 價格：$
+
+## 698. Hachinoheya (Tai Po)
+- 地區：大埔
+- 評分：3.4星（259人評價）
+- 地址：富善邨商場地下G017號舖, Tai Po
+- 價格：$$
+
+## 699. Genki Sushi (Tai Wo)
+- 地區：大埔
+- 評分：3.7星（363人評價）
+- 地址：223舖, 太和商場第一期, 12 太和路, 大埔
+- 價格：$$
+
+## 700. Hoi Tat Fish Ball
+- 地區：大埔
+- 評分：3.7星（923人評價）
+- 地址：號地下, 14 Kwong Fuk Lane, Tai Po
+- 價格：$
+
+## 701. Simple Kitchen
+- 地區：大埔
+- 評分：3.7星（78人評價）
+- 地址：Hong Kong
+
+## 702. Tung Kee Noodles Restaurant (Tai Po Hui Market)
+- 地區：大埔
+- 評分：3.7星（250人評價）
+- 地址：8 Heung Sze Wui Street, Tai Po
+
+## 703. Snack Express
+- 地區：大埔
+- 評分：2.5星（40人評價）
+- 地址：Nga Wan Road, Tai Po
+- 類型：meal_takeaway
+
+## 704. Hoi Fan Cafe
+- 地區：大埔
+- 評分：3.6星（502人評價）
+- 地址：15 地下, 1 Tai Ming Lane, Tai Po
+- 價格：$$
+
+## 705. Cafe Polanka
+- 地區：大埔
+- 評分：3.3星（243人評價）
+- 地址：8 On Pong Road, Tai Po
+
+## 706. Sushi Take-Out
+- 地區：大埔
+- 評分：3.6星（26人評價）
+- 地址：超級城A區第一層003號舖, 9號 On Pong Road, Tai Po
+- 價格：$
+- 類型：meal_takeaway
+
+## 707. King's Belly
+- 地區：大埔
+- 評分：4.2星（445人評價）
+- 地址：Mei Fung Building, 6號 Wan Tau Kok Lane, Tai Po
+- 價格：$$
+- 類型：bar
+
+## 708. Soho Cafe and Restaurant
+- 地區：大埔
+- 評分：3.9星（30人評價）
+- 地址：Mei Fung Building, 6號 Wan Tau Kok Lane, Tai Po
+- 價格：$$
+- 類型：bar
+
+## 709. Man Wah Fish Ball Noodle
+- 地區：大埔
+- 評分：3.5星（807人評價）
+- 地址：號地下C舖, 19 Kwong Fuk Lane, Tai Po
+- 價格：$
+
+## 710. 真才實料
+- 地區：大埔
+- 評分：4星（1人評價）
+- 地址：103 Kwong Fuk Road, Tai Po
+
+## 711. 姑媽小廚
+- 地區：大埔
+- 地址：Tower 2, HK #15-07 The Metropolis
+
+## 712. Fook Moon Restaurant
+- 地區：大埔
+- 評分：3.6星（94人評價）
+- 地址：52 Kwong Fuk Road, Tai Po
+
+## 713. Sam Po Sing Shanghai Food
+- 地區：大埔
+- 評分：3.6星（416人評價）
+- 地址：號地下, 利宜樓, 12 南盛街, 大埔
+- 價格：$$
+
+## 714. Hung Lee Cafe
+- 地區：大埔
+- 評分：3.7星（31人評價）
+- 地址：Hong Kong
+- 價格：$$
+
+## 715. 紫竹林
+- 地區：大埔
+- 評分：4.6星（9人評價）
+- 地址：Hei Tai Building, 17 Pak Shing Street, Tai Po
+
+## 716. Fairwood
+- 地區：大埔
+- 評分：3.4星（648人評價）
+- 地址：10 Hiu Wan Road, Wan Tau Tong
+- 價格：$
+
+## 717. KFC
+- 地區：大埔
+- 評分：3.4星（364人評價）
+- 地址：501 - 504, 8 On Pong Road, Tai Po
+- 價格：$
+
+## 718. 順興燒臘名家
+- 地區：大埔
+- 評分：3.6星（38人評價）
+- 地址：56 Po Heung Street, Tai Po
+- 類型：meal_takeaway
+
+## 719. 洪記
+- 地區：大埔
+- 評分：3星（37人評價）
+- 地址：Hong Kong
+
+## 720. 香港燒味
+- 地區：大埔
+- 地址：Tai Kwong Lane, Tai Po
+
+## 721. Wah Lap Restaurant
+- 地區：大埔
+- 評分：3.6星（606人評價）
+- 地址：48 Po Heung Street, Tai Po
+- 價格：$$
+
+## 722. Délifrance
+- 地區：荃灣
+- 評分：3.8星（353人評價）
+- 地址：HK New Territories Tsuen Wan Castle Peak Road - Tsuen Wan, 398號 1樓1051號舖 愉景新城商場
+- 價格：$$
+
+## 723. Pizza Hut (D•PARK)
+- 地區：荃灣
+- 評分：3.6星（648人評價）
+- 地址：Shop 1035, 1/F, D‧PARK, 398 Castle Peak Road - Tsuen Wan, Tsuen Wan
+- 價格：$$
+- 類型：meal_delivery
+
+## 724. 名坊中西美食
+- 地區：荃灣
+- 評分：3.1星（103人評價）
+- 地址：青衣上高灘街 涌美村130號地下
+- 價格：$
+
+## 725. 牛欄牛什粉麵
+- 地區：荃灣
+- 評分：3.7星（392人評價）
+- 地址：132 Sha Tsui Road, Tsuen Wan
+- 價格：$
+
+## 726. Mi-Ne Sushi
+- 地區：荃灣
+- 評分：3.8星（658人評價）
+- 地址：442 - 445, 30 Tai Pa Street, Tsuen Wan
+- 價格：$$
+
+## 727. Hong Kong Adventist Hospital – Tsuen Wan Staff Canteen
+- 地區：荃灣
+- 評分：3.9星（57人評價）
+- 地址：199號, 199 荃景圍, 荃灣
+
+## 728. pu erh
+- 地區：荃灣
+- 評分：3.4星（307人評價）
+- 地址：號地舖, 59 Tai Pa Street, Tsuen Wan
+- 價格：$
+
+## 729. Café Circles
+- 地區：荃灣
+- 評分：3.9星（418人評價）
+- 地址：9/F, 8 Yeung Uk Road, Tsuen Wan
+- 價格：$$
+- 類型：meal_takeaway
+
+## 730. Maxim's MX
+- 地區：荃灣
+- 評分：3.4星（393人評價）
+- 地址：338 Castle Peak Road - Tsuen Wan, Tsuen Wan
+- 價格：$$
+
+## 731. 必勝客 (麗城花園店) / PHD外賣自提點
+- 地區：荃灣
+- 評分：3.5星（192人評價）
+- 地址：荃灣麗城花園第二期麗城花園購物中心地下1-2號舖, Tusen Wan
+- 價格：$$
+- 類型：meal_delivery
+
+## 732. Tai Hing
+- 地區：荃灣
+- 評分：3.5星（352人評價）
+- 地址：翠 怡 花園 3 期 商場 地下 304-305 號 舖, 1 Fung Shue Wo Road, Tsing Yi
+- 價格：$$
+
+## 733. Bun Kee Congee & Noodle Shop
+- 地區：荃灣
+- 評分：4星（240人評價）
+- 地址：6A Tai Pei Square, Tsuen Wan
+- 價格：$$
+
+## 734. Cafe 100%
+- 地區：荃灣
+- 評分：3星（276人評價）
+- 地址：地下9-11號舖, Tsing Yi
+- 價格：$$
+
+## 735. McDonald's (Nan Fung Centre)
+- 地區：荃灣
+- 評分：3.5星（399人評價）
+- 地址：荃灣 號 南 豐 中心 商場 3 樓 301 號 舖, 264-298 Castle Peak Road - Tsuen Wan, Tsuen Wan
+- 價格：$
+
+## 736. Taste Restaurant
+- 地區：荃灣
+- 評分：1星（2人評價）
+- 地址：Shop G30-G33, G/F, City Landmark 2, 68 Chung On Street, Tsuen Wan
+
+## 737. Café de Coral
+- 地區：荃灣
+- 評分：3.4星（298人評價）
+- 地址：荃灣中心15-17座地下51-70號
+- 價格：$
+
+## 738. Hong Kong Gold Coast Hotel
+- 地區：屯門
+- 評分：4.2星（7016人評價）
+- 地址：1 號, Castle Peak Road, Castle Peak, 黃金海岸 Gold Coast, 1 Castle Peak Road-Castle Peak Bay, So Kwun Wat
+- 類型：lodging
+
+## 739. Saizeriya
+- 地區：屯門
+- 評分：3.8星（841人評價）
+- 地址：Eldo Court Shopping Centre, 1樓S8-10,24-29號舖, Tuen Mun Heung Sze Wui Road, Tuen Mun
+- 價格：$
+
+## 740. The Palace (Tuen Mun)
+- 地區：屯門
+- 評分：3.2星（831人評價）
+- 地址：126 Tuen Mun Heung Sze Wui Road, Tuen Mun
+- 價格：$$
+
+## 741. Maxim's Palace (Tuen Mun)
+- 地區：屯門
+- 評分：3.5星（1244人評價）
+- 地址：Tuen Mun Town Hall, 3 Tuen Hi Road, Tuen Mun
+- 價格：$$
+
+## 742. Yoshinoya
+- 地區：屯門
+- 評分：3.6星（257人評價）
+- 地址：3樓 25 舖, Trend Plaza South Wing, 2 Tuen Hop Street, Tuen Mun
+- 價格：$
+
+## 743. MOS BURGER
+- 地區：屯門
+- 評分：3.9星（353人評價）
+- 地址：屯隆街錦薈坊2樓206-208號鋪, Tuen Mun
+- 價格：$$
+
+## 744. Tai Hing
+- 地區：屯門
+- 評分：3.2星（421人評價）
+- 地址：16,17A, 2 Tuen Hop Street, Tuen Mun
+- 價格：$$
+
+## 745. Crystal Jade (TMT Plaza)
+- 地區：屯門
+- 評分：3.6星（649人評價）
+- 地址：Shop 2131 - 33 , 35 - 43 , 45 - 50, 3 Tuen Lung Street, Tuen Mun
+- 價格：$$
+
+## 746. Star Seafood Restaurant
+- 地區：屯門
+- 評分：3.4星（1040人評價）
+- 地址：3 樓, Tuen Mun Parklane Square, 2 Tuen Hi Road, Tuen Mun
+- 價格：$$
+
+## 747. Mighty Vegetarian
+- 地區：屯門
+- 評分：3.8星（556人評價）
+- 地址：A座, 5號 石排頭路, 屯門
+- 價格：$$
+
+## 748. King of Kitchen
+- 地區：屯門
+- 評分：3.4星（424人評價）
+- 地址：103-105 Leung Wan Street, Tuen Mun
+- 價格：$$
+
+## 749. Resto Bar & Grill
+- 地區：屯門
+- 評分：4星（483人評價）
+- 地址：Shop No 3, 5, 6 & 7, G/F, Gold Coast Piazza Hong Kong Gold Coast, 1 Castle Peak Road - So Kwun Wat, Tuen Mun
+- 價格：$$
+
+## 750. Tuen Mun Curry House
+- 地區：屯門
+- 評分：4.3星（906人評價）
+- 地址：彩華花園, 25號地舖, Tuen Mun
+- 價格：$
+
+## 751. Ho Lan Un
+- 地區：屯門
+- 評分：3.7星（314人評價）
+- 地址：地下C7舖, 7號 Shek Pai Tau Road, Tuen Mun
+- 價格：$
+
+## 752. Double Happiness Restaurant
+- 地區：屯門
+- 評分：3.2星（667人評價）
+- 地址：樓101-120號舖, 新屯門中心3座, 55-65號 龍門路, 屯門
+- 價格：$$
+
+## 753. Fairwood
+- 地區：屯門
+- 評分：3.5星（354人評價）
+- 地址：三聖恆福商場, 屯門
+- 價格：$
+
+## 754. 青山灣美食廚房
+- 地區：屯門
+- 評分：3.6星（325人評價）
+- 地址：Hong Kong
+- 價格：$$
+
+## 755. 雲貴軒米線專門店 (龍門居)
+- 地區：屯門
+- 評分：3.4星（231人評價）
+- 地址：HK New Territories 號 86-87 號 舖 Lung Mun Oasis Block 15, 43 Lung Mun Road
+- 價格：$$
+
+## 756. 唐記粉麵小食
+- 地區：屯門
+- 評分：3.8星（105人評價）
+- 地址：屯門鄉事會路25A
+- 價格：$
+
+## 757. Café de Coral
+- 地區：屯門
+- 評分：3.2星（199人評價）
+- 地址：屯門屯順街1號屯門市廣場地下 G036-041 號舖
+- 價格：$
+
+## 758. 華香園
+- 地區：屯門
+- 評分：4星（80人評價）
+- 地址：Hong Kong
+- 價格：$
+
+## 759. Hung Fook Tong (Hanford Plaza)
+- 地區：屯門
+- 評分：3.9星（7人評價）
+- 地址：屯門三聖邨恆福商場地下105號舖
+- 類型：store/health
+
+## 760. Italian Tomato
+- 地區：屯門
+- 評分：3.8星（12人評價）
+- 地址：V city, Tuen Mun Heung Sze Wui Road, Tuen Mun
+- 價格：$$
+- 類型：bakery/store
+
+## 761. PHD
+- 地區：屯門
+- 評分：3.8星（113人評價）
+- 地址：舖A部份, 屯門青山公路385號舖嘉喜利大廈地下13至14號
+- 價格：$$
+- 類型：meal_takeaway
+
+## 762. 廣東名門
+- 地區：屯門
+- 評分：3.7星（694人評價）
+- 地址：1號地下, 三聖邨三聖市場, 6 Sam Shing Street, Tuen Mun
+- 價格：$$$
+
+## 763. Café de Coral
+- 地區：屯門
+- 評分：3.5星（490人評價）
+- 地址：1樓, Trend Plaza South Wing, 23 - 25號鋪, 2號 Tuen Lung Street, Tuen Mun
+- 價格：$$
+
+## 764. Café de Coral
+- 地區：屯門
+- 評分：3.4星（561人評價）
+- 地址：2A Tuen Mun Heung Sze Wui Road, Tuen Mun
+- 價格：$$
+
+## 765. 喜臨門盆菜
+- 地區：屯門
+- 評分：4.7星（25人評價）
+- 地址：C座7樓, Tuen Mun Industrial Centre, 1室, 2號 San Ping Circuit, Tuen Mun
+- 類型：meal_takeaway
+
+## 766. Partners Restaurant
+- 地區：屯門
+- 評分：3.2星（522人評價）
+- 地址：兆康商場220+220A
+- 價格：$$
+
+## 767. Fat Fat Fast Food
+- 地區：屯門
+- 評分：4.1星（202人評價）
+- 地址：S-208, 2A Tuen Mun Heung Sze Wui Road, Tuen Mun
+- 價格：$
+
+## 768. Weiwei noodles
+- 地區：屯門
+- 評分：3星（34人評價）
+- 地址：2A Tuen Mun Heung Sze Wui Road, Tuen Mun
+
+## 769. 金龍餐廳餅店
+- 地區：屯門
+- 評分：3.9星（37人評價）
+- 地址：Tsing Wui Street, Tuen Mun
+
+## 770. Pizza Hut Hong Kong
+- 地區：屯門
+- 評分：3.7星（257人評價）
+- 地址：屯門良德街11號寶怡花園5-6號舖, Tuen Mun
+- 價格：$$
+- 類型：meal_delivery
+
+## 771. Yoshinoya
+- 地區：屯門
+- 評分：3.5星（265人評價）
+- 地址：157 Tuen Mun Heung Sze Wui Road, Tuen Mun
+- 價格：$
+
+## 772. KFC
+- 地區：屯門
+- 評分：3.4星（187人評價）
+- 地址：Shop 12-13A, G/F, Blossom Garden, 11 Leung Tak Street, Tuen Mun
+- 價格：$
+
+## 773. McDonald's (Blossom Garden)
+- 地區：屯門
+- 評分：3.3星（361人評價）
+- 地址：地下1-2號舖, 寶怡花園商場, 11 Leung Tak Street, Tuen Mun
+- 價格：$
+
+## 774. Arome
+- 地區：屯門
+- 評分：3.7星（60人評價）
+- 地址：Shop 1053, 1 Tuen Shing Street, Tuen Mun
+- 價格：$$
+
+## 775. Hing Kee Seafood And Roasted Goose Restaurant
+- 地區：屯門
+- 評分：3.6星（603人評價）
+- 地址：Tuen Mun 屯 門 三 聖 村 六角 亭 地下 9-12 號 舖
+- 價格：$$
+
+## 776. Province Hot-pot and Seafood Restaurant
+- 地區：屯門
+- 評分：3.4星（405人評價）
+- 地址：海麗花園商場, 12 Leung Tak Street, Tuen Mun
+- 價格：$$
+
+## 777. Hoi Tin Garden Restaurant
+- 地區：屯門
+- 評分：3.7星（1906人評價）
+- 地址：5號 Sam Shing Street, Tuen Mun
+- 價格：$$
+
+## 778. Tak Hing Restaurant
+- 地區：屯門
+- 評分：3.4星（503人評價）
+- 地址：157 Tuen Mun Heung Sze Wui Road, Tuen Mun
+- 價格：$
+
+## 779. Fairwood
+- 地區：屯門
+- 評分：3.5星（394人評價）
+- 地址：屯門湖翠路168-236號海趣坊65號舖
+- 價格：$
+
+## 780. Nam Kee Restaurant
+- 地區：屯門
+- 評分：3.7星（1070人評價）
+- 地址：三聖邨熟食亭地下 1-6 號舖, Tuen Mun
+- 價格：$$
+
+## 781. 馬哥奇冰
+- 地區：屯門
+- 評分：3.3星（120人評價）
+- 地址：Block 86號���, 美樂花園10座, 湖翠路, 屯門
+
+## 782. Miu Fat Chai
+- 地區：屯門
+- 評分：3.6星（176人評價）
+- 地址：地下, On Chuen Building, 8號 Ming Ngai Street, Tuen Mun
+- 價格：$$
+
+## 783. 雲桂香米線專門店 Yugu Noodle
+- 地區：屯門
+- 評分：3.4星（335人評價）
+- 地址：26-40號 Yan Ching Street, Tuen Mun
+- 價格：$$
+
+## 784. Cafe Lagoon
+- 地區：屯門
+- 評分：3.9星（516人評價）
+- 地址：Lower Ground Level, Hotel, 1 Castle Peak Road-Castle Peak Bay, Hong Kong Gold Coast
+- 價格：$$
+- 類型：cafe
+
+## 785. 美心美食坊
+- 地區：屯門
+- 評分：3.1星（17人評價）
+- 地址：2樓, 23號 青松觀道, Tuen Mun
+
+## 786. McDonald's (Wah Lok Mansion)
+- 地區：屯門
+- 評分：3.3星（565人評價）
+- 地址：新界屯門青山坊2號華樂大廈地下
+- 價格：$
+
+## 787. Dragon Inn Seafood Restaurant Car Park
+- 地區：屯門
+- 評分：4星（88人評價）
+- 地址：Tuen Mun
+- 類型：parking
+
+## 788. McDonald's (Trend Plaza)
+- 地區：屯門
+- 評分：3.5星（640人評價）
+- 地址：Trend Plaza South Wing, 第三層13及14號舖, 2號 Tuen Hop Street, Tuen Mun
+- 價格：$
+
+## 789. Kar Choi Fish Village Beijing Shanghai Restaurant
+- 地區：屯門
+- 評分：3.7星（271人評價）
+- 地址：6 Sam Shing Street, Tuen Mun
+- 價格：$$
+
+## 790. McDonald's (Gold Coast)
+- 地區：屯門
+- 評分：3.6星（891人評價）
+- 地址：Shop R6 and F9, Castle Peak Road - So Kwun Wat, Tuen Mun
+- 價格：$
+
+## 791. Fairwood (Chi Lok Fa Yuen)
+- 地區：屯門
+- 評分：3.7星（438人評價）
+- 地址：Chi Lok Fa Yuen Lok Hing Court, 地下 69-74 號 舖, 18 Tsing Hoi Circuit, Tuen Mun
+- 價格：$
+
+## 792. Fairwood
+- 地區：屯門
+- 評分：3.3星（271人評價）
+- 地址：Hong Kong
+- 價格：$
+
+## 793. McDonald's (Heung Sze Wui Road)
+- 地區：屯門
+- 評分：3.6星（920人評價）
+- 地址：新界屯門屯門市地段280號河傍街, 屯門鄉事會道康麗花園十四號地舖
+- 價格：$
+
+## 794. Fairwood
+- 地區：屯門
+- 評分：3.4星（86人評價）
+- 地址：兆麟苑商場, 3 Siu Hing Lane, Tuen Mun
+- 價格：$
+
+## 795. 西貢星越泰風味館
+- 地區：屯門
+- 評分：2.2星（5人評價）
+- 地址：Hong Kong
+
+## 796. Castle Peak Hospital Staff Canteen
+- 地區：屯門
+- 評分：2.2星（23人評價）
+- 地址：G/F, Wisdom House,Castle Peak Hospital, 15 Tsing Chung Koon Road, Tuen Mun
+
+## 797. McDonald's (Shan King Estate)
+- 地區：屯門
+- 評分：3.5星（586人評價）
+- 地址：山景邨山景商場124號舖, Tuen Mun
+- 價格：$
+
+## 798. 發記腸粉粥品
+- 地區：元朗
+- 評分：3.8星（1044人評價）
+- 地址：67 Kin Yip Street, Yuen Long
+- 價格：$
+
+## 799. Shilin Taiwan Shop
+- 地區：元朗
+- 評分：3.9星（969人評價）
+- 地址：地下, 9號 Sai Ching Street, Yuen Long
+- 價格：$$
+
+## 800. Waso Cafe
+- 地區：元朗
+- 評分：3.9星（1562人評價）
+- 地址：蝦尾新村路, 121號 Yung Yuen Road, Wang Chau
+- 價格：$$
+
+## 801. Savour Cafe品味
+- 地區：元朗
+- 評分：4.2星（293人評價）
+- 地址：Wah Kin Building, 地下3-4號, 3號 Tat Fai Path, Yuen Long
+- 價格：$$
+
+## 802. Tanaka
+- 地區：元朗
+- 評分：3.8星（562人評價）
+- 地址：青山公路元朗段12號, 恆發樓地下, Yuen Long
+- 價格：$$
+
+## 803. Man Lee Yuen (Poon Choi)
+- 地區：元朗
+- 評分：3.3星（153人評價）
+- 地址：Fook Loi Building, 11 Yuen Long On Ning Road, Yuen Long
+- 價格：$$
+
+## 804. Mint Thai House 薄荷葉泰國菜
+- 地區：元朗
+- 評分：3.8星（259人評價）
+- 地址：地下12, 13號鋪, 2號 On Chun Lane, Yuen Long
+- 價格：$$
+
+## 805. Chao Inn
+- 地區：元朗
+- 評分：3.4星（863人評價）
+- 地址：Yuen Long Plaza, Castle Peak Road - Yuen Long, Yuen Long
+- 價格：$$
+
+## 806. German Road Restaurant
+- 地區：元朗
+- 評分：4.1星（258人評價）
+- 地址：元朗鳳攸北街11-15號益發大廈地下16-17號鋪
+- 價格：$$
+
+## 807. Ka Lai Yuen Chiu Chow Restaurant
+- 地區：元朗
+- 評分：3.5星（1588人評價）
+- 地址：5號舗, Lee King Building, 9號 Hong King Street, Yuen Long
+- 價格：$$
+
+## 808. Shing Lee Beef Ball
+- 地區：元朗
+- 評分：3.4星（1115人評價）
+- 地址：地下, Cheung Fat Building, 20 Yu King Square, Yuen Long
+- 價格：$$
+
+## 809. Kam Kee Roast Meat
+- 地區：元朗
+- 評分：3.5星（164人評價）
+- 地址：Shop 1, 66 Shui Che Kwun Street, Yuen Long
+
+## 810. Yuen Long Tai Wing Wah Restaurant
+- 地區：元朗
+- 評分：3.6星（2902人評價）
+- 地址：2樓, 2-6號 元朗安寧路, 元朗
+- 價格：$$
+
+## 811. The Queen of Siu Mai
+- 地區：元朗
+- 評分：3.6星（467人評價）
+- 地址：Stores 11B & 11C, 14 Fau Tsoi Street, Yuen Long
+- 價格：$
+
+## 812. Tai Hing
+- 地區：元朗
+- 評分：3.4星（408人評價）
+- 地址：A301, 3/F, YOHO Mall II, Yuen Long
+- 價格：$$
+
+## 813. Saizeriya (+WOO)
+- 地區：元朗
+- 評分：3.6星（427人評價）
+- 地址：嘉湖2期 2樓218號舖, 12-18號 Tin Yan Road, Tin Shui Wai
+- 價格：$
+
+## 814. Pizza Hut
+- 地區：元朗
+- 評分：3.9星（152人評價）
+- 地址：地下6號舖, Kam Lung Mansion, 22號 Fung Kam Street, Yuen Long
+- 價格：$$
+- 類型：meal_takeaway/meal_delivery
+
+## 815. YOHO Fong Limited
+- 地區：元朗
+- 評分：4.3星（3人評價）
+- 地址：Unit 2 & 3, 1/F and G/F (Portion) , Ho Shun Lee Building, 9 Fung Yau Street South, Yuen Long
+
+## 816. 薄餅巨人 Mr. Big Pizza Delivery
+- 地區：元朗
+- 評分：4星（74人評價）
+- 地址：怡豐花園商場 56號舖, 38號 Ma Tin Road, Yuen Long
+- 類型：meal_takeaway/meal_delivery
+
+## 817. Ping Shan
+- 地區：元朗
+- 評分：3.8星（325人評價）
+- 地址：元朗屏山屏廈路塘坊村36號地下, Ping Shan
+- 價格：$$
+- 類型：meal_takeaway
+
+## 818. Pok Oi Hospital Canteen
+- 地區：元朗
+- 評分：2.9星（25人評價）
+- 地址：Hong Kong
+
+## 819. Mighty Vegetarian
+- 地區：元朗
+- 評分：4星（396人評價）
+- 地址：地下7號, 35號 媽橫路, 元朗
+- 價格：$$
+- 類型：meal_takeaway
+
+## 820. Anna Restaurant
+- 地區：元朗
+- 評分：3.8星（1380人評價）
+- 地址：號地下, 5 Yan Lok Square, Yuen Long
+- 價格：$$
+
+## 821. Pizza Hut (Yuen Long Landmark)
+- 地區：元朗
+- 評分：3.7星（623人評價）
+- 地址：樓201號舖, 元朗大馬路123號開心廣場2, Yuen Long
+- 價格：$$
+- 類型：meal_delivery
+
+## 822. Lee Hing Restaurant
+- 地區：元朗
+- 評分：3.5星（167人評價）
+- 地址：地下C舖, Jing Ying Mansion, 56號 Fook Tak Street, Yuen Long
+
+## 823. Fat Chee Vegetarian Restaurant
+- 地區：元朗
+- 評分：3.8星（290人評價）
+- 地址：22號 Fook Hong Street, Yuen Long
+- 價格：$$
+
+## 824. 過橋麵檔
+- 地區：元朗
+- 評分：3.9星（1125人評價）
+- 地址：9 Kin Tak Street, Yuen Long
+- 價格：$$
+
+## 825. 已結業
+- 地區：元朗
+- 評分：3.7星（288人評價）
+- 地址：地下G舖, Tai Pei Tau Path, Yuen Long
+- 價格：$$
+
+## 826. Wai Kee BBQ
+- 地區：元朗
+- 評分：3.8星（477人評價）
+- 地址：（大棠路蝶翠峰後面）, 677 大旗嶺路, 元朗
+- 價格：$$
+
+## 827. 味仟店
+- 地區：元朗
+- 評分：3.9星（118人評價）
+- 地址：號5B-C鋪, 40 安興街, Yuen Long
+
+## 828. Sushi Take-Out
+- 地區：元朗
+- 評分：3.4星（43人評價）
+- 地址：地鐵站, 43號舖, Tin Shui Wai
+- 價格：$
+
+## 829. 許祥順食店
+- 地區：元朗
+- 評分：3.6星（462人評價）
+- 地址：17 Kik Yeung Road, Yuen Long
+- 價格：$
+
+## 830. 添記燒臘飯店
+- 地區：元朗
+- 評分：4星（222人評價）
+- 地址：元朗建業街熟食街市C5(近建樂街交界)
+- 價格：$
+
+## 831. 喜洋洋點心專門店
+- 地區：元朗
+- 評分：3.3星（71人評價）
+- 地址：Hong Kong
+- 價格：$
+
+## 832. 梁記餃子麵坊
+- 地區：元朗
+- 評分：3.8星（575人評價）
+- 地址：Fuxiang, underground, Yuen Long On Ning Road, Yuen Long
+- 價格：$
+
+## 833. 雲貴軒米線專門店
+- 地區：元朗
+- 評分：3.5星（282人評價）
+- 地址：6-7 Tai Tong Road, Yuen Long
+- 價格：$
+
+## 834. 原味家作 (元朗站店)
+- 地區：元朗
+- 評分：3.7星（7人評價）
+- 地址：23號店 港鐵, 元朗
+- 類型：meal_takeaway
+
+## 835. Fairwood
+- 地區：元朗
+- 評分：3.5星（223人評價）
+- 地址：long Ping Shopping center, Yuen Long
+- 價格：$
+
+## 836. Yoshinoya
+- 地區：元朗
+- 評分：3.5星（610人評價）
+- 地址：元 朗 廣場 1 樓 165-166 及 179-180 號 舖 新界 號, 249 - 251 Castle Peak Road - Yuen Long, Yuen Long
+- 價格：$
+
+## 837. Ho To Tai Noodle Shop
+- 地區：元朗
+- 評分：3.7星（1097人評價）
+- 地址：67號 Fau Tsoi Street, Yuen Long
+
+## 838. Shreengkhala Curry House HK
+- 地區：元朗
+- 評分：4.3星（381人評價）
+- 地址：144號 Yuen Long On Ning Road, Yuen Long
+- 價格：$$
+
+## 839. Sour and Spicy Noodle
+- 地區：元朗
+- 評分：3.4星（296人評價）
+- 地址：28 Yu King Square, Yuen Long
+- 價格：$$
+
+## 840. 傳麵世家
+- 地區：元朗
+- 評分：3.7星（812人評價）
+- 地址：3號鋪, Hing Loong Building, 289號 Hung Min Court, Yuen Long
+- 價格：$
+
+## 841. 三上日本料理
+- 地區：元朗
+- 評分：3.7星（255人評價）
+- 地址：Shop F, G/F, Block B, 2-12 Tai Pei Tau Path, Yuen Long
+- 價格：$$
+
+## 842. Taiwan Kitchen
+- 地區：元朗
+- 評分：3.4星（607人評價）
+- 地址：Nan Tin Mansion, 37 Kau Yuk Road, Yuen Long
+- 價格：$$
+
+## 843. 大歡喜筵席盆菜
+- 地區：元朗
+- 評分：3.3星（34人評價）
+- 地址：74號 Kau Yuk Road, Yuen Long
+- 類型：meal_takeaway
+
+## 844. TamJai SamGor (Sai Ching Street)
+- 地區：元朗
+- 評分：3.6星（604人評價）
+- 地址：Full Shing Building, 9 Sai Ching Street, Yuen Long
+- 價格：$
+
+## 845. Pinwei Restaurant
+- 地區：元朗
+- 評分：3.7星（168人評價）
+- 地址：G鋪, 17號 Kik Yeung Road, Yuen Long
+- 價格：$
+
+## 846. Yuen Long Siu Wok Vermicelli
+- 地區：元朗
+- 評分：4星（342人評價）
+- 地址：7, 10 Sai Yu Street, Yuen Long
+- 價格：$
+
+## 847. Sichuan Noodles
+- 地區：元朗
+- 評分：3.9星（159人評價）
+- 地址：地下C舖, Fung Yue Building, 80號 教育路, 元朗
+- 價格：$
+
+## 848. Sawadee Thai Restaurant
+- 地區：元朗
+- 評分：3.8星（614人評價）
+- 地址：1 Yuen Long Tung Shing Lei Road, Au Tau
+- 價格：$$
+
+## 849. KFC
+- 地區：元朗
+- 評分：3.7星（303人評價）
+- 地址：嘉湖二期1樓125-126號舖, 18號 Tin Yan Road, Tin Shui Wai
+- 價格：$
+
+## 850. Happy House
+- 地區：元朗
+- 評分：3.8星（320人評價）
+- 地址：2 Yuen Long Tung Tai Street, Yuen Long
+- 價格：$
+
+## 851. McDonald's (Yuen Long Trade Centre)
+- 地區：元朗
+- 評分：3.7星（1013人評價）
+- 地址：五號舖及一樓二樓, 貿易中心地下, Castle Peak Road - Yuen Long, Yuen Long
+- 價格：$
+
+## 852. Yoshinoya
+- 地區：元朗
+- 評分：3.6星（591人評價）
+- 地址：寶發大廈1樓及地下4號舖, 元朗裕景坊1-5及7a-7e號及大棠路22a,22b及26-30號
+- 價格：$
+
+## 853. 一番日本料理
+- 地區：元朗
+- 評分：3.8星（373人評價）
+- 地址：號 地下C舖, 29 Kau Yuk Road, Yuen Long
+- 價格：$$
+
+## 854. Shaffi's Indian Restaurant(Halal)
+- 地區：元朗
+- 評分：4星（459人評價）
+- 地址：Fook Tak Building, 234 Castle Peak Road - Yuen Long, Yuen Long
+- 價格：$$
+
+## 855. Ichininmae Ramen
+- 地區：元朗
+- 評分：4.1星（245人評價）
+- 地址：Hong Kong
+- 價格：$$
+
+## 856. McDonald’s (Long Ping Estate)
+- 地區：元朗
+- 評分：3.5星（302人評價）
+- 地址：新界元朗朗屏路1號朗屏邨朗屏商場1樓L116號舖
+- 價格：$
+
+## 857. Fairwood
+- 地區：元朗
+- 評分：3.6星（552人評價）
+- 地址：Hong Kong
+- 價格：$

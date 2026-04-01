@@ -7,6 +7,7 @@ import { X, Locate, Zap, Brain, Search, MapPin } from 'lucide-react'
 import { REGION_DETAILS, getPlaces } from '../services/MapData'
 import { searchForRecommendations, initPlacesService } from '../services/GooglePlacesService'
 import { getNearbyRestaurants, initRestaurants as initRestaurantData } from '../services/restaurantApi'
+import { getAllRestaurantMarkers, getRestaurantStats } from '../services/GooglePlacesDataService'
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyC4OsiPMTcrtqsIQB-3YGJIFcsJelBsZpw'
 const containerStyle = { width: '100%', height: '100%' }
@@ -24,6 +25,8 @@ export default function MapView() {
   const [mapReady, setMapReady] = useState(false)
   const [restaurantMarkers, setRestaurantMarkers] = useState([])
   const [showRestaurants, setShowRestaurants] = useState(false)
+  const [allRestaurantMarkers, setAllRestaurantMarkers] = useState([])
+  const [restaurantStats, setRestaurantStats] = useState({ total: 0, districts: 0 })
   const mapRef = useRef(null)
 
   useEffect(() => {
@@ -46,7 +49,16 @@ export default function MapView() {
   // Merge: sample data + user-added markers
   const allPlaces = [...regionPlaces, ...markers.filter(m => !m.userId)]
 
-  // Load restaurant markers when location is available
+  // Load ALL 857 restaurant markers from Google Places data
+  useEffect(() => {
+    const markers = getAllRestaurantMarkers()
+    setAllRestaurantMarkers(markers)
+    const stats = getRestaurantStats()
+    setRestaurantStats(stats)
+    console.log(`📍 Loaded ${markers.length} restaurants from Google Places`)
+  }, [])
+
+  // Load nearby restaurant markers when location is available
   useEffect(() => {
     if (userLocation && mapReady) {
       const loadRestaurants = async () => {
@@ -237,27 +249,27 @@ export default function MapView() {
           )
         })}
         
-        {/* Restaurant Markers */}
-        {showRestaurants && restaurantMarkers.length > 0 && restaurantMarkers.map((r, idx) => {
-          if (!r.lat || !r.lon) return null
+        {/* Restaurant Markers from Google Places (857 real restaurants) */}
+        {showRestaurants && allRestaurantMarkers.length > 0 && allRestaurantMarkers.map((r, idx) => {
+          if (!r.lat || !r.lng) return null
           return (
             <Marker 
-              key={`restaurant-${idx}`}
-              position={{ lat: parseFloat(r.lat), lng: parseFloat(r.lon) }}
+              key={`restaurant-${r.id || idx}`}
+              position={{ lat: r.lat, lng: r.lng }}
               icon={{
-                url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<div style="width:40px;height:40px;background:#F97316;border:3px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 12px rgba(0,0,0,0.2)">🍜</div>`)}`,
-                scaledSize: { width: 40, height: 40 },
-                anchor: { x: 20, y: 20 }
+                url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<div style="width:36px;height:36px;background:#F97316;border:2px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 3px 8px rgba(0,0,0,0.2)">🍜</div>`)}`,
+                scaledSize: { width: 36, height: 36 },
+                anchor: { x: 18, y: 18 }
               }}
               onClick={() => setSelected({
-                name: r.restaurant_name,
+                name: r.name,
                 category: 'restaurants',
-                address: r.address || r.Districts,
-                description: r.type1,
-                lat: parseFloat(r.lat),
-                lng: parseFloat(r.lon),
-                rating: r.smiles ? `${r.smiles} 個赞` : null,
-                price: r.avg_price
+                address: r.address,
+                description: r.type || r.description,
+                lat: r.lat,
+                lng: r.lng,
+                rating: r.rating ? `${r.rating}分 (${r.userRatingsTotal}人評價)` : null,
+                price: r.priceLevel ? '$'.repeat(r.priceLevel) : null
               })}
             />
           )
@@ -392,8 +404,8 @@ export default function MapView() {
         <Locate className="w-5 h-5 text-yellow-600" />
       </button>
 
-      {/* Restaurant Toggle Button */}
-      {restaurantMarkers.length > 0 && (
+      {/* Restaurant Toggle Button - Shows ALL 857 restaurants */}
+      {allRestaurantMarkers.length > 0 && (
         <button 
           onClick={() => setShowRestaurants(!showRestaurants)}
           className={`absolute right-4 bottom-44 z-20 py-2 px-4 rounded-2xl shadow-lg flex items-center gap-2 active:scale-95 transition-all ${
@@ -403,7 +415,7 @@ export default function MapView() {
           }`}
         >
           <span className="text-lg">🍜</span>
-          <span className="text-sm font-medium">{restaurantMarkers.length}</span>
+          <span className="text-sm font-medium">{allRestaurantMarkers.length}</span>
         </button>
       )}
 
