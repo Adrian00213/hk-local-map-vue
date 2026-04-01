@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Settings, Bell, Globe, Shield, Star, Gift, MessageCircle, Heart, ChevronRight, CreditCard, LogOut, Sparkles, X, Moon, HeartHandshake, User, CheckCircle, Bookmark, BellRing, FileText, Lock, Smartphone, Eye, Sun, ExternalLink, Camera, MapPin, Phone, Mail } from 'lucide-react'
+import { Settings, Bell, Globe, Shield, Star, Gift, MessageCircle, Heart, ChevronRight, CreditCard, LogOut, Sparkles, X, Moon, HeartHandshake, User, CheckCircle, Bookmark, BellRing, FileText, Lock, Smartphone, Eye, Sun, ExternalLink, Camera, MapPin, Phone, Mail, Bot } from 'lucide-react'
+import AgentSettings from './AgentSettings'
 
 export default function ProfileView() {
   const [activeSection, setActiveSection] = useState(null)
@@ -56,6 +57,7 @@ export default function ProfileView() {
         { icon: Globe, label: '語言設定', subtitle: language, color: 'bg-teal-500', action: () => setActiveSection('language') },
         { icon: Moon, label: darkMode ? '深色模式' : '淺色模式', subtitle: darkMode ? '🌙 開啟' : '☀️ 關閉', color: 'bg-purple-500', action: toggleDarkMode },
         { icon: Shield, label: '私隱設定', subtitle: '資料安全', color: 'bg-indigo-500', action: () => setActiveSection('privacy') },
+        { icon: Bot, label: '🤖 金龍設定', subtitle: 'AI 行為控制', color: 'bg-pink-500', action: () => setActiveSection('agentsettings') },
       ]
     },
     {
@@ -281,6 +283,21 @@ export default function ProfileView() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Agent Settings Modal */}
+      {activeSection === 'agentsettings' && (
+        <div className="fixed inset-0 z-50 bg-black/50" onClick={closeSection}>
+          <div className="w-full h-full bg-white dark:bg-gray-900 overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <div className="sticky top-0 bg-white dark:bg-gray-900 p-5 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
+              <h2 className="text-lg font-bold">🤖 金龍設定</h2>
+              <button onClick={closeSection} className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <AgentSettings />
           </div>
         </div>
       )}
