@@ -224,7 +224,7 @@ const EventCard = ({ event, index }) => (
 )
 
 // Deal Card Component
-const DealCard = ({ deal }) => (
+const DealCard = ({ deal, onLike, onShare }) => (
   <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-md transition-all cursor-pointer active:scale-98">
     <div className={`h-2 bg-gradient-to-r ${deal.color}`} />
     <div className="p-4">
@@ -246,10 +246,16 @@ const DealCard = ({ deal }) => (
         </div>
       </div>
       <div className="flex gap-2 mt-3">
-        <button className="flex-1 py-2 bg-gradient-to-r from-amber-50 to-orange-50 text-amber-600 rounded-xl text-xs font-medium flex items-center justify-center gap-1">
+        <button 
+          onClick={(e) => { e.stopPropagation(); onLike?.(deal) }}
+          className="flex-1 py-2 bg-gradient-to-r from-amber-50 to-orange-50 text-amber-600 rounded-xl text-xs font-medium flex items-center justify-center gap-1 active:scale-95 transition-transform"
+        >
           <Heart className="w-4 h-4" /> 收藏
         </button>
-        <button className="flex-1 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-600 rounded-xl text-xs font-medium flex items-center justify-center gap-1">
+        <button 
+          onClick={(e) => { e.stopPropagation(); onShare?.(deal) }}
+          className="flex-1 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-600 rounded-xl text-xs font-medium flex items-center justify-center gap-1 active:scale-95 transition-transform"
+        >
           <Share2 className="w-4 h-4" /> 分享
         </button>
       </div>
@@ -377,6 +383,20 @@ export default function InfoPage({ showToast }) {
     showToast?.({ message: `❤️ 已收藏 ${name}`, type: 'success' })
   }
 
+  const handleDealLike = (deal) => {
+    showToast?.({ message: `❤️ 已收藏優惠：${deal.title}`, type: 'success' })
+  }
+
+  const handleDealShare = (deal) => {
+    const shareText = `🎁 ${deal.title} - ${deal.brand} 優惠！${deal.discount} OFF！`
+    if (navigator.share) {
+      navigator.share({ title: deal.title, text: shareText })
+    } else {
+      navigator.clipboard?.writeText(shareText)
+      showToast?.({ message: `📋 已複製優惠內容：${deal.title}`, type: 'success' })
+    }
+  }
+
   const displayedRestaurants = cuisineFilter ? topRestaurants.filter(r => r.cuisine.includes(cuisineFilter)) : topRestaurants
 
   const filteredPosts = communityDistrict === '全部' ? MOCK_COMMUNITY_POSTS : MOCK_COMMUNITY_POSTS.filter(p => p.district.includes(communityDistrict))
@@ -495,7 +515,7 @@ export default function InfoPage({ showToast }) {
             
             {/* Deals Grid */}
             <div className="grid grid-cols-1 gap-3">
-              {MOCK_DEALS.map(deal => <DealCard key={deal.id} deal={deal} />)}
+              {MOCK_DEALS.map(deal => <DealCard key={deal.id} deal={deal} onLike={handleDealLike} onShare={handleDealShare} />)}
             </div>
           </div>
         )}
