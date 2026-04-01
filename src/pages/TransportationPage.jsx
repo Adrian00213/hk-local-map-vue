@@ -514,9 +514,10 @@ export default function TransportationPage() {
         {/* Traffic Tab */}
         {activeTab === 'traffic' && (
           <div className="space-y-4">
-            {/* Greeting */}
+            {/* Greeting with Time */}
             {(() => {
               const hour = new Date().getHours()
+              const isRushHour = (hour >= 7 && hour <= 9) || (hour >= 17 && hour <= 19)
               const greeting = hour >= 5 && hour < 9 ? '🌅 早起身'
                 : hour >= 9 && hour < 12 ? '☀️ 上午'
                 : hour >= 12 && hour < 14 ? '🍜 午膳'
@@ -524,107 +525,268 @@ export default function TransportationPage() {
                 : hour >= 17 && hour < 20 ? '🌆 放工'
                 : hour >= 20 && hour < 23 ? '🌙 夜晚'
                 : '😴 深夜'
-              const trafficTip = hour >= 7 && hour < 9 ? '早高峰時段，記得早啲出門！'
-                : hour >= 17 && hour < 19 ? '晚高峰時段，路上會幾塞！'
-                : hour >= 22 || hour <= 6 ? '深夜車少，路路暢通！'
-                : '交通正常，放心出發！'
+              const trafficTip = isRushHour ? '⏰ 高峰時段，建議預留更多出行時間' : '✅ 交通大致正常'
               
               return (
-                <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-4 shadow-lg text-white">
-                  <div className="flex items-center gap-3">
-                    <span className="text-4xl">{greeting.split(' ')[0]}</span>
-                    <div>
-                      <p className="text-xl font-bold">{greeting.split(' ')[1]}</p>
-                      <p className="text-sm opacity-90">{trafficTip}</p>
+                <div className="bg-gradient-to-r from-slate-600 via-slate-700 to-gray-800 rounded-2xl p-4 shadow-lg text-white">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-2xl">
+                        {hour >= 7 && hour <= 9 ? '🚗' : hour >= 17 && hour <= 19 ? '🚙' : '🚕'}
+                      </div>
+                      <div>
+                        <p className="text-lg font-bold">{greeting}</p>
+                        <p className="text-sm opacity-80">{trafficTip}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-2xl font-bold">{new Date().toLocaleTimeString('zh-HK', { hour: '2-digit', minute: '2-digit' })}</p>
+                      <p className="text-xs opacity-60">{new Date().toLocaleDateString('zh-HK', { month: 'numeric', day: 'numeric', weekday: 'short' })}</p>
                     </div>
                   </div>
                 </div>
               )
             })()}
 
-            {/* Traffic Index */}
-            <div className="grid grid-cols-3 gap-3">
-              {(() => {
-                const smooth = trafficData.filter(s => s.status === 'smooth').length
-                const moderate = trafficData.filter(s => s.status === 'moderate').length
-                const congested = trafficData.filter(s => s.status === 'congested').length
-                const total = trafficData.length || 1
-                
-                return [
-                  { label: '🟢 通暢', count: smooth, percent: Math.round(smooth/total*100), color: 'from-green-400 to-green-500' },
-                  { label: '🟡 中等', count: moderate, percent: Math.round(moderate/total*100), color: 'from-yellow-400 to-yellow-500' },
-                  { label: '🔴 擠塞', count: congested, percent: Math.round(congested/total*100), color: 'from-red-400 to-red-500' },
-                ].map((item) => (
-                  <div key={item.label} className={`bg-gradient-to-br ${item.color} rounded-2xl p-3 shadow-lg text-white`}>
-                    <p className="text-2xl font-bold">{item.count}</p>
-                    <p className="text-xs opacity-90">{item.label.split(' ')[1]}</p>
-                    <div className="mt-2 bg-white/30 rounded-full h-2 overflow-hidden">
-                      <div 
-                        className="h-full bg-white rounded-full"
-                        style={{ width: `${item.percent}%` }}
-                      />
+            {/* Overall Traffic Index */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm border border-gray-100">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="font-bold text-gray-900 dark:text-white">🚦 整體交通狀況</h3>
+                  <p className="text-xs text-gray-500 mt-1">實時路面情況</p>
+                </div>
+                {(() => {
+                  const smooth = trafficData.filter(s => s.status === 'smooth').length
+                  const total = trafficData.length || 1
+                  const smoothPercent = Math.round(smooth / total * 100)
+                  return (
+                    <div className={`px-3 py-1.5 rounded-full text-sm font-bold ${
+                      smoothPercent >= 70 ? 'bg-green-100 text-green-700' :
+                      smoothPercent >= 50 ? 'bg-yellow-100 text-yellow-700' :
+                      'bg-red-100 text-red-700'
+                    }`}>
+                      {smoothPercent >= 70 ? '🟢 通暢' : smoothPercent >= 50 ? '🟡 正常' : '🔴 擠塞'}
                     </div>
-                    <p className="text-xs mt-1">{item.percent}%</p>
-                  </div>
-                ))
-              })()}
+                  )
+                })()}
+              </div>
+              
+              {/* Traffic Stats Cards */}
+              <div className="grid grid-cols-4 gap-2 mb-4">
+                {(() => {
+                  const smooth = trafficData.filter(s => s.status === 'smooth').length
+                  const moderate = trafficData.filter(s => s.status === 'moderate').length
+                  const congested = trafficData.filter(s => s.status === 'congested').length
+                  const total = trafficData.length || 1
+                  
+                  return [
+                    { label: '通暢', count: smooth, icon: '🟢', bg: 'bg-green-50', textColor: 'text-green-600' },
+                    { label: '中等', count: moderate, icon: '🟡', bg: 'bg-yellow-50', textColor: 'text-yellow-600' },
+                    { label: '擠塞', count: congested, icon: '🔴', bg: 'bg-red-50', textColor: 'text-red-600' },
+                    { label: '感應器', count: total, icon: '📡', bg: 'bg-blue-50', textColor: 'text-blue-600' },
+                  ].map((item) => (
+                    <div key={item.label} className={`${item.bg} rounded-xl p-3 text-center`}>
+                      <p className="text-lg font-bold">{item.icon}</p>
+                      <p className={`text-xl font-bold ${item.textColor}`}>{item.count}</p>
+                      <p className="text-xs text-gray-500">{item.label}</p>
+                    </div>
+                  ))
+                })()}
+              </div>
+
+              {/* Speed Distribution Bar */}
+              <div className="mb-2">
+                <div className="flex text-xs text-gray-500 mb-1">
+                  <span className="flex-1 text-left">通暢 &gt;60km/h</span>
+                  <span className="flex-1 text-center">中等 40-60km/h</span>
+                  <span className="flex-1 text-right">擠塞 &lt;40km/h</span>
+                </div>
+                <div className="h-3 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden flex">
+                  {(() => {
+                    const smooth = trafficData.filter(s => s.status === 'smooth').length
+                    const moderate = trafficData.filter(s => s.status === 'moderate').length
+                    const congested = trafficData.filter(s => s.status === 'congested').length
+                    const total = trafficData.length || 1
+                    return [
+                      { count: smooth, color: 'bg-green-500' },
+                      { count: moderate, color: 'bg-yellow-500' },
+                      { count: congested, color: 'bg-red-500' },
+                    ].map((item, i) => (
+                      <div 
+                        key={i}
+                        className={`${item.color} transition-all`}
+                        style={{ width: total > 0 ? `${(item.count / total) * 100}%` : '33%' }}
+                      />
+                    ))
+                  })()}
+                </div>
+              </div>
+            </div>
+
+            {/* Hot Roads Section */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm border border-gray-100">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="font-bold text-gray-900 dark:text-white">🔥 熱門路段</h3>
+                  <p className="text-xs text-gray-500 mt-1">實時車速監測</p>
+                </div>
+                <span className="text-xs px-2 py-1 bg-amber-100 text-amber-700 rounded-full">
+                  {trafficData.length} 路段
+                </span>
+              </div>
+              
+              <div className="space-y-2">
+                {/* Congested Roads First */}
+                {trafficData
+                  .sort((a, b) => a.speed - b.speed)
+                  .slice(0, 8)
+                  .map((road, index) => (
+                    <div 
+                      key={road.id}
+                      className={`p-3 rounded-xl border transition-all ${
+                        road.status === 'congested' ? 'bg-red-50 border-red-100' :
+                        road.status === 'moderate' ? 'bg-yellow-50 border-yellow-100' :
+                        'bg-green-50 border-green-100'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        {/* Status Icon */}
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                          road.status === 'congested' ? 'bg-red-100' :
+                          road.status === 'moderate' ? 'bg-yellow-100' :
+                          'bg-green-100'
+                        }`}>
+                          {road.status === 'congested' ? '🚗💨' : road.status === 'moderate' ? '🚙' : '🚕'}
+                        </div>
+                        
+                        {/* Road Info */}
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-gray-900 dark:text-white text-sm truncate">
+                            {road.road_tc || road.road_en}
+                          </p>
+                          <p className="text-xs text-gray-500 flex items-center gap-2">
+                            <span>{road.district}</span>
+                            <span>·</span>
+                            <span className="uppercase">{road.direction}</span>
+                          </p>
+                        </div>
+                        
+                        {/* Speed */}
+                        <div className="text-right">
+                          <p className={`text-xl font-bold ${
+                            road.status === 'congested' ? 'text-red-600' :
+                            road.status === 'moderate' ? 'text-yellow-600' :
+                            'text-green-600'
+                          }`}>
+                            {road.speed}
+                          </p>
+                          <p className="text-xs text-gray-500">km/h</p>
+                        </div>
+                      </div>
+                      
+                      {/* Speed Bar */}
+                      <div className="mt-2">
+                        <div className="h-1.5 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
+                          <div 
+                            className={`h-full rounded-full transition-all ${
+                              road.status === 'congested' ? 'bg-red-500' :
+                              road.status === 'moderate' ? 'bg-yellow-500' :
+                              'bg-green-500'
+                            }`}
+                            style={{ width: `${Math.min(100, road.speed)}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+              </div>
             </div>
 
             {/* District Summary */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm">
-              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">📍 各區路況</h3>
-              <div className="space-y-2">
-                {districtSummary.map((d) => (
-                  <div key={d.district} className="flex items-center gap-3 p-2 bg-gray-50 dark:bg-gray-700 rounded-xl">
-                    <div 
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: getTrafficColor(d.avgSpeed) }}
-                    />
-                    <div className="flex-1">
-                      <p className="font-medium text-gray-900 dark:text-white text-sm">{d.district}</p>
-                      <p className="text-xs text-gray-500">{d.sensorCount} 個感應器</p>
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm border border-gray-100">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="font-bold text-gray-900 dark:text-white">📍 各區平均車速</h3>
+                  <p className="text-xs text-gray-500 mt-1">按區域分類</p>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                {districtSummary
+                  .sort((a, b) => b.avgSpeed - a.avgSpeed)
+                  .map((d) => (
+                    <div key={d.district} className="flex items-center gap-3">
+                      <div 
+                        className="w-10 h-10 rounded-xl flex items-center justify-center text-lg font-bold"
+                        style={{ backgroundColor: `${getTrafficColor(d.avgSpeed)}20` }}
+                      >
+                        {getTrafficColor(d.avgSpeed) === '#22c55e' ? '🟢' : 
+                         getTrafficColor(d.avgSpeed) === '#eab308' ? '🟡' : '🔴'}
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <p className="font-medium text-gray-900 dark:text-white text-sm">{d.district}</p>
+                          <div className="flex items-center gap-3">
+                            <span className="text-xs text-gray-400">{d.sensorCount} 感應器</span>
+                            <span className={`font-bold ${
+                              d.avgSpeed >= 60 ? 'text-green-600' :
+                              d.avgSpeed >= 40 ? 'text-yellow-600' :
+                              'text-red-600'
+                            }`}>
+                              {d.avgSpeed} km/h
+                            </span>
+                          </div>
+                        </div>
+                        <div className="mt-1">
+                          <div className="h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                            <div 
+                              className={`h-full rounded-full ${
+                                d.avgSpeed >= 60 ? 'bg-green-500' :
+                                d.avgSpeed >= 40 ? 'bg-yellow-500' :
+                                'bg-red-500'
+                              }`}
+                              style={{ width: `${Math.min(100, d.avgSpeed)}%` }}
+                            />
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <p className="font-bold text-gray-900 dark:text-white">{d.avgSpeed} km/h</p>
-                      {d.congestedCount > 0 && (
-                        <p className="text-xs text-red-500">{d.congestedCount} 個擠塞</p>
-                      )}
-                    </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
 
             {/* Legend */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm">
-              <div className="flex justify-around text-center">
-                <div>
-                  <div className="w-8 h-8 rounded-full bg-green-500 mx-auto mb-1" />
-                  <p className="text-xs text-gray-500">通暢</p>
-                  <p className="text-xs font-medium">&gt;60 km/h</p>
+            <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-4 border border-gray-200">
+              <h4 className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-3 text-center">📊 速度標準</h4>
+              <div className="grid grid-cols-3 gap-4 text-center text-xs">
+                <div className="flex flex-col items-center gap-1">
+                  <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center">
+                    <span className="text-white text-sm">✓</span>
+                  </div>
+                  <p className="font-medium text-green-700 dark:text-green-400">通暢</p>
+                  <p className="text-gray-500">&gt; 60 km/h</p>
                 </div>
-                <div>
-                  <div className="w-8 h-8 rounded-full bg-yellow-500 mx-auto mb-1" />
-                  <p className="text-xs text-gray-500">中等</p>
-                  <p className="text-xs font-medium">40-60 km/h</p>
+                <div className="flex flex-col items-center gap-1">
+                  <div className="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center">
+                    <span className="text-white text-sm">~</span>
+                  </div>
+                  <p className="font-medium text-yellow-700 dark:text-yellow-400">中等</p>
+                  <p className="text-gray-500">40-60 km/h</p>
                 </div>
-                <div>
-                  <div className="w-8 h-8 rounded-full bg-red-500 mx-auto mb-1" />
-                  <p className="text-xs text-gray-500">擠塞</p>
-                  <p className="text-xs font-medium">&lt;40 km/h</p>
+                <div className="flex flex-col items-center gap-1">
+                  <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center">
+                    <span className="text-white text-sm">✗</span>
+                  </div>
+                  <p className="font-medium text-red-700 dark:text-red-400">擠塞</p>
+                  <p className="text-gray-500">&lt; 40 km/h</p>
                 </div>
               </div>
             </div>
 
-            {/* Note */}
-            <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded-2xl p-4">
-              <p className="text-sm text-yellow-700 dark:text-yellow-300 text-center">
-                📡 基於 {trafficData.length} 個交通感應器數據
-              </p>
-            </div>
-
-            <div className="text-center text-xs text-gray-400">
-              <p>🚦 數據來源：香港運輸署</p>
+            {/* Update Info */}
+            <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span>數據更新中 · 基於 {trafficData.length} 個路面感應器</span>
             </div>
           </div>
         )}
