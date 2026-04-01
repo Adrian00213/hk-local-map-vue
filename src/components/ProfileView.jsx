@@ -74,7 +74,7 @@ const FuturisticListItem = ({ icon: Icon, color = 'cyan', title, subtitle, value
 
 export default function ProfileView() {
   const { user } = useAuth()
-  const { changeLanguage, getLanguageName } = useLocale()
+  const { locale, changeLanguage, getLanguageName } = useLocale()
   const currentLangName = getLanguageName(locale)
   
   const [activeSection, setActiveSection] = useState(null)
