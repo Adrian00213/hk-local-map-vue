@@ -91,115 +91,154 @@ export default function ProfileView() {
     return days > 0 ? `${days}日` : '已過期'
   }
 
-  // Settings Modal Component
-  const SettingsModal = ({ title, icon: Icon, color, children }) => (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-end justify-center" onClick={() => setActiveSection(null)}>
+  // Beautiful Settings Modal with glass morphism effect
+  const SettingsModal = ({ title, icon: Icon, color, gradient, children }) => (
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center" onClick={() => setActiveSection(null)}>
       <div 
-        className="bg-white w-full max-w-lg rounded-t-3xl max-h-[85vh] overflow-y-auto animate-slide-up"
+        className="bg-white w-full max-w-lg rounded-t-[32px] max-h-[90vh] overflow-hidden animate-slide-up shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="sticky top-0 bg-white px-5 py-4 border-b border-zinc-100 flex items-center gap-3">
-          <button 
-            onClick={() => setActiveSection(null)}
-            className="w-10 h-10 rounded-2xl bg-zinc-100 flex items-center justify-center"
-          >
-            <X className="w-5 h-5 text-zinc-600" />
-          </button>
-          <div className="flex items-center gap-3">
-            <div className={`w-10 h-10 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center`}>
-              <Icon className="w-5 h-5 text-white" />
+        {/* Gradient Header */}
+        <div className={`bg-gradient-to-r ${gradient} px-6 py-5 relative overflow-hidden`}>
+          {/* Decorative circles */}
+          <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full" />
+          <div className="absolute -bottom-5 -left-5 w-24 h-24 bg-white/10 rounded-full" />
+          
+          <div className="relative flex items-center gap-4">
+            <button 
+              onClick={() => setActiveSection(null)}
+              className="w-11 h-11 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center shadow-lg"
+            >
+              <X className="w-5 h-5 text-white" />
+            </button>
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center shadow-lg">
+                <Icon className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-white">{title}</h2>
+                <p className="text-white/70 text-sm">即時生效</p>
+              </div>
             </div>
-            <h2 className="text-lg font-bold text-zinc-900">{title}</h2>
           </div>
         </div>
-        <div className="p-5">
+        
+        {/* Content Area */}
+        <div className="bg-gray-50/50 min-h-[60vh]">
           {children}
         </div>
       </div>
     </div>
   )
 
-  // Toggle Switch Component
-  const ToggleSwitch = ({ enabled, onToggle, label, subtitle }) => (
-    <div className="flex items-center justify-between py-3">
+  // Beautiful Toggle Switch with smooth animation
+  const ToggleSwitch = ({ enabled, onToggle, label, subtitle, icon: IconComponent }) => (
+    <div 
+      className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all cursor-pointer group"
+      onClick={onToggle}
+    >
+      {IconComponent && (
+        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${
+          enabled 
+            ? 'bg-gradient-to-br from-green-400 to-emerald-500 shadow-lg shadow-green-200' 
+            : 'bg-gray-100 group-hover:bg-gray-200'
+        } transition-all`}>
+          <IconComponent className={`w-6 h-6 ${enabled ? 'text-white' : 'text-gray-400'}`} />
+        </div>
+      )}
       <div className="flex-1">
-        <p className="font-medium text-zinc-900">{label}</p>
-        {subtitle && <p className="text-sm text-zinc-500">{subtitle}</p>}
+        <p className="font-semibold text-gray-900">{label}</p>
+        {subtitle && <p className="text-sm text-gray-500">{subtitle}</p>}
       </div>
       <button
-        onClick={(e) => {
-          e.stopPropagation()
-          onToggle()
-        }}
-        className={`relative w-14 h-8 rounded-full transition-colors ${
-          enabled ? 'bg-gradient-to-r from-green-500 to-emerald-500' : 'bg-zinc-300'
+        className={`relative w-16 h-9 rounded-full transition-all duration-300 ${
+          enabled 
+            ? 'bg-gradient-to-r from-green-500 to-emerald-500 shadow-lg shadow-green-200' 
+            : 'bg-gray-200'
         }`}
       >
         <span 
-          className={`absolute top-1 w-6 h-6 rounded-full bg-white shadow-lg transition-transform ${
-            enabled ? 'translate-x-7' : 'translate-x-1'
+          className={`absolute top-1 w-7 h-7 rounded-full bg-white shadow-lg transition-all duration-300 flex items-center justify-center ${
+            enabled ? 'translate-x-8' : 'translate-x-1'
           }`}
-        />
+        >
+          <span className={`w-2 h-2 rounded-full ${enabled ? 'bg-green-500' : 'bg-gray-300'}`} />
+        </span>
       </button>
     </div>
   )
 
-  // Language Option Component
-  const LanguageOption = ({ lang, selected, onClick }) => (
+  // Beautiful Language Option with flag emoji
+  const LanguageOption = ({ lang, flag, selected, onClick }) => (
     <button
       onClick={onClick}
-      className={`w-full p-4 rounded-2xl border-2 transition-all flex items-center justify-between ${
+      className={`w-full p-4 rounded-2xl border-2 transition-all duration-300 flex items-center gap-4 ${
         selected 
-          ? 'border-amber-500 bg-amber-50' 
-          : 'border-zinc-200 bg-white hover:border-zinc-300'
+          ? 'border-amber-400 bg-gradient-to-r from-amber-50 to-orange-50 shadow-lg shadow-amber-100' 
+          : 'border-gray-100 bg-white hover:border-gray-200 hover:shadow-md'
       }`}
     >
-      <span className="font-medium text-zinc-900">{lang}</span>
+      <span className="text-3xl">{flag}</span>
+      <span className={`font-semibold text-lg ${selected ? 'text-amber-700' : 'text-gray-700'}`}>{lang}</span>
       {selected && (
-        <div className="w-6 h-6 rounded-full bg-amber-500 flex items-center justify-center">
-          <CheckCircle className="w-4 h-4 text-white" />
+        <div className="ml-auto w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
+          <CheckCircle className="w-5 h-5 text-white" />
         </div>
       )}
     </button>
   )
 
-  // Notifications Settings
+  // Notifications Settings - Beautiful Design
   if (activeSection === 'notifications') {
     return (
-      <SettingsModal title="通知設定" icon={Bell} color="from-blue-500 to-cyan-500">
-        <div className="space-y-2">
-          <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-4 mb-4">
-            <p className="text-sm text-blue-700">管理你希望收到嘅通知</p>
+      <SettingsModal title="通知設定" icon={Bell} gradient="from-blue-500 via-cyan-500 to-teal-500">
+        <div className="p-5 space-y-4">
+          {/* Info Banner */}
+          <div className="bg-gradient-to-r from-blue-100 to-cyan-100 rounded-2xl p-5 border border-blue-200">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-blue-500 flex items-center justify-center flex-shrink-0">
+                <Bell className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <p className="font-semibold text-blue-800">通知權限</p>
+                <p className="text-sm text-blue-600 mt-1">選擇你想收到的通知類型</p>
+              </div>
+            </div>
           </div>
           
-          <div className="bg-white rounded-2xl border border-zinc-200 p-4">
+          {/* Toggle Options with Icons */}
+          <div className="space-y-3">
             <ToggleSwitch 
               label="推送通知" 
               subtitle="接收新優惠、點評回覆等通知"
               enabled={notifications.push}
               onToggle={() => setNotifications(n => ({ ...n, push: !n.push }))}
             />
-            <div className="border-t border-zinc-100" />
             <ToggleSwitch 
               label="通知聲音" 
               subtitle="收到通知時播放提示音"
               enabled={notifications.sound}
               onToggle={() => setNotifications(n => ({ ...n, sound: !n.sound }))}
             />
-            <div className="border-t border-zinc-100" />
             <ToggleSwitch 
               label="震動提示" 
               subtitle="配合聲音使用"
               enabled={notifications.vibration}
               onToggle={() => setNotifications(n => ({ ...n, vibration: !n.vibration }))}
             />
-            <div className="border-t border-zinc-100" />
             <ToggleSwitch 
               label="推廣資訊" 
               subtitle="接收優惠及活動資訊"
               enabled={notifications.promotions}
               onToggle={() => setNotifications(n => ({ ...n, promotions: !n.promotions }))}
             />
+          </div>
+          
+          {/* Quick Stats */}
+          <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-4 mt-6">
+            <p className="text-xs text-gray-500 text-center">開啟的通知數量：{
+              [notifications.push, notifications.sound, notifications.vibration, notifications.promotions].filter(Boolean).length
+            } / 4</p>
           </div>
         </div>
       </SettingsModal>
