@@ -24,6 +24,8 @@ const transformRestaurant = (r, index) => ({
 // All restaurants
 export const ALL_RESTAURANTS = (HK_RESTAURANTS_DATA.restaurants || []).map(transformRestaurant)
 
+console.log('[DEBUG] GooglePlacesDataService loaded, restaurants:', ALL_RESTAURANTS.length)
+
 // Get restaurants by district
 export const getRestaurantsByDistrict = (district) => {
   return ALL_RESTAURANTS.filter(r => r.district === district)
