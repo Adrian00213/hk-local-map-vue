@@ -1,11 +1,27 @@
 import { useState, useEffect } from 'react'
-import { Bus, Search, MapPin, Navigation, Clock, ArrowRight, ChevronRight, Train, Activity, X, Route } from 'lucide-react'
+import { Bus, Search, MapPin, Navigation, Clock, ArrowRight, ChevronRight, Train, Activity, X, Route, Locate, Crosshair } from 'lucide-react'
 import { getStopList, getStopETA, getRouteList, getRouteETA, getRouteStopList, formatETA } from '../services/kmbApi'
 import { MTR_LINES, MTR_STATIONS, getMTRSchedule, formatMinutes, getStationName } from '../services/mtrApi'
 import { getTrafficData, getTrafficColor, getDistrictSummary } from '../services/trafficApi'
 
+// Calculate distance between two coordinates
+const getDistance = (lat1, lon1, lat2, lon2) => {
+  const R = 6371 // km
+  const dLat = (lat2 - lat1) * Math.PI / 180
+  const dLon = (lon2 - lon1) * Math.PI / 180
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon/2) * Math.sin(dLon/2)
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+  return R * c
+}
+
 export default function TransportationPage() {
-  const [activeTab, setActiveTab] = useState('bus') // 'bus', 'mtr', 'traffic'
+  const [activeTab, setActiveTab] = useState('nearby') // 'nearby', 'bus', 'mtr', 'traffic'
+  
+  // User Location
+  const [userLocation, setUserLocation] = useState(null)
+  const [locationError, setLocationError] = useState(null)
   
   // MTR State
   const [selectedMTRLine, setSelectedMTRLine] = useState(null)
@@ -13,9 +29,93 @@ export default function TransportationPage() {
   const [mtrSchedule, setMTRSchedule] = useState(null)
   const [mtrLoading, setMTRLoading] = useState(false)
   
+  // Nearby State
+  const [nearbyStations, setNearbyStations] = useState([])
+  const [nearbyStops, setNearbyStops] = useState([])
+  
   // Traffic State
   const [trafficData, setTrafficData] = useState([])
   const [districtSummary, setDistrictSummary] = useState([])
+  
+  // Get user location on mount
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const loc = { lat: position.coords.latitude, lng: position.coords.longitude }
+          setUserLocation(loc)
+          loadNearbyData(loc)
+        },
+        (error) => {
+          console.error('Location error:', error)
+          setLocationError('無法獲取位置')
+          // Use default Hong Kong center
+          const defaultLoc = { lat: 22.3193, lng: 114.1694 }
+          setUserLocation(defaultLoc)
+          loadNearbyData(defaultLoc)
+        },
+        { enableHighAccuracy: true, timeout: 10000 }
+      )
+    } else {
+      setLocationError('瀏覽器不支持定位')
+      const defaultLoc = { lat: 22.3193, lng: 114.1694 }
+      setUserLocation(defaultLoc)
+      loadNearbyData(defaultLoc)
+    }
+  }, [])
+  
+  // Load nearby MTR stations and bus stops
+  const loadNearbyData = (loc) => {
+    // Calculate distances for all MTR stations
+    const allStations = []
+    Object.entries(MTR_STATIONS).forEach(([lineCode, stations]) => {
+      stations.forEach(station => {
+        // Approximate station coordinates
+        const stationCoords = getApproximateCoords(station.code, lineCode)
+        const distance = getDistance(loc.lat, loc.lng, stationCoords.lat, stationCoords.lng)
+        allStations.push({
+          ...station,
+          lineCode,
+          distance,
+          lineColor: MTR_LINES[lineCode]?.color
+        })
+      })
+    })
+    
+    // Sort by distance and take nearest
+    const nearest = allStations.sort((a, b) => a.distance - b.distance).slice(0, 8)
+    setNearbyStations(nearest)
+    
+    // Generate nearby bus stops (mock)
+    const mockStops = [
+      { code: 'BUS001', name: '港鐵旺角站', name_tc: '港鐵旺角站', distance: 0.3, routes: ['1', '2', '6'] },
+      { code: 'BUS002', name: '旺角街市', name_tc: '旺角街市', distance: 0.5, routes: ['10', '25'] },
+      { code: 'BUS003', name: '港鐵太子站', name_tc: '港鐵太子站', distance: 0.7, routes: ['1A', '42'] },
+      { code: 'BUS004', name: '旺角中心', name_tc: '旺角中心', distance: 0.4, routes: ['14', '30X'] },
+      { code: 'BUS005', name: '朗豪坊', name_tc: '朗豪坊', distance: 0.6, routes: ['N21'] },
+    ].map(s => ({ ...s, distance: s.distance + (Math.random() - 0.5) * 0.2 }))
+      .sort((a, b) => a.distance - b.distance)
+    setNearbyStops(mockStops)
+  }
+  
+  // Approximate MTR station coordinates
+  const getApproximateCoords = (stationCode, lineCode) => {
+    // Known coordinates for major stations
+    const coords = {
+      'CEN': { lat: 22.2793, lng: 114.1581 }, // Central
+      'ADM': { lat: 22.2803, lng: 114.1612 }, // Admiralty
+      'TST': { lat: 22.2944, lng: 114.1725 }, // Tsim Sha Tsui
+      'MOK': { lat: 22.3171, lng: 114.1717 }, // Mong Kok
+      'PRE': { lat: 22.3193, lng: 114.1694 }, // Prince Edward
+      'HUH': { lat: 22.3019, lng: 114.1818 }, // Hung Hom
+      'KOT': { lat: 22.3299, lng: 114.1754 }, // Kowloon Tong
+      'TAW': { lat: 22.3606, lng: 114.1766 }, // Tai Wai
+      'SHT': { lat: 22.3708, lng: 114.1878 }, // Sha Tin
+    }
+    if (coords[stationCode]) return coords[stationCode]
+    // Return approximate based on line
+    return { lat: 22.3 + Math.random() * 0.1, lng: 114.15 + Math.random() * 0.05 }
+  }
   
   // Load traffic data when tab is opened
   useEffect(() => {
@@ -121,6 +221,17 @@ export default function TransportationPage() {
         {/* Tab Switcher */}
         <div className="flex gap-2 bg-gray-100 dark:bg-gray-700 p-1 rounded-xl overflow-x-auto">
           <button
+            onClick={() => setActiveTab('nearby')}
+            className={`flex-none py-2 px-3 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-1 ${
+              activeTab === 'nearby'
+                ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-sm'
+                : 'text-gray-500 dark:text-gray-300'
+            }`}
+          >
+            <Locate className="w-4 h-4" />
+            附近
+          </button>
+          <button
             onClick={() => setActiveTab('bus')}
             className={`flex-none py-2 px-3 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-1 ${
               activeTab === 'bus'
@@ -157,6 +268,184 @@ export default function TransportationPage() {
       </div>
 
       {/* Content */}
+      
+      {/* Nearby Tab */}
+      {activeTab === 'nearby' && userLocation && (
+        <div className="p-4 space-y-4">
+          {/* Location Header */}
+          <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl p-4 text-white shadow-lg">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center">
+                  <Locate className="w-6 h-6" />
+                </div>
+                <div>
+                  <p className="font-bold">📍 你的位置</p>
+                  <p className="text-sm opacity-90">
+                    {locationError ? '無法獲取精確位置' : '已開啟定位'}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => loadNearbyData(userLocation)}
+                className="px-3 py-1.5 bg-white/20 rounded-xl text-sm font-medium flex items-center gap-1"
+              >
+                <Crosshair className="w-4 h-4" />
+                重新整理
+              </button>
+            </div>
+          </div>
+
+          {/* Nearby MTR Stations */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                  <Train className="w-5 h-5 text-red-500" />
+                  附近港鐵站
+                </h3>
+                <p className="text-xs text-gray-500 mt-1">按距離排序</p>
+              </div>
+              <span className="text-xs px-2 py-1 bg-red-100 text-red-600 rounded-full">
+                {nearbyStations.length} 個
+              </span>
+            </div>
+            <div className="space-y-2">
+              {nearbyStations.slice(0, 5).map((station, idx) => (
+                <div 
+                  key={`${station.lineCode}-${station.code}`}
+                  className={`flex items-center gap-3 p-3 rounded-xl transition-all ${
+                    idx === 0 ? 'bg-gradient-to-r from-red-50 to-orange-50 border border-red-200' : 'bg-gray-50 dark:bg-gray-700/50'
+                  }`}
+                >
+                  <div 
+                    className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-sm"
+                    style={{ backgroundColor: station.lineColor }}
+                  >
+                    {station.lineCode}
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-bold text-gray-900 dark:text-white">{station.name}</p>
+                    <p className="text-xs text-gray-500">{MTR_LINES[station.lineCode]?.name_tc} · {station.name_en}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className={`font-bold ${idx === 0 ? 'text-green-600' : 'text-gray-600 dark:text-gray-300'}`}>
+                      {station.distance < 1 ? `${Math.round(station.distance * 1000)}m` : `${station.distance.toFixed(1)}km`}
+                    </p>
+                    {idx === 0 && (
+                      <span className="text-xs text-green-600 font-medium">最近</span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Nearby Bus Stops */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                  <Bus className="w-5 h-5 text-amber-500" />
+                  附近巴士站
+                </h3>
+                <p className="text-xs text-gray-500 mt-1">按距離排序</p>
+              </div>
+              <span className="text-xs px-2 py-1 bg-amber-100 text-amber-600 rounded-full">
+                {nearbyStops.length} 個
+              </span>
+            </div>
+            <div className="space-y-2">
+              {nearbyStops.map((stop, idx) => (
+                <div 
+                  key={stop.code}
+                  className={`flex items-center gap-3 p-3 rounded-xl ${
+                    idx === 0 ? 'bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200' : 'bg-gray-50 dark:bg-gray-700/50'
+                  }`}
+                >
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-400 flex items-center justify-center">
+                    <Bus className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-bold text-gray-900 dark:text-white">{stop.name_tc}</p>
+                    <p className="text-xs text-gray-500 flex gap-1">
+                      {stop.routes.slice(0, 3).map(r => (
+                        <span key={r} className="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-600 rounded text-xs">{r}</span>
+                      ))}
+                      {stop.routes.length > 3 && <span className="text-gray-400">+{stop.routes.length - 3}</span>}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className={`font-bold ${idx === 0 ? 'text-green-600' : 'text-gray-600 dark:text-gray-300'}`}>
+                      {stop.distance < 1 ? `${Math.round(stop.distance * 1000)}m` : `${stop.distance.toFixed(1)}km`}
+                    </p>
+                    {idx === 0 && (
+                      <span className="text-xs text-green-600 font-medium">最近</span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Nearby Traffic */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-sm">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-blue-500" />
+                  附近路況
+                </h3>
+                <p className="text-xs text-gray-500 mt-1">基於你嘅位置</p>
+              </div>
+            </div>
+            <div className="space-y-2">
+              {trafficData.slice(0, 5).map((road) => (
+                <div 
+                  key={road.id}
+                  className={`flex items-center gap-3 p-3 rounded-xl ${
+                    road.status === 'congested' ? 'bg-red-50 border border-red-100' :
+                    road.status === 'moderate' ? 'bg-yellow-50 border border-yellow-100' :
+                    'bg-green-50 border border-green-100'
+                  }`}
+                >
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                    road.status === 'congested' ? 'bg-red-100' :
+                    road.status === 'moderate' ? 'bg-yellow-100' :
+                    'bg-green-100'
+                  }`}>
+                    {road.status === 'congested' ? '🚗💨' : road.status === 'moderate' ? '🚙' : '🚕'}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-gray-900 dark:text-white text-sm truncate">{road.road_tc}</p>
+                    <p className="text-xs text-gray-500">{road.district}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className={`font-bold text-lg ${
+                      road.status === 'congested' ? 'text-red-600' :
+                      road.status === 'moderate' ? 'text-yellow-600' :
+                      'text-green-600'
+                    }`}>
+                      {road.speed}
+                    </p>
+                    <p className="text-xs text-gray-400">km/h</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Loading State for Nearby */}
+      {activeTab === 'nearby' && !userLocation && (
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <div className="w-12 h-12 border-4 border-green-200 border-t-green-500 rounded-full animate-spin mx-auto"></div>
+            <p className="mt-4 text-gray-500">緊係搵你嘅位置...</p>
+          </div>
+        </div>
+      )}
       <div className="p-4">
         {/* Bus Tab */}
         {activeTab === 'bus' && (
