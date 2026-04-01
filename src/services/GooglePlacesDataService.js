@@ -1,5 +1,5 @@
 // Google Places Real Restaurant Data Service
-// Runtime-loaded from hk_food_places.json
+// Runtime-loaded from hk_nearby_500.json (500 nearest places, 164KB)
 
 // Map address keywords to correct districts
 const ADDRESS_TO_DISTRICT = {
@@ -98,7 +98,7 @@ export const loadRestaurantData = async () => {
   console.log('[RestaurantData] Loading data from ./data/hk_food_places.json...')
   
   try {
-    const response = await fetch('./data/hk_food_places.json')
+    const response = await fetch('./data/hk_nearby_500.json')
     if (response.ok) {
       const data = await response.json()
       ALL_RESTAURANTS = (data.places || []).map(transformRestaurant)
