@@ -3,7 +3,7 @@ import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
 import { useMap, CATEGORY_ICONS, CATEGORY_LABELS } from '../context/MapContext'
 import MarkerForm from './MarkerForm'
 import SmartRecommendationEngine from './SmartRecommendationEngine'
-import { X, Locate, Zap, Brain, Search, MapPin } from 'lucide-react'
+import { X, Locate, Zap, Brain, Search, MapPin, Heart } from 'lucide-react'
 import { REGION_DETAILS, getPlaces } from '../services/MapData'
 import { searchForRecommendations, initPlacesService } from '../services/GooglePlacesService'
 import { getNearbyRestaurants, initRestaurants as initRestaurantData } from '../services/restaurantApi'
@@ -485,21 +485,29 @@ export default function MapView() {
                   </svg>
                   導航
                 </button>
-                {selected.address && (
-                  <button
-                    onClick={() => {
-                      const address = encodeURIComponent(selected.address)
-                      window.open(`https://www.google.com/maps/search/?api=1&query=${address}`, '_blank')
-                    }}
-                    className="px-4 py-3.5 bg-yellow-100 text-yellow-700 font-semibold rounded-2xl flex items-center justify-center gap-2 active:scale-[0.98] transition-transform hover:bg-yellow-200"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    地圖
-                  </button>
-                )}
+                <button
+                  onClick={() => {
+                    const favs = JSON.parse(localStorage.getItem('hkmap_favorites') || '[]')
+                    const already = favs.some(f => f.name === selected.name)
+                    if (already) {
+                      // Remove
+                      const updated = favs.filter(f => f.name !== selected.name)
+                      localStorage.setItem('hkmap_favorites', JSON.stringify(updated))
+                      alert('已取消收藏')
+                    } else {
+                      // Add
+                      favs.push({ name: selected.name, data: selected, timestamp: Date.now() })
+                      localStorage.setItem('hkmap_favorites', JSON.stringify(favs))
+                      alert('已收藏：' + selected.name)
+                    }
+                    // Notify InfoPage to refresh
+                    window.dispatchEvent(new CustomEvent('favoritesUpdated'))
+                  }}
+                  className="px-4 py-3.5 bg-red-50 text-red-500 font-semibold rounded-2xl flex items-center justify-center gap-2 active:scale-[0.98] transition-transform hover:bg-red-100"
+                >
+                  <Heart className="w-5 h-5" fill="currentColor" />
+                  收藏
+                </button>
               </div>
             </div>
           </div>

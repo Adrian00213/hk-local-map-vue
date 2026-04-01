@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { Utensils, Star, Heart, Gift, MessageCircle, Search, MapPin, Navigation, Clock, Calendar, Sparkles, ChevronRight, RefreshCw, Wifi, X, Moon, Sun, UsersRound, ExternalLink, MessageCircle as MsgIcon, HeartHandshake, Globe, TrendingUp, Newspaper, Building2, Users, Filter, Trash2, Bookmark } from 'lucide-react'
+import { Utensils, Star, Heart, Gift, MessageCircle, Search, MapPin, Navigation, Clock, Calendar, Sparkles, ChevronRight, RefreshCw, Wifi, X, Moon, Sun, UsersRound, ExternalLink, MessageCircle as MsgIcon, HeartHandshake, Globe, TrendingUp, Newspaper, Building2, Users, Filter, Trash2, Bookmark, Heart as HeartIcon } from 'lucide-react'
 
 // HK 18 Districts
 const HK_DISTRICTS = [
@@ -52,6 +52,16 @@ const RestaurantCard = ({ restaurant, isLiked, onLike, onUnlike }) => {
     }
   }
   
+  const handleShowOnMap = () => {
+    if (restaurant.lat && restaurant.lng) {
+      const url = `https://www.google.com/maps/dir/?api=1&destination=${restaurant.lat},${restaurant.lng}&travelmode=driving`
+      window.open(url, '_blank')
+    } else if (restaurant.address) {
+      const address = encodeURIComponent(restaurant.address)
+      window.open(`https://www.google.com/maps/search/?api=1&query=${address}`, '_blank')
+    }
+  }
+  
   return (
     <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800">
       <div className="flex gap-3">
@@ -66,6 +76,15 @@ const RestaurantCard = ({ restaurant, isLiked, onLike, onUnlike }) => {
             {restaurant.distance && <span className="text-xs text-blue-500">📍 {restaurant.distance}km</span>}
           </div>
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 truncate">{restaurant.address}</p>
+          {restaurant.lat && restaurant.lng && (
+            <button 
+              onClick={handleShowOnMap}
+              className="mt-2 text-xs text-blue-500 hover:text-blue-600 flex items-center gap-1"
+            >
+              <MapPin className="w-3 h-3" />
+              喺地圖睇
+            </button>
+          )}
         </div>
         <button 
           onClick={handleHeart}
@@ -180,6 +199,22 @@ export default function InfoPage({ showToast }) {
       console.error('Failed to save favorites:', e)
     }
   }, [favorites])
+
+  // Listen for favorites updated from MapView
+  useEffect(() => {
+    const handleFavoritesUpdated = () => {
+      try {
+        const saved = localStorage.getItem('hkmap_favorites')
+        if (saved) {
+          setFavorites(JSON.parse(saved))
+        }
+      } catch (e) {
+        console.error('Failed to load favorites:', e)
+      }
+    }
+    window.addEventListener('favoritesUpdated', handleFavoritesUpdated)
+    return () => window.removeEventListener('favoritesUpdated', handleFavoritesUpdated)
+  }, [])
 
   const handleLike = (name) => {
     setFavorites(prev => [...prev, { name, timestamp: Date.now() }])
