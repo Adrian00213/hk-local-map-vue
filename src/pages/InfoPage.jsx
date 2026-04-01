@@ -320,7 +320,8 @@ const CommunityPost = ({ post }) => (
 )
 
 export default function InfoPage({ showToast }) {
-  const [activeTab, setActiveTab] = useState('nearby')
+  const [activeTab, setActiveTab] = useState('food')
+  const [foodCategory, setFoodCategory] = useState('全部')
   const [dealCategory, setDealCategory] = useState('全部')
   const [newsTab, setNewsTab] = useState('latest')
   const [communityDistrict, setCommunityDistrict] = useState('全部')
@@ -332,6 +333,18 @@ export default function InfoPage({ showToast }) {
   const [cuisineFilter, setCuisineFilter] = useState('')
   const [cuisineTypes, setCuisineTypes] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
+
+  // Food categories
+  const FOOD_CATEGORIES = [
+    { key: '全部', label: '🍽️ 全部', emoji: '🍽️' },
+    { key: '餐廳', label: '🍜 餐廳', emoji: '🍜' },
+    { key: '咖啡', label: '☕ 咖啡店', emoji: '☕' },
+    { key: '酒吧', label: '🍸 酒吧', emoji: '🍸' },
+    { key: '快餐', label: '🍔 快餐', emoji: '🍔' },
+    { key: '甜品', label: '🍰 甜品', emoji: '🍰' },
+    { key: '麵包', label: '🥐 麵包店', emoji: '🥐' },
+    { key: '小食', label: '🍢 小食', emoji: '🍢' },
+  ]
 
   useEffect(() => {
     const loadData = async () => {
@@ -386,12 +399,12 @@ export default function InfoPage({ showToast }) {
           <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="搵餐廳... 🔍" className="w-full pl-10 pr-4 py-3 bg-gray-50 rounded-2xl text-sm outline-none focus:ring-2 focus:ring-orange-300 transition-all" />
         </div>
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-          {['nearby', 'top', 'events', 'news', 'community'].map(tab => (
+          {['food', 'deals', 'events', 'news', 'community'].map(tab => (
             <button key={tab} onClick={() => setActiveTab(tab)} className={`px-4 py-2 rounded-2xl text-sm font-medium whitespace-nowrap transition-all active:scale-95 ${
               activeTab === tab ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg shadow-orange-200' : 'bg-white text-gray-600 border border-gray-200'
             }`}>
-              {tab === 'nearby' && '📍 附近'}
-              {tab === 'top' && '🎁 優惠'}
+              {tab === 'food' && '🍽️ 餐飲'}
+              {tab === 'deals' && '🎁 優惠'}
               {tab === 'events' && '📅 活動'}
               {tab === 'news' && '📰 新聞'}
               {tab === 'community' && '👥 社區'}
@@ -403,18 +416,60 @@ export default function InfoPage({ showToast }) {
       <div className="p-4">
         <RefreshTimerBar onRefresh={() => { getTopRatedRestaurants(50).then(setTopRestaurants) }} />
         
-        {activeTab === 'nearby' && (
-          <div className="space-y-3">
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-3 border border-green-100 flex items-center gap-2">
-              <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center"><Navigation className="w-5 h-5 text-green-600" /></div>
-              <div className="flex-1"><p className="text-sm font-medium text-green-800">為你嚴選附近美食</p><p className="text-xs text-green-600">基於你的位置推薦</p></div>
-              <ChevronRight className="w-5 h-5 text-green-400" />
+        {activeTab === 'food' && (
+          <div className="space-y-4">
+            {/* Food Category Filter */}
+            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+              {FOOD_CATEGORIES.map(cat => (
+                <button
+                  key={cat.key}
+                  onClick={() => setFoodCategory(cat.key)}
+                  className={`px-3 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all active:scale-95 ${
+                    foodCategory === cat.key
+                      ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white'
+                      : 'bg-white text-gray-600 border'
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
             </div>
-            <div className="space-y-3">{nearbyRestaurants.map((r, i) => <RestaurantCard key={r.name} restaurant={r} index={i} onLike={() => handleLike(r.name)} />)}</div>
+
+            {/* 18 Districts Quick Filter */}
+            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+              <button
+                onClick={() => setCuisineFilter('')}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap shrink-0 ${!cuisineFilter ? 'bg-orange-500 text-white' : 'bg-white text-gray-600 border'}`}
+              >
+                🌍 全港
+              </button>
+              {HK_DISTRICTS.slice(0, 6).map(d => (
+                <button
+                  key={d.name}
+                  onClick={() => setCuisineFilter(d.name)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap shrink-0 ${cuisineFilter === d.name ? 'bg-orange-500 text-white' : 'bg-white text-gray-600 border'}`}
+                >
+                  {d.icon} {d.name}
+                </button>
+              ))}
+            </div>
+
+            {/* Stats */}
+            <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-3 border border-orange-100">
+              <p className="text-sm font-medium text-orange-800">📊 餐飲總數：{nearbyRestaurants.length} 間</p>
+            </div>
+
+            {/* Restaurant List */}
+            <div className="space-y-3">
+              {nearbyRestaurants
+                .filter(r => foodCategory === '全部' || r.type?.toLowerCase().includes(foodCategory.toLowerCase()) || r.cuisine?.toLowerCase().includes(foodCategory.toLowerCase()))
+                .filter(r => !cuisineFilter || r.district === cuisineFilter || r.name.includes(cuisineFilter))
+                .map((r, i) => <RestaurantCard key={r.name} restaurant={r} index={i} onLike={() => handleLike(r.name)} />)}
+            </div>
           </div>
         )}
 
-        {activeTab === 'top' && (
+        {activeTab === 'deals' && (
           <div className="space-y-4">
             {/* Deals Header */}
             <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-4 border border-amber-100">
