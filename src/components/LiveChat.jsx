@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Send, Mic, Image, Video, X, Play, Heart, MoreHorizontal, MessageCircle, Trash2, Plus, ArrowLeft, Clock, User, ChevronRight, MessageSquare, Eye } from 'lucide-react'
+import { Send, Mic, Image, Video, X, Play, Heart, MoreHorizontal, MessageCircle, Trash2, Plus, ArrowLeft, Clock, User, ChevronRight, MessageSquare, Eye, Camera, Music, Film, Mic2, ImageIcon } from 'lucide-react'
 
 // Demo topics
 const DEMO_TOPICS = [
@@ -13,7 +13,9 @@ const DEMO_TOPICS = [
     likes: 24,
     comments: 8,
     views: 156,
-    isHot: true
+    isHot: true,
+    mediaType: null,
+    mediaUrl: null
   },
   {
     id: 'topic_2',
@@ -25,7 +27,9 @@ const DEMO_TOPICS = [
     likes: 45,
     comments: 15,
     views: 312,
-    isHot: true
+    isHot: true,
+    mediaType: 'image',
+    mediaUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400'
   },
   {
     id: 'topic_3',
@@ -37,7 +41,9 @@ const DEMO_TOPICS = [
     likes: 18,
     comments: 6,
     views: 89,
-    isHot: false
+    isHot: false,
+    mediaType: null,
+    mediaUrl: null
   },
   {
     id: 'topic_4',
@@ -49,7 +55,9 @@ const DEMO_TOPICS = [
     likes: 32,
     comments: 12,
     views: 234,
-    isHot: false
+    isHot: false,
+    mediaType: null,
+    mediaUrl: null
   },
   {
     id: 'topic_5',
@@ -61,7 +69,9 @@ const DEMO_TOPICS = [
     likes: 56,
     comments: 22,
     views: 445,
-    isHot: true
+    isHot: true,
+    mediaType: 'video',
+    mediaUrl: null
   }
 ]
 
@@ -74,7 +84,9 @@ const DEMO_COMMENTS = {
       author: '咖啡愛好者',
       authorId: 'user_c1',
       createdAt: { toDate: () => new Date(Date.now() - 3000000) },
-      likes: 8
+      likes: 8,
+      mediaType: 'image',
+      mediaUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=300'
     },
     {
       id: 'c2',
@@ -82,7 +94,9 @@ const DEMO_COMMENTS = {
       author: '灣仔居民',
       authorId: 'user_c2',
       createdAt: { toDate: () => new Date(Date.now() - 2400000) },
-      likes: 5
+      likes: 5,
+      mediaType: null,
+      mediaUrl: null
     },
     {
       id: 'c3',
@@ -90,7 +104,9 @@ const DEMO_COMMENTS = {
       author: '茶記迷',
       authorId: 'user_c3',
       createdAt: { toDate: () => new Date(Date.now() - 1800000) },
-      likes: 12
+      likes: 12,
+      mediaType: 'voice',
+      mediaUrl: null
     }
   ]
 }
@@ -116,7 +132,19 @@ export default function LiveChat({ channel = 'general' }) {
   const [likedComments, setLikedComments] = useState(new Set())
   const [isDemoMode] = useState(true)
   
+  // Media states
+  const [showMediaPicker, setShowMediaPicker] = useState(false)
+  const [mediaType, setMediaType] = useState(null) // 'image', 'video', 'voice'
+  const [mediaUrl, setMediaUrl] = useState(null)
+  const [isRecording, setIsRecording] = useState(false)
+  const [recordingTime, setRecordingTime] = useState(0)
+  
   const commentsEndRef = useRef(null)
+  const fileInputRef = useRef(null)
+  const videoInputRef = useRef(null)
+  const audioRecorderRef = useRef(null)
+  const audioChunksRef = useRef([])
+  const recordingIntervalRef = useRef(null)
   const anonymousId = useRef('demo_' + Math.random().toString(36).substr(2, 9))
   const anonymousName = useRef(ANONYMOUS_NAMES[Math.floor(Math.random() * ANONYMOUS_NAMES.length)])
 
@@ -182,7 +210,9 @@ export default function LiveChat({ channel = 'general' }) {
       likes: 0,
       comments: 0,
       views: 1,
-      isHot: false
+      isHot: false,
+      mediaType,
+      mediaUrl
     }
     
     const newTopics = [topic, ...topics]
@@ -190,7 +220,44 @@ export default function LiveChat({ channel = 'general' }) {
     saveTopics(newTopics)
     setNewTopicTitle('')
     setNewTopicCategory('美食')
+    setMediaType(null)
+    setMediaUrl(null)
     setView('topics')
+  }
+
+  const handleAddComment = () => {
+    if (!newComment.trim() && !mediaUrl) return
+    
+    const comment = {
+      id: 'c_' + Date.now(),
+      text: newComment.trim(),
+      author: anonymousName.current,
+      authorId: anonymousId.current,
+      createdAt: { toDate: () => new Date() },
+      likes: 0,
+      mediaType,
+      mediaUrl
+    }
+    
+    const topicComments = comments[selectedTopic.id] || []
+    const newTopicComments = [...topicComments, comment]
+    const newComments = { ...comments, [selectedTopic.id]: newTopicComments }
+    
+    const newTopics = topics.map(t => {
+      if (t.id === selectedTopic.id) {
+        return { ...t, comments: t.comments + 1 }
+      }
+      return t
+    })
+    
+    setComments(newComments)
+    saveComments(newComments)
+    setTopics(newTopics)
+    saveTopics(newTopics)
+    setSelectedTopic({ ...selectedTopic, comments: selectedTopic.comments + 1 })
+    setNewComment('')
+    setMediaType(null)
+    setMediaUrl(null)
   }
 
   const handleLikeTopic = (topicId) => {
@@ -238,35 +305,70 @@ export default function LiveChat({ channel = 'general' }) {
     saveComments(newComments)
   }
 
-  const handleAddComment = () => {
-    if (!newComment.trim() || !selectedTopic) return
+  // Media handling
+  const handleFileSelect = (e, type) => {
+    const file = e.target.files[0]
+    if (!file) return
     
-    const comment = {
-      id: 'c_' + Date.now(),
-      text: newComment.trim(),
-      author: anonymousName.current,
-      authorId: anonymousId.current,
-      createdAt: { toDate: () => new Date() },
-      likes: 0
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      setMediaUrl(ev.target.result)
+      setMediaType(type)
+      setShowMediaPicker(false)
     }
-    
-    const topicComments = comments[selectedTopic.id] || []
-    const newTopicComments = [...topicComments, comment]
-    const newComments = { ...comments, [selectedTopic.id]: newTopicComments }
-    
-    const newTopics = topics.map(t => {
-      if (t.id === selectedTopic.id) {
-        return { ...t, comments: t.comments + 1 }
+    reader.readAsDataURL(file)
+  }
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      audioRecorderRef.current = new MediaRecorder(stream)
+      audioChunksRef.current = []
+      
+      audioRecorderRef.current.ondataavailable = (e) => {
+        audioChunksRef.current.push(e.data)
       }
-      return t
-    })
-    
-    setComments(newComments)
-    saveComments(newComments)
-    setTopics(newTopics)
-    saveTopics(newTopics)
-    setSelectedTopic({ ...selectedTopic, comments: selectedTopic.comments + 1 })
-    setNewComment('')
+      
+      audioRecorderRef.current.onstop = () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' })
+        const reader = new FileReader()
+        reader.onload = (ev) => {
+          setMediaUrl(ev.target.result)
+          setMediaType('voice')
+          setShowMediaPicker(false)
+        }
+        reader.readAsDataURL(audioBlob)
+        stream.getTracks().forEach(track => track.stop())
+      }
+      
+      audioRecorderRef.current.start()
+      setIsRecording(true)
+      setRecordingTime(0)
+      recordingIntervalRef.current = setInterval(() => {
+        setRecordingTime(prev => prev + 1)
+      }, 1000)
+    } catch (err) {
+      console.error('Recording error:', err)
+    }
+  }
+
+  const stopRecording = () => {
+    if (audioRecorderRef.current && isRecording) {
+      audioRecorderRef.current.stop()
+      setIsRecording(false)
+      clearInterval(recordingIntervalRef.current)
+    }
+  }
+
+  const removeMedia = () => {
+    setMediaType(null)
+    setMediaUrl(null)
+  }
+
+  const formatRecordingTime = (seconds) => {
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${mins}:${secs.toString().padStart(2, '0')}`
   }
 
   const filteredTopics = selectedCategory === '全部' 
@@ -441,6 +543,85 @@ export default function LiveChat({ channel = 'general' }) {
             </div>
           </div>
           
+          {/* Media Attachment */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">附加媒體（可選）</label>
+            
+            {mediaUrl ? (
+              <div className="relative bg-stone-100 rounded-xl p-2 flex items-center gap-2">
+                {mediaType === 'image' && (
+                  <img src={mediaUrl} alt="Preview" className="h-20 rounded-lg object-cover" />
+                )}
+                {mediaType === 'video' && (
+                  <video src={mediaUrl} className="h-20 rounded-lg object-cover" />
+                )}
+                {mediaType === 'voice' && (
+                  <div className="flex items-center gap-2 bg-purple-100 rounded-lg p-3">
+                    <Mic2 className="w-6 h-6 text-purple-600" />
+                    <span className="text-sm text-purple-600">🎤 語音 {formatRecordingTime(recordingTime)}</span>
+                  </div>
+                )}
+                <button 
+                  onClick={removeMedia}
+                  className="absolute top-1 right-1 w-6 h-6 bg-stone-200 rounded-full flex items-center justify-center"
+                >
+                  <X className="w-4 h-4 text-gray-500" />
+                </button>
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                <button
+                  onClick={() => { setShowMediaPicker(!showMediaPicker) }}
+                  className={`flex-1 py-3 rounded-xl border-2 border-dashed transition-all flex items-center justify-center gap-2 ${
+                    showMediaPicker ? 'border-pink-400 bg-pink-50' : 'border-stone-300 text-gray-500'
+                  }`}
+                >
+                  <Camera className="w-5 h-5" />
+                  <span className="text-sm font-medium">新增圖片/影片/語音</span>
+                </button>
+              </div>
+            )}
+            
+            {/* Media Picker */}
+            {showMediaPicker && !mediaUrl && (
+              <div className="flex justify-around mt-3 bg-white rounded-2xl p-4 shadow-lg border border-stone-200">
+                <button
+                  onClick={() => { fileInputRef.current?.click() }}
+                  className="flex flex-col items-center gap-2"
+                >
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center shadow-lg">
+                    <ImageIcon className="w-7 h-7 text-white" />
+                  </div>
+                  <span className="text-xs font-medium text-gray-600">相片</span>
+                </button>
+                <button
+                  onClick={() => { videoInputRef.current?.click() }}
+                  className="flex flex-col items-center gap-2"
+                >
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-400 to-fuchsia-500 flex items-center justify-center shadow-lg">
+                    <Film className="w-7 h-7 text-white" />
+                  </div>
+                  <span className="text-xs font-medium text-gray-600">影片</span>
+                </button>
+                <button
+                  onClick={() => {
+                    if (isRecording) {
+                      stopRecording()
+                    } else {
+                      startRecording()
+                    }
+                  }}
+                  className="flex flex-col items-center gap-2"
+                >
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg ${isRecording ? 'bg-gradient-to-br from-red-400 to-rose-500 animate-pulse' : 'bg-gradient-to-br from-amber-400 to-orange-500'}`}>
+                    <Mic2 className="w-7 h-7 text-white" />
+                  </div>
+                  <span className="text-xs font-medium text-gray-600">{isRecording ? '停止' : '語音'}</span>
+                </button>
+              </div>
+            )}
+          </div>
+          
           <div className="bg-amber-50 rounded-2xl p-4 border border-amber-100">
             <p className="text-sm text-amber-700">
               💡 <strong>提示：</strong>發佈虛假或垃圾訊息可能被移除。
@@ -540,7 +721,46 @@ export default function LiveChat({ channel = 'general' }) {
                       <span className="font-medium text-gray-900 text-sm">{comment.author}</span>
                       <span className="text-xs text-gray-400">{formatTime(comment.createdAt)}</span>
                     </div>
-                    <p className="text-gray-700 text-sm leading-relaxed">{comment.text}</p>
+                    
+                    {/* Media Display */}
+                    {comment.mediaType === 'image' && comment.mediaUrl && (
+                      <div className="mb-2">
+                        <img 
+                          src={comment.mediaUrl} 
+                          alt="分享的圖片"
+                          className="rounded-xl max-h-48 cursor-pointer hover:opacity-90"
+                          onClick={() => window.open(comment.mediaUrl, '_blank')}
+                        />
+                      </div>
+                    )}
+                    {comment.mediaType === 'video' && comment.mediaUrl && (
+                      <div className="mb-2">
+                        <video 
+                          src={comment.mediaUrl}
+                          controls
+                          className="rounded-xl max-h-48 w-full"
+                        />
+                      </div>
+                    )}
+                    {comment.mediaType === 'voice' && (
+                      <div className="mb-2 p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl flex items-center gap-3">
+                        <button 
+                          onClick={() => new Audio(comment.mediaUrl).play()}
+                          className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg"
+                        >
+                          <Play className="w-5 h-5" fill="white" />
+                        </button>
+                        <div className="flex-1">
+                          <div className="h-2 bg-purple-200 rounded-full overflow-hidden">
+                            <div className="h-full w-1/3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-pulse"></div>
+                          </div>
+                          <p className="text-xs text-purple-600 mt-1">語音留言 🎤</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {comment.text && <p className="text-gray-700 text-sm leading-relaxed">{comment.text}</p>}
+                    
                     <button 
                       onClick={() => handleLikeComment(selectedTopic.id, comment.id)}
                       className={`flex items-center gap-1 mt-2 text-xs ${likedComments.has(`${selectedTopic.id}_${comment.id}`) ? 'text-red-500' : 'text-gray-400'}`}
@@ -556,9 +776,102 @@ export default function LiveChat({ channel = 'general' }) {
           <div ref={commentsEndRef} />
         </div>
 
+        {/* Media Preview */}
+        {mediaUrl && (
+          <div className="px-4 pb-2">
+            <div className="relative bg-stone-100 rounded-xl p-2 flex items-center gap-2">
+              {mediaType === 'image' && (
+                <img src={mediaUrl} alt="Preview" className="h-16 rounded-lg object-cover" />
+              )}
+              {mediaType === 'video' && (
+                <video src={mediaUrl} className="h-16 rounded-lg object-cover" />
+              )}
+              {mediaType === 'voice' && (
+                <div className="flex items-center gap-2 bg-purple-100 rounded-lg p-2">
+                  <Mic2 className="w-5 h-5 text-purple-600" />
+                  <span className="text-sm text-purple-600">🎤 語音 {formatRecordingTime(recordingTime)}</span>
+                </div>
+              )}
+              <button 
+                onClick={removeMedia}
+                className="ml-auto p-1 bg-stone-200 rounded-full"
+              >
+                <X className="w-4 h-4 text-gray-500" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Media Picker */}
+        {showMediaPicker && (
+          <div className="px-4 pb-2">
+            <div className="flex justify-around bg-white rounded-2xl p-4 shadow-lg border border-stone-200">
+              <button
+                onClick={() => { fileInputRef.current?.click() }}
+                className="flex flex-col items-center gap-2"
+              >
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center shadow-lg">
+                  <ImageIcon className="w-7 h-7 text-white" />
+                </div>
+                <span className="text-xs font-medium text-gray-600">相片</span>
+              </button>
+              <button
+                onClick={() => { videoInputRef.current?.click() }}
+                className="flex flex-col items-center gap-2"
+              >
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-400 to-fuchsia-500 flex items-center justify-center shadow-lg">
+                  <Film className="w-7 h-7 text-white" />
+                </div>
+                <span className="text-xs font-medium text-gray-600">影片</span>
+              </button>
+              <button
+                onClick={() => {
+                  if (isRecording) {
+                    stopRecording()
+                  } else {
+                    startRecording()
+                  }
+                }}
+                className="flex flex-col items-center gap-2"
+              >
+                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg ${isRecording ? 'bg-gradient-to-br from-red-400 to-rose-500 animate-pulse' : 'bg-gradient-to-br from-amber-400 to-orange-500'}`}>
+                  <Mic2 className="w-7 h-7 text-white" />
+                </div>
+                <span className="text-xs font-medium text-gray-600">{isRecording ? '停止' : '語音'}</span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Hidden Inputs */}
+        <input
+          type="file"
+          ref={fileInputRef}
+          accept="image/*"
+          className="hidden"
+          onChange={(e) => handleFileSelect(e, 'image')}
+        />
+        <input
+          type="file"
+          ref={videoInputRef}
+          accept="video/*"
+          className="hidden"
+          onChange={(e) => handleFileSelect(e, 'video')}
+        />
+
         {/* Comment Input */}
         <div className="p-4 bg-white border-t border-stone-200">
           <div className="flex gap-2">
+            <button
+              onClick={() => setShowMediaPicker(!showMediaPicker)}
+              className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${showMediaPicker ? 'bg-pink-100 text-pink-500' : 'bg-stone-100 text-gray-400'}`}
+            >
+              {mediaType ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Camera className="w-5 h-5" />
+              )}
+            </button>
             <input
               type="text"
               value={newComment}
@@ -569,8 +882,8 @@ export default function LiveChat({ channel = 'general' }) {
             />
             <button
               onClick={handleAddComment}
-              disabled={!newComment.trim()}
-              className="w-12 h-12 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-500 flex items-center justify-center text-white disabled:opacity-50 active:scale-95 transition-all"
+              disabled={!newComment.trim() && !mediaUrl}
+              className="w-12 h-12 rounded-2xl bg-gradient-to-r from-pink-500 to-rose-500 flex items-center justify-center text-white disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 transition-all"
             >
               <Send className="w-5 h-5" />
             </button>
