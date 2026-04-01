@@ -17,14 +17,6 @@ const NEWS_CATEGORIES = [
   { key: 'district', label: '📍 區議會', empty: true },
 ]
 
-// Community Platforms - Real HK forums
-const COMMUNITY_PLATFORMS = [
-  { id: 1, name: '香港討論區', desc: '全港最大討論區', icon: '💬', color: 'from-blue-400 to-indigo-500', members: '50萬+', link: 'https://www.discuss.com.hk' },
-  { id: 2, name: 'Uwants', desc: '本地生活討論', icon: '💭', color: 'from-purple-400 to-pink-500', members: '30萬+', link: 'https://www.uwants.com' },
-  { id: 3, name: 'Baby-Kingdom', desc: '親子育兒熱點', icon: '👶', color: 'from-pink-400 to-rose-500', members: '20萬+', link: 'https://www.baby-kingdom.com' },
-  { id: 4, name: '我的世紀', desc: '升學移民資訊', icon: '✈️', color: 'from-teal-400 to-cyan-500', members: '15萬+', link: 'https://www.mysmoothheap.com' },
-]
-
 // District Groups
 const DISTRICT_GROUPS = [
   { district: '中西區', name: '中西區街坊會', members: '2.3萬' },
@@ -106,26 +98,6 @@ const EmptyState = ({ icon, title, subtitle }) => (
   </div>
 )
 
-// Forum Card
-const ForumCard = ({ forum }) => (
-  <a href={forum.link} target="_blank" rel="noopener noreferrer" className="block bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800 hover:shadow-md transition-all">
-    <div className="flex items-center gap-3">
-      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${forum.color} flex items-center justify-center text-xl`}>
-        {forum.icon}
-      </div>
-      <div className="flex-1">
-        <h4 className="font-bold text-gray-900 dark:text-white">{forum.name}</h4>
-        <p className="text-xs text-gray-500 mt-0.5">{forum.desc}</p>
-        <div className="flex items-center gap-1 mt-1">
-          <Users className="w-3 h-3 text-gray-400" />
-          <span className="text-xs text-gray-400">{forum.members} 會員</span>
-        </div>
-      </div>
-      <ExternalLink className="w-4 h-4 text-gray-400" />
-    </div>
-  </a>
-)
-
 // District Group Card
 const DistrictGroupCard = ({ group }) => (
   <div className="bg-white dark:bg-gray-900 rounded-xl p-3 border border-gray-100 dark:border-gray-800">
@@ -144,7 +116,7 @@ const DistrictGroupCard = ({ group }) => (
 
 export default function InfoPage({ showToast }) {
   const [activeTab, setActiveTab] = useState('food')
-  const [communityTab, setCommunityTab] = useState('forums')
+
   const [restaurants, setRestaurants] = useState([])
   const [loading, setLoading] = useState(true)
   const [displayCount, setDisplayCount] = useState(50)
@@ -445,53 +417,29 @@ export default function InfoPage({ showToast }) {
 
         {/* 👥 Community Tab */}
         {activeTab === 'community' && (
-          <div className="space-y-4">
-            {/* Community Tabs */}
-            <div className="flex gap-2 overflow-x-auto">
-              {[
-                { key: 'forums', label: '💬 討論區' },
-                { key: 'districts', label: '📍 十八區' },
-              ].map(tab => (
+          <div className="space-y-3">
+            <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-4 border border-purple-100 dark:border-gray-600">
+              <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <Building2 className="w-4 h-4" />
+                香港十八區
+              </h3>
+              <p className="text-xs text-gray-500 mt-1">自由探索各區資訊</p>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              {HK_DISTRICTS.map(d => (
                 <button
-                  key={tab.key}
-                  onClick={() => setCommunityTab(tab.key)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
-                    communityTab === tab.key 
-                      ? 'bg-purple-500 text-white' 
-                      : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border'
-                  }`}
+                  key={d.name}
+                  onClick={() => {
+                    setSelectedDistrict(d.name)
+                    setActiveTab('food')
+                  }}
+                  className="bg-white dark:bg-gray-900 rounded-xl p-3 border border-gray-100 dark:border-gray-800 flex items-center gap-2 hover:shadow-md transition-all"
                 >
-                  {tab.label}
+                  <span className="text-xl">{d.icon}</span>
+                  <span className="text-sm font-medium text-gray-900 dark:text-white">{d.name}</span>
                 </button>
               ))}
             </div>
-            
-            {/* Forums */}
-            {communityTab === 'forums' && (
-              <div className="space-y-3">
-                {COMMUNITY_PLATFORMS.map(forum => (
-                  <ForumCard key={forum.id} forum={forum} />
-                ))}
-              </div>
-            )}
-            
-            {/* District Groups */}
-            {communityTab === 'districts' && (
-              <div className="space-y-3">
-                <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-4 border border-purple-100 dark:border-gray-600">
-                  <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                    <Building2 className="w-4 h-4" />
-                    香港十八區 Facebook 社群
-                  </h3>
-                  <p className="text-xs text-gray-500 mt-1">各區街坊會 Facebook 群組</p>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  {DISTRICT_GROUPS.map(group => (
-                    <DistrictGroupCard key={group.district} group={group} />
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         )}
       </div>
