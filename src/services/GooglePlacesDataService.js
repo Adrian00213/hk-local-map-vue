@@ -22,7 +22,7 @@ const transformRestaurant = (r, index) => ({
 })
 
 // All restaurants
-const ALL_RESTAURANTS = (HK_RESTAURANTS_DATA.restaurants || []).map(transformRestaurant)
+export const ALL_RESTAURANTS = (HK_RESTAURANTS_DATA.restaurants || []).map(transformRestaurant)
 
 // Get restaurants by district
 export const getRestaurantsByDistrict = (district) => {
