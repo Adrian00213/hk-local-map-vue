@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { User, Settings, Bell, Globe, Shield, Star, Gift, MessageCircle, Heart, ChevronRight, Clock, MapPin, CreditCard, Smartphone, CheckCircle, ThumbsUp, LogOut, Edit3, Camera, Sparkles, TrendingUp } from 'lucide-react'
+import { User, Settings, Bell, Globe, Shield, Star, Gift, MessageCircle, Heart, ChevronRight, Clock, MapPin, CreditCard, Smartphone, CheckCircle, ThumbsUp, LogOut, Edit3, Camera, Sparkles, TrendingUp, X, Moon, Volume2, Vibrate, ChevronDown } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 // Sample saved deals for display
@@ -45,14 +45,14 @@ const USER_REVIEWS = [
 ]
 
 const MENU_ITEMS = [
-  { icon: Heart, label: '我的收藏', subtitle: '已收藏地點', color: 'from-pink-500 to-rose-500', badge: 3 },
-  { icon: Gift, label: '我的優惠', subtitle: '收藏的優惠', color: 'from-yellow-500 to-yellow-600', badge: 2 },
-  { icon: MessageCircle, label: '我的點評', subtitle: '發表的點評', color: 'from-emerald-500 to-teal-500', badge: 2 },
-  { icon: Star, label: '我的評分', subtitle: '評分歷史', color: 'from-violet-500 to-purple-500', badge: null },
-  { icon: Bell, label: '通知設定', subtitle: '推送通知', color: 'from-blue-500 to-cyan-500', badge: null },
-  { icon: Shield, label: '私隱設定', subtitle: '資料安全', color: 'from-slate-500 to-gray-500', badge: null },
-  { icon: Globe, label: '語言設定', subtitle: '繁體/簡體/English', color: 'from-teal-500 to-emerald-500', badge: null },
-  { icon: Settings, label: '帳戶設定', subtitle: '個人資料', color: 'from-zinc-500 to-neutral-500', badge: null },
+  { icon: Heart, label: '我的收藏', subtitle: '已收藏地點', color: 'from-pink-500 to-rose-500', action: 'favorites' },
+  { icon: Gift, label: '我的優惠', subtitle: '收藏的優惠', color: 'from-yellow-500 to-yellow-600', action: 'deals' },
+  { icon: MessageCircle, label: '我的點評', subtitle: '發表的點評', color: 'from-emerald-500 to-teal-500', action: 'reviews' },
+  { icon: Star, label: '我的評分', subtitle: '評分歷史', color: 'from-violet-500 to-purple-500', action: 'ratings' },
+  { icon: Bell, label: '通知設定', subtitle: '推送通知', color: 'from-blue-500 to-cyan-500', action: 'notifications' },
+  { icon: Shield, label: '私隱設定', subtitle: '資料安全', color: 'from-slate-500 to-gray-500', action: 'privacy' },
+  { icon: Globe, label: '語言設定', subtitle: '繁體/簡體/English', color: 'from-teal-500 to-emerald-500', action: 'language' },
+  { icon: Settings, label: '帳戶設定', subtitle: '個人資料', color: 'from-zinc-500 to-neutral-500', action: 'account' },
 ]
 
 export default function ProfileView() {
@@ -60,7 +60,17 @@ export default function ProfileView() {
   const [savedDeals, setSavedDeals] = useState([])
   const [userReviews, setUserReviews] = useState([])
   const [favorites, setFavorites] = useState([])
-  const [activeSection, setActiveSection] = useState(null) // 'deals' | 'reviews' | 'favorites'
+  const [activeSection, setActiveSection] = useState(null) // 'deals' | 'reviews' | 'favorites' | 'notifications' | 'privacy' | 'language' | 'account'
+  
+  // Settings toggles
+  const [notifications, setNotifications] = useState({
+    push: true,
+    sound: true,
+    vibration: true,
+    promotions: false,
+  })
+  const [language, setLanguage] = useState('繁體中文')
+  const [darkMode, setDarkMode] = useState(false)
 
   useEffect(() => {
     // Load saved deals
@@ -79,6 +89,328 @@ export default function ProfileView() {
   const getDaysLeft = (dateStr) => {
     const days = Math.ceil((new Date(dateStr) - new Date()) / (1000 * 60 * 60 * 24))
     return days > 0 ? `${days}日` : '已過期'
+  }
+
+  // Settings Modal Component
+  const SettingsModal = ({ title, icon: Icon, color, children }) => (
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-end justify-center" onClick={() => setActiveSection(null)}>
+      <div 
+        className="bg-white w-full max-w-lg rounded-t-3xl max-h-[85vh] overflow-y-auto animate-slide-up"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="sticky top-0 bg-white px-5 py-4 border-b border-zinc-100 flex items-center gap-3">
+          <button 
+            onClick={() => setActiveSection(null)}
+            className="w-10 h-10 rounded-2xl bg-zinc-100 flex items-center justify-center"
+          >
+            <X className="w-5 h-5 text-zinc-600" />
+          </button>
+          <div className="flex items-center gap-3">
+            <div className={`w-10 h-10 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center`}>
+              <Icon className="w-5 h-5 text-white" />
+            </div>
+            <h2 className="text-lg font-bold text-zinc-900">{title}</h2>
+          </div>
+        </div>
+        <div className="p-5">
+          {children}
+        </div>
+      </div>
+    </div>
+  )
+
+  // Toggle Switch Component
+  const ToggleSwitch = ({ enabled, onToggle, label, subtitle }) => (
+    <div className="flex items-center justify-between py-3">
+      <div className="flex-1">
+        <p className="font-medium text-zinc-900">{label}</p>
+        {subtitle && <p className="text-sm text-zinc-500">{subtitle}</p>}
+      </div>
+      <button
+        onClick={onToggle}
+        className={`w-14 h-8 rounded-full transition-colors relative ${
+          enabled ? 'bg-gradient-to-r from-green-500 to-emerald-500' : 'bg-zinc-300'
+        }`}
+      >
+        <div className={`w-6 h-6 rounded-full bg-white shadow-lg transition-transform absolute top-1 ${
+          enabled ? 'translate-x-7' : 'translate-x-1'
+        }`} />
+      </button>
+    </div>
+  )
+
+  // Language Option Component
+  const LanguageOption = ({ lang, selected, onClick }) => (
+    <button
+      onClick={onClick}
+      className={`w-full p-4 rounded-2xl border-2 transition-all flex items-center justify-between ${
+        selected 
+          ? 'border-amber-500 bg-amber-50' 
+          : 'border-zinc-200 bg-white hover:border-zinc-300'
+      }`}
+    >
+      <span className="font-medium text-zinc-900">{lang}</span>
+      {selected && (
+        <div className="w-6 h-6 rounded-full bg-amber-500 flex items-center justify-center">
+          <CheckCircle className="w-4 h-4 text-white" />
+        </div>
+      )}
+    </button>
+  )
+
+  // Notifications Settings
+  if (activeSection === 'notifications') {
+    return (
+      <SettingsModal title="通知設定" icon={Bell} color="from-blue-500 to-cyan-500">
+        <div className="space-y-2">
+          <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-4 mb-4">
+            <p className="text-sm text-blue-700">管理你希望收到嘅通知</p>
+          </div>
+          
+          <div className="bg-white rounded-2xl border border-zinc-200 p-4">
+            <ToggleSwitch 
+              label="推送通知" 
+              subtitle="接收新優惠、點評回覆等通知"
+              enabled={notifications.push}
+              onToggle={() => setNotifications(n => ({ ...n, push: !n.push }))}
+            />
+            <div className="border-t border-zinc-100" />
+            <ToggleSwitch 
+              label="通知聲音" 
+              subtitle="收到通知時播放提示音"
+              enabled={notifications.sound}
+              onToggle={() => setNotifications(n => ({ ...n, sound: !n.sound }))}
+            />
+            <div className="border-t border-zinc-100" />
+            <ToggleSwitch 
+              label="震動提示" 
+              subtitle="配合聲音使用"
+              enabled={notifications.vibration}
+              onToggle={() => setNotifications(n => ({ ...n, vibration: !n.vibration }))}
+            />
+            <div className="border-t border-zinc-100" />
+            <ToggleSwitch 
+              label="推廣資訊" 
+              subtitle="接收優惠及活動資訊"
+              enabled={notifications.promotions}
+              onToggle={() => setNotifications(n => ({ ...n, promotions: !n.promotions }))}
+            />
+          </div>
+        </div>
+      </SettingsModal>
+    )
+  }
+
+  // Privacy Settings
+  if (activeSection === 'privacy') {
+    return (
+      <SettingsModal title="私隱設定" icon={Shield} color="from-slate-500 to-gray-500">
+        <div className="space-y-4">
+          <div className="bg-gradient-to-r from-slate-50 to-gray-50 rounded-2xl p-4 mb-4">
+            <p className="text-sm text-slate-700">保障你嘅個人資料安全</p>
+          </div>
+          
+          <div className="bg-white rounded-2xl border border-zinc-200 divide-y divide-zinc-100">
+            <button className="w-full flex items-center justify-between p-4 hover:bg-zinc-50 transition-colors">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
+                  <User className="w-5 h-5 text-blue-600" />
+                </div>
+                <div className="text-left">
+                  <p className="font-medium text-zinc-900">個人資料</p>
+                  <p className="text-xs text-zinc-500">管理你嘅帳戶資料</p>
+                </div>
+              </div>
+              <ChevronRight className="w-5 h-5 text-zinc-400" />
+            </button>
+            
+            <button className="w-full flex items-center justify-between p-4 hover:bg-zinc-50 transition-colors">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-red-600" />
+                </div>
+                <div className="text-left">
+                  <p className="font-medium text-zinc-900">位置共享</p>
+                  <p className="text-xs text-zinc-500">設定位置分享範圍</p>
+                </div>
+              </div>
+              <ChevronRight className="w-5 h-5 text-zinc-400" />
+            </button>
+            
+            <button className="w-full flex items-center justify-between p-4 hover:bg-zinc-50 transition-colors">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center">
+                  <CreditCard className="w-5 h-5 text-purple-600" />
+                </div>
+                <div className="text-left">
+                  <p className="font-medium text-zinc-900">已保存的付款方式</p>
+                  <p className="text-xs text-zinc-500">管理信用卡及電子銀包</p>
+                </div>
+              </div>
+              <ChevronRight className="w-5 h-5 text-zinc-400" />
+            </button>
+            
+            <button className="w-full flex items-center justify-between p-4 hover:bg-zinc-50 transition-colors">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center">
+                  <Clock className="w-5 h-5 text-orange-600" />
+                </div>
+                <div className="text-left">
+                  <p className="font-medium text-zinc-900">瀏覽記錄</p>
+                  <p className="text-xs text-zinc-500">查看及刪除瀏覽記錄</p>
+                </div>
+              </div>
+              <ChevronRight className="w-5 h-5 text-zinc-400" />
+            </button>
+          </div>
+        </div>
+      </SettingsModal>
+    )
+  }
+
+  // Language Settings
+  if (activeSection === 'language') {
+    return (
+      <SettingsModal title="語言設定" icon={Globe} color="from-teal-500 to-emerald-500">
+        <div className="space-y-4">
+          <div className="bg-gradient-to-r from-teal-50 to-emerald-50 rounded-2xl p-4 mb-4">
+            <p className="text-sm text-teal-700">選擇你喜歡的語言</p>
+          </div>
+          
+          <div className="space-y-3">
+            <LanguageOption 
+              lang="繁體中文" 
+              selected={language === '繁體中文'} 
+              onClick={() => setLanguage('繁體中文')} 
+            />
+            <LanguageOption 
+              lang="简体中文" 
+              selected={language === '简体中文'} 
+              onClick={() => setLanguage('简体中文')} 
+            />
+            <LanguageOption 
+              lang="English" 
+              selected={language === 'English'} 
+              onClick={() => setLanguage('English')} 
+            />
+            <LanguageOption 
+              lang="日本語" 
+              selected={language === '日本語'} 
+              onClick={() => setLanguage('日本語')} 
+            />
+          </div>
+        </div>
+      </SettingsModal>
+    )
+  }
+
+  // Account Settings
+  if (activeSection === 'account') {
+    return (
+      <SettingsModal title="帳戶設定" icon={Settings} color="from-zinc-500 to-neutral-500">
+        <div className="space-y-4">
+          <div className="bg-gradient-to-r from-zinc-50 to-neutral-50 rounded-2xl p-4 mb-4">
+            <p className="text-sm text-zinc-700">管理你嘅帳戶及個人資料</p>
+          </div>
+          
+          {/* Profile Edit */}
+          <div className="bg-white rounded-2xl border border-zinc-200 p-4">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="relative">
+                <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white text-2xl font-bold">
+                  {user?.name?.charAt(0) || '用'}
+                </div>
+                <button className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-white border-2 border-zinc-200 flex items-center justify-center">
+                  <Camera className="w-4 h-4 text-zinc-600" />
+                </button>
+              </div>
+              <div className="flex-1">
+                <h3 className="font-bold text-zinc-900 text-lg">{user?.name || '香港用家'}</h3>
+                <p className="text-sm text-zinc-500">{user?.email || '使用者電郵'}</p>
+              </div>
+            </div>
+            <button className="w-full py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl font-medium">
+              編輯個人資料
+            </button>
+          </div>
+          
+          <div className="bg-white rounded-2xl border border-zinc-200 divide-y divide-zinc-100">
+            <button className="w-full flex items-center justify-between p-4 hover:bg-zinc-50 transition-colors">
+              <div className="flex items-center gap-3">
+                <Smartphone className="w-5 h-5 text-zinc-600" />
+                <span className="font-medium text-zinc-900">電話號碼</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-zinc-400">未設定</span>
+                <ChevronRight className="w-5 h-5 text-zinc-400" />
+              </div>
+            </button>
+            
+            <button className="w-full flex items-center justify-between p-4 hover:bg-zinc-50 transition-colors">
+              <div className="flex items-center gap-3">
+                <CreditCard className="w-5 h-5 text-zinc-600" />
+                <span className="font-medium text-zinc-900">已連結的帳戶</span>
+              </div>
+              <ChevronRight className="w-5 h-5 text-zinc-400" />
+            </button>
+            
+            <button className="w-full flex items-center justify-between p-4 hover:bg-zinc-50 transition-colors">
+              <div className="flex items-center gap-3">
+                <Shield className="w-5 h-5 text-zinc-600" />
+                <span className="font-medium text-zinc-900">更改密碼</span>
+              </div>
+              <ChevronRight className="w-5 h-5 text-zinc-400" />
+            </button>
+          </div>
+          
+          {/* Dark Mode Toggle */}
+          <div className="bg-white rounded-2xl border border-zinc-200 p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Moon className="w-5 h-5 text-zinc-600" />
+                <span className="font-medium text-zinc-900">深色模式</span>
+              </div>
+              <button
+                onClick={() => setDarkMode(!darkMode)}
+                className={`w-14 h-8 rounded-full transition-colors relative ${
+                  darkMode ? 'bg-gradient-to-r from-zinc-600 to-zinc-800' : 'bg-zinc-300'
+                }`}
+              >
+                <div className={`w-6 h-6 rounded-full bg-white shadow-lg transition-transform absolute top-1 ${
+                  darkMode ? 'translate-x-7' : 'translate-x-1'
+                }`} />
+              </button>
+            </div>
+          </div>
+          
+          <button className="w-full py-3 text-red-500 font-medium flex items-center justify-center gap-2">
+            <LogOut className="w-5 h-5" />
+            登出帳戶
+          </button>
+        </div>
+      </SettingsModal>
+    )
+  }
+
+  // Ratings History
+  if (activeSection === 'ratings') {
+    return (
+      <SettingsModal title="我的評分" icon={Star} color="from-violet-500 to-purple-500">
+        <div className="space-y-4">
+          <div className="bg-gradient-to-r from-violet-50 to-purple-50 rounded-2xl p-4 mb-4">
+            <p className="text-sm text-violet-700">你曾經評分的地點</p>
+          </div>
+          
+          <div className="text-center py-12">
+            <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-zinc-100 flex items-center justify-center">
+              <Star className="w-10 h-10 text-zinc-300" />
+            </div>
+            <h3 className="text-lg font-semibold text-zinc-700 mb-2">暫無評分記錄</h3>
+            <p className="text-sm text-zinc-400">去地圖評分你 visit過的地方啦</p>
+          </div>
+        </div>
+      </SettingsModal>
+    )
   }
 
   // Show deals section
@@ -363,6 +695,7 @@ export default function ProfileView() {
             return (
               <button
                 key={item.label}
+                onClick={() => setActiveSection(item.action)}
                 className={`w-full flex items-center gap-4 px-4 py-4 hover:bg-zinc-50 transition-colors ${
                   !isLast ? 'border-b border-zinc-100/80' : ''
                 }`}
