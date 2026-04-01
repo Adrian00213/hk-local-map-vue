@@ -4,7 +4,10 @@ import { Settings, Bell, Globe, Shield, Star, Gift, MessageCircle, Heart, Chevro
 export default function ProfileView() {
   const [activeSection, setActiveSection] = useState(null)
   const [notifications, setNotifications] = useState({ push: true, sound: true, email: false })
-  const [darkMode, setDarkMode] = useState(() => document.documentElement.classList.contains('dark'))
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('hk_dark_mode')
+    return saved === 'true' || (saved === null && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  })
   const [language, setLanguage] = useState('繁體中文')
   const [userName] = useState('Adrian')
   const [userEmail] = useState('adrian@example.com')
